@@ -106,13 +106,13 @@ analytics:
 author:
   name             : "qcqced"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "Business/Marketing, Computer Science/Machine Learning"
+  bio              : "Business/Marketing, CS/Machine Learning"
   location         : "Seoul, South Korea"
   email            : "qcqced123@gmail.com"
   links:
-    - label: "Email"
-      icon: "fas fa-fw fa-envelope-square"
-      url: "mailto:qcqced123@email.com"
+    # - label: "Email"
+    #   icon: "fas fa-fw fa-envelope-square"
+    #   url: "mailto:qcqced123@email.com"
     - label: "Website"
       icon: "fas fa-fw fa-link"
       url: "https://qcqced123.github.io"
