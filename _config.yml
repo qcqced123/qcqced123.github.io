@@ -20,7 +20,7 @@ title                    : "🤗🤖 바보 대학생의 삽질 일기"
 title_separator          : "-"
 subtitle                 : # site tagline that appears below site title in masthead
 name                     : "qcqced"
-description              : "경영/마케팅, 자연어 처리/추천 시스템에 관심이 많은 평범한 대학생"
+description              : "Business/Marketing, CS/Machine Learning"
 url                      : "https://qcqced123.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"

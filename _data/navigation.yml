@@ -1,12 +1,15 @@
 # main links
+# Upper-Right Navigation-Bar Setting
 main:
-  - title: "Quick-Start Guide"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/quick-start-guide/
-  # - title: "About"
-  #   url: https://mmistakes.github.io/minimal-mistakes/about/
-  # - title: "Sample Posts"
-  #   url: /year-archive/
-  # - title: "Sample Collections"
-  #   url: /collection-archive/
-  # - title: "Sitemap"
-  #   url: /sitemap/
+  - title: "Home"
+    url: https://qcqced123.github.io/
+  - title: "Category"
+    url: /category/
+  - title: "Business/Marketing"
+    url: /business-marketing/
+  - title: "Computer Science"
+    url: /computer-science/
+  - title: "About"
+    url: /about/
+  
+  
