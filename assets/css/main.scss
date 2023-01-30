@@ -7,4 +7,7 @@ search: false
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Nanum+Pen+Script&display=swap'); // Nanum Pen & Gothic Coding Font
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap'); // Gowun Dodum
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap'); // Gowun Bateng
+@import url('https://fonts.googleapis.com/css2?family=Poor+Story&display=swap'); // Poor Story
