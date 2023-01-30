@@ -105,7 +105,7 @@ analytics:
 # Site Author
 author:
   name             : "qcqced"
-  avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
+  avatar           : "/assets/images/Hugging-Face-Emoji.jpg"
   bio              : "Business/Marketing, CS/Machine Learning"
   location         : "Seoul, South Korea"
   email            : "qcqced123@gmail.com"
