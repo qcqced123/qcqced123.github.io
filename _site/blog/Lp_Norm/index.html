@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>github.io 블로그 시작하기 - AI/Business Study Log</title>
-<meta name="description" content="GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.">
+<!-- begin _includes/seo.html --><title>📏 Lp-Norm &amp; GeM Pool - AI/Business Study Log</title>
+<meta name="description" content="Concept of Lp-Norm &amp; GeM Pool">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="github.io 블로그 시작하기">
-<meta property="og:url" content="http://localhost:4000/blog/Test-Posting/">
+<meta property="og:title" content="📏 Lp-Norm &amp; GeM Pool">
+<meta property="og:url" content="http://localhost:4000/blog/Lp_Norm/">
 
 
-  <meta property="og:description" content="GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.">
-
-
-
+  <meta property="og:description" content="Concept of Lp-Norm &amp; GeM Pool">
 
 
 
 
-  <meta property="article:published_time" content="2022-01-29T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2019-04-13T22:06:00+09:00">
+  <meta property="article:published_time" content="2023-07-04T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-07-05T13:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/blog/Test-Posting/">
+
+<link rel="canonical" href="http://localhost:4000/blog/Lp_Norm/">
 
 
 
@@ -90,12 +90,37 @@
 
 
 
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
     <!-- start custom head snippets -->
 
 <!-- insert favicons. use https://realfavicongenerator.net/ -->
 
 <!-- end custom head snippets -->
 
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
   </head>
 
   <body class="layout--single">
@@ -273,16 +298,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="github.io 블로그 시작하기">
-    <meta itemprop="description" content="GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.">
-    <meta itemprop="datePublished" content="2022-01-29T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2019-04-13T22:06:00+09:00">
+    <meta itemprop="headline" content="📏 Lp-Norm &amp; GeM Pool">
+    <meta itemprop="description" content="Concept of Lp-Norm &amp; GeM Pool">
+    <meta itemprop="datePublished" content="2023-07-04T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-07-05T13:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/blog/Test-Posting/" class="u-url" itemprop="url">github.io 블로그 시작하기
+            <a href="http://localhost:4000/blog/Lp_Norm/" class="u-url" itemprop="url">📏 Lp-Norm &amp; GeM Pool
 </a>
           </h1>
           
@@ -299,7 +324,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -311,15 +336,29 @@
 
       <section class="page__content e-content" itemprop="text">
         
-        <p>GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.
-GitHub Blog 서비스의 이름은 Pages이다.</p>
+        \[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
 
-<p>Pages가 다른 블로그 플랫폼 보다 편한 것 같아서 마음에 든다.
-다른 사람들도 같이 많이 사용했으면 좋겠다는 생각이 든다.</p>
+<p><strong><code class="language-plaintext highlighter-rouge">Lp-Norm</code></strong>은 <code class="language-plaintext highlighter-rouge">Lebesgue</code>라는 프랑스 수학자에 의해 고안된 개념으로<strong>,</strong> 기계학습을 공부하는 사람이라면 지겹도록 듣는 <code class="language-plaintext highlighter-rouge">L2-Norm</code>, <code class="language-plaintext highlighter-rouge">L1-Norm</code>을 일반화 버전이라고 생각하면 된다. 다시 말해, 벡터의 크기를 나타내는 표현식을 일반화한 것이 바로 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 이며 수식은 위와 같다.</p>
 
-<p>YFM에서 정의한 제목을 이중 괄호 구문으로 본문에 추가할 수 있다.
-이 글의 제목은 github.io 블로그 시작하기이고
-마지막으로 수정된 시간은 2019-04-13 08:06:00 -0500이다.</p>
+<p><code class="language-plaintext highlighter-rouge">p=1</code>이라고 가정하고 수식을 전개해보자. 
+$||x||_1 = (|x_1|^1 + |x_2|^1+ … + |x_n|^1)^{1/1}$이 된다. 우리가 아는 <code class="language-plaintext highlighter-rouge">L1-Norm</code> 의 수식과 동일하다. 그렇다면 <code class="language-plaintext highlighter-rouge">p=2</code>일 때 수식을 살펴보자. $||x||_2 = (|x_1|^2 + |x_2|^2+ … + |x_n|^2)^{1/2}$으로 전개 된다는 것을 알 수 있다. 역시 우리가 맨날 보는 <code class="language-plaintext highlighter-rouge">L2-Norm</code> 과 동일하다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">L1-Norm</code>은 맨허튼 거리, <code class="language-plaintext highlighter-rouge">L2-Norm</code> 은 유클리드 거리를 의미한다는 것은 익히 들어 봤을 것이다. 그렇다면 만약 $p=∞$라면, 수식은 어떻게 될까, 과연 어떤 의미를 갖고 있을까??</p>
+
+<p>이전과 똑같이 전개해보면
+\(||x||_∞ = (|x_1|^∞ + |x_2|^∞+ ... + |x_n|^∞)^{1/∞}\), 이렇게 식이 도출될 것이다. 그렇다면 이제 괄호 내부 원소들의 지수가 <code class="language-plaintext highlighter-rouge">무한대</code>라는 점에 주목해보자. 직관적으로 무한대 값들 사이의 덧셈, 곱셈의 결과는 <code class="language-plaintext highlighter-rouge">무한대</code> 라는 것을 알 수 있다. 그렇다면 우리는 위 수식에서 절대값이 가장 큰 $|x_i|$만 남겨도 역시 무한대 값을 얻을 수 있다. <strong><u>무한대는 미지수 개념에 가깝지 실제 실수 개념은 아니기 때문이다.</u></strong> 따라서 괄호 내부에는 $|x_i|^p$ 값만 남게 되고 괄호 밖의 $1/p$와 남은 연산을 해주면 결국 $|x_i|$만 남게 된다. 따라서 $||x||_∞ = max(|x_1|, \ |x_2|, \ … \ , |x_n|)$가 된다.</p>
+
+<p>이와 같은 성질 때문에 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 은 <code class="language-plaintext highlighter-rouge">Lp-Pooling</code> 으로도 해석할 수 있으며, 수식의 우변에  $1/n$을 곱해주면 <code class="language-plaintext highlighter-rouge">Generalized Mean Pooling</code> 이 된다는 사실을 알 수 있다. 결국 <code class="language-plaintext highlighter-rouge">Norm</code>과 <code class="language-plaintext highlighter-rouge">Pooling</code> 은 같은 개념이었던 것이다. 그래서 위에서 살펴본 $L_∞$ 역시 <code class="language-plaintext highlighter-rouge">Max Pooling</code> 이라 해석이 가능해진다.</p>
+
+<p>여담으로 맨앞의 대문자 L은 <code class="language-plaintext highlighter-rouge">Lebesgue</code> 의 이름에서 본따왔다고 알려져 있다. 그리고 예전부터 $L_2$값을 수식으로 표현할 때 왜 짝대기 두개를 사용할까 항상 궁금했는데  $L_p$와 <code class="language-plaintext highlighter-rouge">일반 절대값</code>을 구분하기 위해 짝대기를 두 개 사용하게 되었다고 한다.</p>
+<p align="center">
+<img src="/assets/images/220px-Vector-p-Norms_qtl1.svg.png" alt="Lp-Norm Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
+<em>Lp-Norm Image</em>
+</p>
+
+<p>위 자료는 
+$L_p$
+norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. <code class="language-plaintext highlighter-rouge">p=1</code> 일 때는 $L_1: |x| + |y| =1$가 되기 때문에 마름모 형태의 영역을 갖는다. 한편 <code class="language-plaintext highlighter-rouge">p=2</code> 일 때는 $L_2: x^2 + y^2 =1^2$가 되기 때문에 원의 영역을 갖는다. $p=∞$ 일 때는 $L_∞: max(|x_1|…|x_n|) = 1$ 이 되기 때문에 정사각형 형태의 영역을 갖게 될 것이다.</p>
 
         
       </section>
@@ -361,7 +400,7 @@ GitHub Blog 서비스의 이름은 Pages이다.</p>
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2019-04-13">April 13, 2019</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-04">July 4, 2023</time></p>
 
       </footer>
 
@@ -370,11 +409,11 @@ GitHub Blog 서비스의 이름은 Pages이다.</p>
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=github.io+%EB%B8%94%EB%A1%9C%EA%B7%B8+%EC%8B%9C%EC%9E%91%ED%95%98%EA%B8%B0%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTest-Posting%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%8F+Lp-Norm+%26+GeM+Pool%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FLp_Norm%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTest-Posting%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FLp_Norm%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTest-Posting%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FLp_Norm%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -451,8 +490,8 @@ GitHub Blog 서비스의 이름은 Pages이다.</p>
     
   <script>
     var disqus_config = function () {
-      this.page.url = "http://localhost:4000/blog/Test-Posting/";  /* Replace PAGE_URL with your page's canonical URL variable */
-      this.page.identifier = "/blog/Test Posting"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+      this.page.url = "http://localhost:4000/blog/Lp_Norm/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/blog/Lp_Norm"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
     };
     (function() { /* DON'T EDIT BELOW THIS LINE */
       var d = document, s = d.createElement('script');
@@ -469,6 +508,22 @@ GitHub Blog 서비스의 이름은 Pages이다.</p>
 
 
 
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
 
   </body>
 </html>
