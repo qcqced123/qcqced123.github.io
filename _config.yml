@@ -22,7 +22,7 @@ subtitle                 : "NLP, Marketing"
 name                     : "qcqced"
 description              : "NLP, Marketing"
 url                      : "https://qcqced123.github.io"
-baseurl                  : # the subpath of your site, e.g. "/blog"
+baseurl                  : #
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
 teaser                   : "/assets/images/huggingface_emoji.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
