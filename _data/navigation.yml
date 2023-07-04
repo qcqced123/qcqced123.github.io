@@ -3,12 +3,12 @@
 main:
   - title: "Home"
     url: https://qcqced123.github.io/
-  - title: "Category"
-    url: /categories/
+  - title: "CS/AI"
+    url: /cs-ai/
   - title: "Business/Marketing"
-    url: /business-marketing/
-  - title: "Computer Science"
-    url: /computer-science/
+    url: /business-marketing/s
+  - title: "Category"
+    url: /categories/  
   - title: "About"
     url: /about/
   

@@ -4,10 +4,4 @@ var store = [{
         "tags": ["Blog"],
         "url": "/blog/Test-Posting/",
         "teaser": "/assets/images/huggingface_emoji.png"
-      },{
-        "title": "Transformer Encoder",
-        "excerpt":"📝 Transformer: Encoder Block 📄 1.1 Introduce To Transformer 트랜스포머는 Google에서 2017년에 발표한 논문 “Attention Is All You Need“에 소개되는 “자연어 처리용” 신경망 모델입니다. 기존 모델들이 가지고 있던 “장기기억 의존성 문제”를 해결해 오늘날 자연어 처리 모델의 베이스라인으로 선택되고 있습니다. (Google BERT, GPT-3 등) 자연어 처리 분야의 ResNet 정도라고 생각하시면 될 것 같습니다. :) (ResNet은 “Vanishing...","categories": ["Blog"],
-        "tags": [],
-        "url": "/blog/Transformer-Encoder/",
-        "teaser": "/assets/images/huggingface_emoji.png"
       }]

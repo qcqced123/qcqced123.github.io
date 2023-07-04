@@ -12,15 +12,15 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 # remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "air" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
-title                    : "🪨🧑‍💻 돌멩이가 사람이 되기까지"
+title                    : "AI/Business Study Log"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
+subtitle                 : "NLP, Marketing" 
 name                     : "qcqced"
-description              : "Business/Marketing, CS/Machine Learning"
+description              : "NLP, Marketing"
 url                      : "https://qcqced123.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -106,7 +106,7 @@ analytics:
 author:
   name             : "qcqced"
   avatar           : "/assets/images/huggingface_emoji.png"
-  bio              : "Business/Marketing, CS/Machine Learning"
+  bio              : "Interested in NLP, Marketing"
   location         : "Seoul, South Korea"
   email            : "qcqced123@gmail.com"
   links:
