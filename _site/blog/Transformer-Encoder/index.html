@@ -1,4 +1,317 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-02-01T13:16:52+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">🪨🧑‍💻 돌멩이가 사람이 되기까지</title><subtitle>Business/Marketing, CS/Machine Learning</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">Transformer Encoder</title><link href="http://localhost:4000/blog/Transformer-Encoder/" rel="alternate" type="text/html" title="Transformer Encoder" /><published>2022-01-31T06:10:00+09:00</published><updated>2022-01-31T06:10:00+09:00</updated><id>http://localhost:4000/blog/Transformer%20Encoder</id><content type="html" xml:base="http://localhost:4000/blog/Transformer-Encoder/"><![CDATA[<h1 id="transformer-encoder-block">📝 Transformer: Encoder Block</h1>
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>Transformer Encoder - 🪨🧑‍💻 돌멩이가 사람이 되기까지</title>
+<meta name="description" content="Self-Attention을 비롯한 Transformer Encoder에 대한 설명">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="🪨🧑‍💻 돌멩이가 사람이 되기까지">
+<meta property="og:title" content="Transformer Encoder">
+<meta property="og:url" content="http://localhost:4000/blog/Transformer-Encoder/">
+
+
+  <meta property="og:description" content="Self-Attention을 비롯한 Transformer Encoder에 대한 설명">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2022-01-31T06:10:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2022-01-31T06:10:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Transformer-Encoder/">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="🪨🧑‍💻 돌멩이가 사람이 되기까지 Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+
+<!-- end custom head snippets -->
+
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          🪨🧑‍💻 돌멩이가 사람이 되기까지
+          
+        </a>
+        <ul class="visible-links"><li class="masthead__menu-item">
+              <a href="https://qcqced123.github.io/">Home</a>
+            </li><li class="masthead__menu-item">
+              <a href="/categories/">Category</a>
+            </li><li class="masthead__menu-item">
+              <a href="/business-marketing/">Business/Marketing</a>
+            </li><li class="masthead__menu-item">
+              <a href="/computer-science/">Computer Science</a>
+            </li><li class="masthead__menu-item">
+              <a href="/about/">About</a>
+            </li></ul>
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Business/Marketing, CS/Machine Learning</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="Transformer Encoder">
+    <meta itemprop="description" content="Self-Attention을 비롯한 Transformer Encoder에 대한 설명">
+    <meta itemprop="datePublished" content="2022-01-31T06:10:00+09:00">
+    <meta itemprop="dateModified" content="2022-01-31T06:10:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/blog/Transformer-Encoder/" class="u-url" itemprop="url">Transformer Encoder
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+        <h1 id="transformer-encoder-block">📝 Transformer: Encoder Block</h1>
 
 <hr />
 
@@ -459,12 +772,194 @@
 
 <p>지금까지 Transformers의 Encoder Block과 Sub-Layer Block들의 세부 동작 원리에 대해서 살펴보았습니다. 추가로 기억하고 계시면 좋을 것 같은 내용은 Encoder가 기본적으로 문장 전체를 반영하여 토큰을 벡터로 표현하고 있기 때문에 “Bi-Directional Representation”한 성격을 지녔다는 것입니다. 인코더의 쌍방향적 성질은 BERT 계열 모델이 고안되어 다양한 자연어 처리 Task에서 널리 활용되고 있는 이유가 되었습니다. 뒤에서 자세히 설명 드리겠지만, 디코더는 모델 구조의 특성상 순방향적인 학습 절차를 갖고 있습니다. 디코더의 순방향적 특징은 BERT와 함께 현대 언어 모델의 양대 산맥으로 불리는 GPT 계열의 모델이 고안된 이유가 되었습니다. 이렇듯 인코더와 디코더가 서로 다른 학습 절차를 갖고 있다는 사실은 오늘날 자연어 처리 연구의 흐름을 파악할 수 있는 중요한 성질이 되기 때문에 꼭 기억하시면 좋을 것 같습니다.</p>
 
-<p>Transformers Introduce에서 설명드렸듯, 이제 Decoder에 대해서 알아볼 차례입니다. 인코더에 대한 내용이 너무 길어져, 디코더 내용은 다른 포스팅에 올리도록 하겠습니다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Blog" /><summary type="html"><![CDATA[Self-Attention을 비롯한 Transformer Encoder에 대한 설명]]></summary></entry><entry><title type="html">github.io 블로그 시작하기</title><link href="http://localhost:4000/blog/Test-Posting/" rel="alternate" type="text/html" title="github.io 블로그 시작하기" /><published>2022-01-29T00:00:00+09:00</published><updated>2019-04-13T22:06:00+09:00</updated><id>http://localhost:4000/blog/Test%20Posting</id><content type="html" xml:base="http://localhost:4000/blog/Test-Posting/"><![CDATA[<p>GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.
-GitHub Blog 서비스의 이름은 Pages이다.</p>
+<p>Transformers Introduce에서 설명드렸듯, 이제 Decoder에 대해서 알아볼 차례입니다. 인코더에 대한 내용이 너무 길어져, 디코더 내용은 다른 포스팅에 올리도록 하겠습니다.</p>
 
-<p>Pages가 다른 블로그 플랫폼 보다 편한 것 같아서 마음에 든다.
-다른 사람들도 같이 많이 사용했으면 좋겠다는 생각이 든다.</p>
+        
+      </section>
 
-<p>YFM에서 정의한 제목을 이중 괄호 구문으로 본문에 추가할 수 있다.
-이 글의 제목은 github.io 블로그 시작하기이고
-마지막으로 수정된 시간은 2019-04-13 08:06:00 -0500이다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Blog" /><category term="Blog" /><summary type="html"><![CDATA[GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.]]></summary></entry></feed>
+      <footer class="page__meta">
+        
+        
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#blog" class="page__taxonomy-item p-category" rel="tag">Blog</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2022-01-30">January 30, 2022</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=Transformer+Encoder%20http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTransformer-Encoder%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTransformer-Encoder%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fblog%2FTransformer-Encoder%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/blog/Test-Posting/" class="pagination--pager" title="github.io 블로그 시작하기
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/blog/Test-Posting/" rel="permalink">github.io 블로그 시작하기
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">GitHub Blog 서비스인 github.io 블로그 시작하기로 했다.
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    
+  <script>
+    var disqus_config = function () {
+      this.page.url = "http://localhost:4000/blog/Transformer-Encoder/";  /* Replace PAGE_URL with your page's canonical URL variable */
+      this.page.identifier = "/blog/Transformer Encoder"; /* Replace PAGE_IDENTIFIER with your page's unique identifier variable */
+    };
+    (function() { /* DON'T EDIT BELOW THIS LINE */
+      var d = document, s = d.createElement('script');
+      s.src = 'https://qcqced123-github-io.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+  
+
+
+
+
+
+  </body>
+</html>
