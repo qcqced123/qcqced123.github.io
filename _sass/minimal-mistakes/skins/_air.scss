@@ -11,11 +11,11 @@ $border-color: mix(#fff, #393e46, 75%) !default; // 393e46
 $footer-background-color: $primary-color !default;
 $link-color: #393e46 !default;
 $masthead-link-color: $text-color !default;
-$masthead-link-color-hover: $text-color !default;
+$masthead-link-color-hover: $text-color !default;  //$text-color
 $navicon-link-color-hover: mix(#fff, $text-color, 80%) !default;
 
 .page__footer {
-  color: #030303 !important; // override
+  color: #fff !important; // override
   font-weight: 700;
 }
 

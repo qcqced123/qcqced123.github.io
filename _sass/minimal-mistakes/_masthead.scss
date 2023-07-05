@@ -10,7 +10,8 @@
   -webkit-animation-delay: 0.15s;
   animation-delay: 0.15s;
   z-index: 20;
-
+  // background: #0092ca; // setting color of head 
+  
   &__inner-wrap {
     @include clearfix;
     margin-left: auto;
