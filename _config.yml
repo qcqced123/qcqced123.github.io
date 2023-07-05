@@ -23,7 +23,7 @@ name                     : "qcqced"
 description              : "NLP, Marketing"
 url                      : "https://qcqced123.github.io"
 baseurl                  : #
-repository               : qcqced123/comments
+repository               : qcqced123/qcqced123.github.io
 teaser                   : "/assets/images/huggingface_emoji.png"
 logo                     : # path of logo image to display in the masthead, e.g. "/assets/images/88x88.png"
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
