@@ -1,6 +1,6 @@
 ---
 title: "Filter by Category"
-layout: Category
+layout: categories
 permalink: /categories/
 author_profile: true
 ---

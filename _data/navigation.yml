@@ -4,11 +4,45 @@ main:
   - title: "Home"
     url: https://qcqced123.github.io/
   - title: "CS/AI"
-    url: /cs-ai/
+    sublinks:
+      - title: Natural Language Process
+        url: /cs-ai/nlp/
+      - title: Multi Modal
+        url: /cs-ai/multi-modal/
+      - title: Computer Vision
+        url: /cs-ai/cv/
+      - title: Machine Learning
+        url: /cs-ai/ml/
+      - title: Framework & Library
+        url: /cs-ai/framework-library/
+      - title: Python
+        url: /cs-ai/python/
+      - title: Algorithm
+        url: /cs-ai/algorithm/
+
+  - title: "Math"
+    sublinks:
+      - title: Linear Algebra
+        url: /math/linear-algebra/
+      - title: Calculus
+        url: /math/calculus/
+      - title: Optimization Theory
+        url: /math/optimization-theory/
+      - title: Signal & System
+        url: /math/signal-system/
+    
   - title: "Business/Marketing"
-    url: /business-marketing/
+    sublinks:
+      - title: Device
+        url: /business-marketing/device/
+      - title: Semi-Conductor
+        url: /business-marketing/semi-conductor/
+      - title: AI
+        url: /business-marketing/ai/
+    
   - title: "Category"
     url: /categories/  
+  
   - title: "About"
     url: /about/
   

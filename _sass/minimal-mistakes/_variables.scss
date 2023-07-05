@@ -14,7 +14,7 @@ $indent-var: 1.3em !default;
 
 /* system typefaces */
 $serif: Georgia, Times, serif !default;
-$sans-serif: sans-serif, "Gowun Batang", "Gowun Dodum", "Nanum Gothic Coding", "Poor Story", "Nanum Pen Script", -apple-system, BlinkMacSystemFont, "Roboto",
+$sans-serif: sans-serif, 'NanumSquare', 'SUITE-Regular', "Gowun Batang", "Gowun Dodum", "Nanum Gothic Coding", "Poor Story", "Nanum Pen Script", -apple-system, BlinkMacSystemFont, "Roboto",
   "Helvetica Neue", "Lucida Grande", Arial,  !default;
 $monospace: Monaco, Consolas, "Lucida Console", monospace !default;
 
@@ -146,7 +146,7 @@ $base0f: #ff5370 !default;
 
 $small: 600px !default;
 $medium: 768px !default;
-$medium-wide: 900px !default;
+$medium-wide: 900px !default;  // 900
 $large: 1024px !default;
 $x-large: 1280px !default;
 $max-width: $x-large !default;
@@ -155,9 +155,9 @@ $max-width: $x-large !default;
    Grid
    ========================================================================== */
 
-$right-sidebar-width-narrow: 150px !default;    // default 200px
-$right-sidebar-width: 250px !default;           // default 300px
-$right-sidebar-width-wide: 300px !default;      // default 400px
+$right-sidebar-width-narrow: 150px !default;    // default 200px, 150
+$right-sidebar-width: 200px !default;           // default 300px, 250
+$right-sidebar-width-wide: 250px !default;      // default 400px, 300
 
 /*
    Other
@@ -165,8 +165,8 @@ $right-sidebar-width-wide: 300px !default;      // default 400px
 
 $border-radius: 4px !default;
 $box-shadow: 0 1px 1px rgba(0, 0, 0, 0.125) !default;
-$nav-height: 2em !default;
-$nav-toggle-height: 2rem !default;
+$nav-height: 2em !default; // 2em
+$nav-toggle-height: 2rem !default;  // 2rem
 $navicon-width: 1.5rem !default;
 $navicon-height: 0.25rem !default;
 $global-transition: all 0.2s ease-in-out !default;
