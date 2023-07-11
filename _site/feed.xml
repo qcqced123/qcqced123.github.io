@@ -1,4 +1,42 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-07-05T23:47:10+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">📏 Lp-Norm: Concept &amp;amp; Insight</title><link href="http://localhost:4000/math/linear-algebra/lp-norm" rel="alternate" type="text/html" title="📏 Lp-Norm: Concept &amp;amp; Insight" /><published>2023-07-04T00:00:00+09:00</published><updated>2023-07-05T13:00:00+09:00</updated><id>http://localhost:4000/math/linear-algebra/Lp_Norm</id><content type="html" xml:base="http://localhost:4000/math/linear-algebra/lp-norm"><![CDATA[\[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-07-11T18:02:26+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">📐 Inner Product: Projection Matrix</title><link href="http://localhost:4000/math/linear-algebra/inner-product" rel="alternate" type="text/html" title="📐 Inner Product: Projection Matrix" /><published>2023-07-10T00:00:00+09:00</published><updated>2023-07-05T13:00:00+09:00</updated><id>http://localhost:4000/math/linear-algebra/Inner_Product</id><content type="html" xml:base="http://localhost:4000/math/linear-algebra/inner-product"><![CDATA[<h3 id="concept-of-inner-product"><code class="language-plaintext highlighter-rouge">💡 Concept of Inner Product</code></h3>
+
+\[a^Tb = ||a||•||b||cos\theta\]
+
+<p>내적은 <code class="language-plaintext highlighter-rouge">Inner Product</code>, <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code>로 불리며 두 벡터의 유사도, 즉 닮은 정도를 구하는데 사용되는 벡터•행렬 연산의 한 종류다. 두 벡터의 정사영과도 동일한 개념으로 사용된다. 위 수식의 우변에 주목해보자. 
+$||a||cos\theta$ 는 벡터 $a$를 벡터 $b$에 정사영 내린 크기로 해석할 수 있다. 한편 $||b||$ 는 벡터 $b$의 길이이므로, 결국 내적이란 한 벡터를 다른 벡터에 정사영 해준 결과와 벡터 크기의 곱이 된다.</p>
+
+<p align="center">
+<img src="/assets/images/inner_product.png" alt="Inner Product Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
+<strong><em><a href="https://wikidocs.net/22384">Inner Product Image</a></em></strong>
+</p>
+
+<p>내적을 기하학적으로 생각해보자. $\theta$는 두 벡터 사이의 끼인각이다. 그렇다면 끼인각과 내적의 크기 사이의 상관관계는 어떻게 될까?? 내적의 의미는 서로 같은 정도가 아니라 <code class="language-plaintext highlighter-rouge">“서로 닮은 정도”</code>라고 했다. 중학교 때 배웠던 닮음 개념을 떠올려보자. 닮음이란 유클리드 공간에서 모든 각을 보존하며 모든 거리를 일정한 비율로 확대 또는 축소시키는 아핀 변환이다. 다시 말해, 어떤 두 도형을 닮았다고 말하는데 절대적인 거리 혹은 길이가 같을 필요가 없다. 그래서 두 벡터의 닮은 정도를 파악하려면 우리는 벡터의 길이 대신 방향이라는 물리량에 주목해야 한다. 벡터는 직선으로 표현되기 때문에 두 벡터가 완전히 닮았다고 말하려면, 끼인각의 크기가 0이 되어야 한다. 따라서 끼인각의 크기가 작아질수록 두 벡터의 닮은 정도는 커지게 되고, $\theta=0$ 에서 내적값은 최대가 된다. 만약 $\theta=90$ 이라면 내적값은 어떻게 될까?? 삼각비 정의에 의해 $cos \theta = 0$ 이 될 것이다. 따라서 내적값은 0이 되고, 두 벡터는 서로 전혀 닮지 않았다고 판단할 수 있다. 한편 $\theta=180$ 일 때 내적값은 최소가 되고, 두 벡터는 음의 방향으로 닮은 상태를 갖는다.</p>
+
+\[N_a=\frac{a}{\sqrt{a^Ta}} = \frac{a}{||a||}\]
+
+<p>한편 내적을 벡터 정규화에도 사용할 수 있는데, 방법은 위 수식과 같다. 일반적으로 벡터를 정규화하는 방법은 벡터를 벡터의 크기로 나누면 된다고만 알고 있을 것이다. 하지만 벡터의 전치와 벡터와의 내적으로도 벡터의 크기를 구할 수 있기 때문에 (벡터의 전치와 벡터는 $cos\theta=0$이 되기 때문) 위 등식이 성립한다. 한편, 벡터 정규화 결과는 벡터의 길이가 1이 되기 때문에 <code class="language-plaintext highlighter-rouge">‘단위 벡터’</code> 라고 정의한다. 벡터의 길이가 1이라는 점을 이용하면, 단위 벡터에는 방향에 대한 물리량만 남아 있다는 사실을 알 수 있다. 그래서 우리가 어떤 벡터의 방향 정보를 얻고 싶을 때, 벡터의 정규화를 사용하면 간단하게 구할 수 있다.</p>
+
+\[\frac{b^Ta}{||b||} * \frac{b}{||b||} = \frac{b^Ta}{\sqrt{b^Tb}} * \frac{b}{\sqrt{b^Tb}} = \frac{b^Ta}{b^Tb}*b\]
+
+<p>내적 공식과 벡터 정규화 공식을 함께 사용하면 벡터 $a$를 벡터 $b$에 정사영 내렸을 때 도출되는 벡터 또한 직접 구할 수 있다. 위 수식을 살펴보자. 각 변의 좌측 항은 내적 공식에 의해 
+$||a||\cos\theta$ 가 된다. 지금 우리가 구하고 싶은 것은 정사영 내린 벡터 자체인데, $||a||\cos\theta$ 은 크기에 대한 물리량만 담고 있을뿐 방향에 대한 정보가 담겨 있지 않다. 앞에서 언급했듯이, 벡터 정규화 결과는 해당 벡터의 방향에 대한 물리량을 의미한다. 따라서 우변에 벡터 $b$ 의 방향(정규화 결과)를 곱하게 되는 것이다.</p>
+
+\[(a - \hat{x}•b)^T•\ b\hat{x} = 0 \\
+\hat{x} = \frac{b^Ta}{b^Tb} \\
+\hat{x}•b = \frac{b^Ta}{b^Tb}*b\]
+
+<p>한편, 정사영 내린 벡터(벡터 
+$\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡터로 생각해도 쉽게 구할 수 있다. 스칼라를 미지수로 두고 정사영 내린 벡터를 $b•\hat{x}$라고 정의하면 우리는 벡터 $a$를 빗변, 정사영 내린 벡터를 밑변으로 하는 직각삼각형의 높이를 구할 수 있게 된다. 정사영 내린 벡터 $b•\hat{x}$에 마이너스 부호를 취해 반대 방향으로 뒤집어주면 우리는 직각삼각형의 높이를 밑변과 빗변의 합($a - b•\hat{x}$)으로 나타낼 수 있기 때문이다. 따라서 밑변과 높이의 끼인각이 수직이라는 점을 내적 공식에 적용해 우리는 다음 수식을 풀어내면 정사영 내린 벡터를 얻을 수 있다. 정사영 내린 벡터를 실제로는 <code class="language-plaintext highlighter-rouge">투영 벡터</code>라고 정의한다.</p>
+
+<h3 id="-what-is-projection-matrix"><code class="language-plaintext highlighter-rouge">🔢 What is Projection Matrix</code></h3>
+
+<p>벡터 $a$와 벡터 $b$의 변화에 따른 투영 벡터 크기의 추이를 살펴보자. 벡터 $a$가 만약 2배 커진다면 $a$가 분자에만 있기 때문에 투영 벡터 역시 그대로 2배 증가할 것이다. 반면 벡터 $b$는 2배가 커져도 분자•분모 모두 동일하게 2개씩  $b$가 있기 때문에 이전과 변화가 없다. 따라서 투영 벡터의 크기는 전적으로 벡터 $a$에 의존적이다. 다시 말해, 벡터 $a$는 무언가 매개체에 의해 벡터 $b$로 정사영 되고 있으며 그 매개체를 우리는 <code class="language-plaintext highlighter-rouge">projection matrix</code> 라고 한다.</p>
+
+\[P = \frac{bb^T}{b^Tb}\]
+
+<p>분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 <code class="language-plaintext highlighter-rouge">Matrix</code> 라는 단어를 붙이게 되었다. 이러한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code>는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다.</p>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code> , <code class="language-plaintext highlighter-rouge">Inner Product</code>는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">Dot Product</code>란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Dot</code> 이라는 단어를 사용하게 되었다. 한편, <code class="language-plaintext highlighter-rouge">Scalar Product</code> 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Scalar Product</code>라고 명명했다. 마지막으로 <code class="language-plaintext highlighter-rouge">Inner Product</code>는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 <code class="language-plaintext highlighter-rouge">Dot Product</code>  , <code class="language-plaintext highlighter-rouge">Scalar Product</code> 보다 더 일반적인 개념으로 볼 수 있겠다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Linear Algebra" /><category term="Linear Algebra" /><category term="Inner Product" /><category term="Projection Matrix" /><category term="내적" /><category term="정사영" /><summary type="html"><![CDATA[💡 Concept & Insight of Inner Product]]></summary></entry><entry><title type="html">📏 Lp-Norm: Concept &amp;amp; Insight</title><link href="http://localhost:4000/math/linear-algebra/lp-norm" rel="alternate" type="text/html" title="📏 Lp-Norm: Concept &amp;amp; Insight" /><published>2023-07-04T00:00:00+09:00</published><updated>2023-07-05T13:00:00+09:00</updated><id>http://localhost:4000/math/linear-algebra/Lp_Norm</id><content type="html" xml:base="http://localhost:4000/math/linear-algebra/lp-norm"><![CDATA[\[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
 
 <p><strong><code class="language-plaintext highlighter-rouge">Lp-Norm</code></strong>은 <code class="language-plaintext highlighter-rouge">Lebesgue</code>라는 프랑스 수학자에 의해 고안된 개념으로<strong>,</strong> 기계학습을 공부하는 사람이라면 지겹도록 듣는 <code class="language-plaintext highlighter-rouge">L2-Norm</code>, <code class="language-plaintext highlighter-rouge">L1-Norm</code>을 일반화 버전이라고 생각하면 된다. <strong><u>다시 말해, 벡터의 크기를 나타내는 표현식을 일반화한</u></strong> 것이 바로 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 이며 수식은 위와 같다.</p>
 
