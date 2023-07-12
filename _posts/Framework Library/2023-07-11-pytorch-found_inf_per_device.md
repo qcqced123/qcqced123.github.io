@@ -49,6 +49,10 @@ def forward(self, inputs: dict, position_list: Tensor) -> Tensor:
 ```
 
 다음 코드는 필자가 공부를 위해 만든 모델 클래스의 `forward` 메서드이다. 전자는 이번 포스팅의 주제인 에러를 일으킨 주인공이고, 후자는 에러를 수정한 이후 정상적으로 작동하는 코드다. 독자 여러분들도 두 코드에 어떤 차이가 있는지 스스로 질문을 던지면서 읽어주시길 바란다. 
+<p markdown="1" align="center">
+![Model Overview](/assets/images/marginrankingloss.png){: .align-center}{: width="100%", height="50%"}{: .image-caption}
+*Modeling Overview*
+</p>
 
 위의 코드들은 `DeBERTa-V3-Large` 의 마지막 인코더 레이어가 반환하는 `last_hidden_state` 를 미리 설정한 서브 구간별로 나누고 개별적으로 `pooling & fully connected layer` 에 통과시켜 로짓값으로 변환하기 위해 만들었다. 쉽게 말해 입력으로 토큰(단어) 384개 짜리 문장을 하나 넣었고, 모델은 384개의 개별 토큰에 대한 임베딩 값을 반환했는데 그것을 전부 이용하는 것이 아니라 예를 들어 `2번~4번` 토큰을 1번 구간, `6번~20번` 토큰을 2번 구간, `30번~50번` 토큰을 3번 구간 … `370번~380번` 토큰을 30번 구간으로 설정하고 구간 별로 따로 `pooling & fully connected layer` 에 통과시켜 로짓을 구하는 것이다. 일반적이라면 1개의 문장에서 1개의 최종 로짓값이 도출되는 것이라면, 위 코드는 30개의 로짓값이 도출된다. 
 

@@ -98,13 +98,13 @@ model.load_state_dict(
 
 `pretrained model`, `weight`를 `load`하거나 혹은 훈련 루프를 `resume` 을 위해 `torch.load()` 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 `GPU` 에 할당하려는 모델이 사전 훈련때 할당 되었던 `GPU` 번호와 현재 할당하려는 `GPU` 번호가 서로 상이하기 때문이다. 
 
-### **`RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)`**
-
-파이토치 코드(`torch.nn.Embedding`)에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 `Huggingface`에서 불러온`pretrained tokenizer`에 `special token` 을 추가해 사용하는 경우가 많은데, 토큰을 추가했다는 사실을 잊고 `nn.Embedding` 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가 많았다. 구글링해보니 해결하는 방법은 다양한 것 같은데, torch.nn.embedding에 정의된 입출력 차원을 실제 데이터 차원과 맞춰주면 간단하게 해결된다. 필자처럼 `special token` 을 추가해 사용하다 해당 에러가 발생하는 상황이라면, 아래 예시 코드를 토큰을 추가한 이후 시점에 선언해주면 해결할 수 있다.
-
+### `RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)`
 ```python
 model.resize_token_embeddings(len(tokenizer))
 ```
+파이토치 코드(`torch.nn.Embedding`)에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 `Huggingface`에서 불러온`pretrained tokenizer`에 `special token` 을 추가해 사용하는 경우가 많은데, 토큰을 추가했다는 사실을 잊고 `nn.Embedding` 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가 많았다. 구글링해보니 해결하는 방법은 다양한 것 같은데, torch.nn.embedding에 정의된 입출력 차원을 실제 데이터 차원과 맞춰주면 간단하게 해결된다. 필자처럼 `special token` 을 추가해 사용하다 해당 에러가 발생하는 상황이라면, 아래 예시 코드를 토큰을 추가한 이후 시점에 선언해주면 해결할 수 있다.
+
+
 
 ### **`RuntimeError: CUDA error: device-side assert triggered`**
 

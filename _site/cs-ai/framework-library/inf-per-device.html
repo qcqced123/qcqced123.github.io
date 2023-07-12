@@ -461,6 +461,10 @@
 </code></pre></div></div>
 
 <p>다음 코드는 필자가 공부를 위해 만든 모델 클래스의 <code class="language-plaintext highlighter-rouge">forward</code> 메서드이다. 전자는 이번 포스팅의 주제인 에러를 일으킨 주인공이고, 후자는 에러를 수정한 이후 정상적으로 작동하는 코드다. 독자 여러분들도 두 코드에 어떤 차이가 있는지 스스로 질문을 던지면서 읽어주시길 바란다.</p>
+<p align="center">
+<img src="/assets/images/marginrankingloss.png" alt="Model Overview" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<em>Modeling Overview</em>
+</p>
 
 <p>위의 코드들은 <code class="language-plaintext highlighter-rouge">DeBERTa-V3-Large</code> 의 마지막 인코더 레이어가 반환하는 <code class="language-plaintext highlighter-rouge">last_hidden_state</code> 를 미리 설정한 서브 구간별로 나누고 개별적으로 <code class="language-plaintext highlighter-rouge">pooling &amp; fully connected layer</code> 에 통과시켜 로짓값으로 변환하기 위해 만들었다. 쉽게 말해 입력으로 토큰(단어) 384개 짜리 문장을 하나 넣었고, 모델은 384개의 개별 토큰에 대한 임베딩 값을 반환했는데 그것을 전부 이용하는 것이 아니라 예를 들어 <code class="language-plaintext highlighter-rouge">2번~4번</code> 토큰을 1번 구간, <code class="language-plaintext highlighter-rouge">6번~20번</code> 토큰을 2번 구간, <code class="language-plaintext highlighter-rouge">30번~50번</code> 토큰을 3번 구간 … <code class="language-plaintext highlighter-rouge">370번~380번</code> 토큰을 30번 구간으로 설정하고 구간 별로 따로 <code class="language-plaintext highlighter-rouge">pooling &amp; fully connected layer</code> 에 통과시켜 로짓을 구하는 것이다. 일반적이라면 1개의 문장에서 1개의 최종 로짓값이 도출되는 것이라면, 위 코드는 30개의 로짓값이 도출된다.</p>
 
@@ -538,7 +542,7 @@
       
   <nav class="pagination">
     
-      <a href="/cs-ai/framework-library/cuda-num" class="pagination--pager" title="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device
+      <a href="/cs-ai/framework-library/dataloader-collatefn" class="pagination--pager" title="🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
 ">Previous</a>
     
     
@@ -570,7 +574,51 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/cs-ai/framework-library/cuda-num" rel="permalink">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device
+        <a href="/cs-ai/framework-library/dataloader-collatefn" rel="permalink">🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Dataloader get non-equal size of tensor
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/cs-ai/framework-library/cuda-num/" rel="permalink">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device
 </a>
       
     </h2>
@@ -684,50 +732,6 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">💡 Concept &amp; Insight of Inner Product
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/math/linear-algebra/lp-norm" rel="permalink">📏 Lp-Norm: Concept &amp; Insight
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">Concept of Lp-Norm &amp; GeM Pool
 </p>
   </article>
 </div>

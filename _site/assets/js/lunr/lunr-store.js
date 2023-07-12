@@ -19,8 +19,14 @@ var store = [{
       },{
         "title": "🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device",
         "excerpt":"🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제 model.load_state_dict( torch.load(path, map_location='cuda:0') ) pretrained model, weight를 load하거나 혹은 훈련 루프를 resume 을 위해 torch.load() 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 GPU 에 할당하려는 모델이 사전 훈련때 할당 되었던 GPU 번호와 현재 할당하려는 GPU 번호가 서로 상이하기...","categories": ["Pytorch Error Handling"],
-        "tags": ["Pytorch","CUDA","Error Handling"],
-        "url": "/cs-ai/framework-library/cuda-num",
+        "tags": ["Pytorch","CUDA"],
+        "url": "/cs-ai/framework-library/cuda-num/",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1",
+        "excerpt":"📏 가변 길이의 텐서를 데이터로더에 전달하는 경우 커스텀 데이터 클래스와 데이터로더를 통해 반환되는 데이터 인스턴스의 텐서 크기가 일정하지 않아 발생하는 에러다. 특히 자연어 처리에서 자주 찾아 볼 수 있는데 데이터로더 객체 선언 시, 매개변수 옵션 중에 collate_fn=collate 를 추가해주면 해결 가능한 에러다. 이 때 매개변수 collate_fn 에 전달하는 값(메서드)은 사용자가...","categories": ["Pytorch Error Handling"],
+        "tags": ["Pytorch","DataLoader","collate_fn","Dynamic Padding","Padding"],
+        "url": "/cs-ai/framework-library/dataloader-collatefn",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "🪢 assert len(optimizer_state[\"found_inf_per_device\"]) > 0, \"No inf checks were recorded for this optimizer.\" AssertionError: No inf checks were recorded for this optimizer.",
