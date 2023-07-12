@@ -12,7 +12,7 @@ tags:
   - Projection Matrix
   - 내적
   - 정사영
-last_modified_at: 2023-07-04T23:00:00-05:00
+last_modified_at: 2023-07-10T23:00:00-05:00
 ---
 
 ### `💡 Concept of Inner Product`
