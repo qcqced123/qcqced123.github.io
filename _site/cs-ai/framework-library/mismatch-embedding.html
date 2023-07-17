@@ -427,15 +427,15 @@
           </aside>
         
         <h3 id="-nnembedding-차원--실제-데이터-입력-차원"><code class="language-plaintext highlighter-rouge">😵 nn.Embedding 차원 ≠ 실제 데이터 입력 차원</code></h3>
-<p><code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 <code class="language-plaintext highlighter-rouge">Huggingface</code>에서 불러온<code class="language-plaintext highlighter-rouge">pretrained tokenizer</code>에 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용하는 경우가 많은데, 토큰을 추가했다는 사실을 잊고 <code class="language-plaintext highlighter-rouge">nn.Embedding</code> 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가 많았다.</p>
+<p><code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 <code class="language-plaintext highlighter-rouge">Huggingface</code>에서 불러온<code class="language-plaintext highlighter-rouge">pretrained tokenizer</code>에 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용할 때, 토큰을 추가했다는 사실을 잊고 <code class="language-plaintext highlighter-rouge">nn.Embedding</code> 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가 많았다.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModel</span>
 
 <span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
-  <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
-  <span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-  <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-  <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">add_markdown_token</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span> <span class="n">sCFG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
@@ -457,7 +457,7 @@
 <span class="n">add_markdown_token</span><span class="p">(</span><span class="n">CFG</span><span class="p">)</span>
 <span class="n">CFG</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">resize_token_embeddings</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">))</span>
 </code></pre></div></div>
-<p>구글링해보니 해결하는 방법은 다양한 것 같은데, <code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에 정의된 입출력 차원을 실제 데이터 차원과 맞춰주면 간단하게 해결된다. 필자처럼 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용하다 해당 에러가 발생하는 상황이라면 토큰을 추가한 이후 시점에 위 코드를 선언해주면 해결할 수 있다. 새로운 토큰이 추가된 토크나이저의 길이를 다시 측정한 뒤 값을 <code class="language-plaintext highlighter-rouge">resize_token_embeddings</code> 메서드에 전달해 <code class="language-plaintext highlighter-rouge">nn.Embedding</code>을 업데이트 해주면 된다.</p>
+<p>구글링해보니 해결하는 방법은 다양한 것 같은데, <code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에 정의된 입출력 차원을 실제 데이터 차원과 맞춰주면 간단하게 해결된다. 필자처럼 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용하다 해당 에러가 발생하는 상황이라면 새로운 토큰이 추가된 토크나이저의 길이를 다시 측정한 뒤 값을 <code class="language-plaintext highlighter-rouge">resize_token_embeddings</code> 메서드에 전달해 <code class="language-plaintext highlighter-rouge">nn.Embedding</code>을 업데이트 해주면 된다.</p>
 
 
         
