@@ -34,4 +34,16 @@ var store = [{
         "tags": ["Pytorch","CUDA","Error Handling"],
         "url": "/cs-ai/framework-library/inf-per-device",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🎲 RuntimeError: CUDA error: device-side assert triggered",
+        "excerpt":"😵 사전에 정의 입출력 차원 ≠ 실제 입출력 차원 다양한 원인이 있다고 알려져 있는 에러지만, 필자의 경우 위 에러는 사전에 정의한 데이터의 입출력 차원과 실제 입출력 데이터 차원이 서로 상이할 때 발생했다. 하지만 원인을 확실히 특정하고 싶다면 아래 예시 코드를 먼저 추가한 뒤, 다시 한 번 에러 로그를 확인해보길 권장한다....","categories": ["Pytorch Error Handling"],
+        "tags": ["Pytorch","Dimension Mismatch","CUDA","Error Handling"],
+        "url": "/cs-ai/framework-library/mismatch-dimension",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)",
+        "excerpt":"😵 nn.Embedding 차원 ≠ 실제 데이터 입력 차원 torch.nn.Embedding에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 Huggingface에서 불러온pretrained tokenizer에 special token 을 추가해 사용하는 경우가 많은데, 토큰을 추가했다는 사실을 잊고 nn.Embedding 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가...","categories": ["Pytorch Error Handling"],
+        "tags": ["Pytorch","Dimension Mismatch","nn.Embedding","CUDA","Error Handling"],
+        "url": "/cs-ai/framework-library/mismatch-embedding",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
