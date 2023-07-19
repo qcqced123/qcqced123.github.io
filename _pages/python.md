@@ -1,6 +1,6 @@
 ---
 title: "👨‍💻🐍 Python"
-permalink: /cs-ai/python/
+permalink: /python/
 layout: category
 author_profile: false
 taxonomy: Python

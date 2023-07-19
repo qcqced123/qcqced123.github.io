@@ -1,11 +1,11 @@
 ---
 title: "🤔 RuntimeError: Function 'LogSoftmaxBackward0' returned nan values in its 0th output"
 excerpt: "Pytorch Error: Backward NaN values"
-permalink: "/cs-ai/framework-library/backward-nan"
+permalink: "/framework-library/backward-nan/"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - Logsoftmax

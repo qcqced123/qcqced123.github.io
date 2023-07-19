@@ -1,0 +1,843 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>📐 Inner Product: Projection Matrix, Least Sqaure Method - AI/Business Study Log</title>
+<meta name="description" content="💡 Concept &amp; Insight of Inner Product">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
+<meta property="og:url" content="http://localhost:4000/linear-algebra/inner-product">
+
+
+  <meta property="og:description" content="💡 Concept &amp; Insight of Inner Product">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-07-10T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-07-11T13:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linear-algebra/inner-product">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Algorithm</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/calculus/">    Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
+    <meta itemprop="description" content="💡 Concept &amp; Insight of Inner Product">
+    <meta itemprop="datePublished" content="2023-07-10T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-07-11T13:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/linear-algebra/inner-product" class="u-url" itemprop="url">📐 Inner Product: Projection Matrix, Least Sqaure Method
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#concept-of-inner-product">💡 Concept of Inner Product</a></li><li><a href="#-what-is-projection-matrix">🔢 What is Projection Matrix</a></li><li><a href="#️-least-square-method">🖍️ Least Square Method</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="concept-of-inner-product"><code class="language-plaintext highlighter-rouge">💡 Concept of Inner Product</code></h3>
+
+\[a^Tb = ||a||•||b||cos\theta\]
+
+<p>내적은 <code class="language-plaintext highlighter-rouge">Inner Product</code>, <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code>로 불리며 두 벡터의 유사도, 즉 닮은 정도를 구하는데 사용되는 벡터•행렬 연산의 한 종류다. 두 벡터의 정사영과도 동일한 개념으로 사용된다. 위 수식의 우변에 주목해보자. 
+$||a||cos\theta$ 는 벡터 $a$를 벡터 $b$에 정사영 내린 크기로 해석할 수 있다. 한편 $||b||$ 는 벡터 $b$의 길이이므로, 결국 내적이란 한 벡터를 다른 벡터에 정사영 해준 결과와 벡터 크기의 곱이 된다.</p>
+
+<p align="center">
+<img src="/assets/images/inner_product.png" alt="Inner Product Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
+<strong><em><a href="https://wikidocs.net/22384">Inner Product Image</a></em></strong>
+</p>
+
+<p>내적을 기하학적으로 생각해보자. $\theta$는 두 벡터 사이의 끼인각이다. 그렇다면 끼인각과 내적의 크기 사이의 상관관계는 어떻게 될까?? 내적의 의미는 서로 같은 정도가 아니라 <code class="language-plaintext highlighter-rouge">“서로 닮은 정도”</code>라고 했다. 중학교 때 배웠던 닮음 개념을 떠올려보자. 닮음이란 유클리드 공간에서 모든 각을 보존하며 모든 거리를 일정한 비율로 확대 또는 축소시키는 아핀 변환이다. 다시 말해, 어떤 두 도형을 닮았다고 말하는데 절대적인 거리 혹은 길이가 같을 필요가 없다. 그래서 두 벡터의 닮은 정도를 파악하려면 우리는 벡터의 길이 대신 방향이라는 물리량에 주목해야 한다. 벡터는 직선으로 표현되기 때문에 두 벡터가 완전히 닮았다고 말하려면, 끼인각의 크기가 0이 되어야 한다. 따라서 끼인각의 크기가 작아질수록 두 벡터의 닮은 정도는 커지게 되고, $\theta=0$ 에서 내적값은 최대가 된다. 만약 $\theta=90$ 이라면 내적값은 어떻게 될까?? 삼각비 정의에 의해 $cos \theta = 0$ 이 될 것이다. 따라서 내적값은 0이 되고, 두 벡터는 서로 전혀 닮지 않았다고 판단할 수 있다. 한편 $\theta=180$ 일 때 내적값은 최소가 되고, 두 벡터는 음의 방향으로 닮은 상태를 갖는다.</p>
+
+\[N_a=\frac{a}{\sqrt{a^Ta}} = \frac{a}{||a||}\]
+
+<p>한편 내적을 벡터 정규화에도 사용할 수 있는데, 방법은 위 수식과 같다. 일반적으로 벡터를 정규화하는 방법은 벡터를 벡터의 크기로 나누면 된다고만 알고 있을 것이다. 하지만 벡터의 전치와 벡터와의 내적으로도 벡터의 크기를 구할 수 있기 때문에 (벡터의 전치와 벡터는 $cos\theta=0$이 되기 때문) 위 등식이 성립한다. 한편, 벡터 정규화 결과는 벡터의 길이가 1이 되기 때문에 <code class="language-plaintext highlighter-rouge">‘단위 벡터’</code> 라고 정의한다. 벡터의 길이가 1이라는 점을 이용하면, 단위 벡터에는 방향에 대한 물리량만 남아 있다는 사실을 알 수 있다. 그래서 우리가 어떤 벡터의 방향 정보를 얻고 싶을 때, 벡터의 정규화를 사용하면 간단하게 구할 수 있다.</p>
+
+\[\frac{b^Ta}{||b||} * \frac{b}{||b||} = \frac{b^Ta}{\sqrt{b^Tb}} * \frac{b}{\sqrt{b^Tb}} = \frac{b^Ta}{b^Tb}*b\]
+
+<p>내적 공식과 벡터 정규화 공식을 함께 사용하면 벡터 $a$를 벡터 $b$에 정사영 내렸을 때 도출되는 벡터 또한 직접 구할 수 있다. 위 수식을 살펴보자. 각 변의 좌측 항은 내적 공식에 의해 
+$||a||\cos\theta$ 가 된다. 지금 우리가 구하고 싶은 것은 정사영 내린 벡터 자체인데, $||a||\cos\theta$ 은 크기에 대한 물리량만 담고 있을뿐 방향에 대한 정보가 담겨 있지 않다. 앞에서 언급했듯이, 벡터 정규화 결과는 해당 벡터의 방향에 대한 물리량을 의미한다. 따라서 우변에 벡터 $b$ 의 방향(정규화 결과)를 곱하게 되는 것이다.</p>
+
+\[(a - \hat{x}•b)^T•\ b\hat{x} = 0 \\
+\hat{x} = \frac{b^Ta}{b^Tb} \\
+\hat{x}•b = \frac{b^Ta}{b^Tb}*b\]
+
+<p>한편, 정사영 내린 벡터(벡터 
+$\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡터로 생각해도 쉽게 구할 수 있다. 스칼라를 미지수로 두고 정사영 내린 벡터를 $b•\hat{x}$라고 정의하면 우리는 벡터 $a$를 빗변, 정사영 내린 벡터를 밑변으로 하는 직각삼각형의 높이를 구할 수 있게 된다. 정사영 내린 벡터 $b•\hat{x}$에 마이너스 부호를 취해 반대 방향으로 뒤집어주면 우리는 직각삼각형의 높이를 밑변과 빗변의 합($a - b•\hat{x}$)으로 나타낼 수 있기 때문이다. 따라서 밑변과 높이의 끼인각이 수직이라는 점을 내적 공식에 적용해 우리는 다음 수식을 풀어내면 정사영 내린 벡터를 얻을 수 있다. 정사영 내린 벡터를 실제로는 <code class="language-plaintext highlighter-rouge">투영 벡터</code>라고 정의한다.</p>
+
+<h3 id="-what-is-projection-matrix"><code class="language-plaintext highlighter-rouge">🔢 What is Projection Matrix</code></h3>
+
+<p>벡터 $a$와 벡터 $b$의 변화에 따른 투영 벡터 크기의 추이를 살펴보자. 벡터 $a$가 만약 2배 커진다면 $a$가 분자에만 있기 때문에 투영 벡터 역시 그대로 2배 증가할 것이다. 반면 벡터 $b$는 2배가 커져도 분자•분모 모두 동일하게 2개씩  $b$가 있기 때문에 이전과 변화가 없다. 따라서 투영 벡터의 크기는 전적으로 벡터 $a$에 의존적이다. 다시 말해, 벡터 $a$는 무언가 매개체에 의해 벡터 $b$로 정사영 되고 있으며 그 매개체를 우리는 <code class="language-plaintext highlighter-rouge">projection matrix</code> 라고 한다.</p>
+
+\[P = \frac{bb^T}{b^Tb}\]
+
+<p>분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 <code class="language-plaintext highlighter-rouge">Matrix</code> 라는 단어를 붙이게 되었다. 이러한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code>는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다.</p>
+
+<h3 id="️-least-square-method"><code class="language-plaintext highlighter-rouge">🖍️ Least Square Method</code></h3>
+
+\[Measurement = Ax + n\]
+
+<p>$(a - \hat{x}•b)^T$
+를 에러 벡터 $e$로 치환하면 내적•정사영을 <code class="language-plaintext highlighter-rouge">Least Square Method</code> (최소 자승법)으로 해석할 수도 있다. 예를 들어 5차원의 공간에서 2차원의 공간으로 <code class="language-plaintext highlighter-rouge">span</code>하는 행렬 $A$(<code class="language-plaintext highlighter-rouge">[5x2]</code>, <code class="language-plaintext highlighter-rouge">full column rank</code>) 그리고 5차원 공간에서 정의되는 벡터 $b$가 있다고 가정해보자. 현재 상황은 $C(A)$와 벡터 $b$ 사이의 해가 존재하지 않는 상태, 즉 모델의 예측값과 실제 정답이 일치하지 않는다는 것이다. 비록 해가 없지만 예측값을 그래도 최대한 정답에 가깝게 위치 시켜보자는 취지에서 나온 것이 바로 <code class="language-plaintext highlighter-rouge">최소 자승법</code>이다. 최소자승법은 $||e||$를 모델의 예측과 정답 사이 오차로 정의하는데, 이 때 $L_2$의 제곱근 연산을 피하기 위해서 $||e||^2$을 최적화 한다. 오차의 제곱을 최소화한다는 동작 방식에 맞게 <code class="language-plaintext highlighter-rouge">Least Square</code> 라는 이름을 갖게 되었다.<br />
+한편, 이 오차를 최대한 줄이는 방법은 무엇일까?? $C(A)$ 상에서 정의되는 벡터 $b\hat{x}$와 에러 벡터 $e$ 사이의 내적(두 벡터가 수직)값이 0일 때 벡터 $e$의 길이가 최소 된다는 점을 이용해 미지수 $\hat{x}$를 찾고 최적화 식에 넣어 오차 제곱이 최소가 되는 계수를 구해주면 된다.</p>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code> , <code class="language-plaintext highlighter-rouge">Inner Product</code>는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">Dot Product</code>란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Dot</code> 이라는 단어를 사용하게 되었다. 한편, <code class="language-plaintext highlighter-rouge">Scalar Product</code> 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Scalar Product</code>라고 명명했다. 마지막으로 <code class="language-plaintext highlighter-rouge">Inner Product</code>는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 <code class="language-plaintext highlighter-rouge">Dot Product</code>  , <code class="language-plaintext highlighter-rouge">Scalar Product</code> 보다 더 일반적인 개념으로 볼 수 있겠다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#inner-product" class="page__taxonomy-item p-category" rel="tag">Inner Product</a><span class="sep">, </span>
+    
+      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
+    
+      <a href="/tags/#projection-matrix" class="page__taxonomy-item p-category" rel="tag">Projection Matrix</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EB%82%B4%EC%A0%81" class="page__taxonomy-item p-category" rel="tag">내적</a><span class="sep">, </span>
+    
+      <a href="/tags/#%EC%A0%95%EC%82%AC%EC%98%81" class="page__taxonomy-item p-category" rel="tag">정사영</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-10">July 10, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%90+Inner+Product%3A+Projection+Matrix%2C+Least+Sqaure+Method%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/linear-algebra/lp-norm" class="pagination--pager" title="📏 Lp-Norm: Concept &amp; Insight
+">Previous</a>
+    
+    
+      <a href="/framework-library/backward-nan/" class="pagination--pager" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/mismatch-embedding" rel="permalink">🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Mis-match between pre-defined dimension and input dimension
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/mismatch-dimension" rel="permalink">🎲 RuntimeError: CUDA error: device-side assert triggered
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Mis-match between pre-defined dimension and input dimension
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/inf-per-device" rel="permalink">🪢 assert len(optimizer_state[“found_inf_per_device”]) &gt; 0, “No inf checks were recorded for this optimizer.” AssertionError: No inf checks were recorded for this optimizer.
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Optimizer can’t backward loss
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/dataloader-collatefn" rel="permalink">🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Dataloader get non-equal size of tensor
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>

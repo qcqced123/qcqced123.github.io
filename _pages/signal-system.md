@@ -1,6 +1,6 @@
 ---
 title: "🤖📶 Signal & System"
-permalink: /math/signal-system/
+permalink: /signal-system/
 layout: category
 author_profile: false
 taxonomy: Signal & System

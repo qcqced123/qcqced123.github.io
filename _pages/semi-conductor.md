@@ -1,6 +1,6 @@
 ---
 title: "🖥️🏭 Semi-Conductor"
-permalink: /business-marketing/Semi-Conductor/
+permalink: /Semi-Conductor/
 layout: category
 author_profile: false
 taxonomy: Semi-Conductor

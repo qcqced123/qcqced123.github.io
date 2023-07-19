@@ -1,11 +1,11 @@
 ---
 title: '🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)'
 excerpt: "Pytorch Error: Mis-match between pre-defined dimension and input dimension"
-permalink: "/cs-ai/framework-library/mismatch-embedding"
+permalink: "/framework-library/mismatch-embedding"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - Dimension Mismatch

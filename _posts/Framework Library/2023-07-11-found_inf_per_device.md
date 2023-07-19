@@ -1,11 +1,11 @@
 ---
 title: '🪢 assert len(optimizer_state["found_inf_per_device"]) > 0, "No inf checks were recorded for this optimizer." AssertionError: No inf checks were recorded for this optimizer.'
 excerpt: "Pytorch Error: Optimizer can't backward loss"
-permalink: "/cs-ai/framework-library/inf-per-device"
+permalink: "/framework-library/inf-per-device"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - CUDA

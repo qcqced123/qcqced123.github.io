@@ -1,6 +1,6 @@
 ---
 title: "👨‍💻🧐 Algorithm"
-permalink: /cs-ai/algorithm/
+permalink: /algorithm/
 layout: category
 author_profile: false
 taxonomy: Algorithm

@@ -1,11 +1,11 @@
 ---
 title: "🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1"
 excerpt: "Pytorch Error: Dataloader get non-equal size of tensor"
-permalink: "/cs-ai/framework-library/dataloader-collatefn"
+permalink: "/framework-library/dataloader-collatefn"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - DataLoader

@@ -1,6 +1,6 @@
 ---
 title: "🤖🦾 Machine Learning"
-permalink: /cs-ai/ml/
+permalink: /ml/
 layout: category
 author_profile: false
 taxonomy: ML

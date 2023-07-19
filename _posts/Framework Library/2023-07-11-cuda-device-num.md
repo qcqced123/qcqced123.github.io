@@ -1,11 +1,11 @@
 ---
 title: "🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device"
 excerpt: "Pytorch Error: Wrong CUDA Device Number"
-permalink: "/cs-ai/framework-library/cuda-num/"
+permalink: "/framework-library/cuda-num/"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - CUDA

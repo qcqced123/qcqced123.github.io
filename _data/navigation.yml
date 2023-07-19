@@ -6,44 +6,43 @@ main:
   - title: "CS/AI"
     sublinks:
       - title: Natural Language Process
-        url: /cs-ai/nlp/
+        url: /nlp/
       - title: Multi Modal
-        url: /cs-ai/multi-modal/
+        url: /multi-modal/
       - title: Computer Vision
-        url: /cs-ai/cv/
+        url: /cv/
       - title: Machine Learning
-        url: /cs-ai/ml/
+        url: /ml/
       - title: Framework & Library
-        url: /cs-ai/framework-library/
+        url: /framework-library/
       - title: Python
-        url: /cs-ai/python/
+        url: /python/
       - title: Algorithm
-        url: /cs-ai/algorithm/
+        url: /algorithm/
 
   - title: "Math"
     sublinks:
       - title: Linear Algebra
-        url: /math/linear-algebra/
+        url: /linear-algebra/
       - title: Calculus
-        url: /math/calculus/
+        url: /calculus/
       - title: Optimization Theory
-        url: /math/optimization-theory/
+        url: /optimization-theory/
       - title: Signal & System
-        url: /math/signal-system/
+        url: /signal-system/
     
   - title: "Business/Marketing"
     sublinks:
       - title: Device
-        url: /business-marketing/device/
+        url: /device/
       - title: Semi-Conductor
-        url: /business-marketing/semi-conductor/
+        url: /semi-conductor/
       - title: AI
-        url: /business-marketing/ai/
+        url: /ai/
     
   - title: "Category"
     url: /categories/  
   
   - title: "About"
     url: /about/
-  
-  
+

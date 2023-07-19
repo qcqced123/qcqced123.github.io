@@ -1,6 +1,6 @@
 ---
 title: "📈📐 Calculus"
-permalink: /math/calculus/
+permalink: /calculus/
 layout: category
 author_profile: false
 taxonomy: Calculus

@@ -1,11 +1,11 @@
 ---
 title: '🎲 RuntimeError: CUDA error: device-side assert triggered'
 excerpt: "Pytorch Error: Mis-match between pre-defined dimension and input dimension"
-permalink: "/cs-ai/framework-library/mismatch-dimension"
+permalink: "/framework-library/mismatch-dimension"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
-  - Pytorch Error Handling
+  - Framework & Library
 tags:
   - Pytorch
   - Dimension Mismatch

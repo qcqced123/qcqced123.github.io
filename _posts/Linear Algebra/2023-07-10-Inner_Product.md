@@ -1,7 +1,7 @@
 ---
-title: "📐 Inner Product: Projection Matrix"
+title: "📐 Inner Product: Projection Matrix, Least Sqaure Method"
 excerpt: "💡 Concept & Insight of Inner Product"
-permalink: "/math/linear-algebra/inner-product"
+permalink: "/linear-algebra/inner-product"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
@@ -64,5 +64,16 @@ P = \frac{bb^T}{b^Tb}
 $$
 
 분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 `Matrix` 라는 단어를 붙이게 되었다. 이러한 `Projection Matrix`는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다. 
+
+### `🖍️ Least Square Method`
+
+$$
+Measurement = Ax + n
+$$
+
+$(a - \hat{x}•b)^T$
+를 에러 벡터 $e$로 치환하면 내적•정사영을 `Least Square Method` (최소 자승법)으로 해석할 수도 있다. 예를 들어 5차원의 공간에서 2차원의 공간으로 `span`하는 행렬 $A$(`[5x2]`, `full column rank`) 그리고 5차원 공간에서 정의되는 벡터 $b$가 있다고 가정해보자. 현재 상황은 $C(A)$와 벡터 $b$ 사이의 해가 존재하지 않는 상태, 즉 모델의 예측값과 실제 정답이 일치하지 않는다는 것이다. 비록 해가 없지만 예측값을 그래도 최대한 정답에 가깝게 위치 시켜보자는 취지에서 나온 것이 바로 `최소 자승법`이다. 최소자승법은 $||e||$를 모델의 예측과 정답 사이 오차로 정의하는데, 이 때 $L_2$의 제곱근 연산을 피하기 위해서 $||e||^2$을 최적화 한다. 오차의 제곱을 최소화한다는 동작 방식에 맞게 `Least Square` 라는 이름을 갖게 되었다.  
+한편, 이 오차를 최대한 줄이는 방법은 무엇일까?? $C(A)$ 상에서 정의되는 벡터 $b\hat{x}$와 에러 벡터 $e$ 사이의 내적(두 벡터가 수직)값이 0일 때 벡터 $e$의 길이가 최소 된다는 점을 이용해 미지수 $\hat{x}$를 찾고 최적화 식에 넣어 오차 제곱이 최소가 되는 계수를 구해주면 된다.
+
 
 마지막으로 `Dot Product`, `Scalar Product` , `Inner Product`는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 `Dot Product`란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 `Dot` 이라는 단어를 사용하게 되었다. 한편, `Scalar Product` 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 `Scalar Product`라고 명명했다. 마지막으로 `Inner Product`는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 `Dot Product`  , `Scalar Product` 보다 더 일반적인 개념으로 볼 수 있겠다.

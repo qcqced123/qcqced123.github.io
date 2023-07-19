@@ -1,6 +1,6 @@
 ---
 title: "📈🔢 Linear Algebra"
-permalink: /math/linear-algebra/
+permalink: /linear-algebra/
 layout: category
 author_profile: false
 taxonomy: Linear Algebra
