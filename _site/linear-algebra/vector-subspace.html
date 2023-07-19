@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device - AI/Business Study Log</title>
-<meta name="description" content="Pytorch Error: Wrong CUDA Device Number">
+<!-- begin _includes/seo.html --><title>🔢 Vector Space: Column Space, Basis, Rank, Null Space - AI/Business Study Log</title>
+<meta name="description" content="💡 Concept of main sub-space">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device">
-<meta property="og:url" content="http://localhost:4000/framework-library/cuda-num/">
+<meta property="og:title" content="🔢 Vector Space: Column Space, Basis, Rank, Null Space">
+<meta property="og:url" content="http://localhost:4000/linear-algebra/vector-subspace">
 
 
-  <meta property="og:description" content="Pytorch Error: Wrong CUDA Device Number">
-
-
-
+  <meta property="og:description" content="💡 Concept of main sub-space">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-11T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-11T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-07-19T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-07-10T13:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/framework-library/cuda-num/">
+
+<link rel="canonical" href="http://localhost:4000/linear-algebra/vector-subspace">
 
 
 
@@ -380,161 +380,19 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device">
-    <meta itemprop="description" content="Pytorch Error: Wrong CUDA Device Number">
-    <meta itemprop="datePublished" content="2023-07-11T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-11T13:00:00+09:00">
+    <meta itemprop="headline" content="🔢 Vector Space: Column Space, Basis, Rank, Null Space">
+    <meta itemprop="description" content="💡 Concept of main sub-space">
+    <meta itemprop="datePublished" content="2023-07-19T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-07-10T13:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/framework-library/cuda-num/" class="u-url" itemprop="url">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device
+            <a href="http://localhost:4000/linear-algebra/vector-subspace" class="u-url" itemprop="url">🔢 Vector Space: Column Space, Basis, Rank, Null Space
 </a>
           </h1>
           
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
-
-        </header>
-      
-
-      <section class="page__content e-content" itemprop="text">
-        
-          <aside class="sidebar__right sticky">
-            <nav class="toc">
-              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#-pytorch-잘못된-cuda-장치-번호-사용-문제">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</a></li></ul>
-
-            </nav>
-          </aside>
-        
-        <h3 id="-pytorch-잘못된-cuda-장치-번호-사용-문제"><code class="language-plaintext highlighter-rouge">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s">'cuda:0'</span><span class="p">)</span> 
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">pretrained model</code>, <code class="language-plaintext highlighter-rouge">weight</code>를 <code class="language-plaintext highlighter-rouge">load</code>하거나 혹은 훈련 루프를 <code class="language-plaintext highlighter-rouge">resume</code> 을 위해 <code class="language-plaintext highlighter-rouge">torch.load()</code> 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 <code class="language-plaintext highlighter-rouge">GPU</code> 에 할당하려는 모델이 사전 훈련때 할당 되었던 <code class="language-plaintext highlighter-rouge">GPU</code> 번호와 현재 할당하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호가 서로 상이하기 때문이다. 따라서 <code class="language-plaintext highlighter-rouge">torch.load</code>의 <code class="language-plaintext highlighter-rouge">map_location</code>인자에 현재 자신이 사용하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호를 입력해주자.</p>
-
-        
-      </section>
-
-      <footer class="page__meta">
-        
-        
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/tags/#cuda" class="page__taxonomy-item p-category" rel="tag">CUDA</a><span class="sep">, </span>
-    
-      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a>
-    
-    </span>
-  </p>
-
-
-
-
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/categories/#framework-library" class="page__taxonomy-item p-category" rel="tag">Framework & Library</a>
-    
-    </span>
-  </p>
-
-
-        
-
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-10">July 10, 2023</time></p>
-
-      </footer>
-
-      <section class="page__share">
-  
-    <h4 class="page__share-title">Share on</h4>
-  
-
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%96%A5%EF%B8%8F+RuntimeError%3A+Attempting+to+deserialize+object+on+CUDA+device+2+but+torch.cuda.device_count%28%29+is+1.+Please+use+torch.load+with+map_location+to+map+your+storages+to+an+existing+device%20http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
-
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
-</section>
-
-
-      
-  <nav class="pagination">
-    
-      <a href="/framework-library/backward-nan/" class="pagination--pager" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output
-">Previous</a>
-    
-    
-      <a href="/framework-library/dataloader-collatefn" class="pagination--pager" title="🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
-">Next</a>
-    
-  </nav>
-
-    </div>
-
-    
-  </article>
-
-  
-  
-    <div class="page__related">
-      <h2 class="page__related-title">You may also enjoy</h2>
-      <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/linear-algebra/vector-subspace" rel="permalink">🔢 Vector Space: Column Space, Basis, Rank, Null Space
-</a>
-      
-    </h2>
-    
 
   <p class="page__meta">
     
@@ -555,11 +413,166 @@
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">💡 Concept of main sub-space
-</p>
-  </article>
-</div>
+        </header>
+      
 
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#-column-space">🔢 Column Space</a></li><li><a href="#-basis">🍖 Basis</a></li><li><a href="#-standard-basis">🦴 Standard Basis</a></li><li><a href="#-rank">🧮 Rank</a></li><li><a href="#-null-space">👌 Null Space</a></li><li><a href="#-left-null-space">🫲 Left Null Space</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="-column-space"><code class="language-plaintext highlighter-rouge">🔢 Column Space</code></h3>
+
+\[C(A) = Range(A)\]
+
+<p>열벡터가 <code class="language-plaintext highlighter-rouge">span</code>하는 공간을 의미한다. <code class="language-plaintext highlighter-rouge">span</code> 이란, 벡터의 집합에 의해 생성된 모든 <code class="language-plaintext highlighter-rouge">linear combination</code>의 결과로 생성할 수 있는 부분 공간을 말한다. 따라서 <code class="language-plaintext highlighter-rouge">column space</code> 는 열벡터의 <code class="language-plaintext highlighter-rouge">linear combination</code> 결과로 생성할 수 있는 <code class="language-plaintext highlighter-rouge">vector space</code>의 부분 공간을 말한다.</p>
+<h3 id="-basis"><code class="language-plaintext highlighter-rouge">🍖 Basis</code></h3>
+<figure class="half">
+  <a href="https://twlab.tistory.com/24"><img src="/assets/images/linear_independent.png" title="Linear Independent" /></a>
+  <a href="https://twlab.tistory.com/24"><img src="/assets/images/linear_dependent.png" title="Linear Independent" /></a>
+</figure>
+<p>기저에 대해 알기 위해서는 먼저 <code class="language-plaintext highlighter-rouge">linear independent(선형 독립)</code>의 의미를 알아야 한다. 선형독립이란, 왼쪽 그림처럼 서로 다른 벡터들이 관련성 없이 독립적으로 존재하는 상태를 말한다. 따라서 서로 다른 두 벡터가 선형 독립이라면 한 벡터의 선형조합으로 다른 벡터를 표현할 수 없다. 반대로 선형 종속 상태면 오른쪽 그림처럼 벡터를 다른 벡터의 선형조합으로 표현 가능하다.</p>
+
+<p>이제 기저에 대해 알아보자. 기저란 선형 독립이면서 벡터 공간을 <code class="language-plaintext highlighter-rouge">span</code> 하는 벡터 집합을 말한다. 다시 말해, 공간 또는 차원을 표현하는데 필요한 요소들의 집합이라고 볼 수 있다. 예를 들어 2차원 공간을 표현하고 싶다면 서로 선형 독립인 벡터 2개가 필요하다. 오른쪽 그림처럼 벡터 2개가 존재해도 서로 종속 관계라면 표현(span)할 수 있는 공간은 1차원의 직선이 되기 때문이다. 정리하면, $N$차원 공간의 기저란 선형 독립이면서 벡터 공간을 <code class="language-plaintext highlighter-rouge">span</code>하는 벡터가 $N$개 있는 상태다. 추가로, $N$차원 공간의 기저는<code class="language-plaintext highlighter-rouge">NxN</code> 크기의 <code class="language-plaintext highlighter-rouge">Invertable</code>한 행렬과 동치를 이룬다. 뒤에서 더 자세히 다루겠지만 역행렬은 좌표평면 상에서 <code class="language-plaintext highlighter-rouge">reverse linear combination</code> 의 역할을 하기 때문이다.<br />
+한편 기저는 유일하지 않다. 위에서 언급한 $N$차원 기저의 필요충분조건을 만족하는 모든 벡터 집합은 모두 기저가 될 수 있다.</p>
+
+<h3 id="-standard-basis"><code class="language-plaintext highlighter-rouge">🦴 Standard Basis</code></h3>
+
+\[I= 
+   \begin{pmatrix} 
+   1 &amp; 0 &amp; 0  \\
+   0 &amp; 1 &amp; 0  \\
+   0 &amp; 0 &amp; 1  \\
+   \end{pmatrix}\]
+
+<p>표준 기저란, 기저가 표현하는 차원의 축이 우리가 흔히 아는 <code class="language-plaintext highlighter-rouge">x축, y축, z축</code> 이 되는 기저 벡터를 말한다. 수학적으로는 주대각성분의 값이 모두 1인 대각행렬 $D$, 즉 단위 행렬 $I$가 기저일 때 우리는 표준 기저라고 정의한다.</p>
+
+<h3 id="-rank"><code class="language-plaintext highlighter-rouge">🧮 Rank</code></h3>
+
+<p align="center">
+<img src="/assets/images/column_space.png" alt="Column Space Image" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em><a href="https://www.researchgate.net/figure/Example-of-a-projection-of-a-matrix-3-2-on-the-column-space_fig2_220103928">Column Space Image</a></em></strong>
+</p>
+
+<p>행렬에서 <code class="language-plaintext highlighter-rouge">independent</code>한 <code class="language-plaintext highlighter-rouge">column</code>의 개수를 의미하며, 기하학적으로는 <code class="language-plaintext highlighter-rouge">column space</code>가 실제 <code class="language-plaintext highlighter-rouge">span</code>하는 공간의 차원을 말한다. <code class="language-plaintext highlighter-rouge">Rank Theorem</code> 에 의해, 행렬 $A$ column vector는 행렬 $A^T$의 row vector와 같다. 따라서 column rank와 row rank 값 역시 항상 동일하다. 행렬 $A$의 랭크는 $rank(A)$로 표기한다.</p>
+
+<p>행렬의 랭크는 행렬의 생김새에 따라 부르는 명칭이 조금씩 바뀐다. 예를 들어 열벡터가 모두 선형 독립이면서 크기가 <code class="language-plaintext highlighter-rouge">10x3</code> 인 행렬 $C$가 있다고 가정해보자. 모든 열벡터가 선형 독립이기 때문에 우리는 행렬 $C$의 랭크가 3이라는 것을 알 수 있다. 이 때 행렬 $C$를  <code class="language-plaintext highlighter-rouge">full-column rank</code> 라고 부른다. 그리고 행벡터의 랭크 역시 랭크 정리 이론에 의해 3이 될 것이다. 이번에는 행렬 $C$의 열벡터 랭크가 2라고 가정해보자. 우리는 이 때 행렬 $C$를 <code class="language-plaintext highlighter-rouge">rank-deficient</code>로 정의한다. 만약 행렬 $C$의 열벡터가 모두 선형독립이고 그 크기가 <code class="language-plaintext highlighter-rouge">10x10</code>이라면 뭐라고 부를까?? 이 때는 열벡터, 행벡터 모두 랭크가 10이 되기 때문에 <code class="language-plaintext highlighter-rouge">full-rank</code> 라고 부른다.</p>
+
+<p>정리하면 행렬의 랭크란, 행렬의 행의 크기 M 그리고 열의 크기 N 중에서 더 작은값보다 같거나 작으면서 <code class="language-plaintext highlighter-rouge">independent</code>한 <code class="language-plaintext highlighter-rouge">column</code>의 개수라는 의미를 내포한 개념이라고 볼 수 있겠다.</p>
+
+<p>추가로, column vector와 row vector를 순서대로 곱하면 항상 $Rank = 1$인 행렬 $A$가 만들어진다는 것이다. 그렇게 만들어진 행렬의 원소가 두 벡터의 <code class="language-plaintext highlighter-rouge">linear combination</code>  으로 구성된 것이라서 당연한 소리라고 생각할 수 있지만, 이것은 선형대수학에서 매우 중요한 성질이 된다. 뒤집어서 보면 어떤 행렬의 $Rank=1$이라는 것은 그 행렬이 어떤 다른 행렬의 기본 단위 요소가 된다는 의미이기 때문이다. 어떤 행렬의 랭크가 4라는 것은 랭크 1짜리 행렬 4개의 조합이라고 생각해볼 수 있다.</p>
+
+<h3 id="-null-space"><code class="language-plaintext highlighter-rouge">👌 Null Space</code></h3>
+
+\[Ax=0\]
+
+<p>위 수식을 만족하는 벡터 $x$의 집합을 말한다. 다시 말해, 선형 변환 $A$(크기가 MxN인 행렬)를 통해 0이 되는 벡터 집합 $x$가 바로 <code class="language-plaintext highlighter-rouge">null space(영공간)</code>이다. 영공간은 선형변환 $A$의 랭크와 무관하며 선형변환 A의 열차원인 $R^N$상에 존재하는 공간이다. 그래서 $Ax=0$을 행렬과 벡터의 내적으로 해석하면 영공간은 선형변환 $A$의 row space와 수직이다라는 사실을 알 수 있다.</p>
+
+\[N_A = dim(Null(A)) - rank(A)\]
+
+<p>한편, 영공간이 <code class="language-plaintext highlighter-rouge">span</code> 하는 공간의 차원과 션형변환 $A$의 랭크를 더하면 션형변환 $A$의 열차원을 알 수 있다. 수식으로 표현하면 다음과 같다.</p>
+
+<h3 id="-left-null-space"><code class="language-plaintext highlighter-rouge">🫲 Left Null Space</code></h3>
+
+\[A^Tx=0\]
+
+<p>선형변환 $A$의 크기가 MxN일 때, $A$의 좌 영공간은 $A$의 모든 열들에 대해 선형 조합으로 0 벡터(영벡터)가 되는 모든 벡터 집합 $x$의 공간을 <code class="language-plaintext highlighter-rouge">좌영공간</code>이라고 한다. $A$의 열벡터에 대한 영공간이라는 것이 포인트가 된다. 따라서 좌영공간은 선형변환 $A$의 전치행렬인 $A^T$의 영공간을 구하는 것과 같으며, 선형변환 $A$의 column space와 수직하게 된다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#basis" class="page__taxonomy-item p-category" rel="tag">basis</a><span class="sep">, </span>
+    
+      <a href="/tags/#column-space" class="page__taxonomy-item p-category" rel="tag">column space</a><span class="sep">, </span>
+    
+      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
+    
+      <a href="/tags/#linear-independent" class="page__taxonomy-item p-category" rel="tag">linear independent</a><span class="sep">, </span>
+    
+      <a href="/tags/#null-space" class="page__taxonomy-item p-category" rel="tag">null space</a><span class="sep">, </span>
+    
+      <a href="/tags/#rank" class="page__taxonomy-item p-category" rel="tag">rank</a><span class="sep">, </span>
+    
+      <a href="/tags/#vector-space" class="page__taxonomy-item p-category" rel="tag">vector space</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-09">July 9, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%94%A2%C2%A0Vector+Space%3A+Column+Space%2C+Basis%2C+Rank%2C+Null+Space%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fvector-subspace" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fvector-subspace" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fvector-subspace" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/framework-library/mismatch-embedding" class="pagination--pager" title="🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
         
           
 
@@ -688,6 +701,50 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Optimizer can’t backward loss
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/dataloader-collatefn" rel="permalink">🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Dataloader get non-equal size of tensor
 </p>
   </article>
 </div>

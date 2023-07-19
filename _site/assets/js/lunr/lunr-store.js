@@ -46,4 +46,10 @@ var store = [{
         "tags": ["Pytorch","Dimension Mismatch","nn.Embedding","CUDA","Error Handling"],
         "url": "/framework-library/mismatch-embedding",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔢 Vector Space: Column Space, Basis, Rank, Null Space",
+        "excerpt":"🔢 Column Space \\[C(A) = Range(A)\\] 열벡터가 span하는 공간을 의미한다. span 이란, 벡터의 집합에 의해 생성된 모든 linear combination의 결과로 생성할 수 있는 부분 공간을 말한다. 따라서 column space 는 열벡터의 linear combination 결과로 생성할 수 있는 vector space의 부분 공간을 말한다. 🍖 Basis 기저에 대해 알기 위해서는 먼저 linear...","categories": ["Linear Algebra"],
+        "tags": ["Linear Algebra","linear independent","vector space","rank","column space","null space","basis"],
+        "url": "/linear-algebra/vector-subspace",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
