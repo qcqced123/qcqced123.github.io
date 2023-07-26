@@ -1,4 +1,432 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-07-26T23:09:45+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale</title><link href="http://localhost:4000/cv/vit" rel="alternate" type="text/html" title="🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale" /><published>2023-07-26T00:00:00+09:00</published><updated>2023-07-27T02:00:00+09:00</updated><id>http://localhost:4000/cv/ViT</id><content type="html" xml:base="http://localhost:4000/cv/vit"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale - AI/Business Study Log</title>
+<meta name="description" content="ViT Official Papaer Review with Pytorch Implementation">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale">
+<meta property="og:url" content="http://localhost:4000/cv/vit">
+
+
+  <meta property="og:description" content="ViT Official Papaer Review with Pytorch Implementation">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-07-26T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-07-27T02:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/cv/vit">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Algorithm</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/calculus/">    Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale">
+    <meta itemprop="description" content="ViT Official Papaer Review with Pytorch Implementation">
+    <meta itemprop="datePublished" content="2023-07-26T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-07-27T02:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/cv/vit" class="u-url" itemprop="url">🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale
+</a>
+          </h1>
+          
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          24 minute read
+        
+      </span>
+    
+  </p>
+
+
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#scalability-in-vit">🧠 Scalability in ViT</a></li><li><a href="#modeling">🌟 Modeling</a><ul><li><a href="#linear-projection-of-flattened-patches">🔬 Linear Projection of Flattened Patches</a></li><li><a href="#positional-embedding">🔢 Positional Embedding</a></li><li><a href="#-multi-head-attention">👩‍👩‍👧‍👦 Multi-Head Attention</a></li><li><a href="#️-mlp">🗳️ MLP</a></li><li><a href="#-vision-encoder-layer">📘 Vision Encoder Layer</a></li><li><a href="#-visionencoder">📚 VisionEncoder</a></li><li><a href="#-visiontransformer">🤖 VisionTransformer</a></li></ul></li><li><a href="#insight-from-experiment">🔬 Insight from Experiment</a><ul><li><a href="#insight-1-vit의-scalability-증명">💡 Insight 1. ViT의 Scalability 증명</a></li><li><a href="#insight-2-pure-self-attention은-좋은-이미지-피처를-추출하기에-충분하다">💡 Insight 2. Pure Self-Attention은 좋은 이미지 피처를 추출하기에 충분하다</a></li><li><a href="#insight-3-bottom2general-information-top2specific-information">💡 Insight 3. Bottom2General Information, Top2Specific Information</a></li><li><a href="#insight-4-vit는-cls-pooling-사용하는게-효율적">💡 Insight 4. ViT는 CLS Pooling 사용하는게 효율적</a></li><li><a href="#insight-5-vit는-absolute-1d-position-embedding-사용하는게-가장-효율적">💡 Insight 5. ViT는 Absolute 1D-Position Embedding 사용하는게 가장 효율적</a></li></ul></li><li><a href="#️conclusion">🧑‍⚖️ Conclusion</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p>시작하기 앞서, 본 논문 리뷰를 수월하게 읽으려면 <code class="language-plaintext highlighter-rouge">Transformer</code> 에 대한 선이해가 필수적이다. 아직 <code class="language-plaintext highlighter-rouge">Transformer</code> 에 대해서 잘 모른다면 필자가 작성한 포스트를 읽고 오길 권장한다. 또한 본문 내용을 작성하면서 참고한 논문과 여러 포스트의 링크를 맨 밑 하단에 첨부했으니 참고 바란다. 시간이 없으신 분들은 중간의 코드 구현부를 생략하고 <code class="language-plaintext highlighter-rouge">Insight</code> 부터 읽기를 권장한다.</p>
 
@@ -583,391 +1011,369 @@
 
 <p>마지막으로 <code class="language-plaintext highlighter-rouge">Self-Attention</code> 자체의 <code class="language-plaintext highlighter-rouge">Computational Overhead</code>가 너무 심해 고해상도의 이미지를 적절히 다루기 힘들다. 위에서도 언급했지만 이미지의 사이즈가 <code class="language-plaintext highlighter-rouge">512x512</code>만 되어도 이미 패치의 개수가 <code class="language-plaintext highlighter-rouge">1024</code>가 된다. 사이즈가 커질수록 시퀀스 길이 역시 기하급수적으로 커지는데다가 <code class="language-plaintext highlighter-rouge">Self-Attention</code> 는 쿼리와 키 행렬을 내적 (자기 자신과 곱이라 볼 수 있음) 하기 때문에 <code class="language-plaintext highlighter-rouge">Computational Overhead</code>가 $N^2$이 된다.</p>
 
-<p>필자는 <code class="language-plaintext highlighter-rouge">ViT</code>를 절반의 성공이라고 평하고 싶다. 본래 <code class="language-plaintext highlighter-rouge">ViT</code>의 설계 목적은 비전 분야의 <code class="language-plaintext highlighter-rouge">Conv</code>에 대한 의존을 탈피하면서, 퓨어한 <code class="language-plaintext highlighter-rouge">Self-Attention</code>을 도입해 <code class="language-plaintext highlighter-rouge">Scalabilty</code> 를 이식하는 것이었다. <code class="language-plaintext highlighter-rouge">Self-Attention</code>을 도입하는데는 성공했지만, 여전히 다룰 수 있는 이미지 사이즈나 Task에는 한계가 분명하며 결정적으로 <code class="language-plaintext highlighter-rouge">Self-Supervised Learning</code> 방식을 도입하지 못했다. <code class="language-plaintext highlighter-rouge">Scalabilty</code> 라는 단어의 의미를 생각하면, 방금 말한 부분에서까지 확장성이 있어야 설계 의도에 부합하는 결과라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Computer Vision" /><category term="Computer Vision" /><category term="Vision Transformer" /><category term="Transformer" /><category term="ViT" /><summary type="html"><![CDATA[ViT Official Papaer Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🔢 Vector Space: Column Space, Basis, Rank, Null Space</title><link href="http://localhost:4000/linear-algebra/vector-subspace" rel="alternate" type="text/html" title="🔢 Vector Space: Column Space, Basis, Rank, Null Space" /><published>2023-07-19T00:00:00+09:00</published><updated>2023-07-10T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/vector_space</id><content type="html" xml:base="http://localhost:4000/linear-algebra/vector-subspace"><![CDATA[<h3 id="-column-space"><code class="language-plaintext highlighter-rouge">🔢 Column Space</code></h3>
+<p>필자는 <code class="language-plaintext highlighter-rouge">ViT</code>를 절반의 성공이라고 평하고 싶다. 본래 <code class="language-plaintext highlighter-rouge">ViT</code>의 설계 목적은 비전 분야의 <code class="language-plaintext highlighter-rouge">Conv</code>에 대한 의존을 탈피하면서, 퓨어한 <code class="language-plaintext highlighter-rouge">Self-Attention</code>을 도입해 <code class="language-plaintext highlighter-rouge">Scalabilty</code> 를 이식하는 것이었다. <code class="language-plaintext highlighter-rouge">Self-Attention</code>을 도입하는데는 성공했지만, 여전히 다룰 수 있는 이미지 사이즈나 Task에는 한계가 분명하며 결정적으로 <code class="language-plaintext highlighter-rouge">Self-Supervised Learning</code> 방식을 도입하지 못했다. <code class="language-plaintext highlighter-rouge">Scalabilty</code> 라는 단어의 의미를 생각하면, 방금 말한 부분에서까지 확장성이 있어야 설계 의도에 부합하는 결과라고 생각한다.</p>
 
-\[C(A) = Range(A)\]
+        
+      </section>
 
-<p>열벡터가 <code class="language-plaintext highlighter-rouge">span</code>하는 공간을 의미한다. <code class="language-plaintext highlighter-rouge">span</code> 이란, 벡터의 집합에 의해 생성된 모든 <code class="language-plaintext highlighter-rouge">linear combination</code>의 결과로 생성할 수 있는 부분 공간을 말한다. 따라서 <code class="language-plaintext highlighter-rouge">column space</code> 는 열벡터의 <code class="language-plaintext highlighter-rouge">linear combination</code> 결과로 생성할 수 있는 <code class="language-plaintext highlighter-rouge">vector space</code>의 부분 공간을 말한다.</p>
-<h3 id="-basis"><code class="language-plaintext highlighter-rouge">🍖 Basis</code></h3>
-<figure class="half">
-  <a href="https://twlab.tistory.com/24"><img src="/assets/images/linear_independent.png" title="Linear Independent" /></a>
-  <a href="https://twlab.tistory.com/24"><img src="/assets/images/linear_dependent.png" title="Linear Independent" /></a>
-</figure>
-<p>기저에 대해 알기 위해서는 먼저 <code class="language-plaintext highlighter-rouge">linear independent(선형 독립)</code>의 의미를 알아야 한다. 선형독립이란, 왼쪽 그림처럼 서로 다른 벡터들이 관련성 없이 독립적으로 존재하는 상태를 말한다. 따라서 서로 다른 두 벡터가 선형 독립이라면 한 벡터의 선형조합으로 다른 벡터를 표현할 수 없다. 반대로 선형 종속 상태면 오른쪽 그림처럼 벡터를 다른 벡터의 선형조합으로 표현 가능하다.</p>
+      <footer class="page__meta">
+        
+        
+  
 
-<p>이제 기저에 대해 알아보자. 기저란 선형 독립이면서 벡터 공간을 <code class="language-plaintext highlighter-rouge">span</code> 하는 벡터 집합을 말한다. 다시 말해, 공간 또는 차원을 표현하는데 필요한 요소들의 집합이라고 볼 수 있다. 예를 들어 2차원 공간을 표현하고 싶다면 서로 선형 독립인 벡터 2개가 필요하다. 오른쪽 그림처럼 벡터 2개가 존재해도 서로 종속 관계라면 표현(span)할 수 있는 공간은 1차원의 직선이 되기 때문이다. 정리하면, $N$차원 공간의 기저란 선형 독립이면서 벡터 공간을 <code class="language-plaintext highlighter-rouge">span</code>하는 벡터가 $N$개 있는 상태다. 추가로, $N$차원 공간의 기저는<code class="language-plaintext highlighter-rouge">NxN</code> 크기의 <code class="language-plaintext highlighter-rouge">Invertable</code>한 행렬과 동치를 이룬다. 뒤에서 더 자세히 다루겠지만 역행렬은 좌표평면 상에서 <code class="language-plaintext highlighter-rouge">reverse linear combination</code> 의 역할을 하기 때문이다.<br />
-한편 기저는 유일하지 않다. 위에서 언급한 $N$차원 기저의 필요충분조건을 만족하는 모든 벡터 집합은 모두 기저가 될 수 있다.</p>
 
-<h3 id="-standard-basis"><code class="language-plaintext highlighter-rouge">🦴 Standard Basis</code></h3>
+  
 
-\[I= 
-   \begin{pmatrix} 
-   1 &amp; 0 &amp; 0  \\
-   0 &amp; 1 &amp; 0  \\
-   0 &amp; 0 &amp; 1  \\
-   \end{pmatrix}\]
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a><span class="sep">, </span>
+    
+      <a href="/tags/#transformer" class="page__taxonomy-item p-category" rel="tag">Transformer</a><span class="sep">, </span>
+    
+      <a href="/tags/#vision-transformer" class="page__taxonomy-item p-category" rel="tag">Vision Transformer</a><span class="sep">, </span>
+    
+      <a href="/tags/#vit" class="page__taxonomy-item p-category" rel="tag">ViT</a>
+    
+    </span>
+  </p>
 
-<p>표준 기저란, 기저가 표현하는 차원의 축이 우리가 흔히 아는 <code class="language-plaintext highlighter-rouge">x축, y축, z축</code> 이 되는 기저 벡터를 말한다. 수학적으로는 주대각성분의 값이 모두 1인 대각행렬 $D$, 즉 단위 행렬 $I$가 기저일 때 우리는 표준 기저라고 정의한다.</p>
 
-<h3 id="-rank"><code class="language-plaintext highlighter-rouge">🧮 Rank</code></h3>
 
-<p align="center">
-<img src="/assets/images/column_space.png" alt="Column Space Image" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
-<strong><em><a href="https://www.researchgate.net/figure/Example-of-a-projection-of-a-matrix-3-2-on-the-column-space_fig2_220103928">Column Space Image</a></em></strong>
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-26">July 26, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%8C%86%C2%A0%5BViT%5D+An+Image+Is+Worth+16x16+Words%3A+Transformers+For+Image+Recognition+At+Scale%20http%3A%2F%2Flocalhost%3A4000%2Fcv%2Fvit" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fcv%2Fvit" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fcv%2Fvit" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/linear-algebra/vector-subspace" class="pagination--pager" title="🔢 Vector Space: Column Space, Basis, Rank, Null Space
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/linear-algebra/vector-subspace" rel="permalink">🔢 Vector Space: Column Space, Basis, Rank, Null Space
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">💡 Concept of main sub-space
 </p>
+  </article>
+</div>
 
-<p>행렬에서 <code class="language-plaintext highlighter-rouge">independent</code>한 <code class="language-plaintext highlighter-rouge">column</code>의 개수를 의미하며, 기하학적으로는 <code class="language-plaintext highlighter-rouge">column space</code>가 실제 <code class="language-plaintext highlighter-rouge">span</code>하는 공간의 차원을 말한다. <code class="language-plaintext highlighter-rouge">Rank Theorem</code> 에 의해, 행렬 $A$ column vector는 행렬 $A^T$의 row vector와 같다. 따라서 column rank와 row rank 값 역시 항상 동일하다. 행렬 $A$의 랭크는 $rank(A)$로 표기한다.</p>
-
-<p>행렬의 랭크는 행렬의 생김새에 따라 부르는 명칭이 조금씩 바뀐다. 예를 들어 열벡터가 모두 선형 독립이면서 크기가 <code class="language-plaintext highlighter-rouge">10x3</code> 인 행렬 $C$가 있다고 가정해보자. 모든 열벡터가 선형 독립이기 때문에 우리는 행렬 $C$의 랭크가 3이라는 것을 알 수 있다. 이 때 행렬 $C$를  <code class="language-plaintext highlighter-rouge">full-column rank</code> 라고 부른다. 그리고 행벡터의 랭크 역시 랭크 정리 이론에 의해 3이 될 것이다. 이번에는 행렬 $C$의 열벡터 랭크가 2라고 가정해보자. 우리는 이 때 행렬 $C$를 <code class="language-plaintext highlighter-rouge">rank-deficient</code>로 정의한다. 만약 행렬 $C$의 열벡터가 모두 선형독립이고 그 크기가 <code class="language-plaintext highlighter-rouge">10x10</code>이라면 뭐라고 부를까?? 이 때는 열벡터, 행벡터 모두 랭크가 10이 되기 때문에 <code class="language-plaintext highlighter-rouge">full-rank</code> 라고 부른다.</p>
-
-<p>정리하면 행렬의 랭크란, 행렬의 행의 크기 M 그리고 열의 크기 N 중에서 더 작은값보다 같거나 작으면서 <code class="language-plaintext highlighter-rouge">independent</code>한 <code class="language-plaintext highlighter-rouge">column</code>의 개수라는 의미를 내포한 개념이라고 볼 수 있겠다.</p>
-
-<p>추가로, column vector와 row vector를 순서대로 곱하면 항상 $Rank = 1$인 행렬 $A$가 만들어진다는 것이다. 그렇게 만들어진 행렬의 원소가 두 벡터의 <code class="language-plaintext highlighter-rouge">linear combination</code>  으로 구성된 것이라서 당연한 소리라고 생각할 수 있지만, 이것은 선형대수학에서 매우 중요한 성질이 된다. 뒤집어서 보면 어떤 행렬의 $Rank=1$이라는 것은 그 행렬이 어떤 다른 행렬의 기본 단위 요소가 된다는 의미이기 때문이다. 어떤 행렬의 랭크가 4라는 것은 랭크 1짜리 행렬 4개의 조합이라고 생각해볼 수 있다.</p>
-
-<h3 id="-null-space"><code class="language-plaintext highlighter-rouge">👌 Null Space</code></h3>
-
-\[Ax=0\]
-
-<p>위 수식을 만족하는 벡터 $x$의 집합을 말한다. 다시 말해, 선형 변환 $A$(크기가 MxN인 행렬)를 통해 0이 되는 벡터 집합 $x$가 바로 <code class="language-plaintext highlighter-rouge">null space(영공간)</code>이다. 영공간은 선형변환 $A$의 랭크와 무관하며 선형변환 A의 열차원인 $R^N$상에 존재하는 공간이다. 그래서 $Ax=0$을 행렬과 벡터의 내적으로 해석하면 영공간은 선형변환 $A$의 row space와 수직이다라는 사실을 알 수 있다.</p>
-
-\[N_A = dim(Null(A)) - rank(A)\]
-
-<p>한편, 영공간이 <code class="language-plaintext highlighter-rouge">span</code> 하는 공간의 차원과 션형변환 $A$의 랭크를 더하면 션형변환 $A$의 열차원을 알 수 있다. 수식으로 표현하면 다음과 같다.</p>
-
-<h3 id="-left-null-space"><code class="language-plaintext highlighter-rouge">🫲 Left Null Space</code></h3>
-
-\[A^Tx=0\]
-
-<p>선형변환 $A$의 크기가 MxN일 때, $A$의 좌 영공간은 $A$의 모든 열들에 대해 선형 조합으로 0 벡터(영벡터)가 되는 모든 벡터 집합 $x$의 공간을 <code class="language-plaintext highlighter-rouge">좌영공간</code>이라고 한다. $A$의 열벡터에 대한 영공간이라는 것이 포인트가 된다. 따라서 좌영공간은 선형변환 $A$의 전치행렬인 $A^T$의 영공간을 구하는 것과 같으며, 선형변환 $A$의 column space와 수직하게 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Linear Algebra" /><category term="Linear Algebra" /><category term="linear independent" /><category term="vector space" /><category term="rank" /><category term="column space" /><category term="null space" /><category term="basis" /><summary type="html"><![CDATA[💡 Concept of main sub-space]]></summary></entry><entry><title type="html">🎲 RuntimeError: CUDA error: device-side assert triggered</title><link href="http://localhost:4000/framework-library/mismatch-dimension" rel="alternate" type="text/html" title="🎲 RuntimeError: CUDA error: device-side assert triggered" /><published>2023-07-17T00:00:00+09:00</published><updated>2023-07-18T07:00:00+09:00</updated><id>http://localhost:4000/framework-library/dim_mismatch</id><content type="html" xml:base="http://localhost:4000/framework-library/mismatch-dimension"><![CDATA[<h3 id="-사전에-정의-입출력-차원--실제-입출력-차원"><code class="language-plaintext highlighter-rouge">😵 사전에 정의 입출력 차원 ≠ 실제 입출력 차원</code></h3>
-
-<p>다양한 원인이 있다고 알려져 있는 에러지만, 필자의 경우 위 에러는 사전에 정의한 데이터의 입출력 차원과 실제 입출력 데이터 차원이 서로 상이할 때 발생했다. 하지만 원인을 확실히 특정하고 싶다면 아래 예시 코드를 먼저 추가한 뒤, 다시 한 번 에러 로그를 확인해보길 권장한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'CUDA_LAUNCH_BLOCKING'</span><span class="p">]</span> <span class="o">=</span> <span class="s">"1"</span>
-<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"CUDA_VISIBLE_DEVICES"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"0"</span>
-</code></pre></div></div>
-<p>예시 코드처럼 환경변수를 추가하면 에러가 어느 부분에서 발생했는지 로그가 좀 더 구체적으로 나온다. 거의 대부분이 입출력 차원 문제일테니 귀찮으면 바로 차원을 수정하도록 하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Dimension Mismatch" /><category term="CUDA" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Mis-match between pre-defined dimension and input dimension]]></summary></entry><entry><title type="html">🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)</title><link href="http://localhost:4000/framework-library/mismatch-embedding" rel="alternate" type="text/html" title="🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)" /><published>2023-07-17T00:00:00+09:00</published><updated>2023-07-18T02:00:00+09:00</updated><id>http://localhost:4000/framework-library/embedding_mismatch</id><content type="html" xml:base="http://localhost:4000/framework-library/mismatch-embedding"><![CDATA[<h3 id="-nnembedding-차원--실제-데이터-입력-차원"><code class="language-plaintext highlighter-rouge">😵 nn.Embedding 차원 ≠ 실제 데이터 입력 차원</code></h3>
-<p><code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에서 정의한 입출력 차원과 실제 데이터의 차원이 다른 경우에 발생하는 에러다. 다양한 상황에서 마주할 수 있는 에러지만, 필자의 경우 <code class="language-plaintext highlighter-rouge">Huggingface</code>에서 불러온<code class="language-plaintext highlighter-rouge">pretrained tokenizer</code>에 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용할 때, 토큰을 추가했다는 사실을 잊고 <code class="language-plaintext highlighter-rouge">nn.Embedding</code> 에 정의한 입출력 차원을 변경하지 않아서 발생하는 경우가 많았다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoTokenizer</span><span class="p">,</span> <span class="n">AutoConfig</span><span class="p">,</span> <span class="n">AutoModel</span>
-
-<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
-    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+        
+          
 
 
-<span class="k">def</span> <span class="nf">add_markdown_token</span><span class="p">(</span><span class="n">cfg</span><span class="p">:</span> <span class="n">sCFG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="s">"""
-    Add MarkDown token to pretrained tokenizer ('[MD]')
-    Args:
-        cfg: CFG, needed to load tokenizer from Huggingface AutoTokenizer
-    """</span>
-    <span class="n">markdown_token</span> <span class="o">=</span> <span class="s">'[MD]'</span>
-    <span class="n">special_tokens_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s">'additional_special_tokens'</span><span class="p">:</span> <span class="p">[</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">markdown_token</span><span class="si">}</span><span class="s">'</span><span class="p">]}</span>
-    <span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">add_special_tokens</span><span class="p">(</span><span class="n">special_tokens_dict</span><span class="p">)</span>
-    <span class="n">markdown_token_id</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">markdown_token</span><span class="si">}</span><span class="s">'</span><span class="p">,</span> <span class="n">add_special_tokens</span><span class="o">=</span><span class="bp">False</span><span class="p">)[</span><span class="s">'input_ids'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">,</span> <span class="s">'markdown_token'</span><span class="p">,</span> <span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">markdown_token</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-    <span class="nb">setattr</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">,</span> <span class="s">'markdown_token_id'</span><span class="p">,</span> <span class="n">markdown_token_id</span><span class="p">)</span>
-    <span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">cfg</span><span class="p">.</span><span class="n">checkpoint_dir</span><span class="si">}</span><span class="s">/tokenizer/'</span><span class="p">)</span>
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/mismatch-embedding" rel="permalink">🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
 
 
-<span class="n">add_markdown_token</span><span class="p">(</span><span class="n">CFG</span><span class="p">)</span>
-<span class="n">CFG</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">resize_token_embeddings</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tokenizer</span><span class="p">))</span>
-</code></pre></div></div>
-<p>구글링해보니 해결하는 방법은 다양한 것 같은데, <code class="language-plaintext highlighter-rouge">torch.nn.Embedding</code>에 정의된 입출력 차원을 실제 데이터 차원과 맞춰주면 간단하게 해결된다. 필자처럼 <code class="language-plaintext highlighter-rouge">special token</code> 을 추가해 사용하다 해당 에러가 발생하는 상황이라면 새로운 토큰이 추가된 토크나이저의 길이를 다시 측정한 뒤 값을 <code class="language-plaintext highlighter-rouge">resize_token_embeddings</code> 메서드에 전달해 <code class="language-plaintext highlighter-rouge">nn.Embedding</code>을 업데이트 해주면 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Dimension Mismatch" /><category term="nn.Embedding" /><category term="CUDA" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Mis-match between pre-defined dimension and input dimension]]></summary></entry><entry><title type="html">🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output</title><link href="http://localhost:4000/framework-library/backward-nan/" rel="alternate" type="text/html" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output" /><published>2023-07-11T00:00:00+09:00</published><updated>2023-07-11T13:00:00+09:00</updated><id>http://localhost:4000/framework-library/backward-nan</id><content type="html" xml:base="http://localhost:4000/framework-library/backward-nan/"><![CDATA[<h3 id="-pytorch-backward-과정에서-nan-발생하는-문제"><code class="language-plaintext highlighter-rouge">🔥 Pytorch Backward 과정에서 NaN 발생하는 문제</code></h3>
-
-<p>커스텀으로 모델, 여러 풀링, 매트릭, 손실 함수들을 정의하면서부터 제일 많이 마주하게 되는 에러다. 진심으로 요즘 <code class="language-plaintext highlighter-rouge">CUDA OOM</code> 보다 훨씬 자주 보는 것 같다. 해당 에러는 <code class="language-plaintext highlighter-rouge">LogSoftmax</code> 레이어에 전달된 입력값 중에서 <code class="language-plaintext highlighter-rouge">nan</code>, <code class="language-plaintext highlighter-rouge">inf</code> 가 포함되어 연산을 진행할 수 없다는 것을 의미한다. 딥러닝 실험을 진행하면서 가장 해결하기 까다로운 녀석으로 원인을 특정하기 힘들기 때문이다. 원인을 잡기 어려운 이유는 바로 우리가 지금 하고 있는게 <code class="language-plaintext highlighter-rouge">‘딥러닝’</code> 이라서 그렇다. 위 에러는 대부분 연산자가 우리가 의도하지 않은 동작을 하는 케이스 때문인데, 하나 하나 디버깅하기에는 너무나도 연산자가 많다. 또한 딥러닝은 입출력으로 엄청나게 큰 사이즈의 행렬을 사용한다. 우리가 <code class="language-plaintext highlighter-rouge">nan</code>, <code class="language-plaintext highlighter-rouge">inf</code> 값 존재에 대해서 인지하기 쉽지 않다.</p>
-
-<p><strong><u>위 에러는 필자의 경험상 대부분 커스텀으로 정의한 레이어에서 발생하는 경우가 많았으며 특히</u></strong> <code class="language-plaintext highlighter-rouge">분수</code>, <code class="language-plaintext highlighter-rouge">각도</code>, <code class="language-plaintext highlighter-rouge">제곱근</code>, <code class="language-plaintext highlighter-rouge">지수</code> <strong><u>개념을 사용하는 연산자가 대부분 원인이었다.</u></strong> 예를 들어 코사인 유사도를 구하는 과정에서 연산 대상 벡터값에  <code class="language-plaintext highlighter-rouge">zero-value</code> 가 포함된 경우 분모가 0이 되기 때문에 연산 정의가 되지 않아 <code class="language-plaintext highlighter-rouge">nan</code> 을 반환해 위와 같은 에러가 발생하는 경우가 있다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">check_nan</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-    <span class="s">""" Check if there is NaN in tensor """</span>
-    <span class="n">checker</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="k">if</span> <span class="bp">True</span> <span class="ow">in</span> <span class="n">torch</span><span class="p">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-        <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="k">return</span> <span class="n">checker</span>
-
-<span class="k">def</span> <span class="nf">zero_filtering</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="s">"""
-    Add eps value for zero embedding, because competition metric is cosine similarity
-    Cosine Similarity will be returned NaN, when input value has zero, like as torch.clamp()
-    """</span>
-    <span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
-    <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="n">eps</span><span class="p">]</span> <span class="o">=</span> <span class="n">eps</span>
-    <span class="k">return</span> <span class="n">x</span>
-
-<span class="k">def</span> <span class="nf">nan_filtering</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">:</span>
-    <span class="s">"""
-    Change eps value for NaN Embedding, because competition metric is cosine similarity
-    Cosine Similarity will be returned NaN
-    """</span>
-    <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">nan_to_num</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span>
-
-<span class="k">class</span> <span class="nc">CLIPGEMPooling</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    Generalized Mean Pooling for Natural Language Processing
-    This class version of GEMPooling for CLIP, Transfer from NLP Task Code
-    ViT don't use attention mask, because input image shape will be same
-
-    Mean Pooling &lt;= GEMPooling &lt;= Max Pooling
-    Because of doing exponent to each token embeddings, GEMPooling is like as weight to more activation token
-
-    In original paper, they use p=3, but in this class, we use p=4 because torch doesn't support pow calculation
-    for negative value tensor, only for non-negative value in odd number exponent
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auto_cfg</span><span class="p">:</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">CLIPGEMPooling</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-
-    <span class="o">@</span><span class="nb">staticmethod</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="s">"""
-        last_hidden_state.size: [batch_size, patches_sequence, hidden_size]
-        1) Pow last_hidden_state with p and then take a averaging
-        2) pow sum_embeddings with 1/p
-        """</span>
-        <span class="n">p_embeddings</span> <span class="o">=</span> <span class="n">zero_filtering</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nb">pow</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
-        <span class="c1"># Check NaN value in Embedding after applying torch.pow
-</span>        <span class="k">if</span> <span class="n">check_nan</span><span class="p">(</span><span class="n">p_embeddings</span><span class="p">):</span>
-            <span class="n">p_embeddings</span> <span class="o">=</span> <span class="n">nan_filtering</span><span class="p">(</span><span class="n">p_embeddings</span><span class="p">)</span>
-        <span class="n">sum_embeddings</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">p_embeddings</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-
-        <span class="n">gem_embeddings</span> <span class="o">=</span> <span class="n">zero_filtering</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nb">pow</span><span class="p">(</span><span class="n">sum_embeddings</span><span class="p">,</span> <span class="mf">1.</span> <span class="o">/</span> <span class="n">p</span><span class="p">))</span>
-        <span class="c1"># Check NaN value in Embedding after applying torch.pow
-</span>        <span class="k">if</span> <span class="n">check_nan</span><span class="p">(</span><span class="n">gem_embeddings</span><span class="p">):</span>
-            <span class="n">gem_embeddings</span> <span class="o">=</span> <span class="n">nan_filtering</span><span class="p">(</span><span class="n">gem_embeddings</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">gem_embeddings</span>
-
-<span class="k">class</span> <span class="nc">CLIPMultipleNegativeRankingLoss</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    Multiple Negative Ranking Loss for CLIP Model
-    main concept is same as original one, but append suitable for other type of model (Not Sentence-Transformers)
-    if you set more batch size, you can get more negative pairs for each anchor &amp; positive pair
-    Args:
-        scale: output of similarity function is multiplied by this value =&gt; I don't know why this is needed
-        similarity_fct: standard of distance metrics, default cosine similarity
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">reduction</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">20.0</span><span class="p">,</span> <span class="n">similarity_fct</span><span class="o">=</span><span class="n">cos_sim</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">similarity_fct</span> <span class="o">=</span> <span class="n">similarity_fct</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">reduction</span> <span class="o">=</span> <span class="n">reduction</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">cross_entropy_loss</span> <span class="o">=</span> <span class="n">CrossEntropyLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">reduction</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">embeddings_a</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">embeddings_b</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">similarity_scores</span> <span class="o">=</span> <span class="n">zero_filtering</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">similarity_fct</span><span class="p">(</span><span class="n">embeddings_a</span><span class="p">,</span> <span class="n">embeddings_b</span><span class="p">))</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">scale</span>
-        <span class="k">if</span> <span class="n">check_nan</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">):</span>
-            <span class="s">""" Check NaN Value in similarity_scores """</span>
-            <span class="n">similarity_scores</span> <span class="o">=</span> <span class="n">nan_filtering</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">)</span>
-
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span>
-            <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">)),</span>
-            <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">,</span>
-            <span class="n">device</span><span class="o">=</span><span class="n">similarity_scores</span><span class="p">.</span><span class="n">device</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">cross_entropy_loss</span><span class="p">(</span><span class="n">similarity_scores</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>필자의 경우, 두 개의 입력 행렬에 각각  <code class="language-plaintext highlighter-rouge">sqrt()</code> 를 적용하고 두 행렬의 개별 원소 사이의 코사인 유사도를 구해야 했던 적이 있다. <code class="language-plaintext highlighter-rouge">sqrt</code> <strong><u>과정에서 너무 작은 값들이 입력으로 들어가</u></strong> <code class="language-plaintext highlighter-rouge">underflow</code> <strong><u>가 발생해 행렬에</u></strong> <code class="language-plaintext highlighter-rouge">zero-value</code> <strong><u>가 생겼고, 이를 모른채 코사인 유사도를 구하다가 한참을 위 에러와 싸웠던 적이 있다.</u></strong> 심지어 연산속도 향상을 위해서 <strong><code class="language-plaintext highlighter-rouge">torch.autocast</code></strong> 클래스의 <code class="language-plaintext highlighter-rouge">grad_scaler(float32 to float16)</code> 까지 적용하고 있었다.</p>
-
-<h3 id="️-내가-해결한-방법"><code class="language-plaintext highlighter-rouge">🖍️ 내가 해결한 방법</code></h3>
-<p>이 글을 읽는 당신이 만약 <code class="language-plaintext highlighter-rouge">sqrt</code> 혹은 <code class="language-plaintext highlighter-rouge">pow</code>를 활용하는 경우, <code class="language-plaintext highlighter-rouge">underflow</code> 방지를 위해서 <del>위 예시 코드처럼 꼭 적당한 입실론 값을 연산 전후에 필요에 따라 더해줄 것을 권장한다.</del> 입실론 값의 설정은 현재 자신이 사용하고 있는 부동 소수점 정확도에 맞게 설정해주면 될 것 같다. <code class="language-plaintext highlighter-rouge">float32</code> 를 사용하는 경우에는 대부분 <code class="language-plaintext highlighter-rouge">1e-6</code> 을 많이 사용하는 것 같다. 필자도 정확히 어떤 값이 적당한지 아직 잘 모르겠다… 그리고 딥러닝 실험하면서 <code class="language-plaintext highlighter-rouge">overflow</code> 때문에 <code class="language-plaintext highlighter-rouge">inf</code> 이 발생했던 적은 없었다.</p>
-
-<p>입실론 값을 문제가 되는 연산 전에 일괄적으로 더할 경우, 아무리 작은 값이라도 연산 종류에 따라서 결과가 크게 왜곡되는 경우가 발생한다. 따라서 연산을 먼저 적용한 뒤 결과에 <code class="language-plaintext highlighter-rouge">NaN</code>, <code class="language-plaintext highlighter-rouge">Inf</code>, <code class="language-plaintext highlighter-rouge">Zero</code>가 발생하는지 체크하고, 발생한 부분에 한해서 입실론 값을 더해주는 커스텀 <code class="language-plaintext highlighter-rouge">function</code>울 정의해 문제를 해결했다.<br />
-(위의 코드 예제 <code class="language-plaintext highlighter-rouge">check_nan</code>, <code class="language-plaintext highlighter-rouge">zero_filtering</code>, <code class="language-plaintext highlighter-rouge">nan_filtering</code>)</p>
-
-<p>한편 <code class="language-plaintext highlighter-rouge">torch.autograd.set_detect_anomaly(True)</code> 를 훈련 루프 초반에 정의해주면, <code class="language-plaintext highlighter-rouge">NaN</code>이 발생하는 즉시 실행이 멈추고 <code class="language-plaintext highlighter-rouge">NaN</code>을 유발한 라인을 출력해준다. 꼭 활용해보자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Logsoftmax" /><category term="NaN" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Backward NaN values]]></summary></entry><entry><title type="html">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device</title><link href="http://localhost:4000/framework-library/cuda-num/" rel="alternate" type="text/html" title="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device" /><published>2023-07-11T00:00:00+09:00</published><updated>2023-07-11T13:00:00+09:00</updated><id>http://localhost:4000/framework-library/cuda-device-num</id><content type="html" xml:base="http://localhost:4000/framework-library/cuda-num/"><![CDATA[<h3 id="-pytorch-잘못된-cuda-장치-번호-사용-문제"><code class="language-plaintext highlighter-rouge">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s">'cuda:0'</span><span class="p">)</span> 
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">pretrained model</code>, <code class="language-plaintext highlighter-rouge">weight</code>를 <code class="language-plaintext highlighter-rouge">load</code>하거나 혹은 훈련 루프를 <code class="language-plaintext highlighter-rouge">resume</code> 을 위해 <code class="language-plaintext highlighter-rouge">torch.load()</code> 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 <code class="language-plaintext highlighter-rouge">GPU</code> 에 할당하려는 모델이 사전 훈련때 할당 되었던 <code class="language-plaintext highlighter-rouge">GPU</code> 번호와 현재 할당하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호가 서로 상이하기 때문이다. 따라서 <code class="language-plaintext highlighter-rouge">torch.load</code>의 <code class="language-plaintext highlighter-rouge">map_location</code>인자에 현재 자신이 사용하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호를 입력해주자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="CUDA" /><summary type="html"><![CDATA[Pytorch Error: Wrong CUDA Device Number]]></summary></entry><entry><title type="html">🪢 assert len(optimizer_state[“found_inf_per_device”]) &amp;gt; 0, “No inf checks were recorded for this optimizer.” AssertionError: No inf checks were recorded for this optimizer.</title><link href="http://localhost:4000/framework-library/inf-per-device" rel="alternate" type="text/html" title="🪢 assert len(optimizer_state[“found_inf_per_device”]) &amp;gt; 0, “No inf checks were recorded for this optimizer.” AssertionError: No inf checks were recorded for this optimizer." /><published>2023-07-11T00:00:00+09:00</published><updated>2023-07-11T13:00:00+09:00</updated><id>http://localhost:4000/framework-library/found_inf_per_device</id><content type="html" xml:base="http://localhost:4000/framework-library/inf-per-device"><![CDATA[<h3 id="-optimizer가-손실값을-제대로-backward-할-수-없는-문제"><code class="language-plaintext highlighter-rouge">🤔 Optimizer가 손실값을 제대로 Backward 할 수 없는 문제</code></h3>
-
-<p>텐서의 계산 그래프가 중간에 끊어져 옵티마이저가 그라디언트를 제대로 <code class="language-plaintext highlighter-rouge">Backward</code> 하지 못해 발생하는 에러다. 공부를 시작하고 정말 처음 마주하는 에러라서 정말 많이 당황했다. 래퍼런스 자료 역시 거의 없어서 해결하는데 애를 먹었던  쓰라린 사연이 있는 에러다. 이 글을 읽는 독자라면 대부분 텐서의 계산 그래프가 중간에 끊어진다는 것이 무슨 의미일지 이해하시지 못할거라 생각한다. 그게 정상이다. 필자 역시 알고 싶지 않았으나 욕심만 많고 멍청한 탓에… 알게 되었다. 아래 예시 코드를 먼저 살펴보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Before Append
-</span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">position_list</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">feature</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">feature</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">.</span><span class="n">last_hidden_state</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">batch_size</span><span class="p">):</span>
-            <span class="s">""" Apply Pooling &amp; Fully Connected Layer for each unique cell in batch (one notebook_id) """</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">position_list</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
-                <span class="n">src</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">position_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
-                <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pooling</span><span class="p">(</span><span class="n">feature</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:].</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># maybe don't need mask
-</span>                <span class="n">logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
-                <span class="n">pred</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">logit</span><span class="p">)</span>  
-            <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pred</span>
-
-<span class="c1"># After Append
-</span><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">position_list</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">feature</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">feature</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">.</span><span class="n">last_hidden_state</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([],</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">batch_size</span><span class="p">):</span>
-            <span class="s">""" Apply Pooling &amp; Fully Connected Layer for each unique cell in batch (one notebook_id) """</span>
-            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">position_list</span><span class="p">[</span><span class="n">i</span><span class="p">])):</span>
-                <span class="n">src</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">position_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">idx</span><span class="p">]</span>
-                <span class="n">embedding</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">pooling</span><span class="p">(</span><span class="n">feature</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span><span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:].</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>  <span class="c1"># maybe don't need mask
-</span>                <span class="n">logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
-                <span class="n">pred</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pred</span><span class="p">,</span> <span class="n">logit</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">pred</span>
-</code></pre></div></div>
-
-<p>다음 코드는 필자가 공부를 위해 만든 모델 클래스의 <code class="language-plaintext highlighter-rouge">forward</code> 메서드이다. 전자는 이번 포스팅의 주제인 에러를 일으킨 주인공이고, 후자는 에러를 수정한 이후 정상적으로 작동하는 코드다. 독자 여러분들도 두 코드에 어떤 차이가 있는지 스스로 질문을 던지면서 읽어주시길 바란다.</p>
-<p align="center">
-<img src="/assets/images/marginrankingloss.png" alt="Model Overview" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
-<em>Modeling Overview</em>
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Mis-match between pre-defined dimension and input dimension
 </p>
+  </article>
+</div>
 
-<p>위의 코드들은 <code class="language-plaintext highlighter-rouge">DeBERTa-V3-Large</code> 의 마지막 인코더 레이어가 반환하는 <code class="language-plaintext highlighter-rouge">last_hidden_state</code> 를 미리 설정한 서브 구간별로 나누고 개별적으로 <code class="language-plaintext highlighter-rouge">pooling &amp; fully connected layer</code> 에 통과시켜 로짓값으로 변환하기 위해 만들었다. 쉽게 말해 입력으로 토큰(단어) 384개 짜리 문장을 하나 넣었고, 모델은 384개의 개별 토큰에 대한 임베딩 값을 반환했는데 그것을 전부 이용하는 것이 아니라 예를 들어 <code class="language-plaintext highlighter-rouge">2번~4번</code> 토큰을 1번 구간, <code class="language-plaintext highlighter-rouge">6번~20번</code> 토큰을 2번 구간, <code class="language-plaintext highlighter-rouge">30번~50번</code> 토큰을 3번 구간 … <code class="language-plaintext highlighter-rouge">370번~380번</code> 토큰을 30번 구간으로 설정하고 구간 별로 따로 <code class="language-plaintext highlighter-rouge">pooling &amp; fully connected layer</code> 에 통과시켜 로짓을 구하는 것이다. 일반적이라면 1개의 문장에서 1개의 최종 로짓값이 도출되는 것이라면, 위 코드는 30개의 로짓값이 도출된다.</p>
+        
+          
 
-<h3 id="️-내가-해결한-방법"><code class="language-plaintext highlighter-rouge">🖍️ 내가 해결한 방법</code></h3>
 
-<p>코드 이해를 위한 설명은 마쳤으니 본격적으로 본 에러와 어떤 연관이 있는지 살펴보자. <code class="language-plaintext highlighter-rouge">Before</code> 코드는 <code class="language-plaintext highlighter-rouge">pred</code> 라는 리스트에 개별 구간에 대한 로짓값을 <code class="language-plaintext highlighter-rouge">append</code> 하고 마지막에 <code class="language-plaintext highlighter-rouge">torch.as_tensor</code>를 활용해 텐서로 변환하고 있다. 한편 후자는 <code class="language-plaintext highlighter-rouge">pred</code> 를 깡통 텐서로 선언한 뒤, <code class="language-plaintext highlighter-rouge">torch.cat</code>으로 모든 구간에 대한 로짓값을 하나의 텐서 구조체에 담고 있다.</p>
 
-<p>얼핏보면 크게 다른점이 없어 보인다. 하지만 전자는 텐서 구조체를 새로 정의 하면서 <code class="language-plaintext highlighter-rouge">torch.Tensor[[logit1], [logit2], ….]</code> 형태를 갖고 후자는 <code class="language-plaintext highlighter-rouge">torch.Tensor[logit1, logit2, …]</code> 형태를 갖는다. 서로 다른 텐서 구조체를 그대로 모델 객체의 <code class="language-plaintext highlighter-rouge">forward</code> 메서드 및 <code class="language-plaintext highlighter-rouge">loss function</code>에 통과시키고 오차 역전을 하면 어떤 일이 생기는지 지금부터 알아보자.</p>
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/mismatch-dimension" rel="permalink">🎲 RuntimeError: CUDA error: device-side assert triggered
+</a>
+      
+    </h2>
+    
 
-<p>전자의 경우는 도출된 손실함수의 미분값이 정의된 계산 그래프를 타고 역전될 수 없다. 이유는 전자의 <code class="language-plaintext highlighter-rouge">pred</code> 가 forward 메서드 내부에서 새로이 정의 되었기 때문이다. 후자 역시 마찬가지 아닌가 싶을 것이다. 후자의 <code class="language-plaintext highlighter-rouge">pred</code> 역시 <code class="language-plaintext highlighter-rouge">forward</code> 메서드 내부에서 정의된 것은 맞지만 <code class="language-plaintext highlighter-rouge">torch.cat</code>을 사용하면서 구간의 로짓값들 위에 새로이 차원을 덮어쓰는것이 아니게 된다. 이것이 매우 중요한 차이가 되는데, 후자와 같은 형태가 되는 경우, 손실값으로 부터 <code class="language-plaintext highlighter-rouge">Backward</code> 되는 미분값들이 곧바로 <code class="language-plaintext highlighter-rouge">forward</code> 과정에서 기록된 자신의 계산 그래프로 찾아 갈 수 있다. 한편 전자의 경우 새롭게 덮어 쓰여진 차원 때문에 미분값들이 자신의 계산 그래프로 찾아갈 수 없게 된다. 따라서 옵티마이저가 더 이상 <code class="language-plaintext highlighter-rouge">Backward</code> 를 수행할 수 없어 제목과 같은 에러를 반환하게 되는 것이다.</p>
+  <p class="page__meta">
+    
 
-<p>처음 이 에러를 마주했을 때는  <code class="language-plaintext highlighter-rouge">found_inf_per_device</code>, <code class="language-plaintext highlighter-rouge">No inf checks</code> 라는 키워드에 꽂혀 (특히 <code class="language-plaintext highlighter-rouge">inf</code>)  <code class="language-plaintext highlighter-rouge">&lt;RuntimeError: Function 'LogSoftmaxBackward0' returned nan values in its 0th output&gt;</code> 이것과 유사한 종류의 에러라 생각하고 열심히 연산 과정에 문제가 없는지, 어디서 NaN이 발생하는지, 학습률을 너무 크게 설정했는지 등을 검토하며 하루를 날렸었던 기억이 있다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="CUDA" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Optimizer can't backward loss]]></summary></entry><entry><title type="html">🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1</title><link href="http://localhost:4000/framework-library/dataloader-collatefn" rel="alternate" type="text/html" title="🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1" /><published>2023-07-11T00:00:00+09:00</published><updated>2023-07-12T13:00:00+09:00</updated><id>http://localhost:4000/framework-library/dataloader-collate</id><content type="html" xml:base="http://localhost:4000/framework-library/dataloader-collatefn"><![CDATA[<h3 id="-가변-길이의-텐서를-데이터로더에-전달하는-경우-"><code class="language-plaintext highlighter-rouge">📏 가변 길이의 텐서를 데이터로더에 전달하는 경우 </code></h3>
+    
 
-<p>커스텀 데이터 클래스와 데이터로더를 통해 반환되는 데이터 인스턴스의 텐서 크기가 일정하지 않아 발생하는 에러다. 특히 자연어 처리에서 자주 찾아 볼 수 있는데 데이터로더 객체 선언 시, 매개변수 옵션 중에 <code class="language-plaintext highlighter-rouge">collate_fn=collate</code> 를 추가해주면 해결 가능한 에러다. 이 때 매개변수 <code class="language-plaintext highlighter-rouge">collate_fn</code> 에 전달하는 값(메서드)은 사용자가 직접 정의해줘야 한다. 허깅페이스 라이브리러에 상황에 맞게 미리 제작된 <code class="language-plaintext highlighter-rouge">collate</code> 메서드를 지원해주고 있기 때문에 잘 이용하면 된다. 필자의 경우에는 커스텀으로 직접 정의한 메서드, 객체를 사용하고 있다.</p>
+    
+      
+      
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># 데이터 로더 예시
-</span><span class="n">loader_train</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
-            <span class="n">train_dataset</span><span class="p">,</span>
-            <span class="n">batch_size</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">batch_size</span><span class="p">,</span>
-            <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">worker_init_fn</span><span class="o">=</span><span class="n">seed_worker</span><span class="p">,</span>
-            <span class="n">collate_fn</span><span class="o">=</span><span class="n">MiniBatchCollate</span><span class="p">,</span>  <span class="c1"># 여기에 사용하려는 collate function 혹은 객체를 전달하자!!
-</span>            <span class="n">generator</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">,</span>
-            <span class="n">num_workers</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">num_workers</span><span class="p">,</span>
-            <span class="n">pin_memory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">drop_last</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-        <span class="p">)</span>
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
 
-<span class="c1"># collate 메서드 예시: 
-</span><span class="k">class</span> <span class="nc">MiniBatchCollate</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="s">"""
-    Collate class for torch.utils.data.DataLoader  
-    This class object to use variable data such as NLP text sequence
-    If you use static padding with AutoTokenizer, you don't need this class 
-    But if you use dynamic padding with AutoTokenizer, you must use this class object &amp; call
-    Args:
-        batch: data instance from torch.utils.data.DataSet
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">batch</span> <span class="o">=</span> <span class="n">batch</span>
 
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">],</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">position_list</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">batch</span>
-        <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">pad_sequence</span><span class="p">(</span>
-            <span class="n">labels</span><span class="p">,</span>
-            <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">padding_value</span><span class="o">=-</span><span class="mi">1</span>
-        <span class="p">)</span>
-        <span class="n">position_list</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">rnn</span><span class="p">.</span><span class="n">pad_sequence</span><span class="p">(</span>
-            <span class="n">position_list</span><span class="p">,</span>
-            <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-            <span class="n">padding_value</span><span class="o">=-</span><span class="mi">1</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">position_list</span>
-
-<span class="k">def</span> <span class="nf">collate</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
-    <span class="s">"""
-    slice input sequence by maximum length sequence in mini-batch, used for speed up training
-    if you want slice other variable such as label feature, you can add param on them
-    This Function should be used after DataLoader return mini-batch instance
-    Args:
-        inputs: list of dict, dict has keys of "input_ids", "attention_mask", "token_type_ids"    
-    """</span>
-    <span class="n">mask_len</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s">"attention_mask"</span><span class="p">].</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="nb">max</span><span class="p">())</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">inputs</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">inputs</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="n">k</span><span class="p">][:,</span> <span class="p">:</span><span class="n">mask_len</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">inputs</span>
-</code></pre></div></div>
-
-<p>일반적으로 <code class="language-plaintext highlighter-rouge">collate</code> 는 메서드로 구현해서 사용하지만, 위 코드처럼 객체로 구현하고 내부에 <code class="language-plaintext highlighter-rouge">__call__</code> 를 정의해 사용하는 방법도 있다. 필자 역시 단일 메서드 형태를 계속해서 사용하다가 최근 들어 에폭 한 번에 서로 다른 데이터 세트 및 모델을 훈련 시켜야 하는 상황을 마주한 이후 객체 형태로 다시 구현해 사용하고 있다.</p>
-
-<p>한편 예시 코드 가장 마지막 <code class="language-plaintext highlighter-rouge">collate</code> 메서드는 입력 시퀀스가 huggingface의 <code class="language-plaintext highlighter-rouge">AutoTokenizer.encode_plus</code> 를 이용해 사용자 지정 <code class="language-plaintext highlighter-rouge">max_len</code>까지 패딩을 마친 상태라는 가정하에 구현 되었다. 해당 메서드는 위에 발생한 에러를 해결하기 위함보다, 미니 배치에 속한 전체 데이터 중에서 최대 길이가 사용자 지정 <code class="language-plaintext highlighter-rouge">max_len</code>까지 미치지 못하는데 패딩이 된 경우에 사용하기 위해 만들었다. 불필요한 패딩을 <code class="language-plaintext highlighter-rouge">trucation</code> 하여 뉴럴 네트워크의 학습 속도를 높이기 위함이다. 해당 메서드는 포스팅의 제목에 달린 에러를 해결하는데 사용할 수는 없지만  <code class="language-plaintext highlighter-rouge">collate</code> 기능을 언급하는 김에 생각이나 같이 정리해봤다. 이 메서드는 <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code> 의 인자가 아니라, 메인 학습 루프 내부에 사용한다. 다시 말해, 데이터로더가 배치 인스턴스를 반환한 다음 사용하면 된다는 것이다. 패딩방식과 <code class="language-plaintext highlighter-rouge">collate</code> 기능에 대한 자세한 설명은 다른 포스팅에서 다루도록 하겠다.</p>
-
-<p>반면 <code class="language-plaintext highlighter-rouge">MiniBatchCollate</code> 객체는 <code class="language-plaintext highlighter-rouge">torch.utils.data.DataLoader</code> 의 <code class="language-plaintext highlighter-rouge">collate_fn</code> 인자에 전달하면 된다. 필자의 경우는 <code class="language-plaintext highlighter-rouge">Dynamic Padding</code> 기법을 사용하기 때문에 미니 배치 내부의 인스턴스들이 서로 다른 시퀀스 길이를 갖는 경우가 발생한다. 데이터로더는 미니 배치에 속하는 데이터의 길이가 통일되지 않으면 배치 단위로 데이터를 묶을 수 없게 된다. 따라서 미니 배치 단위의 길이 통일을 위해 <code class="language-plaintext highlighter-rouge">torch.nn.utils.rnn.pad_sequence</code> 메서드를 사용한다. 이 메서드는 입력한 미니 배치 데이터 중에서 가장 긴 시퀀스를 기준으로 모든 데이터 길이를 통일한다. <code class="language-plaintext highlighter-rouge">batch_first=True</code> 를 주목하자. 이 인자를 <code class="language-plaintext highlighter-rouge">False</code> 로 설정할 경우, 배치 차원이 맨 앞이 아니라 중간에 정의된다. 일반적으로는 배치 차원을 맨 앞에 두는 워크플로우를 사용하기 때문에 꼭 해당 인자를 <code class="language-plaintext highlighter-rouge">True</code> 로 설정하고 사용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="DataLoader" /><category term="collate_fn" /><category term="Dynamic Padding" /><category term="Padding" /><summary type="html"><![CDATA[Pytorch Error: Dataloader get non-equal size of tensor]]></summary></entry><entry><title type="html">📐 Inner Product: Projection Matrix, Least Sqaure Method</title><link href="http://localhost:4000/linear-algebra/inner-product" rel="alternate" type="text/html" title="📐 Inner Product: Projection Matrix, Least Sqaure Method" /><published>2023-07-10T00:00:00+09:00</published><updated>2023-07-11T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/Inner_Product%20copy</id><content type="html" xml:base="http://localhost:4000/linear-algebra/inner-product"><![CDATA[<h3 id="concept-of-inner-product"><code class="language-plaintext highlighter-rouge">💡 Concept of Inner Product</code></h3>
-
-\[a^Tb = ||a||•||b||cos\theta\]
-
-<p>내적은 <code class="language-plaintext highlighter-rouge">Inner Product</code>, <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code>로 불리며 두 벡터의 유사도, 즉 닮은 정도를 구하는데 사용되는 벡터•행렬 연산의 한 종류다. 두 벡터의 정사영과도 동일한 개념으로 사용된다. 위 수식의 우변에 주목해보자. 
-$||a||cos\theta$ 는 벡터 $a$를 벡터 $b$에 정사영 내린 크기로 해석할 수 있다. 한편 $||b||$ 는 벡터 $b$의 길이이므로, 결국 내적이란 한 벡터를 다른 벡터에 정사영 해준 결과와 벡터 크기의 곱이 된다.</p>
-
-<p align="center">
-<img src="/assets/images/inner_product.png" alt="Inner Product Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<strong><em><a href="https://wikidocs.net/22384">Inner Product Image</a></em></strong>
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Mis-match between pre-defined dimension and input dimension
 </p>
+  </article>
+</div>
 
-<p>내적을 기하학적으로 생각해보자. $\theta$는 두 벡터 사이의 끼인각이다. 그렇다면 끼인각과 내적의 크기 사이의 상관관계는 어떻게 될까?? 내적의 의미는 서로 같은 정도가 아니라 <code class="language-plaintext highlighter-rouge">“서로 닮은 정도”</code>라고 했다. 중학교 때 배웠던 닮음 개념을 떠올려보자. 닮음이란 유클리드 공간에서 모든 각을 보존하며 모든 거리를 일정한 비율로 확대 또는 축소시키는 아핀 변환이다. 다시 말해, 어떤 두 도형을 닮았다고 말하는데 절대적인 거리 혹은 길이가 같을 필요가 없다. 그래서 두 벡터의 닮은 정도를 파악하려면 우리는 벡터의 길이 대신 방향이라는 물리량에 주목해야 한다. 벡터는 직선으로 표현되기 때문에 두 벡터가 완전히 닮았다고 말하려면, 끼인각의 크기가 0이 되어야 한다. 따라서 끼인각의 크기가 작아질수록 두 벡터의 닮은 정도는 커지게 되고, $\theta=0$ 에서 내적값은 최대가 된다. 만약 $\theta=90$ 이라면 내적값은 어떻게 될까?? 삼각비 정의에 의해 $cos \theta = 0$ 이 될 것이다. 따라서 내적값은 0이 되고, 두 벡터는 서로 전혀 닮지 않았다고 판단할 수 있다. 한편 $\theta=180$ 일 때 내적값은 최소가 되고, 두 벡터는 음의 방향으로 닮은 상태를 갖는다.</p>
+        
+          
 
-\[N_a=\frac{a}{\sqrt{a^Ta}} = \frac{a}{||a||}\]
 
-<p>한편 내적을 벡터 정규화에도 사용할 수 있는데, 방법은 위 수식과 같다. 일반적으로 벡터를 정규화하는 방법은 벡터를 벡터의 크기로 나누면 된다고만 알고 있을 것이다. 하지만 벡터의 전치와 벡터와의 내적으로도 벡터의 크기를 구할 수 있기 때문에 (벡터의 전치와 벡터는 $cos\theta=0$이 되기 때문) 위 등식이 성립한다. 한편, 벡터 정규화 결과는 벡터의 길이가 1이 되기 때문에 <code class="language-plaintext highlighter-rouge">‘단위 벡터’</code> 라고 정의한다. 벡터의 길이가 1이라는 점을 이용하면, 단위 벡터에는 방향에 대한 물리량만 남아 있다는 사실을 알 수 있다. 그래서 우리가 어떤 벡터의 방향 정보를 얻고 싶을 때, 벡터의 정규화를 사용하면 간단하게 구할 수 있다.</p>
 
-\[\frac{b^Ta}{||b||} * \frac{b}{||b||} = \frac{b^Ta}{\sqrt{b^Tb}} * \frac{b}{\sqrt{b^Tb}} = \frac{b^Ta}{b^Tb}*b\]
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/inf-per-device" rel="permalink">🪢 assert len(optimizer_state[“found_inf_per_device”]) &gt; 0, “No inf checks were recorded for this optimizer.” AssertionError: No inf checks were recorded for this optimizer.
+</a>
+      
+    </h2>
+    
 
-<p>내적 공식과 벡터 정규화 공식을 함께 사용하면 벡터 $a$를 벡터 $b$에 정사영 내렸을 때 도출되는 벡터 또한 직접 구할 수 있다. 위 수식을 살펴보자. 각 변의 좌측 항은 내적 공식에 의해 
-$||a||\cos\theta$ 가 된다. 지금 우리가 구하고 싶은 것은 정사영 내린 벡터 자체인데, $||a||\cos\theta$ 은 크기에 대한 물리량만 담고 있을뿐 방향에 대한 정보가 담겨 있지 않다. 앞에서 언급했듯이, 벡터 정규화 결과는 해당 벡터의 방향에 대한 물리량을 의미한다. 따라서 우변에 벡터 $b$ 의 방향(정규화 결과)를 곱하게 되는 것이다.</p>
+  <p class="page__meta">
+    
 
-\[(a - \hat{x}•b)^T•\ b\hat{x} = 0 \\
-\hat{x} = \frac{b^Ta}{b^Tb} \\
-\hat{x}•b = \frac{b^Ta}{b^Tb}*b\]
+    
 
-<p>한편, 정사영 내린 벡터(벡터 
-$\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡터로 생각해도 쉽게 구할 수 있다. 스칼라를 미지수로 두고 정사영 내린 벡터를 $b•\hat{x}$라고 정의하면 우리는 벡터 $a$를 빗변, 정사영 내린 벡터를 밑변으로 하는 직각삼각형의 높이를 구할 수 있게 된다. 정사영 내린 벡터 $b•\hat{x}$에 마이너스 부호를 취해 반대 방향으로 뒤집어주면 우리는 직각삼각형의 높이를 밑변과 빗변의 합($a - b•\hat{x}$)으로 나타낼 수 있기 때문이다. 따라서 밑변과 높이의 끼인각이 수직이라는 점을 내적 공식에 적용해 우리는 다음 수식을 풀어내면 정사영 내린 벡터를 얻을 수 있다. 정사영 내린 벡터를 실제로는 <code class="language-plaintext highlighter-rouge">투영 벡터</code>라고 정의한다.</p>
+    
+      
+      
 
-<h3 id="-what-is-projection-matrix"><code class="language-plaintext highlighter-rouge">🔢 What is Projection Matrix</code></h3>
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
 
-<p>벡터 $a$와 벡터 $b$의 변화에 따른 투영 벡터 크기의 추이를 살펴보자. 벡터 $a$가 만약 2배 커진다면 $a$가 분자에만 있기 때문에 투영 벡터 역시 그대로 2배 증가할 것이다. 반면 벡터 $b$는 2배가 커져도 분자•분모 모두 동일하게 2개씩  $b$가 있기 때문에 이전과 변화가 없다. 따라서 투영 벡터의 크기는 전적으로 벡터 $a$에 의존적이다. 다시 말해, 벡터 $a$는 무언가 매개체에 의해 벡터 $b$로 정사영 되고 있으며 그 매개체를 우리는 <code class="language-plaintext highlighter-rouge">projection matrix</code> 라고 한다.</p>
 
-\[P = \frac{bb^T}{b^Tb}\]
-
-<p>분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 <code class="language-plaintext highlighter-rouge">Matrix</code> 라는 단어를 붙이게 되었다. 이러한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code>는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다.</p>
-
-<h3 id="️-least-square-method"><code class="language-plaintext highlighter-rouge">🖍️ Least Square Method</code></h3>
-
-\[Measurement = Ax + n\]
-
-<p>$(a - \hat{x}•b)^T$
-를 에러 벡터 $e$로 치환하면 내적•정사영을 <code class="language-plaintext highlighter-rouge">Least Square Method</code> (최소 자승법)으로 해석할 수도 있다. 예를 들어 5차원의 공간에서 2차원의 공간으로 <code class="language-plaintext highlighter-rouge">span</code>하는 행렬 $A$(<code class="language-plaintext highlighter-rouge">[5x2]</code>, <code class="language-plaintext highlighter-rouge">full column rank</code>) 그리고 5차원 공간에서 정의되는 벡터 $b$가 있다고 가정해보자. 현재 상황은 $C(A)$와 벡터 $b$ 사이의 해가 존재하지 않는 상태, 즉 모델의 예측값과 실제 정답이 일치하지 않는다는 것이다. 비록 해가 없지만 예측값을 그래도 최대한 정답에 가깝게 위치 시켜보자는 취지에서 나온 것이 바로 <code class="language-plaintext highlighter-rouge">최소 자승법</code>이다. 최소자승법은 $||e||$를 모델의 예측과 정답 사이 오차로 정의하는데, 이 때 $L_2$의 제곱근 연산을 피하기 위해서 $||e||^2$을 최적화 한다. 오차의 제곱을 최소화한다는 동작 방식에 맞게 <code class="language-plaintext highlighter-rouge">Least Square</code> 라는 이름을 갖게 되었다.<br />
-한편, 이 오차를 최대한 줄이는 방법은 무엇일까?? $C(A)$ 상에서 정의되는 벡터 $b\hat{x}$와 에러 벡터 $e$ 사이의 내적(두 벡터가 수직)값이 0일 때 벡터 $e$의 길이가 최소 된다는 점을 이용해 미지수 $\hat{x}$를 찾고 최적화 식에 넣어 오차 제곱이 최소가 되는 계수를 구해주면 된다.</p>
-
-<p>마지막으로 <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code> , <code class="language-plaintext highlighter-rouge">Inner Product</code>는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">Dot Product</code>란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Dot</code> 이라는 단어를 사용하게 되었다. 한편, <code class="language-plaintext highlighter-rouge">Scalar Product</code> 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Scalar Product</code>라고 명명했다. 마지막으로 <code class="language-plaintext highlighter-rouge">Inner Product</code>는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 <code class="language-plaintext highlighter-rouge">Dot Product</code>  , <code class="language-plaintext highlighter-rouge">Scalar Product</code> 보다 더 일반적인 개념으로 볼 수 있겠다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Linear Algebra" /><category term="Linear Algebra" /><category term="Inner Product" /><category term="Projection Matrix" /><category term="내적" /><category term="정사영" /><summary type="html"><![CDATA[💡 Concept & Insight of Inner Product]]></summary></entry><entry><title type="html">📏 Lp-Norm: Concept &amp;amp; Insight</title><link href="http://localhost:4000/linear-algebra/lp-norm" rel="alternate" type="text/html" title="📏 Lp-Norm: Concept &amp;amp; Insight" /><published>2023-07-04T00:00:00+09:00</published><updated>2023-07-05T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/Lp_Norm</id><content type="html" xml:base="http://localhost:4000/linear-algebra/lp-norm"><![CDATA[\[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
-
-<p><strong><code class="language-plaintext highlighter-rouge">Lp-Norm</code></strong>은 <code class="language-plaintext highlighter-rouge">Lebesgue</code>라는 프랑스 수학자에 의해 고안된 개념으로<strong>,</strong> 기계학습을 공부하는 사람이라면 지겹도록 듣는 <code class="language-plaintext highlighter-rouge">L2-Norm</code>, <code class="language-plaintext highlighter-rouge">L1-Norm</code>을 일반화 버전이라고 생각하면 된다. <strong><u>다시 말해, 벡터의 크기를 나타내는 표현식을 일반화한</u></strong> 것이 바로 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 이며 수식은 위와 같다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">p=1</code>이라고 가정하고 수식을 전개해보자. 
-$||x||_1 = (|x_1|^1 + |x_2|^1+ … + |x_n|^1)^{1/1}$이 된다. 우리가 아는 <code class="language-plaintext highlighter-rouge">L1-Norm</code> 의 수식과 동일하다.</p>
-
-<p>그렇다면 <code class="language-plaintext highlighter-rouge">p=2</code>일 때 수식을 살펴보자. 
-$||x||_2 = (|x_1|^2 + |x_2|^2+ … + |x_n|^2)^{1/2}$으로 전개 된다는 것을 알 수 있다. 역시 우리가 맨날 보는 <code class="language-plaintext highlighter-rouge">L2-Norm</code> 과 동일하다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">L1-Norm</code>은 맨허튼 거리, <code class="language-plaintext highlighter-rouge">L2-Norm</code> 은 유클리드 거리를 의미한다는 것은 익히 들어 봤을 것이다. 만약 $p=∞$라면, 수식은 어떻게 될까, 과연 어떤 의미를 갖고 있을까??</p>
-
-<p>이전과 똑같이 전개해보면
-\(||x||_∞ = (|x_1|^∞ + |x_2|^∞+ ... + |x_n|^∞)^{1/∞}\), 이렇게 식이 도출될 것이다. 이제 괄호 내부 원소들의 지수가 <code class="language-plaintext highlighter-rouge">무한대</code>라는 점에 주목해보자. 직관적으로 무한대 값들 사이의 덧셈, 곱셈의 결과는 <code class="language-plaintext highlighter-rouge">무한대</code> 라는 것을 알 수 있다. 그렇다면 우리는 위 수식에서 절대값이 가장 큰 $|x_i|$만 남겨도 역시 무한대 값을 얻을 수 있다. <strong><u>무한대는 미지수 개념에 가깝지 실제 실수 개념은 아니기 때문이다.</u></strong> 따라서 괄호 내부에는 $|x_i|^p$ 값만 남게 되고 괄호 밖의 $1/p$와 남은 연산을 해주면 결국 $|x_i|$만 남게 된다. 따라서 $||x||_∞ = max(|x_1|, \ |x_2|, \ … \ , |x_n|)$가 된다.</p>
-
-<p>이와 같은 성질 때문에 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 은 <code class="language-plaintext highlighter-rouge">Lp-Pooling</code> 으로도 해석할 수 있으며, 수식의 우변에  $1/n$을 곱해주면 <code class="language-plaintext highlighter-rouge">Generalized Mean Pooling</code> 이 된다는 사실을 알 수 있다. 결국 <code class="language-plaintext highlighter-rouge">Norm</code>과 <code class="language-plaintext highlighter-rouge">Pooling</code> 은 같은 개념이었던 것이다. 
-<strong>그래서 위에서 살펴본 $ L_∞ $ 역시 <code class="language-plaintext highlighter-rouge">Max Pooling</code> 이라 해석이 가능해진다.</strong></p>
-
-<p>여담으로 맨앞의 대문자 L은 <code class="language-plaintext highlighter-rouge">Lebesgue</code> 의 이름에서 본따왔다고 알려져 있다. 그리고 예전부터 $L_2$값을 수식으로 표현할 때 왜 짝대기 두개를 사용할까 항상 궁금했는데  $L_p$와 <code class="language-plaintext highlighter-rouge">일반 절대값</code>을 구분하기 위해 짝대기를 두 개 사용하게 되었다고 한다.</p>
-<p align="center">
-<img src="/assets/images/220px-Vector-p-Norms_qtl1.svg.png" alt="Lp-Norm Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<em>Lp-Norm</em>
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Optimizer can’t backward loss
 </p>
+  </article>
+</div>
 
-<p>위 자료는 
-$L_p$
-norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. <code class="language-plaintext highlighter-rouge">p=1</code> 일 때는 $L_1: |x| + |y| =1$가 되기 때문에 마름모 형태의 영역을 갖는다. 한편 <code class="language-plaintext highlighter-rouge">p=2</code> 일 때는 $L_2: x^2 + y^2 =1^2$가 되기 때문에 원의 영역을 갖는다. $p=∞$ 일 때는 $L_∞: max(|x_1|…|x_n|) = 1$ 이 되기 때문에 정사각형 형태의 영역을 갖게 될 것이다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Linear Algebra" /><category term="Linear Algebra" /><category term="Norm" /><category term="Pooling" /><summary type="html"><![CDATA[Concept of Lp-Norm & GeM Pool]]></summary></entry></feed>
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>
