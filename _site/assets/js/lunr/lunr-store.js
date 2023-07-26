@@ -55,7 +55,7 @@ var store = [{
       },{
         "title": "🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale",
         "excerpt":"🔭 Overview 시작하기 앞서, 본 논문 리뷰를 수월하게 읽으려면 Transformer 에 대한 선이해가 필수적이다. 아직 Transformer 에 대해서 잘 모른다면 필자가 작성한 포스트를 읽고 오길 권장한다. 또한 본문 내용을 작성하면서 참고한 논문과 여러 포스트의 링크를 맨 밑 하단에 첨부했으니 참고 바란다. 시간이 없으신 분들은 중간의 코드 구현부를 생략하고 Insight 부터 읽기를...","categories": ["Computer Vision"],
-        "tags": ["Computer Vision","Vision Transformer","Transformer","ViT"],
+        "tags": ["Computer Vision","Vision Transformer","ViT","Transformer","Self-Attention","Image Classification"],
         "url": "/cv/vit",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]
