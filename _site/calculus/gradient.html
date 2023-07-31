@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>📐 Inner Product: Projection Matrix, Least Sqaure Method - AI/Business Study Log</title>
-<meta name="description" content="💡 Concept &amp; Insight of Inner Product">
+<!-- begin _includes/seo.html --><title>📈 Gradient: Directional Derivative - AI/Business Study Log</title>
+<meta name="description" content="Proof of gradient direction with Total Derivative">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
-<meta property="og:url" content="http://localhost:4000/linear-algebra/inner-product">
+<meta property="og:title" content="📈 Gradient: Directional Derivative">
+<meta property="og:url" content="http://localhost:4000/calculus/gradient">
 
 
-  <meta property="og:description" content="💡 Concept &amp; Insight of Inner Product">
-
-
-
+  <meta property="og:description" content="Proof of gradient direction with Total Derivative">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-10T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-11T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-07-31T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-07-31T23:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/linear-algebra/inner-product">
+
+<link rel="canonical" href="http://localhost:4000/calculus/gradient">
 
 
 
@@ -380,206 +380,19 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
-    <meta itemprop="description" content="💡 Concept &amp; Insight of Inner Product">
-    <meta itemprop="datePublished" content="2023-07-10T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-11T13:00:00+09:00">
+    <meta itemprop="headline" content="📈 Gradient: Directional Derivative">
+    <meta itemprop="description" content="Proof of gradient direction with Total Derivative">
+    <meta itemprop="datePublished" content="2023-07-31T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-07-31T23:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/linear-algebra/inner-product" class="u-url" itemprop="url">📐 Inner Product: Projection Matrix, Least Sqaure Method
+            <a href="http://localhost:4000/calculus/gradient" class="u-url" itemprop="url">📈 Gradient: Directional Derivative
 </a>
           </h1>
           
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
-
-        </header>
-      
-
-      <section class="page__content e-content" itemprop="text">
-        
-          <aside class="sidebar__right sticky">
-            <nav class="toc">
-              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#concept-of-inner-product">💡 Concept of Inner Product</a></li><li><a href="#-what-is-projection-matrix">🔢 What is Projection Matrix</a></li><li><a href="#️-least-square-method">🖍️ Least Square Method</a></li></ul>
-
-            </nav>
-          </aside>
-        
-        <h3 id="concept-of-inner-product"><code class="language-plaintext highlighter-rouge">💡 Concept of Inner Product</code></h3>
-
-\[a^Tb = ||a||•||b||cos\theta\]
-
-<p>내적은 <code class="language-plaintext highlighter-rouge">Inner Product</code>, <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code>로 불리며 두 벡터의 유사도, 즉 닮은 정도를 구하는데 사용되는 벡터•행렬 연산의 한 종류다. 두 벡터의 정사영과도 동일한 개념으로 사용된다. 위 수식의 우변에 주목해보자. 
-$||a||cos\theta$ 는 벡터 $a$를 벡터 $b$에 정사영 내린 크기로 해석할 수 있다. 한편 $||b||$ 는 벡터 $b$의 길이이므로, 결국 내적이란 한 벡터를 다른 벡터에 정사영 해준 결과와 벡터 크기의 곱이 된다.</p>
-
-<p align="center">
-<img src="/assets/images/inner_product.png" alt="Inner Product Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<strong><em><a href="https://wikidocs.net/22384">Inner Product Image</a></em></strong>
-</p>
-
-<p>내적을 기하학적으로 생각해보자. $\theta$는 두 벡터 사이의 끼인각이다. 그렇다면 끼인각과 내적의 크기 사이의 상관관계는 어떻게 될까?? 내적의 의미는 서로 같은 정도가 아니라 <code class="language-plaintext highlighter-rouge">“서로 닮은 정도”</code>라고 했다. 중학교 때 배웠던 닮음 개념을 떠올려보자. 닮음이란 유클리드 공간에서 모든 각을 보존하며 모든 거리를 일정한 비율로 확대 또는 축소시키는 아핀 변환이다. 다시 말해, 어떤 두 도형을 닮았다고 말하는데 절대적인 거리 혹은 길이가 같을 필요가 없다. 그래서 두 벡터의 닮은 정도를 파악하려면 우리는 벡터의 길이 대신 방향이라는 물리량에 주목해야 한다. 벡터는 직선으로 표현되기 때문에 두 벡터가 완전히 닮았다고 말하려면, 끼인각의 크기가 0이 되어야 한다. 따라서 끼인각의 크기가 작아질수록 두 벡터의 닮은 정도는 커지게 되고, $\theta=0$ 에서 내적값은 최대가 된다. 만약 $\theta=90$ 이라면 내적값은 어떻게 될까?? 삼각비 정의에 의해 $cos \theta = 0$ 이 될 것이다. 따라서 내적값은 0이 되고, 두 벡터는 서로 전혀 닮지 않았다고 판단할 수 있다. 한편 $\theta=180$ 일 때 내적값은 최소가 되고, 두 벡터는 음의 방향으로 닮은 상태를 갖는다.</p>
-
-\[N_a=\frac{a}{\sqrt{a^Ta}} = \frac{a}{||a||}\]
-
-<p>한편 내적을 벡터 정규화에도 사용할 수 있는데, 방법은 위 수식과 같다. 일반적으로 벡터를 정규화하는 방법은 벡터를 벡터의 크기로 나누면 된다고만 알고 있을 것이다. 하지만 벡터의 전치와 벡터와의 내적으로도 벡터의 크기를 구할 수 있기 때문에 (벡터의 전치와 벡터는 $cos\theta=0$이 되기 때문) 위 등식이 성립한다. 한편, 벡터 정규화 결과는 벡터의 길이가 1이 되기 때문에 <code class="language-plaintext highlighter-rouge">‘단위 벡터’</code> 라고 정의한다. 벡터의 길이가 1이라는 점을 이용하면, 단위 벡터에는 방향에 대한 물리량만 남아 있다는 사실을 알 수 있다. 그래서 우리가 어떤 벡터의 방향 정보를 얻고 싶을 때, 벡터의 정규화를 사용하면 간단하게 구할 수 있다.</p>
-
-\[\frac{b^Ta}{||b||} * \frac{b}{||b||} = \frac{b^Ta}{\sqrt{b^Tb}} * \frac{b}{\sqrt{b^Tb}} = \frac{b^Ta}{b^Tb}*b\]
-
-<p>내적 공식과 벡터 정규화 공식을 함께 사용하면 벡터 $a$를 벡터 $b$에 정사영 내렸을 때 도출되는 벡터 또한 직접 구할 수 있다. 위 수식을 살펴보자. 각 변의 좌측 항은 내적 공식에 의해 
-$||a||\cos\theta$ 가 된다. 지금 우리가 구하고 싶은 것은 정사영 내린 벡터 자체인데, $||a||\cos\theta$ 은 크기에 대한 물리량만 담고 있을뿐 방향에 대한 정보가 담겨 있지 않다. 앞에서 언급했듯이, 벡터 정규화 결과는 해당 벡터의 방향에 대한 물리량을 의미한다. 따라서 우변에 벡터 $b$ 의 방향(정규화 결과)를 곱하게 되는 것이다.</p>
-
-\[(a - \hat{x}•b)^T•\ b\hat{x} = 0 \\
-\hat{x} = \frac{b^Ta}{b^Tb} \\
-\hat{x}•b = \frac{b^Ta}{b^Tb}*b\]
-
-<p>한편, 정사영 내린 벡터(벡터 
-$\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡터로 생각해도 쉽게 구할 수 있다. 스칼라를 미지수로 두고 정사영 내린 벡터를 $b•\hat{x}$라고 정의하면 우리는 벡터 $a$를 빗변, 정사영 내린 벡터를 밑변으로 하는 직각삼각형의 높이를 구할 수 있게 된다. 정사영 내린 벡터 $b•\hat{x}$에 마이너스 부호를 취해 반대 방향으로 뒤집어주면 우리는 직각삼각형의 높이를 밑변과 빗변의 합($a - b•\hat{x}$)으로 나타낼 수 있기 때문이다. 따라서 밑변과 높이의 끼인각이 수직이라는 점을 내적 공식에 적용해 우리는 다음 수식을 풀어내면 정사영 내린 벡터를 얻을 수 있다. 정사영 내린 벡터를 실제로는 <code class="language-plaintext highlighter-rouge">투영 벡터</code>라고 정의한다.</p>
-
-<h3 id="-what-is-projection-matrix"><code class="language-plaintext highlighter-rouge">🔢 What is Projection Matrix</code></h3>
-
-<p>벡터 $a$와 벡터 $b$의 변화에 따른 투영 벡터 크기의 추이를 살펴보자. 벡터 $a$가 만약 2배 커진다면 $a$가 분자에만 있기 때문에 투영 벡터 역시 그대로 2배 증가할 것이다. 반면 벡터 $b$는 2배가 커져도 분자•분모 모두 동일하게 2개씩  $b$가 있기 때문에 이전과 변화가 없다. 따라서 투영 벡터의 크기는 전적으로 벡터 $a$에 의존적이다. 다시 말해, 벡터 $a$는 무언가 매개체에 의해 벡터 $b$로 정사영 되고 있으며 그 매개체를 우리는 <code class="language-plaintext highlighter-rouge">projection matrix</code> 라고 한다.</p>
-
-\[P = \frac{bb^T}{b^Tb}\]
-
-<p>분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 <code class="language-plaintext highlighter-rouge">Matrix</code> 라는 단어를 붙이게 되었다. 이러한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code>는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다.</p>
-
-<h3 id="️-least-square-method"><code class="language-plaintext highlighter-rouge">🖍️ Least Square Method</code></h3>
-
-\[Measurement = Ax + n\]
-
-<p>$(a - \hat{x}•b)^T$
-를 에러 벡터 $e$로 치환하면 내적•정사영을 <code class="language-plaintext highlighter-rouge">Least Square Method</code> (최소 자승법)으로 해석할 수도 있다. 예를 들어 5차원의 공간에서 2차원의 공간으로 <code class="language-plaintext highlighter-rouge">span</code>하는 행렬 $A$(<code class="language-plaintext highlighter-rouge">[5x2]</code>, <code class="language-plaintext highlighter-rouge">full column rank</code>) 그리고 5차원 공간에서 정의되는 벡터 $b$가 있다고 가정해보자. 현재 상황은 $C(A)$와 벡터 $b$ 사이의 해가 존재하지 않는 상태, 즉 모델의 예측값과 실제 정답이 일치하지 않는다는 것이다. 비록 해가 없지만 예측값을 그래도 최대한 정답에 가깝게 위치 시켜보자는 취지에서 나온 것이 바로 <code class="language-plaintext highlighter-rouge">최소 자승법</code>이다. 최소자승법은 $||e||$를 모델의 예측과 정답 사이 오차로 정의하는데, 이 때 $L_2$의 제곱근 연산을 피하기 위해서 $||e||^2$을 최적화 한다. 오차의 제곱을 최소화한다는 동작 방식에 맞게 <code class="language-plaintext highlighter-rouge">Least Square</code> 라는 이름을 갖게 되었다.<br />
-한편, 이 오차를 최대한 줄이는 방법은 무엇일까?? $C(A)$ 상에서 정의되는 벡터 $b\hat{x}$와 에러 벡터 $e$ 사이의 내적(두 벡터가 수직)값이 0일 때 벡터 $e$의 길이가 최소 된다는 점을 이용해 미지수 $\hat{x}$를 찾고 최적화 식에 넣어 오차 제곱이 최소가 되는 계수를 구해주면 된다.</p>
-
-<p>마지막으로 <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code> , <code class="language-plaintext highlighter-rouge">Inner Product</code>는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">Dot Product</code>란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Dot</code> 이라는 단어를 사용하게 되었다. 한편, <code class="language-plaintext highlighter-rouge">Scalar Product</code> 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Scalar Product</code>라고 명명했다. 마지막으로 <code class="language-plaintext highlighter-rouge">Inner Product</code>는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 <code class="language-plaintext highlighter-rouge">Dot Product</code>  , <code class="language-plaintext highlighter-rouge">Scalar Product</code> 보다 더 일반적인 개념으로 볼 수 있겠다.</p>
-
-        
-      </section>
-
-      <footer class="page__meta">
-        
-        
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/tags/#inner-product" class="page__taxonomy-item p-category" rel="tag">Inner Product</a><span class="sep">, </span>
-    
-      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
-    
-      <a href="/tags/#projection-matrix" class="page__taxonomy-item p-category" rel="tag">Projection Matrix</a><span class="sep">, </span>
-    
-      <a href="/tags/#%EB%82%B4%EC%A0%81" class="page__taxonomy-item p-category" rel="tag">내적</a><span class="sep">, </span>
-    
-      <a href="/tags/#%EC%A0%95%EC%82%AC%EC%98%81" class="page__taxonomy-item p-category" rel="tag">정사영</a>
-    
-    </span>
-  </p>
-
-
-
-
-  
-
-
-  
-
-  <p class="page__taxonomy">
-    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
-    <span itemprop="keywords">
-    
-      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
-    
-    </span>
-  </p>
-
-
-        
-
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-10">July 10, 2023</time></p>
-
-      </footer>
-
-      <section class="page__share">
-  
-    <h4 class="page__share-title">Share on</h4>
-  
-
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%90+Inner+Product%3A+Projection+Matrix%2C+Least+Sqaure+Method%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
-
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
-
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
-</section>
-
-
-      
-  <nav class="pagination">
-    
-      <a href="/linear-algebra/lp-norm" class="pagination--pager" title="📏 Lp-Norm: Concept &amp; Insight
-">Previous</a>
-    
-    
-      <a href="/framework-library/backward-nan/" class="pagination--pager" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output
-">Next</a>
-    
-  </nav>
-
-    </div>
-
-    
-  </article>
-
-  
-  
-    <div class="page__related">
-      <h2 class="page__related-title">You may also enjoy</h2>
-      <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/calculus/gradient" rel="permalink">📈 Gradient: Directional Derivative
-</a>
-      
-    </h2>
-    
 
   <p class="page__meta">
     
@@ -600,11 +413,155 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
   </p>
 
 
-    <p class="archive__item-excerpt" itemprop="description">Proof of gradient direction with Total Derivative
-</p>
-  </article>
-</div>
+        </header>
+      
 
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#concept-of-gradient">🤔 Concept of Gradient</a></li><li><a href="#-proof-of-gradient">🪪 Proof of Gradient</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="concept-of-gradient"><code class="language-plaintext highlighter-rouge">🤔 Concept of Gradient</code></h3>
+
+<p>그라디언트는 다변수 함수의 기울기를 나타내는 벡터를 말한다. 그라디언트의 원소는 함수에 존재하는 모든 변수를 대상으로 편미분한 결과로 구성되는데, 예를 들어 변수가 $x_1, x_2$ 2개인 다변수 함수 $f(x_1, x_2)$가 있다고 가정해보자. 다변수 함수 $f$의 그라디언트는 아래 수식처럼 표현할 수 있다.</p>
+
+\[f'(x_1, x_2) = \begin{vmatrix}
+  \frac{∂f}{∂x_1} \\
+  \frac{∂f}{∂x_2}
+\end{vmatrix}\]
+
+<p>이러한 그라디언트는 머신 러닝, 수치 최적화 학문에서 매우 중요한 개념으로 꼽힌다. 그라디언트 벡터가 가리키는 방향이 바로 다변수 함수가 특정 지점에서 가장 가파르게 증가하는 방향을 가리키기 때문이다. 이처럼 그라디언트는 함수의 입력 공간을 따라 함수가 어떻게 변화하는지를 알려주는 길잡이 역할을 하기 때문에, 그라디언트 방향을 따라 변수값을 튜닝하다 보면 함수의 최대값•최소값에 도달하여 최적화 문제를 해결할 수 있게 된다. 그렇다면 왜 그라디언트 벡터의 방향이 특정 지점에서 함수가 가장 가파르게 증가하는 방향을 나타내는 것일까?? 편미분, 도함수 정의 그리고 내적을 활용해 증명할 수 있다.</p>
+
+<h3 id="-proof-of-gradient"><code class="language-plaintext highlighter-rouge">🪪 Proof of Gradient</code></h3>
+
+<p align="center">
+<img src="/assets/images/gradient/gradient.jpg" alt="Example of multivariate function" class="align-center image-caption" width="60%&quot;, height=&quot;25%" />
+<strong><em><a href="https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&amp;blogId=galaxyenergy&amp;logNo=221431325545">Example of multivariate function</a></em></strong>
+</p>
+
+<p>그라디언트 벡터의 방향이 함수가 가장 가파르게 증가하는 방향과 일치한다는 명제를 증명하기 위해 최단 경로로 산 정상에 오르는 과정을 떠올려보려 한다. 우리는 현재 이변수 함수로 정의되는 산 중턱 어딘가, 점 $(x_1^0, x_2^0)$를 지나고 있다. 산 정상을 최단 경로로 오르려면 어떻게 해야할까?? 가장 경사가 가파른 급경사 지대를 향해 나아가면 될 것이다. 하지만 산 중턱에 있는 우리가 어느 방향이 가장 가파른 급경사 지대인지 직관적으로 알 길이 없다. 그래서 방향 도함수를 도입해 급경사 지대로 향할 수 있는 방향을 구해 보기로 했다. 아래 수식을 보자.</p>
+
+\[\lim_{\Delta{x}-&gt;0}\frac{f(x+\Delta{x}) - f(x)}{\Delta{x}} =    \frac{df}{dx}= f'(x) \\
+df = f'(x)dx\]
+
+<p>너무나도 익숙한 형태 아닌가?? 우리가 일반적으로 알고 있는 일변수 함수의 미분 정의 그리고 좌변의 $dx$를 우변으로 넘겨 살짝 변형한 식이다. 이것을 이제 다변수 함수에 적용하면 바로 방향 도함수가 된다. 다시 우리가 오르려는 산(이변수 함수)으로 돌아와 보자.</p>
+
+\[f(x_1 + dx_1, x_2) = f(x_1, x_2) + f'(x_1, x_2)dx_1 \\
+f(x_1, x_2 + dx_2) = f(x_1, x_2) + f'(x_1, x_2)dx_2 \\\]
+
+<p>위에서 서술한 도함수 정의를 활용해 우리가 다음에 발걸음을 옮길 위치를 점  $A$를 $(x_1^0 + dx_1, x_2^0+dx_2)$ 이라고 표현할 수 있다. 이 표현을 활용해 다변수 함수의 미분을 정의해보자. 우리는 이미 다변수 함수의 개별 변수에 편미분을 취하고 행벡터로 쌓은 결과가 바로 전미분이라는 것을 알고 있다.</p>
+
+\[f(x_1 + dx_1, x_2 + dx_2) - f(x_1, x_2) = f'(x_1)dx_1 + f'(x_2)dx_2\]
+
+<p>다시 편미분의 정의를 활용해 수식을 정리하면 방향 벡터와 편미분 결과의 내적으로 표현할 수 있다.</p>
+
+\[dL = \frac{∂L}{∂{x_1}}dx_1 + \frac{∂L}{∂{x_2}}dx_2 \\
+dL = [dx_1, dx_2]\ •\ \begin{vmatrix}
+  \frac{∂L}{∂x_1} \\
+  \frac{∂L}{∂x_2}
+\end{vmatrix}\]
+
+<p>쏟아지는 수식 속에 우리의 본래 목적을 잊어서는 안된다. 우리는 지금 가장 빠르게 산 정상에 도달할 수 있는 방법을 찾기 위해 지금까지 달려왔다. 산 정상에 가장 빠르게 도달하기 위해 가장 가파른 급경사 지대만 찾아서 올라가는 전략을 세웠었다. 다시 말해, 다변수 함수 $f(x)$의 극소 변화량 $dL$이 최대가 되는 방향으로 발걸음을 옮기면 된다는 것이다. 그렇다면 극소 변화량 $dL$은 언제 최대가 될까??</p>
+
+<p>이제 까먹고 있었던 내적의 개념을 다시 한 번 상기시켜보자. 내적은 다양하게 해석되지만, 본디 서로 다른 두 벡터의 <code class="language-plaintext highlighter-rouge">닮은 정도</code>를 나타낸다. 극소 변화량 $dL$이 최대가 되려면 우변의 내적 결과가 최대가 되어야 한다. 내적의 최대값은 서로 다른 두 벡터 사이의 끼인각도가 0˚일 때 즉, 두 벡터가 동일한 방향을 나타낼 때 정의된다. <strong><u>따라서 방향 벡터가 그라디언트(편미분의 행벡터) 방향일 때</u></strong> <code class="language-plaintext highlighter-rouge">내적 결과</code>(극소 변화량 $dL$)<strong><u>가 최대가 된다.</u></strong></p>
+
+<p><strong><u>한편, 실제 기계학습에서는 손실함수의 최적화를 목적 함수로 사용하기 때문에 그라디언트(손실함수의 전미분) 방향에 음수를 취해준 값을 사용하게 된다.</u></strong></p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#calculus" class="page__taxonomy-item p-category" rel="tag">Calculus</a><span class="sep">, </span>
+    
+      <a href="/tags/#gradient" class="page__taxonomy-item p-category" rel="tag">Gradient</a><span class="sep">, </span>
+    
+      <a href="/tags/#gradient-descent" class="page__taxonomy-item p-category" rel="tag">Gradient Descent</a><span class="sep">, </span>
+    
+      <a href="/tags/#loss-function" class="page__taxonomy-item p-category" rel="tag">loss function</a><span class="sep">, </span>
+    
+      <a href="/tags/#machine-learning" class="page__taxonomy-item p-category" rel="tag">Machine Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#partial-derivative" class="page__taxonomy-item p-category" rel="tag">Partial Derivative</a><span class="sep">, </span>
+    
+      <a href="/tags/#total-derivative" class="page__taxonomy-item p-category" rel="tag">Total Derivative</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#calculus" class="page__taxonomy-item p-category" rel="tag">Calculus</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-31">July 31, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%88%C2%A0Gradient%3A+Directional+Derivative%20http%3A%2F%2Flocalhost%3A4000%2Fcalculus%2Fgradient" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fcalculus%2Fgradient" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fcalculus%2Fgradient" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/cv/vit" class="pagination--pager" title="🌆 [ViT] An Image Is Worth 16x16 Words: Transformers For Image Recognition At Scale
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
         
           
 
@@ -708,6 +665,50 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
         <a href="/framework-library/mismatch-embedding" rel="permalink">🎲 RuntimeError: CUDA error: CUBLAS_STATUS_ALLOC_FAILED when calling cublasCreate(hand≤)
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Pytorch Error: Mis-match between pre-defined dimension and input dimension
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/mismatch-dimension" rel="permalink">🎲 RuntimeError: CUDA error: device-side assert triggered
 </a>
       
     </h2>

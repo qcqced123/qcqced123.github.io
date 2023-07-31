@@ -58,4 +58,10 @@ var store = [{
         "tags": ["Computer Vision","Vision Transformer","ViT","Transformer","Self-Attention","Image Classification"],
         "url": "/cv/vit",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "📈 Gradient: Directional Derivative",
+        "excerpt":"🤔 Concept of Gradient 그라디언트는 다변수 함수의 기울기를 나타내는 벡터를 말한다. 그라디언트의 원소는 함수에 존재하는 모든 변수를 대상으로 편미분한 결과로 구성되는데, 예를 들어 변수가 $x_1, x_2$ 2개인 다변수 함수 $f(x_1, x_2)$가 있다고 가정해보자. 다변수 함수 $f$의 그라디언트는 아래 수식처럼 표현할 수 있다. \\[f'(x_1, x_2) = \\begin{vmatrix} \\frac{∂f}{∂x_1} \\\\ \\frac{∂f}{∂x_2} \\end{vmatrix}\\] 이러한...","categories": ["Calculus"],
+        "tags": ["Calculus","Partial Derivative","Total Derivative","loss function","Gradient","Gradient Descent","Machine Learning"],
+        "url": "/calculus/gradient",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
