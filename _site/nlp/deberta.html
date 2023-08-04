@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>🤖 [Transformer] Attention Is All You Need - AI/Business Study Log</title>
+<!-- begin _includes/seo.html --><title>🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention - AI/Business Study Log</title>
 <meta name="description" content="Transformer Official Paper Review with Pytorch Implementation">
 
 
@@ -22,8 +22,8 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="🤖 [Transformer] Attention Is All You Need">
-<meta property="og:url" content="http://localhost:4000/nlp/vit">
+<meta property="og:title" content="🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention">
+<meta property="og:url" content="http://localhost:4000/nlp/deberta">
 
 
   <meta property="og:description" content="Transformer Official Paper Review with Pytorch Implementation">
@@ -38,7 +38,7 @@
 
 
 
-  <meta property="article:modified_time" content="2023-07-27T02:00:00+09:00">
+  <meta property="article:modified_time" content="2023-08-05T02:00:00+09:00">
 
 
 
@@ -47,7 +47,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/nlp/vit">
+<link rel="canonical" href="http://localhost:4000/nlp/deberta">
 
 
 
@@ -380,16 +380,16 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="🤖 [Transformer] Attention Is All You Need">
+    <meta itemprop="headline" content="🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention">
     <meta itemprop="description" content="Transformer Official Paper Review with Pytorch Implementation">
     <meta itemprop="datePublished" content="2023-08-04T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-27T02:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-05T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/nlp/vit" class="u-url" itemprop="url">🤖 [Transformer] Attention Is All You Need
+            <a href="http://localhost:4000/nlp/deberta" class="u-url" itemprop="url">🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention
 </a>
           </h1>
           
@@ -443,17 +443,23 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a><span class="sep">, </span>
+      <a href="/tags/#bert" class="page__taxonomy-item p-category" rel="tag">BERT</a><span class="sep">, </span>
     
-      <a href="/tags/#image-classification" class="page__taxonomy-item p-category" rel="tag">Image Classification</a><span class="sep">, </span>
+      <a href="/tags/#deberta" class="page__taxonomy-item p-category" rel="tag">DeBERTa</a><span class="sep">, </span>
+    
+      <a href="/tags/#disentangled-attention" class="page__taxonomy-item p-category" rel="tag">Disentangled-Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#emd" class="page__taxonomy-item p-category" rel="tag">EMD</a><span class="sep">, </span>
+    
+      <a href="/tags/#encoder" class="page__taxonomy-item p-category" rel="tag">Encoder</a><span class="sep">, </span>
+    
+      <a href="/tags/#natural-language-process" class="page__taxonomy-item p-category" rel="tag">Natural Language Process</a><span class="sep">, </span>
+    
+      <a href="/tags/#relative-position-embedding" class="page__taxonomy-item p-category" rel="tag">Relative Position Embedding</a><span class="sep">, </span>
     
       <a href="/tags/#self-attention" class="page__taxonomy-item p-category" rel="tag">Self-Attention</a><span class="sep">, </span>
     
-      <a href="/tags/#transformer" class="page__taxonomy-item p-category" rel="tag">Transformer</a><span class="sep">, </span>
-    
-      <a href="/tags/#vision-transformer" class="page__taxonomy-item p-category" rel="tag">Vision Transformer</a><span class="sep">, </span>
-    
-      <a href="/tags/#vit" class="page__taxonomy-item p-category" rel="tag">ViT</a>
+      <a href="/tags/#transformer" class="page__taxonomy-item p-category" rel="tag">Transformer</a>
     
     </span>
   </p>
@@ -470,7 +476,7 @@
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#computer-vision" class="page__taxonomy-item p-category" rel="tag">Computer Vision</a>
+      <a href="/categories/#nlp" class="page__taxonomy-item p-category" rel="tag">NLP</a>
     
     </span>
   </p>
@@ -478,7 +484,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-26">July 26, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-04">August 4, 2023</time></p>
 
       </footer>
 
@@ -487,11 +493,11 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%A4%96%C2%A0%5BTransformer%5D+Attention+Is+All+You+Need%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fvit" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%AA%A2%C2%A0%5BDeBERTa%5D+DeBERTa%3A+Decoding-Ehanced+BERT+with+Disentangled-Attention%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdeberta" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fvit" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdeberta" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fvit" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdeberta" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
@@ -502,7 +508,8 @@
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/nlp/transformer" class="pagination--pager" title="🤖 [Transformer] Attention Is All You Need
+">Next</a>
     
   </nav>
 
@@ -516,6 +523,50 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/transformer" rel="permalink">🤖 [Transformer] Attention Is All You Need
+</a>
+      
+    </h2>
+    
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+
+    <p class="archive__item-excerpt" itemprop="description">Transformer Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
         
           
 
@@ -644,50 +695,6 @@
 
 
     <p class="archive__item-excerpt" itemprop="description">ViT Official Paper Review with Pytorch Implementation
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/linear-algebra/vector-subspace" rel="permalink">🔢 Vector Space: Column Space, Basis, Rank, Null Space
-</a>
-      
-    </h2>
-    
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
-
-    <p class="archive__item-excerpt" itemprop="description">💡 Concept of main sub-space
 </p>
   </article>
 </div>

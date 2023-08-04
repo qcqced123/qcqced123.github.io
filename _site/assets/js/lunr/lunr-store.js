@@ -71,9 +71,15 @@ var store = [{
         "url": "/framework-library/torch-indexing-function",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
+        "title": "🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention",
+        "excerpt":" ","categories": ["NLP"],
+        "tags": ["Natural Language Process","DeBERTa","BERT","Transformer","Self-Attention","Disentangled-Attention","Relative Position Embedding","EMD","Encoder"],
+        "url": "/nlp/deberta",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
         "title": "🤖 [Transformer] Attention Is All You Need",
-        "excerpt":" ","categories": ["Computer Vision"],
-        "tags": ["Computer Vision","Vision Transformer","ViT","Transformer","Self-Attention","Image Classification"],
-        "url": "/nlp/vit",
+        "excerpt":" ","categories": ["NLP"],
+        "tags": ["Natural Language Process","Transformer","Self-Attention","Seq2Seq","Encoder","Decoder"],
+        "url": "/nlp/transformer",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]
