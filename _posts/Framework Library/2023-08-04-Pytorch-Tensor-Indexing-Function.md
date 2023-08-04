@@ -1,7 +1,7 @@
 ---
 title: "🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집"
 excerpt: "파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음"
-permalink: "/framework-library/"
+permalink: "/framework-library/torch-indexing-function"
 toc: true  # option for table of content
 toc_sticky: true  # option for table of content
 categories:
