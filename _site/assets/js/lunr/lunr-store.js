@@ -64,4 +64,10 @@ var store = [{
         "tags": ["Calculus","Partial Derivative","Total Derivative","loss function","Gradient","Gradient Descent","Machine Learning"],
         "url": "/calculus/gradient",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집",
+        "excerpt":"파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다. 🔎 torch.argmax 입력 텐서에서...","categories": ["Framework & Library"],
+        "tags": ["Pytorch","Tensor","Linear Algebra"],
+        "url": "/framework-library/",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
