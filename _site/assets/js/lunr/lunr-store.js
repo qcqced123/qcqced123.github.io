@@ -71,8 +71,8 @@ var store = [{
         "url": "/framework-library/torch-indexing-function",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "🪢 [DeBERTa] DeBERTa: Decoding-Ehanced BERT with Disentangled-Attention",
-        "excerpt":" ","categories": ["NLP"],
+        "title": "🪢 [DeBERTa] DeBERTa: Decoding-Enhanced BERT with Disentangled-Attention",
+        "excerpt":"🔭 Overview DeBERTa는 2020년 Microsoft가 ICLR에서 발표한 자연어 처리용 신경망 모델이다. Disentangled Self-Attention, Enhanced Mask Decoder라는 두가지 새로운 테크닉을 BERT, RoBERTa에 적용해 당시 SOTA를 달성했으며, 특히 영어처럼 문장에서 자리하는 위치에 따라 단어의 의미, 형태가 결정되는 굴절어 계열에 대한 성능이 좋아 꾸준히 사랑받고 있는 모델이다. 또한 인코딩 가능한 최대 시퀀스 길이가 4096으로...","categories": ["NLP"],
         "tags": ["Natural Language Process","DeBERTa","BERT","Transformer","Self-Attention","Disentangled-Attention","Relative Position Embedding","EMD","Encoder"],
         "url": "/nlp/deberta",
         "teaser": "/assets/images/huggingface_emoji.png"
