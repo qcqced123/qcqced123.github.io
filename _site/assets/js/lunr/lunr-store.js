@@ -78,7 +78,7 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "🤖 [Transformer] Attention Is All You Need",
-        "excerpt":" ","categories": ["NLP"],
+        "excerpt":"🔭 Overview Transformer는 2017년 Google이 NIPS에서 발표한 자연어 처리용 신경망으로 기존 RNN 계열(LSTM, GRU) 신경망이 가진 문제를 해결하고 최대한 인간의 자연어 이해 방식을 수학적으로 모델링 하려는 의도로 설계 되었다. 이 모델은 초기 Encoder-Decoder 를 모두 갖춘 seq2seq 형태로 고안 되었으며, 다양한 번역 테스크에서 SOTA를 달성해 주목을 받았다. 이후에는 여러분도 잘 아시는...","categories": ["NLP"],
         "tags": ["Natural Language Process","Transformer","Self-Attention","Seq2Seq","Encoder","Decoder"],
         "url": "/nlp/transformer",
         "teaser": "/assets/images/huggingface_emoji.png"

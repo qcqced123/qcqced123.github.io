@@ -421,7 +421,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#inducitve-bias-in-deberta">🪢 Inducitve Bias in DeBERTa</a><ul><li><a href="#-types-of-embedding">📚 Types of Embedding</a></li><li><a href="#-relative-position-embedding">🔢 Relative Position Embedding</a></li><li><a href="#-deberta-inductive-bias">🤔 DeBERTa Inductive Bias</a></li></ul></li><li><a href="#modeling">🌟 Modeling</a></li></ul>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#inducitve-bias-in-deberta">🪢 Inducitve Bias in DeBERTa</a><ul><li><a href="#-types-of-embedding">📚 Types of Embedding</a></li><li><a href="#-relative-position-embedding">🔢 Relative Position Embedding</a></li><li><a href="#-deberta-inductive-bias">🤔 DeBERTa Inductive Bias</a></li></ul></li></ul></li></ul></li><li><a href="#modeling">🌟 Modeling</a></li></ul>
 
             </nav>
           </aside>
@@ -433,6 +433,10 @@
 <p>한편, <code class="language-plaintext highlighter-rouge">DeBERTa</code>의 설계 철학은 <code class="language-plaintext highlighter-rouge">Inductive Bias</code> 다. 간단하게 <code class="language-plaintext highlighter-rouge">Inductive Bias</code>란, 주어진 데이터로부터 일반화 성능을 높이기 위해 <code class="language-plaintext highlighter-rouge">"입력되는 데이터는 ~ 할 것이다"</code>, <code class="language-plaintext highlighter-rouge">"이런 특징을 갖고 있을 것이다"</code>와 같은 가정, 가중치, 가설 등을 기계학습 알고리즘에 적용하는 것을 말한다. <strong><a href="https://qcqced123.github.io/cv/vit"><code class="language-plaintext highlighter-rouge">ViT</code> 논문 리뷰</a></strong>에서도 밝혔듯, 퓨어한 <code class="language-plaintext highlighter-rouge">Self-Attention</code> 의 <code class="language-plaintext highlighter-rouge">Inductive Bias</code> 는 사실상 없으며, 전체 <code class="language-plaintext highlighter-rouge">Transformer</code> 구조 레벨에서 봐도 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code>을 사용해 토큰의 위치 정보를 모델에 주입해주는 것이 그나마 약한 <code class="language-plaintext highlighter-rouge">Iniductive Bias</code>라고 볼 수 있다. 다른 포스팅에서는 분명 <code class="language-plaintext highlighter-rouge">Inductive Bias</code> 가 적기 때문에 자연어 처리에서 <code class="language-plaintext highlighter-rouge">Transformer</code> 가 성공을 거둘 수 있다고 해놓고 이게 지금 와서 말을 뒤집는다고 생각할 수 있다. 하지만 <code class="language-plaintext highlighter-rouge">Self-Attention</code>과 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code>의 의미를 다시 한 번 상기해보면, <code class="language-plaintext highlighter-rouge">Inductive Bias</code> 추가를 주장하는 저자들의 생각이 꽤나 합리적이었음을 알 수 있게 된다. 구체적인 모델 구조를 파악하기 전에 먼저 <code class="language-plaintext highlighter-rouge">Inductive Bias</code> 추가가 왜 필요하며, 어떠한 가정이 필요한지 알아보자.</p>
 
 <h3 id="inducitve-bias-in-deberta"><code class="language-plaintext highlighter-rouge">🪢 Inducitve Bias in DeBERTa</code></h3>
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">Absolute Position + Relative Position</code>을 모두 활용해 풍부하고 깊은 임베딩 추출</strong></li>
+  <li><strong><code class="language-plaintext highlighter-rouge">단어의 발생 순서</code> 임베딩과 <code class="language-plaintext highlighter-rouge">단어 분포 가설</code> 임베딩을 모두 추출하는 것을 목적으로 설계</strong></li>
+</ul>
 
 <p>본 논문 초록에는 다음과 같은 문장이 서술되어 있다.</p>
 
@@ -442,7 +446,7 @@
 
 <p>그렇다면 <code class="language-plaintext highlighter-rouge">relative position</code> 가 제공하는 문맥 정보가 도대체 뭐길래 기존의 방식으로는 포착이 불가능하다는 것일까?? 자연어에서 포착 가능한 문맥들의 종류와 기존의 모델링 방식에 대한 정리부터 해보자. 여기서 말하는 기존 방식이란, 퓨어한 <code class="language-plaintext highlighter-rouge">Self-Attention</code>과 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code> 을 사용하는 <code class="language-plaintext highlighter-rouge">Transformer-Encoder-Base</code>  모델(<code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">RoBERTa</code>)을 뜻한다. 이번 포스팅에서는 <code class="language-plaintext highlighter-rouge">BERT</code>를 기준으로 설명하겠다.</p>
 
-<h4 id="-types-of-embedding"><code class="language-plaintext highlighter-rouge">📚 Types of Embedding</code></h4>
+<h6 id="-types-of-embedding"><code class="language-plaintext highlighter-rouge">📚 Types of Embedding</code></h6>
 
 <p><strong>먼저 현존하는 모든 임베딩(<code class="language-plaintext highlighter-rouge">벡터에 문맥을 주입하는</code>)기법들을 정리해보자. 다음과 같이 3가지 카테고리로 분류가 가능하다.</strong></p>
 
@@ -458,7 +462,7 @@
 
 <p>한편, 혹자는 <code class="language-plaintext highlighter-rouge">"BERT는 MLM 을 사용하는데 Language Modeling을 한다고 하는게 맞나요"</code>라고 말할 수 있다. 하지만 <code class="language-plaintext highlighter-rouge">MLM</code> 역시 대분류 상 <code class="language-plaintext highlighter-rouge">Language Modeling</code> 기법에 속한다. <strong>다만, <code class="language-plaintext highlighter-rouge">Bi-Directional</code>하게 문맥을 파악하고 <code class="language-plaintext highlighter-rouge">LM</code>을 하니까 정말 엄밀히 따지면 3번의 속성도 어느 정도 있다고 보는게 무리는 아니라 생각한다.</strong> <code class="language-plaintext highlighter-rouge">MLM</code> 사용으로 더 많은 정보를 포착해 임베딩을 만들기 때문에 초기 <code class="language-plaintext highlighter-rouge">BERT</code>가 <code class="language-plaintext highlighter-rouge">GPT</code>보다 <code class="language-plaintext highlighter-rouge">NLU</code>에서 상대적으로 강점을 가졌던 것 아닐까 싶다.</p>
 
-<h4 id="-relative-position-embedding"><code class="language-plaintext highlighter-rouge">🔢 Relative Position Embedding</code></h4>
+<h6 id="-relative-position-embedding"><code class="language-plaintext highlighter-rouge">🔢 Relative Position Embedding</code></h6>
 
 <p>이제 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>이 무엇이고, 도대체 어떤 문맥 정보를 포착한다는 것인지 알아보자. <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 이란, 시퀀스 내부 토큰 사이의 위치 관계 표현을 통해 토큰 사이의 <code class="language-plaintext highlighter-rouge">relation</code>을 <code class="language-plaintext highlighter-rouge">pairwise</code>하게 학습하는 위치 임베딩 기법을 말한다. 일반적으로 상대 위치 관계는 서로 다른 두 토큰의 시퀀스 인덱스 값의 차를 이용해 나타낸다. 포착하는 문맥 정보는 예시와 함깨 설명하겠다. 딥러닝이라는 단어는 영어로 <code class="language-plaintext highlighter-rouge">Deep Learning</code> 이다. 두 단어를 합쳐놓고 보면 <code class="language-plaintext highlighter-rouge">신경망을 사용하는 머신러닝 기법의 한 종류</code>라는 의미를 갖겠지만, 따로 따로 보면 <code class="language-plaintext highlighter-rouge">깊은</code>, <code class="language-plaintext highlighter-rouge">배움</code>이라는 개별적인 의미로 나뉜다.</p>
 
@@ -597,7 +601,7 @@
 
 <p>정리하면, <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 란 절대 위치 방식처럼 임베딩 룩업 테이블을 만들되, 사용자가 지정한 윈도우 사이즈에 해당하는 토큰의 임베딩 값만 추출해 새로운 행벡터를 여러 개 만들어 내는 기법이라고 할 수 있다. <strong>이 때 행벡터는 대상 토큰과 그 나머지 토큰 사이의 위치 변화에 따라 발생하는 파생적인 맥락 정보를 담고 있다.</strong></p>
 
-<h4 id="-deberta-inductive-bias"><code class="language-plaintext highlighter-rouge">🤔 DeBERTa Inductive Bias</code></h4>
+<h6 id="-deberta-inductive-bias"><code class="language-plaintext highlighter-rouge">🤔 DeBERTa Inductive Bias</code></h6>
 
 <p><strong>결국</strong> <code class="language-plaintext highlighter-rouge">DeBERTa</code><strong>는 두가지 위치 정보 포착 방식을 적절히 섞어서 모델이 더욱 풍부한 임베딩을 갖도록 하려는 의도로 설계 되었다.</strong> 또한 우리는 이미 모델이 다양한 맥락 정보를 포착할수록 <code class="language-plaintext highlighter-rouge">NLU Task</code> 에서 더 나은 성능을 기록한다는 사실을 <code class="language-plaintext highlighter-rouge">BERT</code>와 <code class="language-plaintext highlighter-rouge">GPT</code> 사례에서 알 수 있었다. 따라서 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 을 추가하여 <code class="language-plaintext highlighter-rouge">단어의 발생 순서</code> 를 포착하는 모델에 <code class="language-plaintext highlighter-rouge">단어 분포 가설</code> 적인 특징을 더해주려는 저자의 아이디어는 매우 타당하다고 볼 수 있겠다.</p>
 
@@ -733,7 +737,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          8 minute read
         
       </span>
     
