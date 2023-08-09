@@ -82,14 +82,176 @@ __*[Word Embedding Space](https://www.researchgate.net/figure/Visualization-of-t
 __*[Scaled Dot-Product Attention](https://arxiv.org/abs/1706.03762)*__
 </p>
 
-그렇다면 이제부터 `Transformer` 가 어떤 아이데이션을 통해 순환 신경망 모델의 단점을 해결하고 딥러닝계의 `G.O.A.T` 자리를 차지했는지 알아보자. 모델은 크게 인코더와 디코더 부분으로 나뉘는데, 하는 역할과 미세한 구조상의 차이만 있을뿐 두 모듈 모두 `Self-Attention`이 제일 중요하다는 본질은 변하지 않는다. 따라서 `Self-Attention` 은 특별히 사용된 하위 블럭 단위를 생략없이 모두 살펴볼 것이다. 그리고 나서 인코더와 디코더에 사용된 다른 모듈과 모델의 전반적인 구조에 대해 대해서 공부해보자.
+그렇다면 이제부터 `Transformer` 가 어떤 아이데이션을 통해 기존 순환 신경망 모델의 단점을 해결하고 딥러닝계의 `G.O.A.T` 자리를 차지했는지 알아보자. 모델은 크게 인코더와 디코더 부분으로 나뉘는데, 하는 역할과 미세한 구조상의 차이만 있을뿐 두 모듈 모두 `Self-Attention`이 제일 중요하다는 본질은 변하지 않는다. 따라서 `Input Embedding`부터 차례대로 살펴보되,  `Self-Attention` 은 특별히 사용된 하위 블럭 단위를 빠짐 없이, 세세하게 살펴볼 것이다.
 
 <p markdown="1" align="center">
 ![Class Diagram](/assets/images/transformer/class_diagram.png){: .align-center}{: width="35%", height="50%"}{: .image-caption}
 __*Class Diagram*__
 </p>
 
-이후에는 모델을 실제 코드로 어떻게 구현해야 하는지도 함께 알아볼 것이니까 포스트를 끝까지 읽어주시길 바란다.
+이렇게 하위 모듈에 대한 설명부터 쌓아 나가 마지막에는 실제 구현 코드와 함께 전체적인 구조 측면에서도 모델을 해석해볼 것이다. 끝까지 포스팅을 읽어주시길 바란다.
+
+#### `🔬 Input Embedding`
+
+$$
+X_E \in R^{B * S_E * V_E} \\
+X_D \in R^{B * S_D * V_D}
+$$
+
+`Transformer`는 인코더와 디코더로 이뤄진 `seq2seq` 구조를 가지고 있다. 즉, 대상 언어를 타겟 언어로 번역하는데 목적을 두고 있기 때문에 입력으로 대상 언어 시퀀스와 타겟 언어 시퀀스 모두 필요하다. $X_E$는 `인코더`의 입력 행렬을 나타내고, $X_D$는 `디코더`의 입력 행렬을 의미한다. 이 때, $B$는 `batch size`, $S$는 `max_seq`, $V$는 개별 모듈이 가진 `Vocab`의 사이즈를 가리킨다. 위 수식은 사실 논문에 입력에 대한 수식이 따로 서술 되어 있지 않아, 필자가 직접 만든 것이다. 앞으로도 해당 기호를 이용해 수식을 표현할 예정이니 참고 바란다.
+
+$$
+W_E \in R^{V_E * d} \\
+W_D \in R^{V_D * d} \\
+$$
+
+이렇게 정의된 입력값을 개별 모듈의 임베딩 레이어에 통과 시킨 결과물이 바로 `Input Embedding`이 된다. $d$는 `Transformer` 모델의 은닉층의 크기를 의미한다. 따라서 `Position Embedding` 과 더해지기 전, 임베딩 레이어를 통과한 `Input Embedding`의 모양은 아래 수식과 같다.
+
+$$
+X_E \in R^{B*S_E*d} \\
+X_D \in R^{B*S_D*d} \\
+$$
+
+그렇다면 실제 구현은 어떻게 할까?? `Transformer` 의 `Input Embedding`은 `nn.Embedding`으로 레이어를 정의해 사용한다. `nn.Linear`도 있는데 왜 굳이 `nn.Embedding`을 사용하는 것일까??
+
+자연어 처리에서 입력 임베딩을 만들때는 모델의 토크나이저에 의해 사전 정의된 `vocab`의 사이즈가 입력 시퀀스에 속한 토큰 개수보다 훨씬 크기 때문에 데이터 룩업 테이블 방식의 `nn.Embedding` 을 사용하게 된다. 이게 무슨 말이냐면, 토크나이저에 의해 사전에 정의된 `vocab` 전체가 `nn.Embedding(vocab_size, dim_model)`로 투영 되어 가로는 `vocab` 사이즈, 세로는 모델의 차원 크기에 해당하는 룩업 테이블이 생성되고, 내가 입력한 토큰들은 전체 `vocab`의 일부분일테니 전체 임베딩 룩업 테이블에서 내가 임베딩하고 싶은 토큰들의 인덱스만 알아낸다는 것이다. 그래서 `nn.Embedding` 은 레이어에 정의된 차원과 실제 입력 데이터의 차원이 맞지 않아도 함수가 동작하게 된다. `nn.Linear` 와 입력 차원에 대한 조건 빼고는 동일한 동작을 수행하기 때문에 사전 정의된 `vocab` 사이즈와 입력 시퀀스의 토큰 개수가 같다면 `nn.Linear`를 사용해도 무방하다.
+
+```python
+# Input Embedding Example
+
+class Transformer(nn.Module):
+	def __init__(
+        self,
+        enc_vocab_size: int,
+        dec_vocab_size: int,
+        max_seq: int = 512,
+        enc_N: int = 6,
+        dec_N: int = 6,
+        dim_model: int = 512, # latent vector space
+        num_heads: int = 8,
+        dim_ffn: int = 2048,
+        dropout: float = 0.1
+    ) -> None:
+        super(Transformer, self).__init__()
+        self.enc_input_embedding = nn.Embedding(enc_vocab_size, dim_model) # Encoder Input Embedding Layer
+        self.dec_input_embedding = nn.Embedding(dec_vocab_size, dim_model) # Decoder Input Embedding Layer
+	
+	def forward(self, enc_inputs: Tensor, dec_inputs: Tensor, enc_pad_index: int, dec_pad_index: int) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+			enc_x, dec_x = self.enc_input_embedding(enc_inputs), self.dec_input_embedding(dec_inputs)
+```
+
+위의 예시 코드를 함께 살펴보자. `__init__` 의 `self.enc_input_embedding`, `self._dec_input_embedding`이 바로 $W_E, W_D$에 대응된다. 한편 `forward` 메서드에 정의된 `enc_x`, `dec_x` 는 임베딩 레이어를 거치고 나온 $X_E, X_D$에 해당된다.
+
+한편, $X_E, X_D$은 각각 인코더, 디코더 모듈로 흘러 들어가 `Absolute Position Embedding`과 더해진(행렬 합) 뒤, 개별 모듈의 입력값으로 활용된다.
+
+**`🔢 Absolute Position Embedding(Encoding)`**
+
+`Absolute Position Embedding(Encoding)`은 입력 시퀀스에 위치 정보를 맵핑해주는 역할을 한다. 필자는 개인적으로 `Transformer`에서 가장 중요한 요소를 뽑으라고 하면 세 손가락 안에 들어가는 파트라고 생각한다. 다음 파트에서 자세히 기술하겠지만, `Self-Attention(내적)`은 입력 시퀀스를 병렬로 한꺼번에 처리할 수 있다는 장점을 갖고 있지만, 그 자체로는 토큰의 위치 정보를 인코딩할 수 없다. 우리가 따로 위치 정보를 알려주지 않는 이상 쿼리 행렬의 2번째 행벡터가 입력 시퀀스에서 몇 번째 위치한 토큰인지 모델은 알 길이 없다. 
+
+그런데, 텍스트는 `Permutation Equivariant`한 `Bias` 가 있기 때문에 토큰의 위치 정보는 `NLP`에서 매우 중요한 요소로 꼽힌다. **직관적으로도 토큰의 순서는 시퀀스가 내포하는 의미에 지대한 영향을 끼친다는 것을 알 수 있다.** 예를 들어 `“철수는 영희를 좋아한다”`라는 문장과 `“영희는 철수를 좋아한다”`라는 문장의 의미가 같은가 생각해보자. 주어와 목적어 위치가 바뀌면서 정반대의 뜻이 되어버린다.
+
+<p markdown="1" align="center">
+![Positional Encoding Example](/assets/images/transformer/positional_encoding.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
+__*[Positional Encoding Example](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/56cf1596-c770-410c-8053-5876c3c66fff/%E1%84%89%E1%85%B3%E1%84%8F%E1%85%B3%E1%84%85%E1%85%B5%E1%86%AB%E1%84%89%E1%85%A3%E1%86%BA_2022-10-09_%E1%84%8B%E1%85%A9%E1%84%92%E1%85%AE_5.13.48.png)*__
+</p>
+
+따라서 저자는 입력 입베딩에 위치 정보를 추가하고자 `Position Encoding` 을 제안한다. 사실 `Position Encoding` 은 여러 단점 때문에 후대 `Transformer`  파생 모델에서는 잘 사용되지 않는 추세다. 대신 모델이 학습을 통해 최적값을 찾아주는 `Position Embedding` 방식을 대부분 차용하고 있다. 필자 역시 `Position Embedding` 을 사용해 위치 임베딩을 구현했기 때문에 원리와 단점에 대해서만 간단히 소개하고 넘어가려 한다. 또한 저자 역시 논문에서 두 방식 중 어느 것을 써도 비슷한 성능을 보여준다고 언급하고 있다. 
+
+$$
+P_E \in R^{B*S_E*D} \\
+ P_D \in R^{B*S_D*D} \\
+P(pos, 2i) = sin(pos/\overset{}
+  {10000_{}^{2i/dmodel}}) \\
+P(pos, 2i+1) = cos(pos/\overset{}
+  {10000_{}^{2i/dmodel}})
+$$
+
+**원리는 매우 간단하다. 사인함수와 코사인 함수의 주기성을 이용해 개별 인덱스의 행벡터 값을 표현하는 것이다.** 행벡터의 원소 중에서 짝수번째 인덱스에 위치한 원소는 (짝수번째 열벡터) $$sin(pos/\overset{}{10000_{}^{2i/dmodel}})$$ 의 함숫값을 이용해 채워넣고, 홀수번째 원소는 $$cos(pos/\overset{}{10000_{}^{2i/dmodel}})$$를 이용해 채워넣는다.
+
+<p markdown="1" align="center">
+![periodic function graph](/assets/images/transformer/sin_cos_graph.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
+__*periodic function graph*__
+</p>
+
+초록색 그래프는 $$sin(pos/\overset{}{10000_{}^{2i/dmodel}})$$, 주황색 그래프는 $$cos(pos/\overset{}{10000_{}^{2i/dmodel}})$$를 시각화했다. 지면의 제한으로 `max_seq=512` 만큼의 변화량을 담지는 못했지만, x축이 커질수록 두 함수 모두 진동 주기가 조금씩 커지는 양상을 보여준다. 따라서 개별 인덱스(행벡터)를 중복되는 값 없이 표현하는 것이 가능하다고 저자는 주장한다.
+
+<p markdown="1" align="center">
+![Positional Encoding Result](/assets/images/transformer/positional_encoding_result.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
+__*[Positional Encoding Result](https://wikidocs.net/162099)*__
+</p>
+
+위 그림은 토큰 `256`개로 구성된 시퀀스에 대해 `Positional Encoding`한 결과를 시각화한 자료다. 그래프의 $x$축은 `행벡터의 원소`이자 `Transformer`의 은닉 벡터 차원을 가리키고, $y$축은 `시퀀스의 인덱스`(행벡터)를 의미한다. 육안으로 정확하게 차이를 인식하기 쉽지는 않지만, 행벡터가 모두 유니크하게 표현된다는 사실(직접 실수값을 확인해보면 정말 미세한 차이지만 개별 토큰의 희소성이 보장)을 알 수 있다. 작은 차이를 시각화 자료로 파악하기는 쉽지 않기 때문에 진짜 그런가 궁금하신 분들은 직접 실수값을 구해보는 것을 추천드린다. 
+
+**여기서 행벡터의 희소성이란 개별 행벡터 원소의 희소성을 말하는게 아니다.** 0번 토큰, 4번 토큰, 9번 토큰의 행벡터 1번째 원소의 값은 같을 수 있다. 하지만 진동 주기가 갈수록 커지는 주기함수를 사용하기 때문에 다른 원소(차원)값은 다를 것이라 기대할 수 있는데, **바로 이것을 행벡터의 희소성이라고 정의하는 것이다.** 만약 1번 토큰과 2번 토큰의 모든 행벡터 원소값이 같다면 그것은 희소성 원칙에 위배되는 상황이다.
+
+<p markdown="1" align="center">
+![Positional Encoding](/assets/images/transformer/encoding.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
+</p>
+
+<p markdown="1" align="center">
+![Compare Performance between Encoding and Embedding](/assets/images/transformer/embedding.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
+__*[Compare Performance between Encoding and Embedding](https://arxiv.org/abs/1706.03762)*__
+</p>
+
+비록 개별 행벡터의 희소성이 보장된다고 해도 `Position Encoding`은 `not trainable`해서 `static`하다는 단점이 있다. 모든 배치의 시퀀스가 동일한 위치 정보값을 갖게 된다는 것이다. `512`개의 토큰으로 구성된 시퀀스 A와 B가 있다고 가정해보자. 이 때 시퀀스 A는 문장 `5`개로 구성 되어 있고, B는 문장 `12`개로 만들어졌다. 두 시퀀스의 `11`번째 토큰의 문장 성분은 과연 같을까?? 아마도 대부분의 경우에 다를 것이다. 텍스트 데이터에서 순서 정보가 중요한 이유 중 하나는 바로 `syntactical` 한 정보를 포착하기 위함이다. `Position Encoding`은 `static` 하기 때문에 이러한 타입의 정보를 인코딩 하기 쉽지 않다. 그래서 좀 더 풍부한 표현을 담을 수 있는 `Position Embedding`을 사용하는 것이 최근 추세다. 
+
+**`✏️ Position Embedding`**
+
+그렇다면 이제 `Position Embedding`에 대해 알아보자. `Position Embedding` 은 `Input Embedding`을 정의한 방식과 거의 유사하다. 먼저 입력값과 `weight` 의 모양부터 확인해보자.
+
+$$
+P_E \in R^{B*S_E*d} \\
+P_D \in R^{B*S_d*d} \\
+W_{P_E} \in R^{S_E * d} \\
+W_{P_D} \in R^{S_D * d} \\
+$$
+
+$P_E, P_D$는 개별 모듈의 위치 임베딩 레이어 입력을 가리키며, $W_{P_E}, W_{P_D}$가 개별 모듈의 위치 임베딩 레이어가 된다. 이제 이것을 코드로 어떻게 구현하는지 살펴보자.
+
+```python
+# Absolute Position Embedding Example
+
+class Encoder(nn.Module):
+    """
+    In this class, encode input sequence and then we stack N EncoderLayer
+    First, we define "positional embedding" and then add to input embedding for making "word embedding"
+    Second, forward "word embedding" to N EncoderLayer and then get output embedding
+    In official paper, they use positional encoding, which is base on sinusoidal function(fixed, not learnable)
+    But we use "positional embedding" which is learnable from training
+    Args:
+        max_seq: maximum sequence length, default 512 from official paper
+        N: number of EncoderLayer, default 6 for base model
+    """
+    def __init__(self, max_seq: 512, N: int = 6, dim_model: int = 512, num_heads: int = 8, dim_ffn: int = 2048, dropout: float = 0.1) -> None:
+        super(Encoder, self).__init__()
+        self.max_seq = max_seq
+        self.scale = torch.sqrt(torch.Tensor(dim_model))  # scale factor for input embedding from official paper
+        self.positional_embedding = nn.Embedding(max_seq, dim_model)  # add 1 for cls token
+
+		... 중략 ...
+		def forward(self, inputs: Tensor, mask: Tensor) -> tuple[Tensor, Tensor]:
+        """
+        inputs: embedding from input sequence, shape => [BS, SEQ_LEN, DIM_MODEL]
+        mask: mask for Encoder padded token for speeding up to calculate attention score
+        """
+        layer_output = []
+        pos_x = torch.arange(self.max_seq).repeat(inputs.shape[0]).to(inputs)
+        x = self.dropout(
+            self.scale * inputs + self.positional_embedding(pos_x)  # layernorm 적용하고
+        )
+		... 중략 ... 
+```
+
+위 코드는 `Transformer`의 인코더 모듈을 구현한 것이다. 그래서 `forward` 메서드의 `pos_x` 가 바로 $P_E$가 되며, `__init__`의 `self.positional_embedding`이 바로 $W_{P_E}$에 대응된다. 이렇게 정의한 `Position Embedding`은 `Input Embedding`과 더해서 `Word Embedding` 을 만든다. `Word Embedding` 은 다시 개별 모듈의 `linear projection` 레이어에 대한 입력 $X$로 사용 된다. 
+
+**한편,** `Input Embedding` **과** `Position Embedding`**을 더한다는 것에 주목해보자. 필자는 본 논문을 보며 가장 의문이 들었던 부분이다. 도대체 왜 완전히 서로 다른 출처에서 만들어진 행렬 두개를** `concat` **하지 않고 더해서 사용했을까??** `concat`**을 이용하면 `Input`과 `Position` 정보를 서로 다른 차원에 두고 학습하는게 가능했을텐데 말이다.**
+
+**`🤔 Why Sum instead of Concatenate`**
+
+행렬합을 사용하는 이유에 대해 저자가 특별히 언급하지는 않아서 때문에 정확한 의도를 알 수 없지만, **추측하건데 `blessing of dimensionality` 효과를 의도했지 않았나 싶다.** `blessing of dimensionality` 란, 고차원 공간에서 무작위로 서로 다른 벡터 두개를 선택하면 두 벡터는 거의 대부분 `approximate orthogonality`를 갖는 현상을 설명하는 용어다. 무조건 성립하는 성질은 아니고 확률론적인 접근이라는 것을 명심하자. 아무튼 직교하는 두 벡터는 내적값이 0에 수렴한다. 즉, 두 벡터는 서로에게 영향을 미치지 못한다는 것이다. 이것은 전체 모델의 `hidden states space` 에서 `Input Embedding` 과 `Position Embedding` 역시 개별 벡터가 `span` 하는 부분 공간 끼리는 서로 직교할 가능성이 매우 높다는 것을 의미한다. 따라서 서로 다른 출처를 통해 만들어진 두 행렬을 더해도 서로에게 영향을 미치지 못할 것이고 그로 인해 모델이 `Input`과 `Position` 정보를 따로 잘 학습할 수 있을 것이라 기대해볼 수 있다. 가정대로만 된다면, `concat` 을 사용해 모델의 `hidden states space` 를 늘려 `Computational Overhead` 를 유발하는 것보다 훨씬 효율적이라고 볼 수 있겠다.
+
+한편 `blessing of dimensionality`에 대한 설명과 증명은 꽤나 많은 내용이 필요해 여기서는 자세히 다루지 않고, 다른 포스트에서 따로 다루겠다. 관련하여 좋은 내용을 담고 있는 글의 링크를 같이 첨부했으니 읽어보실 것을 권한다([링크1](https://softwaredoug.com/blog/2022/12/26/surpries-at-hi-dimensions-orthoginality.html), [링크2](https://www.reddit.com/r/MachineLearning/comments/cttefo/comment/exs7d08/)).
+
 
 #### `📐 Self-Attention with linear projection`
 
@@ -110,4 +272,12 @@ __*[self-attention with linear projection](https://jalammar.github.io/illustrate
 
 우리는 위 예시를 통해 원하는 정보를 빠르고 정확하게 찾는 행위란, 답변자가 이해하기 좋은 질문과 질문자의 질문 의도에 부합하는 좋은 답변으로 완성된다는 것을 알 수 있었다. 뿐만 아니라, 좋은 질문과 좋은 답변이라는 것은 처음부터 완성되는게 아니라 **검색 시간을 단축하려는 끊임없는 노력**을 통해 성취된다는 것 역시 깨우쳤다. 두가지 인사이트가 바로 `linear projection`으로 행렬 $Q, K,V$을 정의한 이유다. **내가 원하는 정보인지 아닌지 대조하는 내적 연산은 수행하는데 가중치 행렬이 필요 없기 때문에 손실함수의 오차 역전을 활용한 수치 최적화를 수행할 수 없다.** 그래서 손실함수 미분에 의한 최적화가 가능하도록  `linear projection matrix`를 활용해 행렬 $Q, K,V$를 정의해준 것이다. **이렇게 하면 모델이 우리의 목적에 가장 적합한 질문과 답변을 알아서 표현 해줄 것이라 기대할 수 있게 된다.** 한편, 같은 출처에서 나왔다는 말은 방금 예시에서 행렬 $Q, K,V$를 만드는데 동일하게 입력 $X$를 사용 것과 같은 상황을 의미한다.
 
-이제 다시 자연어 처리 맥락으로 돌아와보자. `Transformer` 는 좋은 번역기를 만들기 위해 고안된 `seq2seq` 구조의 모델이다. 즉, 빠르고 정확하게 대상 언어에서 타겟 언어로 번역하는 것에 목표를 두고 만들어졌다는 것이다. 번역을 잘하기 위해서는 어떻게 해야 할까?? **1) 대상 언어로 쓰인 시퀀스의 의미를 정확하게 파악해야 하고, 2) 파악한 의미와 가장 유사한 시퀀스를 타겟 언어로 만들어 내야 한다.** `그래서 1번의 역할은 Encoder가 그리고 2번은 Decoder가 맡게 된다`. 인코더는 결국 (번역하는데 적합한 형태로) 대상 언어의 의미를 정확히 이해하는 방향(숫자로 표현, 임베딩 추출)으로 학습을 수행하게 되며, 디코더는 인코더의 학습 결과와 가장 유사한 문장을 타겟 언어로 생성해내는 과정을 배우게 된다. 따라서 인코더는 대상 언어를 출처로, 디코더는 타겟 언어를 출처로 행렬 $Q, K,V$를 만든다. 정확히 `self` 라는 단어를 이름에 갖다 붙인 의도와 일맥상통하는 모습이다.
+이제 다시 자연어 처리 맥락으로 돌아와보자. `Transformer` 는 좋은 번역기를 만들기 위해 고안된 `seq2seq` 구조의 모델이다. 즉, 빠르고 정확하게 대상 언어에서 타겟 언어로 번역하는 것에 목표를 두고 만들어졌다는 것이다. 번역을 잘하기 위해서는 어떻게 해야 할까?? **1) 대상 언어로 쓰인 시퀀스의 의미를 정확하게 파악해야 하고, 2) 파악한 의미와 가장 유사한 시퀀스를 타겟 언어로 만들어 내야 한다.** `그래서 1번의 역할은 Encoder가 그리고 2번은 Decoder가 맡게 된다`. 인코더는 결국 (번역하는데 적합한 형태로) 대상 언어의 의미를 정확히 이해하는 방향(숫자로 표현, 임베딩 추출)으로 학습을 수행하게 되며, 디코더는 인코더의 학습 결과와 가장 유사한 문장을 타겟 언어로 생성해내는 과정을 배우게 된다. 따라서 인코더는 대상 언어를 출처로, 디코더는 타겟 언어를 출처로 행렬 $Q, K,V$를 만든다. 정확히 `self` 라는 단어를 이름에 갖다 붙인 의도와 일맥상통하는 모습이다. 
+
+**결국** `Transformer` **의 성능을 좌지우지 하는 것은 누가 얼마나 더** `linear projection weight`**을 잘 최적화 하는가에 달렸다고 볼 수 있다.**
+
+**한편 필자는 처음 이 논문을 읽었을 때** `linear projection` **자체의 필요성은 공감했으나, 굳이 3개의 행렬로 나눠서** `train` **시켜야 하는** `param` **숫자를 늘리는 것보다는** `weight share` **하는 형태로 만드는게 더 효율적일 것 같다는 추측을 했었다.** 
+
+그러나 이번 리뷰를 위해 다시 논문을 읽던 중, 좋은 질문을 하기 위한 노력과 좋은 답변을 하기 위한 노력, 그리고 필요한 정보를 정확히 추출해내는 행위를 각각 서로 다른 3개의 벡터로 표현했을 때 **벡터들이 가지는 방향성이 서로 다를텐데** 그것을 하나의 벡터로 표현하려면 모델이 학습을 하기 힘들 것 같다는 생각이 들었다. 방금 위에서 든 예시만 봐도 그렇다. 서로 다른 3개의 행위 사이의 최적 지점을 찾으라는 것과 마찬가진데 그런 스팟이 있다고 해도 언어 모델이 잘 찾을 수 있을까?? 인간도 찾기 힘든 것을 모델이 잘 찾을리가 없다.
+
+**`📐 Scaled Dot-Product Attention`**
