@@ -137,7 +137,7 @@ class Transformer(nn.Module):
         self.dec_input_embedding = nn.Embedding(dec_vocab_size, dim_model) # Decoder Input Embedding Layer
 	
 	def forward(self, enc_inputs: Tensor, dec_inputs: Tensor, enc_pad_index: int, dec_pad_index: int) -> tuple[Tensor, Tensor, Tensor, Tensor]:
-			enc_x, dec_x = self.enc_input_embedding(enc_inputs), self.dec_input_embedding(dec_inputs)
+            enc_x, dec_x = self.enc_input_embedding(enc_inputs), self.dec_input_embedding(dec_inputs)
 ```
 
 위의 예시 코드를 함께 살펴보자. `__init__` 의 `self.enc_input_embedding`, `self._dec_input_embedding`이 바로 $W_E, W_D$에 대응된다. 한편 `forward` 메서드에 정의된 `enc_x`, `dec_x` 는 임베딩 레이어를 거치고 나온 $X_E, X_D$에 해당된다.
