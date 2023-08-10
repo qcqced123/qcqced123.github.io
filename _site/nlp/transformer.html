@@ -410,7 +410,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#limitation-of-recurrent-structure">🤔 Limitation of Recurrent Structure</a></li><li><a href="#modeling">🌟 Modeling</a><ul><li><a href="#-input-embedding">🔬 Input Embedding</a></li><li><a href="#-self-attention-with-linear-projection">🚀 Self-Attention with linear projection</a></li><li><a href="#scaled-dot-product-attention">📐 Scaled Dot-Product Attention</a></li><li><a href="#multi-head-attention-block">👩‍👩‍👧‍👦 Multi-Head Attention Block</a></li><li><a href="#-feed-forward-network">🔬 Feed Forward Network</a></li><li><a href="#add--norm">➕ Add &amp; Norm</a></li><li><a href="#encoderlayer">📘 EncoderLayer</a></li><li><a href="#-encoder">📚 Encoder</a></li><li><a href="#decoderlayer">📘 DecoderLayer</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#limitation-of-recurrent-structure">🤔 Limitation of Recurrent Structure</a></li><li><a href="#modeling">🌟 Modeling</a><ul><li><a href="#-input-embedding">🔬 Input Embedding</a></li><li><a href="#-self-attention-with-linear-projection">🚀 Self-Attention with linear projection</a></li><li><a href="#scaled-dot-product-attention">📐 Scaled Dot-Product Attention</a></li><li><a href="#multi-head-attention-block">👩‍👩‍👧‍👦 Multi-Head Attention Block</a></li><li><a href="#-feed-forward-network">🔬 Feed Forward Network</a></li><li><a href="#add--norm">➕ Add &amp; Norm</a></li><li><a href="#encoderlayer">📘 EncoderLayer</a></li><li><a href="#-encoder">📚 Encoder</a></li><li><a href="#decoderlayer">📘 DecoderLayer</a></li><li><a href="#decoder">📚 Decoder</a></li><li><a href="#-transformer">🦾 Transformer</a></li></ul></li></ul>
 
             </nav>
           </aside>
@@ -1103,6 +1103,73 @@ W_{P_D} \in R^{S_D * d} \\\]
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">Self-Attention</code> 레이어가 인코더보다 하나 더 추가되어 <code class="language-plaintext highlighter-rouge">add &amp; norm</code> 을 총 3번 해줘야 한다는 것을 제외하고는 크게 구현상의 특이점은 없다. 그저 지금까지 살펴본 블럭을 요리조리 다시 쌓으면 된다.</p>
+
+<h4 id="decoder"><strong><code class="language-plaintext highlighter-rouge">📚 Decoder</code></strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">Single Decoder Block</code>을 <code class="language-plaintext highlighter-rouge">N</code>개 쌓고 전체 디코더 동작을 수행하는 <code class="language-plaintext highlighter-rouge">Decoder</code> 객체의 구현을 알아보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of Decoder(N Stacked Single Decoder Block)
+</span>
+<span class="k">class</span> <span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">"""
+    In this class, decode encoded embedding from encoder by outputs (target language, Decoder's Input Sequence)
+    First, we define "positional embedding" for Decoder's Input Sequence,
+    and then add them to Decoder's Input Sequence for making "decoder word embedding"
+    Second, forward "decoder word embedding" to N DecoderLayer and then pass to linear &amp; softmax for OutPut Probability
+    Args:
+        vocab_size: size of vocabulary for output probability
+        max_seq: maximum sequence length, default 512 from official paper
+        N: number of EncoderLayer, default 6 for base model
+    References:
+        https://arxiv.org/abs/1706.03762
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">max_seq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+        <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span>
+        <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+        <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="n">dim_ffn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2048</span><span class="p">,</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Decoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">max_seq</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">dim_model</span><span class="p">))</span>  <span class="c1"># scale factor for input embedding from official paper
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">positional_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_seq</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># add 1 for cls token
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">N</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_ffn</span> <span class="o">=</span> <span class="n">dim_ffn</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">decoder_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">DecoderLayer</span><span class="p">(</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dim_ffn</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_out</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>  <span class="c1"># In Pytorch, nn.CrossEntropyLoss already has softmax function
+</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">dec_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">enc_dec_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">"""
+        inputs: embedding from input sequence, shape =&gt; [BS, SEQ_LEN, DIM_MODEL]
+        dec_mask: mask for Decoder padded token for Language Modeling
+        enc_dec_mask: mask for Encoder-Decoder Self-Attention, from encoder padded token
+        """</span>
+        <span class="n">layer_output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">pos_x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">to</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">inputs</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">positional_embedding</span><span class="p">(</span><span class="n">pos_x</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">decoder_layers</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">dec_mask</span><span class="p">,</span> <span class="n">enc_dec_mask</span><span class="p">,</span> <span class="n">enc_output</span><span class="p">)</span>
+            <span class="n">layer_output</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">decoded_x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_out</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Because of pre-layernorm
+</span>        <span class="n">layer_output</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">layer_output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># For Weighted Layer Pool: [N, BS, SEQ_LEN, DIM]
+</span>        <span class="k">return</span> <span class="n">decoded_x</span><span class="p">,</span> <span class="n">layer_output</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">Encoder</code> 객체와 모든 부분이 동일하다. 디테일한 설정만 디코더에 맞게 변경되었을 뿐이다. <code class="language-plaintext highlighter-rouge">self.fc_out</code> 에 주목해보자. 디코더는 현재 시점에 가장 적합한 토큰을 예측해야 하기 때문에 디코더의 출력부분에 로짓 계산을 위한 레이어가 필요하다. 그 역할을 하는 것이 바로 <code class="language-plaintext highlighter-rouge">self.fc_out</code>이다. 한편, <code class="language-plaintext highlighter-rouge">self.fc_out</code>의 출력 차원이 <code class="language-plaintext highlighter-rouge">vocab_size</code>으로 되어있는데, 디코더는 디코더가 가진 전체 <code class="language-plaintext highlighter-rouge">vocab</code> 을 현재 시점에 적합한 토큰 후보군으로 사용하기 때문이다.</p>
+
+<h4 id="-transformer"><strong><code class="language-plaintext highlighter-rouge">🦾 Transformer</code></strong></h4>
 
         
       </section>

@@ -736,3 +736,71 @@ class DecoderLayer(nn.Module):
 ```
 
 `Self-Attention` 레이어가 인코더보다 하나 더 추가되어 `add & norm` 을 총 3번 해줘야 한다는 것을 제외하고는 크게 구현상의 특이점은 없다. 그저 지금까지 살펴본 블럭을 요리조리 다시 쌓으면 된다.
+
+#### **`📚 Decoder`**
+
+`Single Decoder Block`을 `N`개 쌓고 전체 디코더 동작을 수행하는 `Decoder` 객체의 구현을 알아보자.
+
+```python
+# Pytorch Implementation of Decoder(N Stacked Single Decoder Block)
+
+class Decoder(nn.Module):
+    """
+    In this class, decode encoded embedding from encoder by outputs (target language, Decoder's Input Sequence)
+    First, we define "positional embedding" for Decoder's Input Sequence,
+    and then add them to Decoder's Input Sequence for making "decoder word embedding"
+    Second, forward "decoder word embedding" to N DecoderLayer and then pass to linear & softmax for OutPut Probability
+    Args:
+        vocab_size: size of vocabulary for output probability
+        max_seq: maximum sequence length, default 512 from official paper
+        N: number of EncoderLayer, default 6 for base model
+    References:
+        https://arxiv.org/abs/1706.03762
+    """
+    def __init__(
+        self,
+        vocab_size: int,
+        max_seq: int = 512,
+        N: int = 6,
+        dim_model: int = 512,
+        num_heads: int = 8,
+        dim_ffn: int = 2048,
+        dropout: float = 0.1
+    ) -> None:
+        super(Decoder, self).__init__()
+        self.max_seq = max_seq
+        self.scale = torch.sqrt(torch.Tensor(dim_model))  # scale factor for input embedding from official paper
+        self.positional_embedding = nn.Embedding(max_seq, dim_model)  # add 1 for cls token
+        self.num_layers = N
+        self.dim_model = dim_model
+        self.num_heads = num_heads
+        self.dim_ffn = dim_ffn
+        self.dropout = nn.Dropout(p=dropout)
+        self.decoder_layers = nn.ModuleList(
+            [DecoderLayer(dim_model, num_heads, dim_ffn, dropout) for _ in range(self.num_layers)]
+        )
+        self.layer_norm = nn.LayerNorm(dim_model)
+        self.fc_out = nn.Linear(dim_model, vocab_size)  # In Pytorch, nn.CrossEntropyLoss already has softmax function
+
+    def forward(self, inputs: Tensor, dec_mask: Tensor, enc_dec_mask: Tensor, enc_output: Tensor) -> tuple[Tensor, Tensor]:
+        """
+        inputs: embedding from input sequence, shape => [BS, SEQ_LEN, DIM_MODEL]
+        dec_mask: mask for Decoder padded token for Language Modeling
+        enc_dec_mask: mask for Encoder-Decoder Self-Attention, from encoder padded token
+        """
+        layer_output = []
+        pos_x = torch.arange(self.max_seq).repeat(inputs.shape[0]).to(inputs)
+        x = self.dropout(
+            self.scale * inputs + self.positional_embedding(pos_x)
+        )
+        for layer in self.decoder_layers:
+            x = layer(x, dec_mask, enc_dec_mask, enc_output)
+            layer_output.append(x)
+        decoded_x = self.fc_out(self.layer_norm(x))  # Because of pre-layernorm
+        layer_output = torch.stack(layer_output, dim=0).to(x.device)  # For Weighted Layer Pool: [N, BS, SEQ_LEN, DIM]
+        return decoded_x, layer_output
+```
+
+`Encoder` 객체와 모든 부분이 동일하다. 디테일한 설정만 디코더에 맞게 변경되었을 뿐이다. `self.fc_out` 에 주목해보자. 디코더는 현재 시점에 가장 적합한 토큰을 예측해야 하기 때문에 디코더의 출력부분에 로짓 계산을 위한 레이어가 필요하다. 그 역할을 하는 것이 바로 `self.fc_out`이다. 한편, `self.fc_out`의 출력 차원이 `vocab_size`으로 되어있는데, 디코더는 디코더가 가진 전체 `vocab` 을 현재 시점에 적합한 토큰 후보군으로 사용하기 때문이다.
+
+#### **`🦾 Transformer`**
