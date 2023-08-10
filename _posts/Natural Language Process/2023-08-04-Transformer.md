@@ -29,7 +29,7 @@ last_modified_at: 2023-08-03T11:00:00-05:00
 - **2) 점점 흐려지는 Inputs에 Attention (Activation Function with Forward)**
 - **3) 디코더가 가장 마지막 단어만 열심히 보고 `denoising` 수행 (Seq2Seq with Bi-Directional RNN)**
 
-#### `📈 1) 인간과 다른 메커니즘의 Vanishing Gradient 발생 (Activation Function with Backward)`
+**`📈 1) 인간과 다른 메커니즘의 Vanishing Gradient 발생 (Activation Function with Backward)`**
 
 $$
 h(t) = tanh(x_tW_x + h_{t-1}W_h + b))
@@ -43,7 +43,7 @@ $$
 
 결론적으로 `Vanishing Gradient` 현상 자체가 문제는 아니지만 모델이 자연어의 문맥을 파악해 그라디언트에 반영하는게 아니라 단순히 시점에 따라서 불균형하게 발생하기 때문에 낮은 성능의 원인으로 지목 받는 것이다. 이것을 `long-term dependency`라고 부르기도 한다.
 
-#### `✏️ 2) 점점 흐려지는 Inputs에 Attention (Activation Function with Forward)`
+**`✏️ 2) 점점 흐려지는 Inputs에 Attention (Activation Function with Forward)`**
 
 <p markdown="1" align="center">
 ![tanh function](/assets/images/transformer/tanh.png){: .align-center}{: width="75%", height="50%"}{: .image-caption}
@@ -53,8 +53,7 @@ __*tanh function*__
 
 `Hyperbolic Tangent` 은  $y$값이 `[-1, 1]` 사이에서 정의된다고 했다. 다시 말해 셀의 출력값이 항상 일정 범위값( `[-1,1]` )으로 제한(가중치, 편향 더하는 것은 일단 제외) 된다는 것이다. 따라서 한정된 좁은 범위에 출력값들이 맵핑되는데, 이는 결국 입력값의 정보는 대부분 소실된 채 일부 특징만 정제 되어 출력되고 다음 레이어로 `forward` 됨을 의미한다. 그래프를 한 번 살펴보자. 특히 `Inputs` 값이 2.5 이상인 경우부터는 출력값이 거의 1에 수렴해 그 차이를 직관적으로 파악하기 힘들다. 이러한 활성함수가 수십개, 수백개 쌓인다면 결국 원본 정보는 매우 흐려지고 뭉개져서 다른 인스턴스와 구별이 힘들어 질 것이다.
 
-#### `🔬 3) 디코더가 가장 마지막 단어만 열심히 보고 denoising 수행 (Seq2Seq with Bi-Directional RNN)`
-
+**`🔬 3) 디코더가 가장 마지막 단어만 열심히 보고 denoising 수행 (Seq2Seq with Bi-Directional RNN)`**  
 `“쓰다”` ($t_7$)라는 단어의 뜻을 이해하려면 `“돈을”`, `“모자를”`, `“맛이”`, `“글을”`($t_1$)과 같이 멀리 있는 앞 단어를 봐야 알 수 있는데, $h_7$ 에는 $t_1$이 흐려진 채로 들어가 있어서 $t_7$의 제대로 된 의미를 포착하지 못한다. 심지어 언어가 영어라면 뒤를 봐야 정확한 문맥을 알 수 있는데 `Vanilla RNN`은 단방향으로만 학습을 하게 되어 문장의 뒷부분 문맥은 반영조차(뒤에 위치한 목적어에 따라서 쓰다라는 단어의 뉘앙스는 달라짐) 할 수 없다. 그래서 `Bi-directional RNN` 써야하는데, 이것도 역시도 여전히 `“거리”`에 영향 받는다는 건 변하지 않기 때문에 근본적인 해결책이라 볼 수 없다. 즉 인코덜
 
 한편, 디코더의 `Next Token Prediction` 성능은 무조건 인코더로부터 받는 `Context Vector`의 품질에 따라 좌지우지 된다. 그러나 Recurrent 구조의 인코더로부터 나온 Context Vector는 앞서 서술한 것처럼 좋은 품질(뒤쪽 단어가 상대적으로 선명함)이 아니다. 따라서 디코더의 번역(다음 단어 예측) 성능 역시 좋을리가 없다. 
@@ -144,9 +143,8 @@ class Transformer(nn.Module):
 
 한편, $X_E, X_D$은 각각 인코더, 디코더 모듈로 흘러 들어가 `Absolute Position Embedding`과 더해진(행렬 합) 뒤, 개별 모듈의 입력값으로 활용된다.
 
-**`🔢 Absolute Position Embedding(Encoding)`**
-
-`Absolute Position Embedding(Encoding)`은 입력 시퀀스에 위치 정보를 맵핑해주는 역할을 한다. 필자는 개인적으로 `Transformer`에서 가장 중요한 요소를 뽑으라고 하면 세 손가락 안에 들어가는 파트라고 생각한다. 다음 파트에서 자세히 기술하겠지만, `Self-Attention(내적)`은 입력 시퀀스를 병렬로 한꺼번에 처리할 수 있다는 장점을 갖고 있지만, 그 자체로는 토큰의 위치 정보를 인코딩할 수 없다. 우리가 따로 위치 정보를 알려주지 않는 이상 쿼리 행렬의 2번째 행벡터가 입력 시퀀스에서 몇 번째 위치한 토큰인지 모델은 알 길이 없다. 
+**`🔢 Absolute Position Embedding(Encoding)`**  
+입력 시퀀스에 위치 정보를 맵핑해주는 역할을 한다. 필자는 개인적으로 `Transformer`에서 가장 중요한 요소를 뽑으라고 하면 세 손가락 안에 들어가는 파트라고 생각한다. 다음 파트에서 자세히 기술하겠지만, `Self-Attention(내적)`은 입력 시퀀스를 병렬로 한꺼번에 처리할 수 있다는 장점을 갖고 있지만, 그 자체로는 토큰의 위치 정보를 인코딩할 수 없다. 우리가 따로 위치 정보를 알려주지 않는 이상 쿼리 행렬의 2번째 행벡터가 입력 시퀀스에서 몇 번째 위치한 토큰인지 모델은 알 길이 없다. 
 
 그런데, 텍스트는 `Permutation Equivariant`한 `Bias` 가 있기 때문에 토큰의 위치 정보는 `NLP`에서 매우 중요한 요소로 꼽힌다. **직관적으로도 토큰의 순서는 시퀀스가 내포하는 의미에 지대한 영향을 끼친다는 것을 알 수 있다.** 예를 들어 `“철수는 영희를 좋아한다”`라는 문장과 `“영희는 철수를 좋아한다”`라는 문장의 의미가 같은가 생각해보자. 주어와 목적어 위치가 바뀌면서 정반대의 뜻이 되어버린다.
 
@@ -246,14 +244,13 @@ class Encoder(nn.Module):
 
 **한편,** `Input Embedding` **과** `Position Embedding`**을 더한다는 것에 주목해보자. 필자는 본 논문을 보며 가장 의문이 들었던 부분이다. 도대체 왜 완전히 서로 다른 출처에서 만들어진 행렬 두개를** `concat` **하지 않고 더해서 사용했을까??** `concat`**을 이용하면 `Input`과 `Position` 정보를 서로 다른 차원에 두고 학습하는게 가능했을텐데 말이다.**
 
-**`🤔 Why Sum instead of Concatenate`**
-
+**`🤔 Why Sum instead of Concatenate`**  
 행렬합을 사용하는 이유에 대해 저자가 특별히 언급하지는 않아서 때문에 정확한 의도를 알 수 없지만, **추측하건데 `blessing of dimensionality` 효과를 의도했지 않았나 싶다.** `blessing of dimensionality` 란, 고차원 공간에서 무작위로 서로 다른 벡터 두개를 선택하면 두 벡터는 거의 대부분 `approximate orthogonality`를 갖는 현상을 설명하는 용어다. 무조건 성립하는 성질은 아니고 확률론적인 접근이라는 것을 명심하자. 아무튼 직교하는 두 벡터는 내적값이 0에 수렴한다. 즉, 두 벡터는 서로에게 영향을 미치지 못한다는 것이다. 이것은 전체 모델의 `hidden states space` 에서 `Input Embedding` 과 `Position Embedding` 역시 개별 벡터가 `span` 하는 부분 공간 끼리는 서로 직교할 가능성이 매우 높다는 것을 의미한다. 따라서 서로 다른 출처를 통해 만들어진 두 행렬을 더해도 서로에게 영향을 미치지 못할 것이고 그로 인해 모델이 `Input`과 `Position` 정보를 따로 잘 학습할 수 있을 것이라 기대해볼 수 있다. 가정대로만 된다면, `concat` 을 사용해 모델의 `hidden states space` 를 늘려 `Computational Overhead` 를 유발하는 것보다 훨씬 효율적이라고 볼 수 있겠다.
 
 한편 `blessing of dimensionality`에 대한 설명과 증명은 꽤나 많은 내용이 필요해 여기서는 자세히 다루지 않고, 다른 포스트에서 따로 다루겠다. 관련하여 좋은 내용을 담고 있는 글의 링크를 같이 첨부했으니 읽어보실 것을 권한다([링크1](https://softwaredoug.com/blog/2022/12/26/surpries-at-hi-dimensions-orthoginality.html), [링크2](https://www.reddit.com/r/MachineLearning/comments/cttefo/comment/exs7d08/)).
 
 
-#### `📐 Self-Attention with linear projection`
+#### `🚀 Self-Attention with linear projection`
 
 왜 이름이 `self-attention`일까 먼저 고민해보자. 사실 `attention` 개념은 본 논문이 발표되기 이전부터 사용되던 개념이다. `attention`은 `seq2seq` 구조에서 처음 나왔는데, `seq2seq` 은 번역 성능을 높이는 것을 목적으로 고안된 구조라서, 목표인 디코더의 `hidden_states` 값을 쿼리로, 인코더의 `hidden_states`를 키, 벨류의 출처로 사용했다. 즉, 서로 다른 출처에서 나온 `hidden_states` 을 사용해 내적 연산을 수행했던 것이다. 이런 개념에 이제 `“self"` 라는 이름이 붙었다. 결국 같은 출처에서 나온 `hidden_states` 를 내적하겠다는 의미를 내포하고 있는 것이다. 내적은 두 벡터의 `“닮은 정도”` 를 수학적으로 계산한다. 따라서 `self-attention` 이란 간단하게, 같은 출처에서 만들어진 $Q$(쿼리), $K$(키), $V$(벨류)가 `서로 얼마나 닮았는지` 계산해보겠다는 것이다.
 
@@ -280,5 +277,5 @@ __*[self-attention with linear projection](https://jalammar.github.io/illustrate
 
 그러나 이번 리뷰를 위해 다시 논문을 읽던 중, 좋은 질문을 하기 위한 노력과 좋은 답변을 하기 위한 노력, 그리고 필요한 정보를 정확히 추출해내는 행위를 각각 서로 다른 3개의 벡터로 표현했을 때 **벡터들이 가지는 방향성이 서로 다를텐데** 그것을 하나의 벡터로 표현하려면 모델이 학습을 하기 힘들 것 같다는 생각이 들었다. 방금 위에서 든 예시만 봐도 그렇다. 서로 다른 3개의 행위 사이의 최적 지점을 찾으라는 것과 마찬가진데 그런 스팟이 있다고 해도 언어 모델이 잘 찾을 수 있을까?? 인간도 찾기 힘든 것을 모델이 잘 찾을리가 없다.
 
-**`📐 Scaled Dot-Product Attention`**
+#### **`📐 Scaled Dot-Product Attention`**
 
