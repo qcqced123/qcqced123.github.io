@@ -32,7 +32,7 @@ last_modified_at: 2023-08-03T11:00:00-05:00
 **`📈 1) 인간과 다른 메커니즘의 Vanishing Gradient 발생 (Activation Function with Backward)`**
 
 $$
-h(t) = tanh(x_tW_x + h_{t-1}W_h + b))
+h(t) = tanh(x_tW_x + h_{t-1}W_h + b)
 $$
 
 `RNN`의 활성 함수인 `Hyperbolic Tangent` 는 $y$값이 `[-1, 1]` 사이에서 정의되며 기울기의 최대값은 1이다. 따라서 이전 시점 정보는 시점이 지나면 지날수록 (더 많은 셀을 통과할수록) 그라디언트 값이 작아져 미래 시점의 학습에 매우 작은 영향력을 갖게 된다. 이것이 바로 그 유명한 `RNN`의 `Vanishing Gradient` 현상이다. 사실 현상의 발생 자체는 그렇게 큰 문제가 되지 않는다. `RNN`에서 발생하는 `Vanishing Gradient` 가 문제가 되는 이유는 바로 인간이 자연어를 이해하는 메커니즘과 다른 방식으로 현상이 발생하기 때문이다. 우리가 글을 읽는 과정을 잘 떠올려 보자. 어떤 단어의 의미를 알기 위해 가까운 주변 단어의 문맥을 활용할 때도 있지만, 저 멀리 떨어진 문단의 문맥을 활용할 때도 있다. 이처럼 단어 혹은 시퀀스를 구성하는 `원소 사이의 관계성`이나 `어떤 다른 의미론적인 이유`로 `불균형`하게 현재 시점의 학습에 영향력을 갖게 되는게 아니라, 단순 `입력 시점` 때문에 불균형이 발생하기 때문에 `RNN`의 `Vanishing Gradient`가 낮은 성능의 원인으로 지목되는 것이다. 
@@ -54,7 +54,7 @@ __*tanh function*__
 `Hyperbolic Tangent` 은  $y$값이 `[-1, 1]` 사이에서 정의된다고 했다. 다시 말해 셀의 출력값이 항상 일정 범위값( `[-1,1]` )으로 제한(가중치, 편향 더하는 것은 일단 제외) 된다는 것이다. 따라서 한정된 좁은 범위에 출력값들이 맵핑되는데, 이는 결국 입력값의 정보는 대부분 소실된 채 일부 특징만 정제 되어 출력되고 다음 레이어로 `forward` 됨을 의미한다. 그래프를 한 번 살펴보자. 특히 `Inputs` 값이 2.5 이상인 경우부터는 출력값이 거의 1에 수렴해 그 차이를 직관적으로 파악하기 힘들다. 이러한 활성함수가 수십개, 수백개 쌓인다면 결국 원본 정보는 매우 흐려지고 뭉개져서 다른 인스턴스와 구별이 힘들어 질 것이다.
 
 **`🔬 3) 디코더가 가장 마지막 단어만 열심히 보고 denoising 수행 (Seq2Seq with Bi-Directional RNN)`**  
-`“쓰다”` ($t_7$)라는 단어의 뜻을 이해하려면 `“돈을”`, `“모자를”`, `“맛이”`, `“글을”`($t_1$)과 같이 멀리 있는 앞 단어를 봐야 알 수 있는데, $h_7$ 에는 $t_1$이 흐려진 채로 들어가 있어서 $t_7$의 제대로 된 의미를 포착하지 못한다. 심지어 언어가 영어라면 뒤를 봐야 정확한 문맥을 알 수 있는데 `Vanilla RNN`은 단방향으로만 학습을 하게 되어 문장의 뒷부분 문맥은 반영조차(뒤에 위치한 목적어에 따라서 쓰다라는 단어의 뉘앙스는 달라짐) 할 수 없다. 그래서 `Bi-directional RNN` 써야하는데, 이것도 역시도 여전히 `“거리”`에 영향 받는다는 건 변하지 않기 때문에 근본적인 해결책이라 볼 수 없다. 즉 인코덜
+`“쓰다”` ($t_7$)라는 단어의 뜻을 이해하려면 `“돈을”`, `“모자를”`, `“맛이”`, `“글을”`($t_1$)과 같이 멀리 있는 앞 단어를 봐야 알 수 있는데, $h_7$ 에는 $t_1$이 흐려진 채로 들어가 있어서 $t_7$의 제대로 된 의미를 포착하지 못한다. 심지어 언어가 영어라면 뒤를 봐야 정확한 문맥을 알 수 있는데 `Vanilla RNN`은 단방향으로만 학습을 하게 되어 문장의 뒷부분 문맥은 반영조차(뒤에 위치한 목적어에 따라서 쓰다라는 단어의 뉘앙스는 달라짐) 할 수 없다. 그래서 `Bi-directional RNN` 써야하는데, 이것도 역시도 여전히 `“거리”`에 영향 받는다는 건 변하지 않기 때문에 근본적인 해결책이라 볼 수 없다.
 
 한편, 디코더의 `Next Token Prediction` 성능은 무조건 인코더로부터 받는 `Context Vector`의 품질에 따라 좌지우지 된다. 그러나 Recurrent 구조의 인코더로부터 나온 Context Vector는 앞서 서술한 것처럼 좋은 품질(뒤쪽 단어가 상대적으로 선명함)이 아니다. 따라서 디코더의 번역(다음 단어 예측) 성능 역시 좋을리가 없다. 
 
@@ -227,7 +227,7 @@ class Encoder(nn.Module):
         self.positional_embedding = nn.Embedding(max_seq, dim_model)  # add 1 for cls token
 
 		... 중략 ...
-		def forward(self, inputs: Tensor, mask: Tensor) -> tuple[Tensor, Tensor]:
+    def forward(self, inputs: Tensor, mask: Tensor) -> tuple[Tensor, Tensor]:
         """
         inputs: embedding from input sequence, shape => [BS, SEQ_LEN, DIM_MODEL]
         mask: mask for Encoder padded token for speeding up to calculate attention score
@@ -279,3 +279,460 @@ __*[self-attention with linear projection](https://jalammar.github.io/illustrate
 
 #### **`📐 Scaled Dot-Product Attention`**
 
+$$
+Attention(Q,K,V) = softmax(\frac{Q·K^T}{\sqrt{d_k}})V
+$$
+
+이번에는 `Self-Attention` 의 두 번째 하위 블럭인 `Scaled Dot-Product Attention` 차례다. 사실 우리는 `Linear Projection` 파트에서 이미 우리도 모르게 `Scaled Dot-Product Attention` 에 대해 공부했다. 예시를 다시 한 번 상기시켜보자. 질의를 통해 얻은 결과 리스트(키)에서 내가 원하는 정보를 찾기 위해 쿼리와 키를 대조한다고 했던 것 기억나는가?? 바로 그 대조하는 행위를 수학적으로 모델링한 것이 바로 `Scaled Dot-Product Attention` 에 해당한다.
+
+<p markdown="1" align="center">
+![Attention is All You Need](/assets/images/transformer/dot_attention.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Attention is All You Need](https://arxiv.org/abs/1706.03762)*__
+</p>
+
+`Scaled Dot-Product Attention` 은 총 5단계를 거쳐 완성된다. 단계마다 어떤 연산을 왜 하는지 그리고 무슨 인사이트가 담겨 있는지 알아보자. 이 중에서 마스킹 단계는 인코더와 디코더의 동작을 자세히 알아야하기 때문에 전체적인 구조 관점에서 모델을 바라볼 때 함께 설명하도록 하겠다.
+
+**`✖️ Stage 1. Q•K^T Dot-Product`**
+
+$$
+Q•K^T
+$$
+
+인간은 문장이나 어떤 표현의 의미를 파악하는데 바로 주변 맥락을 참고하거나, 더 멀리 떨어진 곳의 단어•시퀀스를 이용하기도 한다. **즉, 주어진 시퀀스 내부의 모든 맥락을 이용해 특정 부분의 의미를 이해한다는 것이다.** 그렇다고 모든 정보가 동일하게 특정 표현의 의미에 영향을 미치는 것은 또 아닌데, 수능 영어에 킬러 문항으로 등장하는 빈칸 채우기 문제를 어떻게 풀었나 떠올려보자. 디테일한 풀이 방식에는 사람마다 차이가 있겠지만, 일반적으로 지문은 모두 훑어 보되 빈칸에 들어갈 정답의 근거가 되는 특정 문장 혹은 표현 1~2개를 찾아내어 비슷한 의미를 지닌 선지를 골라 내는 방식을 사용한다. **다시 말해, 주어진 전체 단락에서 의미를 이해하는데 중요한 역할을 하는 표현이나 문장을 골라내어 `중요도` 만큼 `가중치` 를 주겠다는 것이다.**
+
+<p markdown="1" align="center">
+![Q•K^T Dot Product Visualization](/assets/images/transformer/attention_visualization.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Q•K^T Dot Product Visualization](https://jalammar.github.io/illustrated-transformer/)*__
+</p>
+
+그렇다면 이것을 어떻게 수학적으로 모델링했을까?? 바로 행렬 $Q$와 $K^T$의 `내적`을 활용한다. 행렬 $Q$는 모델이 의미를 파악해야 하는 대상이 담겨 있고, 행렬 $K$에는 의미 파악에 필요한 단서들이 담겨있다. 내적은 두 벡터의 서로 `“닮은 정도”` 를 의미한다고 했다. `“닮은 정도”` 가 바로 `중요도•가중치`에 대응된다. 따라서 연산 결과는 전체 시퀀스에 속한 토큰들 사이의 `“닮은 정도”` 가 수치로 변환되어 행렬에 담긴다.
+
+왜 `내적 결과`가 `중요도`와 같은 의미를 갖게 되는 것일까?? 아까 `Input Embedding`과 `Position Embedding`을 행렬합 하는 것에 대한 당위성을 설명하면서 고차원으로 갈수록 대부분의 벡터 쌍은 `직교성`을 갖게 된다고 언급한 바 있다. 그래서 두 벡터가 비슷한 방향성을 갖는다는 것 자체가 매우 드문일이다. 희귀하고 드문 사건은 그만큼 중요하다고 말할 수 있기 때문에 `내적 결과`를 `중요도`에 맵핑하는 것이다.
+
+한편, 행렬 $Q,K$ 모두 차원이 `[Batch, Max_Seq, Dim_Head]` 인 텐서라서 내적한 결과의 모양은 `[Batch, Max_Seq, Max_Seq]` 이 될 것이다.
+
+**`🔭 Stage 2. Scale`**
+
+$$
+Q•K^T = \begin{bmatrix}
+56.8 & 12.1 & 43.5 \\
+30.4 & 100.8 & 24.2 \\
+11.11 & 7.34 & 20.23 \\
+\end{bmatrix}
+$$
+
+`“I am dog”` 라는 문장을 $Q•K^T$하면 위와 같은 `3x3` 짜리 행렬이 나올 것이다. 행렬을 행벡터로 바라보자. **행 사이의 값의 분포가 고르지 못하다는 것을 알 수 있다.** 이렇게 분산이 큰 상태로 `softmax` 에 통과시키게 되면 역전파 과정에서 `softmax` 의 미분값이 줄어 들어 학습 속도가 느려지고 나아가 `vanishing gradient` 현상이 발생할 수 있다. 따라서 행벡터 사이의 분산을 줄여주기 위해서 `Scale Factor` 를 정의하게 된다. 그렇다면 어떤 `Scale Factor` 를 써야할까??
+
+$$
+\frac{Q•K^T}{\sqrt{d_h}}
+$$
+
+애초에 `Dim Head` 차원에 속한 값들의 분산이 큰 것도 문제가 되지만 이것은 `Input Embedding`이나 `Position Embedding`에 `layernorm` 을 적용하면 해결할 수 있기 때문에 논의 대상이 아니다. 그것보다는 내적 과정에 주목해보자. 우리는 내적을 하다보면 `Dim Head`의 차원이 커질수록 더해줘야 하는 스칼라 값의 개수가 늘어나게 된다는 사실을 알 수 있다. 만약 위에서 예시로 든 수식의 `Dim Head`가 64라고 가정해보자. 그럼 우리는 1행 1열의 값을 얻기 위해 64개의 스칼라 값을 더해줘야 한다. 만약 `512`차원이라면 `512`개로 불어난다. **더해줘야 하는 스칼라 값이 많아진다면 행벡터 끼리의 분산이 커질 우려가 있다.** 따라서 차원 크기의 스케일에 따라 `softmax`의 미분값이 줄어드는 것을 방지하기 위해 $Q•K^T$결과에 $\sqrt{d_h}$를 나눠 준다.
+
+여담으로 이러한 `scale factor` 의 존재 때문에 `Self-Attention`을 `Scaled Dot-Product Attention` 이라고 부르기도 한다.
+
+**`🎭 Stage 3. masking`**  
+마스킹은 인코더 `Input Padding`, 디코더 `Masked Multi-Head Attention`, 인코더-디코더 `Self-Attention` 을 위해 필요한 계층이다. 뒤에 두개는 디코더의 동작을 알아야 이해가 가능하기 때문에 여기서는 인코더의 마스킹에 대해서만 알아보자. 
+
+<p markdown="1" align="center">
+![Encoder Padding Mask](/assets/images/transformer/encoder_mask.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Encoder Padding Mask](https://paul-hyun.github.io/transformer-02/)*__
+</p>
+
+실제 텍스트 데이터는 배치된 시퀀스마다 그 길이가 제각각이다. 효율성을 위해 행렬을 사용하는 컴퓨터 연산 특성상 배치된 시퀀스의 길이가 모두 다르다면 연산을 진행할 수가 없다. 따라서 배치 내부의 모든 시퀀스의 길이를 통일해주는 작업을 하게 되는데, 이 때 기준 길이보다 짧은 시퀀스에 대해서는 `0`값을 채워넣는 `padding` 작업을 한다.  행렬 연산에는 꼭 필요했던 `padding`은 오히려 `softmax` 레이어를 계산할 때 방해가 된다. 따라서 모든 `padding` 값을 `softmax`의 확률 계산에서 완전히 제외시키기 위해 `Input Embedding`에서 `padding token`의 인덱스를 저장하고 해당되는 모든 원소를 `-∞` 로 마스킹하는 과정이 필요하다.
+
+이 때 마스킹 처리는 열벡터에만 적용한다. 그 이유는 바로 `softmax` 계산을 어차피 행벡터 방향으로만 할 것이기 때문이다. 행벡터 방향의 `padding token`에도 동일하게 마스킹 적용하는 것은 상관 없으나 열벡터와 행벡터 동시에 마스킹 적용하는 동작을 구현하는 것은 생각보다 많이 까다로우며, 나중에 손실값 계산하는 단계에서 `ignore_index` 옵션을 사용해 행벡터의 `padding token`을 무시하는 것이 훨씬 효율적이다. 한편, `ignore_index` 옵션은 `nn.CrossEntropyLoss` 에 매개변수로 구현 되어 있다.
+
+**`📈 Stage 4. Softmax & Score•V`**
+
+$$
+Score = \begin{bmatrix}
+  0.90 & 0.07 & 0.03 \\
+  0.025 & 0.95 & 0.025 \\
+  0.21 & 0.03 & 0.76 
+\end{bmatrix}, \ \  V=\begin{bmatrix}
+  67.85 & 90 & 91 & ..... \\
+  62 & 40 & 50 & ..... \\
+  37 & 41 & 20 & .....
+\end{bmatrix},\ \  Z = score \ • \ V
+$$
+
+$$
+{\overset{}{z_{1}^{}}} = {\overset{}{Score_{11}^{}}}({\overset{}{V_{11}^{}}}\ + \ {\overset{}{V_{12}^{}}}\ + \ ...) \ + \ {\overset{}{Score_{12}^{}}}({\overset{}{V_{21}^{}}}\ + \ {\overset{}{V_{22}^{}}}\ + \ ...)\ + \ ....... \\
+{\overset{}{z_{2}^{}}} = {\overset{}{Score_{21}^{}}}({\overset{}{V_{11}^{}}}\ + \ {\overset{}{V_{12}^{}}}\ + \ ...) \ + \ {\overset{}{Score_{22}^{}}}({\overset{}{V_{21}^{}}}\ + \ {\overset{}{V_{22}^{}}}\ + \ ...)\ + \ ....... \\
+{\overset{}{z_{3}^{}}} = {\overset{}{Score_{31}^{}}}({\overset{}{V_{11}^{}}}\ + \ {\overset{}{V_{12}^{}}}\ + \ ...) \ + \ {\overset{}{Score_{32}^{}}}({\overset{}{V_{21}^{}}}\ + \ {\overset{}{V_{22}^{}}}\ + \ ...)\ + \ ....... \\
+$$
+
+계산된 `유사도(내적 결과, 중요도, 가중치)`, $\frac{Q•K^T}{\sqrt{d_h}}$는 이후에 행렬 $V$와 다시 곱해져 행벡터 $Z_n$(n번째 토큰)에서 토큰에 대한 어텐션 정도를 나타내는 `가중치`의 역할을 하게 된다. 그러나 계산된 유사도는 비정규화된 형태다. 수식에는 편의상 이미 `softmax`를 적용한 형태의 행렬을 적었지만, 실제로는 원소값의 분산이 너무 커서 가중치로는 쓰기 힘든 수준이다. 따라서 행벡터 단위로 `softmax`에 통과시켜 결과의 합이 1인 확률값으로 `변환(정규화)`해 행렬 $V$의 가중치로 사용한다. 
+
+이제 두번째 수식을 보자. $Score_{11}$에 해당하는 `0.90`가 행렬 $V$의 첫번째 행벡터와 곱해지고 있다. 행렬 $V$의 첫번째 행벡터는 토큰 `“I”` 를 `512`차원으로 표현한 것이다. 그 다음 $Score_{12}$는 행렬 $V$의 두번째 행벡터와, $Score_{13}$은 행렬 $V$의 세번째 행벡터와 각각 곱해진다. 
+
+이 행위의 의미는 무엇일까?? $Score_{11}$, $Score_{12}$, $Score_{13}$은 모두 첫번째 토큰인 `“I”`에 의미를 파악하는데 `“I”`, `“am”`, `“dog”`를 어느 정도로 어텐션해야 하는지, 즉 `“I”`의 의미를 표현하는데 세 토큰의 의미를 어느 정도 반영할지 수치로 표현한 것이다. 당연히 자기 자신인 `“I”`와 `가중치(유사도, 중요도)`가 가장 높기 때문에 행렬 $V$에서 `“I”` 에 해당하는 행벡터 가중치에 가장 큰 값이 들어간다고 생각해볼 수 있다. 이렇게 각 토큰마다 가중합을 반복해주면 최종적으로 `“I”`, `“am”`, `“dog”` 을 인코딩한 $Z_1, \ Z_2, \  Z_3$ 값을 얻을 수 있다.
+
+**`👩‍💻 Implementation`** 
+
+이렇게 `Scaled Dot-Product Attention` 을 모두 살펴보았다. 해당 레이어는 모델이 손실값이 가장 작아지는 방향으로 최적화한 행렬 $Q, K, V$ 을 이용해, 토큰의 의미를 이해하는데 어떤 맥락과 표현에 좀 더 집중하고 덜 집중해야 하는지를 유사도를 기준으로 판단한다는 것을 꼭 기억하자. 그렇다면 실제 코드는 어떻게 작성 해야하는지 함께 알아보자. 상단의 `class diagram` 을 다시 한 번 보고 돌아오자.
+
+```python
+# Pytorch Implementation of Scaled Dot-Product Self-Attention
+
+def scaled_dot_product_attention(q: Tensor, k: Tensor, v: Tensor, dot_scale: Tensor, mask: Tensor = None) -> Tensor:
+    """
+    Scaled Dot-Product Attention with Masking for Decoder
+    Args:
+        q: query matrix, shape (batch_size, seq_len, dim_head)
+        k: key matrix, shape (batch_size, seq_len, dim_head)
+        v: value matrix, shape (batch_size, seq_len, dim_head)
+        dot_scale: scale factor for Q•K^T result
+        mask: there are three types of mask, mask matrix shape must be same as single attention head
+              1) Encoder padded token
+              2) Decoder Masked-Self-Attention
+              3) Decoder's Encoder-Decoder Attention
+    Math:
+        A = softmax(q•k^t/sqrt(D_h)), SA(z) = Av
+    """
+    attention_matrix = torch.matmul(q, k.transpose(-1, -2)) / dot_scale
+    if mask is not None:
+        attention_matrix = attention_matrix.masked_fill(mask == 0, float('-inf'))
+    attention_dist = F.softmax(attention_matrix, dim=-1)
+    attention_matrix = torch.matmul(attention_dist, v)
+    return attention_matrix
+```
+
+마스킹 옵션의 경우 주석에 정리된 3가지 상황 중에서 한 개 이상에 해당되면 실행되도록 코드를 작성했다. 3가지  상황과 구체적인 마스킹 방법에 대해서는 전체 모델 구조를 보는 때 소개하도록 하겠다. 
+
+한편, 인코더나 디코더나 모두 사용하는 입력과 마스킹 방식에 차이는 있지만, `Scaled Dot-Product Attention` 연산 자체는 동일한 것을 사용한다. 따라서 여러개의 인코더나 디코더 객체들 혹은 어텐션 해드 객체들이 모두 쉽게 연산에 접근할 수 있게 클래스 외부에 메서드 형태로 구현하게 되었다. 
+
+#### **`👩‍👩‍👧‍👦 Multi-Head Attention Block`**
+
+지금까지 살펴본 `Self-Attention`의 동작은 모두 한 개의 `Attention-Head`에서 일어나는 일을 서술한 것이다. 사실 실제 모델에서는 같은 동작이 `N-1`개의 다른 해드에서 동시에 일어나는데, 이것이 바로 `Multi-Head Attention`이다. 
+
+`Official Paper` 기준으로 `Transformer-base`의 `hidden states` 차원은 `512`이다. 이것을 개당 `64`차원을 갖는 `8`개의 `Attention-Head` 로 쪼갠 뒤, 8개의 `Attention-Head` 에서 동시에 `Self-Attention` 을 수행한다. 이후 결과를 `concat`하여 다시 `hidden states` 를 `512` 로 만든 뒤, 여러 해드에서 만든 결과를 연결하고 섞어주기 위해 입출력 차원이 `hidden states`와 동일한 `linear projection layer`에 통과시킨다. 이것이 인코더(혹은 디코더) 블럭 한 개의 최종 `Self-Attention` 결과가 된다.
+
+<p markdown="1" align="center">
+![Multi-Head Attention Result Visualization](/assets/images/transformer/multi_head_result.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Multi-Head Attention Result Visualization](https://arxiv.org/abs/1706.03762)*__
+</p>
+
+**그럼 왜 이렇게 여러 해드를 사용했을까?? 바로 집단지성의 효과를 누리기 위함이다.** 생각해보자. 책 하나를 읽어도 사람마다 정말 다양한 해석이 나온다. 모델도 마찬가지다. 여러 해드를 사용해서 좀 더 다양하고 풍부한 의미를 임베딩에 담고 싶었던 것이다. Kaggle을 해보신 독자라면, 여러 전략을 사용해 여러 개의 결과를 도출한 뒤, 마지막에 모두 앙상블하면 전략 하나 하나의 결과보다 더 높은 성적을 얻어본 경험이 있을 것이다. 이것도 비슷한 효과를 의도했다고 생각한다. Vision에서 Conv Filter를 여러 종류 사용해 다양한 Feature Map을 추출하는 것도 비슷한 현상이라 볼 수 있겠다.
+
+위 그림은 저자가 제시한 `Multi-Head Attention`의 시각화 결과다. 중간에 있는 여러 색깔의 띠는 개별 해드가 어텐션하는 방향을 가리킨다. 토큰 `“making”` 에 대해서 해드들이 서로 다른 토큰에 어텐션하고 있다.
+
+<p markdown="1" align="center">
+![ViT Multi-Head Attention Result Visualization](/assets/images/transformer/vit_multi_head_result.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[ViT Multi-Head Attention Result Visualization](https://arxiv.org/abs/2010.11929)*__
+</p>
+
+위 그림은 Vision Transformer 논문에서 발췌한 그림[(그림의 자세한 의미는 여기서)](https://qcqced123.github.io/cv/vit)이다. 역시 마찬가지로 모델의 초반부 인코더에 속한 Multi-Head들이 서로 다양한 토큰에 어텐션을 하고 있음을 알 수 있다. 추가로 후반으로 갈수록 점점 `Attention Distance` 가 일정한 수준에 수렴하는 모습을 볼 수 있는데, 이것을 레이어를 통과할수록 개별 해드가 자신이 어떤 토큰에 주의를 기울여야할지 구체적으로 알아가는 과정이라고 해석할 수 있다. 초반부에는 어찌할 바를 몰라서 이토큰 저토큰에 죄다 어텐션하는 것이다. 
+
+그래서 `Transformer`는 `Bottom Layer`에서는 `Global`하고 `General`한 정보를 포착하고, `Output`과 가까운 `Top Layer`에서는 `Local`하고 `Specific`한 정보를 포착한다.
+
+**`👩‍💻 Implementation`** 
+
+이제 구현을 실제로 구현을 해보자. 역시 구현은 파이토치로 진행했다. 
+
+```python
+# Pytorch Implemenation of Single Attention Head
+
+class AttentionHead(nn.Module):
+    """
+    In this class, we implement workflow of single attention head
+    Args:
+        dim_model: dimension of model's latent vector space, default 512 from official paper
+        dim_head: dimension of each attention head, default 64 from official paper (512 / 8)
+        dropout: dropout rate, default 0.1
+    Math:
+        [q,k,v]=z•U_qkv, A = softmax(q•k^t/sqrt(D_h)), SA(z) = Av
+    """
+    def __init__(self, dim_model: int = 512, dim_head: int = 64, dropout: float = 0.1) -> None:
+        super(AttentionHead, self).__init__()
+        self.dim_model = dim_model
+        self.dim_head = dim_head  # 512 / 8 = 64
+        self.dropout = dropout
+        self.dot_scale = torch.sqrt(torch.tensor(self.dim_head))
+        self.fc_q = nn.Linear(self.dim_model, self.dim_head)  # Linear Projection for Query Matrix
+        self.fc_k = nn.Linear(self.dim_model, self.dim_head)  # Linear Projection for Key Matrix
+        self.fc_v = nn.Linear(self.dim_model, self.dim_head)  # Linear Projection for Value Matrix
+
+    def forward(self, x: Tensor, mask: Tensor, enc_output: Tensor = None) -> Tensor:
+        q, k, v = self.fc_q(x), self.fc_k(x), self.fc_v(x)  # x is previous layer's output
+        if enc_output is not None:
+            """ For encoder-decoder self-attention """
+            k = self.fc_k(enc_output)
+            v = self.fc_v(enc_output)
+        attention_matrix = scaled_dot_product_attention(q, k, v, self.dot_scale, mask=mask)
+        return attention_matrix
+```
+
+똑같은 `Attention-Head`를 `N`개 사용하기 때문에 먼저 `Single Attention Head`의 동작을 따로 객체로 만들었다. 이렇게 하면 `MultiHeadAttention` 객체에서 `nn.ModuleList` 를 사용해 `N`개의 해드를 이어붙일 수 있어서 구현이 훨씬 간편해지기 때문이다. `Single Attention Head` 객체가 하는 일은 다음과 같다.
+
+- **1) Linear Projection by Dimension of Single Attention Head**
+- **2) Maksing**
+- **3) Scaled Dot-Product Attention**
+
+한편, 여러 `Transformer` 구현 Git Repo를 살펴보면 구현 방법은 크게 필자처럼 `Single Attention Head`를 추상화하거나 `MultiHeadAttention` 객체 하나에 모든 동작을 때려넣는 방식으로 나뉘는 것 같다. 사실 구현에 정답은 없지만 개인적으로 후자의 방식은 비효율적이라 생각한다. 저렇게 구현하면 `3*N`개의 `linear projector`를 클래스 `__init__` 에 만들고 관리해줘야 하는데 쉽지 않을 것이다. 물론 `3`개의 `linear projector` 만 초기화해서 사용하고 대신 출력 차원을 `Dim_Head`가 아닌 `Dim_Model`로 구현한 뒤, `N`개로 차원을 분할하는 방법도 있다. 하지만 차원을 쪼개는 동작을 구현하는 것도 사실 쉽지 않다. 그래서 필자는 전자의 방식을 추천한다.
+
+한편, `forward` 메서드에  `if enc_output is not None:` 부분은 추후에 디코더에서 `Multi-Head Attention`을 구현하기 위해 추가한 코드다. 디코더는 인코더와 다르게 하나의 디코더 블럭에서 `Self-Attention`동작을 두번하는데, 두번째 동작은 서로 다른 출처의 값을 이용해 `linear projection`을 수행한다. 따라서 그 경우를 처리해주기 위해 구현하게 되었다.
+
+아래는 `MultiHeadAttention` 을 구현한 파이토치 코드다.
+
+```python
+# Pytorch Implemenation of Single Attention Head
+
+class MultiHeadAttention(nn.Module):
+    """
+    In this class, we implement workflow of Multi-Head Self-Attention
+    Args:
+        dim_model: dimension of model's latent vector space, default 512 from official paper
+        num_heads: number of heads in MHSA, default 8 from official paper for Transformer
+        dim_head: dimension of each attention head, default 64 from official paper (512 / 8)
+        dropout: dropout rate, default 0.1
+    Math:
+        MSA(z) = [SA1(z); SA2(z); · · · ; SAk(z)]•Umsa
+    Reference:
+        https://arxiv.org/abs/1706.03762
+    """
+    def __init__(self, dim_model: int = 512, num_heads: int = 8, dim_head: int = 64, dropout: float = 0.1) -> None:
+        super(MultiHeadAttention, self).__init__()
+        self.dim_model = dim_model
+        self.num_heads = num_heads
+        self.dim_head = dim_head
+        self.dropout = dropout
+        self.attention_heads = nn.ModuleList(
+            [AttentionHead(self.dim_model, self.dim_head, self.dropout) for _ in range(self.num_heads)]
+        )
+        self.fc_concat = nn.Linear(self.dim_model, self.dim_model)
+
+    def forward(self, x: Tensor, mask: Tensor, enc_output: Tensor = None) -> Tensor:
+        """ x is already passed nn.Layernorm """
+        assert x.ndim == 3, f'Expected (batch, seq, hidden) got {x.shape}'
+        attention_output = self.fc_concat(
+            torch.cat([head(x, mask, enc_output) for head in self.attention_heads], dim=-1)
+        )
+        return attention_output
+```
+
+`MultiHeadAttention` 객체는 개별 해드들이 도출한 어텐션 결과를 `concat`하고 그것을 `connect & mix`하려고 `linear projection`을 수행한다.
+
+#### **`🔬 Feed Forward Network`**
+
+```python
+# Pytorch Implementation of FeedForward Network
+
+class FeedForward(nn.Module):
+    """
+    Class for Feed-Forward Network module in transformer
+    In official paper, they use ReLU activation function, but GELU is better for now
+    We change ReLU to GELU & add dropout layer
+    Args:
+        dim_model: dimension of model's latent vector space, default 512
+        dim_ffn: dimension of FFN's hidden layer, default 2048 from official paper
+        dropout: dropout rate, default 0.1
+    Math:
+        FeedForward(x) = FeedForward(LN(x))+x
+    """
+    def __init__(self, dim_model: int = 512, dim_ffn: int = 2048, dropout: float = 0.1) -> None:
+        super(FeedForward, self).__init__()
+        self.ffn = nn.Sequential(
+            nn.Linear(dim_model, dim_ffn),
+            nn.GELU(),
+            nn.Dropout(p=dropout),
+            nn.Linear(dim_ffn, dim_model),
+            nn.Dropout(p=dropout),
+        )
+
+    def forward(self, x: Tensor) -> Tensor:
+        return self.ffn(x)
+```
+
+피드 포워드는 모델에 `non-linearity`를 추가하기 위해 사용하는 레이어다. 원본 모델은 `ReLU` 를 사용하지만 최근 `Transformer`류 모델에는 `GeLU`를 사용하는 것이 좀 더 안정적인 학습을 하는데 도움이 된다고 밝혀져, 필자 역시 `GeLU`를 사용해 구현했다. 또한 논문에는 `dropout`에 대한 언급이 전혀 없는데, 은닉층의 차원을 저렇게 크게 키웠다 줄이는데 `overfitting` 이슈가 있을 것 같아서 `ViT` 논문을 참고해 따로 추가해줬다.
+
+#### **`➕ Add & Norm`**
+
+`Residual Connection`과 `Layernorm`을 의미한다. 따로 객체를 만들어서 사용하지는 않고, `EncoderLayer` 객체에 라인으로 추가해 구현하기 때문에 여기서는 역할과 의미만 설명하고 넘어가겠다. 
+
+먼저 `Skip-Connection`으로도 불리는 `Residual Connection`은 어떤 레이어를 통과하기 전, 입력 $x$ 를 레이어를 통과하고 나온 결과값 $fx$ 에 더해준다. 따라서 다음 레이어에 통과되는 입력값은 $x+fx$ 가 된다. 왜 이렇게 더해줄까?? 바로 모델의 안정적인 학습을 위해서다. 일단 그전에 명심하고 가야할 전제가 하나 있다. 모델의 레이어가 깊어질수록 레이어마다 값을 조금씩 바꿔나가는 것이 `Robust`하고 `Stable`한 결과를 도출할 수 있다는 것이다. 직관적으로 레이어마다 결과가 널뛰기하는 모델보다 안정적으로 차근차근 학습해나가는 모델의 일반화 성능이 더 좋을 것이라고 추측해볼 수 있다. 그래서 `Residual Connection` 은 입력 $x$ 와 레이어의 이상적인 출력값 $H(x)$ 의 차이가 크지 않음을 가정한다. 만약, 입력 $X$ 를 `10.0` , $H(x)$ 를 `10.4` 라고 해보자. 그럼 `Residual Connection` 을 사용하는 모델은 `0.4`에 대해서만 학습을 하면 된다. 한편 이것을 사용하지 않는 모델은 0에서부터 시작해 무려 `10.4`를 학습해야 한다. 어떤 모델이 학습하기 쉬울까?? 당연히 전자일 것이다. 이렇게 모델이 이상적인 값과 입력의 차이만 학습하면 되기 때문에 이것을 `잔차 학습`이라고 부르는 것이다.
+
+<p markdown="1" align="center">
+![Layernorm vs Batchnorm](/assets/images/transformer/layernorm.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Layernorm vs Batchnorm](https://paperswithcode.com/method/layer-normalization)*__
+</p>
+
+#### **`📘 EncoderLayer`**
+
+이제 `Single Encoder Block`을 정의하기에 필요한 모든 재료를 살펴봤다. 지금까지의 내용을 종합해 한 개의 인코더 블럭을 만들어보자.
+
+```python
+# Pytorch Implementation of Single Encoder Block
+
+class EncoderLayer(nn.Module):
+    """
+    Class for encoder model module in Transformer
+    In this class, we stack each encoder_model module (Multi-Head Attention, Residual-Connection, LayerNorm, FFN)
+    We apply pre-layernorm, which is different from original paper
+    In common sense, pre-layernorm are more effective & stable than post-layernorm
+    """
+    def __init__(self, dim_model: int = 512, num_heads: int = 8, dim_ffn: int = 2048, dropout: float = 0.1) -> None:
+        super(EncoderLayer, self).__init__()
+        self.self_attention = MultiHeadAttention(
+            dim_model,
+            num_heads,
+            int(dim_model / num_heads),
+            dropout,
+        )
+        self.layer_norm1 = nn.LayerNorm(dim_model)
+        self.layer_norm2 = nn.LayerNorm(dim_model)
+        self.dropout = nn.Dropout(p=dropout)
+        self.ffn = FeedForward(
+            dim_model,
+            dim_ffn,
+            dropout,
+        )
+
+    def forward(self, x: Tensor, mask: Tensor) -> Tensor:
+        ln_x = self.layer_norm1(x)
+        residual_x = self.dropout(self.self_attention(ln_x, mask)) + x
+
+        ln_x = self.layer_norm2(residual_x)
+        fx = self.ffn(ln_x) + residual_x
+        return fx
+```
+
+지금까지의 내용을 객체 하나에 모아둔거라 특별히 설명이 필요한 부분은 없지만, 필자가 `add & norm`을 언제 사용했는지 주목해보자. 원본 논문은 `Multi-Head Attention`과 `FeedForward` `Layer`를 통과한 이후에 `add & norm`을 하는 `post-layernorm` 방식을 적용했다. 하지만 필자는 두 레이어 통과 이전에 미리 `add & norm` 을 해주는 `pre-layernorm` 방식을 채택했다.
+
+<p markdown="1" align="center">
+![pre-layernorm vs post-layernorm](/assets/images/transformer/prelayernorm.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[pre-layernorm vs post-layernorm](https://github.com/rickiepark/nlp-with-transformers/blob/main/images/chapter03_layer-norm.png)*__
+</p>
+
+최근 `Transformer`류의 모델에 `pre-layernorm`을 적용하는 것이 좀 더 안정적이고 효율적인 학습을 유도할 수 있다고 실험을 통해 밝혀지고 있다. `pre-layernorm` 을 사용하면 별다른 `Gradient Explode` 현상이 현저히 줄어들어 복잡한 스케줄러(`warmup` 기능이 있는 스케줄러)를 사용할 필요가 없어진다고 하니 참고하자.
+
+이렇게 구현한 `Single Encoder Block`을 이제 N개 쌓기만 하면 드디어 인코더를 완성할 수 있게 된다.
+
+#### **`📚 Encoder`**
+
+드디어 대망의 `Encoder` 객체 구현을 살펴볼 시간이다.  
+```python
+# Pytorch Implementation of Encoder(Stacked N EncoderLayer)
+
+class Encoder(nn.Module):
+    """
+    In this class, encode input sequence and then we stack N EncoderLayer
+    First, we define "positional embedding" and then add to input embedding for making "word embedding"
+    Second, forward "word embedding" to N EncoderLayer and then get output embedding
+    In official paper, they use positional encoding, which is base on sinusoidal function(fixed, not learnable)
+    But we use "positional embedding" which is learnable from training
+    Args:
+        max_seq: maximum sequence length, default 512 from official paper
+        N: number of EncoderLayer, default 6 for base model
+    """
+    def __init__(self, max_seq: 512, N: int = 6, dim_model: int = 512, num_heads: int = 8, dim_ffn: int = 2048, dropout: float = 0.1) -> None:
+        super(Encoder, self).__init__()
+        self.max_seq = max_seq
+        self.scale = torch.sqrt(torch.Tensor(dim_model))  # scale factor for input embedding from official paper
+        self.positional_embedding = nn.Embedding(max_seq, dim_model)  # add 1 for cls token
+        self.num_layers = N
+        self.dim_model = dim_model
+        self.num_heads = num_heads
+        self.dim_ffn = dim_ffn
+        self.dropout = nn.Dropout(p=dropout)
+        self.encoder_layers = nn.ModuleList(
+            [EncoderLayer(dim_model, num_heads, dim_ffn, dropout) for _ in range(self.num_layers)]
+        )
+        self.layer_norm = nn.LayerNorm(dim_model)
+
+    def forward(self, inputs: Tensor, mask: Tensor) -> tuple[Tensor, Tensor]:
+        """
+        inputs: embedding from input sequence, shape => [BS, SEQ_LEN, DIM_MODEL]
+        mask: mask for Encoder padded token for speeding up to calculate attention score
+        """
+        layer_output = []
+        pos_x = torch.arange(self.max_seq).repeat(inputs.shape[0]).to(inputs)
+        x = self.dropout(
+            self.scale * inputs + self.positional_embedding(pos_x)
+        )
+        for layer in self.encoder_layers:
+            x = layer(x, mask)
+            layer_output.append(x)
+        encoded_x = self.layer_norm(x)  # from official paper & code by Google Research
+        layer_output = torch.stack(layer_output, dim=0).to(x.device)  # For Weighted Layer Pool: [N, BS, SEQ_LEN, DIM]
+        return encoded_x, layer_output
+```
+
+역시 지금까지 내용을 종합한 것뿐이라서 크게 특이한 내용은 없고, 구현상 놓치기 쉬운 부분만 알고 넘어가면 된다. `forward` 메서드의 변수 `x`를 초기화하는 코드 라인을 주목해보자. 이것이 바로 `Input Embedding`과 `Position Embedding`을 더하는(행렬 합) 연산을 구현한 것이다. 이 때 놓치기 쉬운 부분이 바로 `Input Embedding`에 `scale factor`를 곱해준다는 것이다. 저자의 주장에 따르면 `Input Embedding`에만 `scale factor`를 사용하는 것이 안정적인 학습에 도움이 된다고 하니 참고하자. 
+
+한편, 마지막 인코더 블럭에서 나온 임베딩을 다시 한 번 `layernorm`에 통과하도록 구현했다. 이 부분도 원본 논문에 있는 내용은 아니고  `ViT`의 논문 내용을 참고해 추가했다.
+
+#### **`📘 DecoderLayer`**
+
+이번에는 디코더에 사용된 블럭의 동작 방식과 의미 그리고 구현까지 알아보자. 사실 디코더도 지금까지 공부한 내용과 크게 다른게 없다. 다만 인코더와는 목적이 다르기 때문에 발생하는 미세한 동작의 차이에 주목해보자. 먼저 `Single Decoder Block`은 `Single Encoder Block`과 다르게 `Self-Attention`을 두 번 수행한다. 지겹겠지만 다시 한 번 Transformer의 목적을 상기시켜보자. 바로 대상 언어를 타겟 언어로 잘 번역하는 것이었다. 일단 인코더를 통해 대상 언어는 잘 이해하게 되었다. 그럼 이제 타겟 언어도 잘 이해해야하지 않은가?? 그래서 타겟 언어를 이해하기 위해 `Self-Attention`을 한 번, 그리고 대상 언어를 타겟 언어로 번역하기 위해 `Self-Attention`을 한 번, 총 2번 수행하는 것이다. 첫번째  `Self-Attention` 을 `Masked Multi-Head Attention`, 두번째를 `Encoder-Decoder Multi-Head Attention`이라고 부른다. 
+
+**`🎭 Masked Multi-Head Attention`**  
+인코더의 `Multi-Head Attention와` 행렬 $Q,K,V$ 의 출처가 다르다. 디코더는 출처가 타겟 언어인 `linear projection matrix`를 사용한다. 또한 인코더와 다르게 개별 시점에 맞는 마스킹 행렬이 필요하다. 디코더의 과업은 결국 대상 언어를 잘 이해하고 그것에 가장 잘 들어맞는 타겟 언어 시퀀스를 `generate`하는 것이다. 즉, `Next Token Prediction`을 통해 시퀀스를 만들어내야 한다. 그런데 현재 시점에서 미래 시점에 디코더가 예측해야할 토큰을 미리 알고 있으면 그것을 예측이라고 할 수 있을까?? 디코더가 현재 시점의 토큰을 예측하는데 미래 시점의 `Context`를 반영하지 못하도록 막기 위해 미리 마스킹 행렬을 정의해 `Word_Embedding`에 적용해준다. 이렇게 마스킹이 적용된 임베딩 행렬을 가지고 `linear projection & self-attention`을 수행하기 때문에 이름 앞에 `masked`를 붙이게 되었다.
+
+<p markdown="1" align="center">
+![Decoder Language Modeling Mask](/assets/images/transformer/decoder_mask.png){: .align-center}{: width="50%", height="50%"}{: .image-caption}
+__*[Decoder Language Modeling Mask](https://paul-hyun.github.io/transformer-02/)*__
+</p>
+
+위 그림은 마스킹을 적용한 `Word_Embedding`의 모습이다. 첫 번째 시점에서 모델은 자기 자신을 제외한 나머지 `Context`를 예측에 활용할 수 없다. 그래서 이하 나머지 토큰을 전부 마스킹 처리해줬다. 두번째 시점에서는 직전 시점인 첫번째 토큰과 자기 자신만 참고할 수 있다. 한편, 이렇게 직전 `Context`만 가지고 현재 토큰을 추론하는 것을 `Language Modeling`이라 부른다. 그리고 마찬가지로 디코더 역시 시퀀스에 패딩 처리를 해주기 때문에 인코더와 동일한 원리로 만든 `decoder padding mask` 역시 필요하다. 
+
+마스킹 행렬 구현은 최상위 객체인 `Transformer`의 내부 메서드로 만들었으니, 그 때 자세히 설명하겠다. 이하 나머지 디테일은 인코더의 것과 동일하다.
+
+**`🪢 Encoder-Decoder Multi-Head Attention`**  
+인코더를 통해 이해한 대상 언어 시퀀스와 바로 직전 `Self-Attention`을 통해 이해한 타겟 언어 시퀀스를 서로 대조하는 레이어다. 우리의 지금 목적은 `타겟 언어`와 가장 유사한 `대상 언어`를 찾아 문장을 완성하는 것이다. 따라서 어텐션 계산에 사용될 행렬 $Q$ 의 출처는 직전 레이어인 `Masked Multi-Head Attention` 의 반환값을 사용하고, 행렬 $K,V$ 는 인코더의 최종 반환값을 사용한다. 
+
+한편, 여기 레이어에는 마스킹 행렬이 세 종류나 필요하다. 그 이유는 서로 출처가 다른 두가지 행렬을 계산에 사용하기 때문이다. 지금은 여전히 디코더의 역할을 수행하는 것이기 때문에 직전 레이어에서 사용한 2개의 마스킹 행렬이 그대로 필요하다. 그리고 인코더에서 넘어온 값을 사용한다는 것은 인코더의 패딩 역시 처리가 필요하다는 의미다. 따라서 `lm_mask`, `dec_pad_mask`, `enc_pad_mask`가 필요하다. 역시 마스킹 구현은 최상위 객체 설명 때 함께 살펴보겠다.
+
+**`👩‍💻 Implementation`**  
+이제 `Single Decoder Block`의 구현을 살펴보자. 역시 파이토치로 구현했다.
+
+```python
+# Pytorch Implementation of Single Decoder Block
+
+class DecoderLayer(nn.Module):
+    """
+    Class for decoder model module in Transformer
+    In this class, we stack each decoder_model module (Masked Multi-Head Attention, Residual-Connection, LayerNorm, FFN)
+    We apply pre-layernorm, which is different from original paper
+    References:
+        https://arxiv.org/abs/1706.03762
+    """
+    def __init__(self, dim_model: int = 512, num_heads: int = 8, dim_ffn: int = 2048, dropout: float = 0.1) -> None:
+        super(DecoderLayer, self).__init__()
+        self.masked_attention = MultiHeadAttention(
+            dim_model,
+            num_heads,
+            int(dim_model / num_heads),
+            dropout,
+        )
+        self.enc_dec_attention = MultiHeadAttention(
+            dim_model,
+            num_heads,
+            int(dim_model / num_heads),
+            dropout,
+        )
+        self.layer_norm1 = nn.LayerNorm(dim_model)
+        self.layer_norm2 = nn.LayerNorm(dim_model)
+        self.layer_norm3 = nn.LayerNorm(dim_model)
+        self.dropout = nn.Dropout(p=dropout)  # dropout is not learnable layer
+
+        self.ffn = FeedForward(
+            dim_model,
+            dim_ffn,
+            dropout,
+        )
+
+    def forward(self, x: Tensor, dec_mask: Tensor, enc_dec_mask: Tensor, enc_output: Tensor) -> Tensor:
+        ln_x = self.layer_norm1(x)
+        residual_x = self.dropout(self.masked_attention(ln_x, dec_mask)) + x
+
+        ln_x = self.layer_norm2(residual_x)
+        residual_x = self.dropout(self.enc_dec_attention(ln_x, enc_dec_mask, enc_output)) + x  # for enc_dec self-attention
+
+        ln_x = self.layer_norm3(residual_x)
+        fx = self.ffn(ln_x) + residual_x
+        return fx
+```
+
+`Self-Attention` 레이어가 인코더보다 하나 더 추가되어 `add & norm` 을 총 3번 해줘야 한다는 것을 제외하고는 크게 구현상의 특이점은 없다. 그저 지금까지 살펴본 블럭을 요리조리 다시 쌓으면 된다.
