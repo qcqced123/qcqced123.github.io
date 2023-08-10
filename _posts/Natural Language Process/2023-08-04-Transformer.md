@@ -549,7 +549,7 @@ class FeedForward(nn.Module):
 
 #### **`➕ Add & Norm`**
 
-`Residual Connection`과 `Layernorm`을 의미한다. 따로 객체를 만들어서 사용하지는 않고, `EncoderLayer` 객체에 라인으로 추가해 구현하기 때문에 여기서는 역할과 의미만 설명하고 넘어가겠다. 
+`Residual Connection`과 `Layernorm`을 의미한다.  따로 객체를 만들어서 사용하지는 않고, `EncoderLayer` 객체에 라인으로 추가해 구현하기 때문에 여기서는 역할과 의미만 설명하고 넘어가겠다. 
 
 먼저 `Skip-Connection`으로도 불리는 `Residual Connection`은 어떤 레이어를 통과하기 전, 입력 $x$ 를 레이어를 통과하고 나온 결과값 $fx$ 에 더해준다. 따라서 다음 레이어에 통과되는 입력값은 $x+fx$ 가 된다. 왜 이렇게 더해줄까?? 바로 모델의 안정적인 학습을 위해서다. 일단 그전에 명심하고 가야할 전제가 하나 있다. 모델의 레이어가 깊어질수록 레이어마다 값을 조금씩 바꿔나가는 것이 `Robust`하고 `Stable`한 결과를 도출할 수 있다는 것이다. 직관적으로 레이어마다 결과가 널뛰기하는 모델보다 안정적으로 차근차근 학습해나가는 모델의 일반화 성능이 더 좋을 것이라고 추측해볼 수 있다. 그래서 `Residual Connection` 은 입력 $x$ 와 레이어의 이상적인 출력값 $H(x)$ 의 차이가 크지 않음을 가정한다. 만약, 입력 $X$ 를 `10.0` , $H(x)$ 를 `10.4` 라고 해보자. 그럼 `Residual Connection` 을 사용하는 모델은 `0.4`에 대해서만 학습을 하면 된다. 한편 이것을 사용하지 않는 모델은 0에서부터 시작해 무려 `10.4`를 학습해야 한다. 어떤 모델이 학습하기 쉬울까?? 당연히 전자일 것이다. 이렇게 모델이 이상적인 값과 입력의 차이만 학습하면 되기 때문에 이것을 `잔차 학습`이라고 부르는 것이다.
 
@@ -558,8 +558,15 @@ class FeedForward(nn.Module):
 __*[Layernorm vs Batchnorm](https://paperswithcode.com/method/layer-normalization)*__
 </p>
 
-#### **`📘 EncoderLayer`**
+`Batchnorm`은 `“Mini-Batch”` 단위를 `Channel(Feature)`별로 평균과 표준편차를 구한다면, `Layernorm`은  `Channel(Feature)` 단위를 `개별 인스턴스`별로 평균과 표준편차를 구하여 정규화하는 방식이다. 
 
+예를 들어 배치로 4개의 문장을 은닉층의 사이즈가 `512`인 모델에 입력해줬다고 생각해보자. 그럼 4개의 문장은 각각 `512`개의 원소를 갖게 되는데, 이것에 대한 평균과 표준편차를 구한다는 것이다. 한 개의 문장당 평균과 표준편차를 1개씩 구해서, 4개의 문장이니까 총 8개가 나오겠다. 
+
+그렇다면 왜 `Transformer`는 `Layernorm`을 사용했을까?? 자연어 처리는 배치마다 시퀀스의 길이가 고정되어 있지 않아 패딩이나 절삭을 수행한다. 절삭보다는 패딩이 문제가 된다. 패딩은 일반적으로 문장의 끝부분에 해준다. 여기서 `Batchnorm`을 사용하면 끝쪽에 위치한 다른 시퀀스에 속한 정상적인 토큰들은 패딩에 의해 값이 왜곡될 가능성이 있다. 그래서 `Batchnorm` 대신 `Layernorm`을 사용한다. 또한 `Batchnorm` 은 배치 크기에 종속적이라서 테스트 상황에서는 그대로 사용할 수 없다. 따라서 배치 사이즈에 독립적인 `Layernorm`을 사용하기도 한다.
+
+한편 이러한 정규화를 왜 사용하는지 궁금하시다면 다른 포스트에 정리를 해뒀으니 참고하시길 바란다. **간단하게만 언급하면,** `모델의 비선형성`**과 그라디언트 크기 사이의 최적의** `Trade-Off`**를 인간이 아닌 모델보고 찾게 만드는게 목적이라 볼 수 있다.**
+
+#### **`📘 EncoderLayer`**  
 이제 `Single Encoder Block`을 정의하기에 필요한 모든 재료를 살펴봤다. 지금까지의 내용을 종합해 한 개의 인코더 블럭을 만들어보자.
 
 ```python
@@ -803,4 +810,101 @@ class Decoder(nn.Module):
 
 `Encoder` 객체와 모든 부분이 동일하다. 디테일한 설정만 디코더에 맞게 변경되었을 뿐이다. `self.fc_out` 에 주목해보자. 디코더는 현재 시점에 가장 적합한 토큰을 예측해야 하기 때문에 디코더의 출력부분에 로짓 계산을 위한 레이어가 필요하다. 그 역할을 하는 것이 바로 `self.fc_out`이다. 한편, `self.fc_out`의 출력 차원이 `vocab_size`으로 되어있는데, 디코더는 디코더가 가진 전체 `vocab` 을 현재 시점에 적합한 토큰 후보군으로 사용하기 때문이다.
 
-#### **`🦾 Transformer`**
+#### **`🦾 Transformer`**  
+이제 대망의 마지막… 모델의 가장 최상위 객체인 `Transformer`에 대해서 살펴보자. 객체의 동작은 정리하면 다음과 같다.
+
+- **1) Make `Input Embedding` for Encoder & Decoder respectively, Init `Encoder & Decoder` Class**
+- **2) Make 3 types of Masking: `Encoder Padding Mask`, `Decoder LM & Padding Mask`, `Encoder-Decoder Mask`**
+- **3) Return `Output` from Encoder & Decoder**
+
+특히 계속 미뤄왔던 마스킹 구현에 대해서 살펴보자. 나머지는 이미 앞에서 많이 설명했으니까 넘어가도록 하겠다. 일단 먼저 코드를 읽어보자. 추가로 `Input Embedding` 구현은 사용자의 `vocab` 구축 방식에 따라 달라진다. 필자의 경우 대상 언어와 타겟 언어의 `vocab`을 분리해 사용하는 것을 가정하고 코드를 만들어 임베딩 레이어를 따로 따로 구현해줬다. `vocab`을 통합으로 구축하시는 분이라면 하나만 정의해도 상관없다. 대신 나중에 디코더의 로짓값 계산을 위해 개별 언어의 토큰 사이즈는 알고 있어야 할 것이다.
+
+```python
+# Pytorch Implementation of Transformer
+
+class Transformer(nn.Module):
+    """
+    Main class for Pure Transformer, Pytorch implementation
+    There are two Masking Method for padding token
+        1) Row & Column masking
+        2) Column masking only at forward time, Row masking at calculating loss time
+    second method is more efficient than first method, first method is complex & difficult to implement
+    Args:
+        enc_vocab_size: size of vocabulary for Encoder Input Sequence
+        dec_vocab_size: size of vocabulary for Decoder Input Sequence
+        max_seq: maximum sequence length, default 512 from official paper
+        enc_N: number of EncoderLayer, default 6 for base model
+        dec_N: number of DecoderLayer, default 6 for base model
+    Reference:
+        https://arxiv.org/abs/1706.03762
+    """
+    def __init__(
+        self,
+        enc_vocab_size: int,
+        dec_vocab_size: int,
+        max_seq: int = 512,
+        enc_N: int = 6,
+        dec_N: int = 6,
+        dim_model: int = 512,
+        num_heads: int = 8,
+        dim_ffn: int = 2048,
+        dropout: float = 0.1
+    ) -> None:
+        super(Transformer, self).__init__()
+        self.enc_input_embedding = nn.Embedding(enc_vocab_size, dim_model)
+        self.dec_input_embedding = nn.Embedding(dec_vocab_size, dim_model)
+        self.encoder = Encoder(max_seq, enc_N, dim_model, num_heads, dim_ffn, dropout)
+        self.decoder = Decoder(dec_vocab_size, max_seq, dec_N, dim_model, num_heads, dim_ffn, dropout)
+
+    @staticmethod
+    def enc_masking(x: Tensor, enc_pad_index: int) -> Tensor:
+        """ make masking matrix for Encoder Padding Token """
+        enc_mask = (x != enc_pad_index).int().repeat(1, x.shape[-1]).view(x.shape[0], x.shape[-1], x.shape[-1])
+        return enc_mask
+
+    @staticmethod
+    def dec_masking(x: Tensor, dec_pad_index: int) -> Tensor:
+        """ make masking matrix for Decoder Masked Multi-Head Self-Attention """
+        pad_mask = (x != dec_pad_index).int().repeat(1, x.shape[-1]).view(x.shape[0], x.shape[-1], x.shape[-1])
+        lm_mask = torch.tril(torch.ones(x.shape[0], x.shape[-1], x.shape[-1]))
+        dec_mask = pad_mask * lm_mask
+        return dec_mask
+
+    @staticmethod
+    def enc_dec_masking(enc_x: Tensor, dec_x: Tensor, enc_pad_index: int) -> Tensor:
+        """ make masking matrix for Encoder-Decoder Multi-Head Self-Attention in Decoder """
+        enc_dec_mask = (enc_x != enc_pad_index).int().repeat(1, dec_x.shape[-1]).view(
+            enc_x.shape[0], dec_x.shape[-1], enc_x.shape[-1]
+        )
+        return enc_dec_mask
+
+    def forward(self, enc_inputs: Tensor, dec_inputs: Tensor, enc_pad_index: int, dec_pad_index: int) -> tuple[Tensor, Tensor, Tensor, Tensor]:
+        enc_mask = self.enc_masking(enc_inputs, enc_pad_index)  # enc_x.shape[1] == encoder input sequence length
+        dec_mask = self.dec_masking(dec_inputs, dec_pad_index)  # dec_x.shape[1] == decoder input sequence length
+        enc_dec_mask = self.enc_dec_masking(enc_inputs, dec_inputs, enc_pad_index)
+
+        enc_x, dec_x = self.enc_input_embedding(enc_inputs), self.dec_input_embedding(dec_inputs)
+
+        enc_output, enc_layer_output = self.encoder(enc_x, enc_mask)
+        dec_output, dec_layer_output = self.decoder(dec_x, dec_mask, enc_dec_mask, enc_output)
+        return enc_output, dec_output, enc_layer_output, dec_layer_output
+```
+
+마스킹의 필요성이나 동작 방식은 이미 위에서 모두 설명했기 때문에 구현상 특징만 설명하려한다. 세가지 마스킹 모두 공통적으로 구현 코드 라인에 `.int()` 가 들어가 있다. 그 이유는 $\frac{Q•K^T}{\sqrt{d_h}}$에 마스킹을 적용할 때 `torch.masked_fill` 메서드를 사용하기 때문이다. 무슨 이유 때문인지는 모르겠으나 `torch.masked_fill`의 경우 마스킹 조건으로 `boolean`을 전달하면 마스킹이 제대로 구현되지 않는 현상이 있었다. 한편, 정수값으로 조건을 구현하면 의도한대로 구현이 되는 것을 확인했다. 그래서 패딩에 해당되는 토큰이 위치한 곳의 원소값을 정수형 `Binary` 로 만들어주기 위해 `int()` 를 사용한 것이다.
+
+**`🎭 Decoder Mask`**  
+디코더는 총 2가지의 마스킹이 필요하다고 언급했었다. `pad_mask`의 경우는 인코더의 것과 동일한 원리를 사용하기 때문에 설명을 생략하겠다. `lm_mask` 의 경우는 `torch.tril`을 이용해 하삼각행렬 형태로 마스킹 행렬 정의가 쉽게 가능하다.  
+한편, 2개의 마스킹을 동시에 디코더 객체에 넘기는 것은 매우 비효율적이다. 따라서 `pad_mask` 와 `lm_mask`의 합집합에 해당하는 행렬을 만들어 최종 디코더의 마스킹으로 전달한다. 
+
+**`🙌 Encoder-Decoder Mask`**  
+이번 경우는 마스킹의 행방향 차원은 디코더 입력값의 시퀀스 길이, 열방향 차원은 인코더 입력값의 시퀀스 길이로 설정해야 한다. 그 이유는 다른 `Self-Attention` 레이어와 다르게 서로 다른 출처를 통해 만든 행렬을 사용하기 때문에 $\frac{Q•K^T}{\sqrt{d_h}}$의 모양이 정사각행렬이 아닐 수도 있다. 예를 들어 한국어 문장을 영어로 바꾸는 경우를 생각해보자. 같은 뜻이 담긴 문장이라고 해서 두 문장의 길이가 같은가?? 아니다. 서로 다른 언어라면 거의 대부분의 경우 길이가 다를 것이다. 따라서 $\frac{Q•K^T}{\sqrt{d_h}}$의 행방향은 디코더의 시퀀스 길이에 따르고 열방향은 인코더의 시퀀스 길이에 따르도록 마스킹 역시 구현해줘야 한다.  
+그리고 이번 마스킹을 만드는 목적이 인코더의 패딩을 마스킹 처리해주기 위함이기 때문에 `enc_pad_index` 매개변수에는 인코더 `vocab`에서 정의한 `pad_token_ID`를 전달하면 된다.
+
+```python
+# scaled_dot_product_attention의 일부
+
+if mask is not None:
+		attention_matrix = attention_matrix.masked_fill(mask == 0, float('-inf'))
+```
+
+이렇게 구현된 마스킹은 `scaled_dot_product_attention` 메서드에 구현된 조건문을 통해 마스킹 대상을 -∞으로 변환하는 역할을 하게 된다.
