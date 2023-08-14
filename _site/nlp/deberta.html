@@ -862,7 +862,59 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
 
 <p>이제 다시 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 경우로 돌아와보자. 위 그림의 파란색 직선을 <code class="language-plaintext highlighter-rouge">Input Embedding</code>, 빨간색 직선을 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code>, 왼쪽의 보라색 직선을 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>이라고 가정하자. <code class="language-plaintext highlighter-rouge">blessing of dimensionality</code>에 의해 <code class="language-plaintext highlighter-rouge">word con text</code> 정보(파란 직선)와 <code class="language-plaintext highlighter-rouge">position</code> 정보(빨강, 보라 직선)는 그림처럼 서로 근사 직교할 가능성이 매우 높다. 여기부터 필자의 뇌피셜이 들어가는데, 보라색 직선과 빨강색 직선은 성격이 좀 다르지만 결국 둘 다 시퀀스의 <code class="language-plaintext highlighter-rouge">position</code> 정보를 나타낸다는 점에서 뿌리는 같다고 볼 수 있다. 따라서 실제 <code class="language-plaintext highlighter-rouge">hidden states</code> 공간에서 어떤 식으로 맵핑될지는 잘 모르겠지만, 서로 직교하는 형태는 아닐 것이라 추측할 수 있다.</p>
 
-<p>그렇다면 <code class="language-plaintext highlighter-rouge">Absolute Position</code>을 모델 극초반에 더해준다고 생각해보자. 인코더에 들어가는 행렬은 결국 위 그림의 초록색 직선으로 표현될 것이다. 파란색 직선과 빨간색 직선이 근사 직교한다는 가정하에 두 백터의 합은 두 벡터의 45도 정도 되는 곳에 위치하게(초록색 직선) 될 것이다. 그렇다면 보라색 직선과 초록색 직선의 관계 역시 근사 직교에서 서로 간섭하는 형태로 변화할 것이다. 따라서 초반부에 <code class="language-plaintext highlighter-rouge">EMD</code>를 사용하면 간섭이 발생해 모델이 <code class="language-plaintext highlighter-rouge">Relative Position</code> 정보를 제대로 학습하지 못할 것이다.</p>
+<p>그렇다면 <code class="language-plaintext highlighter-rouge">Absolute Position</code>을 모델 극초반에 더해준다고 생각해보자. 인코더에 들어가는 행렬은 결국 위 그림의 초록색 직선으로 표현될 것이다. 파란색 직선과 빨간색 직선이 근사 직교한다는 가정하에 두 백터의 합은 두 벡터의 45도 정도 되는 곳에 위치하게(초록색 직선) 될 것이다. 그렇다면 보라색 직선과 초록색 직선의 관계 역시 근사 직교에서 서로 간섭하는 형태로 변화한다. 따서 <code class="language-plaintext highlighter-rouge">EMD</code>를 극초반에 사용하면 간섭이 발생해 모델이 <code class="language-plaintext highlighter-rouge">Relative Position</code> 정보를 제대로 학습하지 못할 것이다.</p>
+
+<p><strong><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation</code></strong></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of DeBERTa Enhanced Mask Decoder
+</span>
+<span class="k">class</span> <span class="nc">EnhancedMaskDecoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">"""
+    Class for Enhanced Mask Decoder module in DeBERTa, which is used for Masked Language Model (Pretrain Task)
+    Word 'Decoder' means that denoise masked token by predicting masked token
+    In official paper &amp; repo, they might use 2 EMD layers for MLM Task
+    And this layer's key &amp; value input is output from last disentangled self-attention encoder layer,
+    Also, all of them can share parameters and this layer also do disentangled self-attention
+    In official repo, they implement this layer so hard coding that we can't understand directly &amp; easily
+    So, we implement this layer with our own style, as closely as possible to paper statement
+    Notes:
+        Also we temporarily implement only extract token embedding, not calculating logit, loss for MLM Task yet
+        MLM Task will be implemented ASAP
+    Args:
+        encoder: list of nn.ModuleList, which is (N_EMD * last encoder layer) from DeBERTaEncoder
+    References:
+        https://arxiv.org/abs/2006.03654
+        https://arxiv.org/abs/2111.09543
+        https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/apps/models/masked_language_model.py
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoder</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">],</span> <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EnhancedMaskDecoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span> <span class="o">=</span> <span class="n">encoder</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">emd_context_layer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">,</span> <span class="n">abs_pos_emb</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">query_states</span> <span class="o">=</span> <span class="n">hidden_states</span> <span class="o">+</span> <span class="n">abs_pos_emb</span>  <span class="c1"># "I" in official paper,
+</span>        <span class="k">for</span> <span class="n">emd_layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span><span class="p">:</span>
+            <span class="n">query_states</span> <span class="o">=</span> <span class="n">emd_layer</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">hidden_states</span><span class="p">,</span> <span class="n">pos_x</span><span class="o">=</span><span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="n">mask</span><span class="p">,</span> <span class="n">emd</span><span class="o">=</span><span class="n">query_states</span><span class="p">)</span>
+            <span class="n">outputs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_states</span><span class="p">)</span>
+        <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">query_states</span><span class="p">)</span>  <span class="c1"># because of applying pre-layer norm
+</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">hidden_states</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">abs_pos_emb</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">"""
+        hidden_states: output from last disentangled self-attention encoder layer
+        abs_pos_emb: absolute position embedding
+        rel_pos_emb: relative position embedding
+        """</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">emd_context_layer</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">,</span> <span class="n">abs_pos_emb</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">emd_context_layer</code> 메서드에서 <code class="language-plaintext highlighter-rouge">Absolute Position</code> 정보를 추가해주는 부분을 제외하면 일반 <code class="language-plaintext highlighter-rouge">Encoder</code> 객체의 동작과 동일하다. 또한 DeBERTa는 모든 레이어가 같은 시점의 forward pass 때, 동일한 가중치의 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>을 사용해야 하는데, <code class="language-plaintext highlighter-rouge">EMD</code> 역시 예외는 아니기 때문에 반드시 최상위 객체에서 초기화한 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>을 똑같이 매개변수로 전달해줘야 한다.</p>
+
+<p>그리고 마지막으로 객체에서 사용하는 <code class="language-plaintext highlighter-rouge">emd_layers</code> 는 모두 <code class="language-plaintext highlighter-rouge">Disentangled-Attention</code> 레이어의 가장 마지막 인코더라는 사실을 잊지 말자.</p>
 
         
       </section>
