@@ -1,0 +1,920 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>👨‍💻🐍 [Python] Object Attribute Function - AI/Business Study Log</title>
+<meta name="description" content="getattr, setattr, delattr, hasattr 사용방법">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="👨‍💻🐍 [Python] Object Attribute Function">
+<meta property="og:url" content="http://localhost:4000/python/attribute_function">
+
+
+  <meta property="og:description" content="getattr, setattr, delattr, hasattr 사용방법">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-08-17T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-08-18T02:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/python/attribute_function">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Algorithm</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/calculus/">    Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="👨‍💻🐍 [Python] Object Attribute Function">
+    <meta itemprop="description" content="getattr, setattr, delattr, hasattr 사용방법">
+    <meta itemprop="datePublished" content="2023-08-17T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-18T02:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/python/attribute_function" class="u-url" itemprop="url">👨‍💻🐍 [Python] Object Attribute Function
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/python/attribute_function"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/python/attribute_function&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-17T00:00:00+09:00">August 17, 2023</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#-attribute-function">🧧 Attribute Function</a><ul><li><a href="#-getattr">📌 getattr</a></li><li><a href="#️-setattr">✂️ setattr</a></li><li><a href="#-hasattr">📌 hasattr</a></li><li><a href="#️-delattr">✏️ delattr</a></li></ul></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="-attribute-function"><code class="language-plaintext highlighter-rouge">🧧 Attribute Function</code></h3>
+
+<p>이번 포스팅은 <code class="language-plaintext highlighter-rouge">Python</code> 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> , <code class="language-plaintext highlighter-rouge">delattr</code> , <code class="language-plaintext highlighter-rouge">hasttr</code> 함수들의 사용법에 대해 다뤄보려 한다. 특히 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 <code class="language-plaintext highlighter-rouge">hyper-parameter</code>를 튜닝하거나 기타 실험을 할 때 정의한 객체의 변수 혹은 메서드에 쉽고 간결하게 접근하기 위해 사용되고 있기 때문이다.</p>
+
+<h4 id="-getattr"><strong><code class="language-plaintext highlighter-rouge">📌 getattr</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" getattr(object, attribute_name, default) """</span>
+
+<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
+    <span class="s">"""--------[Common]--------"""</span>
+    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
+    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
+    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
+</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
+    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
+    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
+</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
+</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="s">""" Model """</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="c1">#    pooling = 'attention'
+</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
+    <span class="s">""" CV, Epoch, Batch Size """</span>
+    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</code></pre></div></div>
+
+<p>위의 객체는 실제 제가 캐글 대회를 준비하면서 사용했던 <a href="http://config.py"><code class="language-plaintext highlighter-rouge">config.py</code></a> 를 가져왔다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">getattr(object: object, attribute_name: str, default: Any)</code> 함수는 사용자가 지정한 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>가 존재하는지 여부를 판단하고, 존재한다면 해당 <code class="language-plaintext highlighter-rouge">attribute</code>의 <code class="language-plaintext highlighter-rouge">value</code>를 반환한다. 한편 존재하지 않으면 <code class="language-plaintext highlighter-rouge">default</code>로 세팅한 값을 반환한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'MPL'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="mi">180</span>
+<span class="n">This</span> <span class="n">Attribute</span> <span class="n">doesn</span><span class="s">'t find
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">if-else</code> 구문보다 훨씬 간결하게 객체의 메서드에 접근하는 것이 가능해졌으며, <code class="language-plaintext highlighter-rouge">default</code> 값을 매개변수로 전달 받기 때문에 클라이언트가 지정한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 객체 내부에 없어도 <code class="language-plaintext highlighter-rouge">AttributeError</code> 를 발생시키지 않아 예외 처리를 별도로 지정할 필요가 사라져 코드 가독성 및 유지보수에 용이하다는 장점이 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Exmple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">test1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">test2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">A</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"A"</span><span class="p">)</span>  
+    <span class="k">def</span> <span class="nf">B</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"B"</span><span class="p">)</span>  
+    <span class="k">def</span> <span class="nf">C</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"C"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">exmple</span> <span class="o">=</span> <span class="n">Exmple</span><span class="p">()</span>
+    <span class="n">class_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">,</span><span class="s">'C'</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_list</span><span class="p">:</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">exmple</span><span class="p">,</span> <span class="n">c</span><span class="p">)()</span>
+</code></pre></div></div>
+
+<p>한편 <code class="language-plaintext highlighter-rouge">getattr()</code> 뒤에 괄호를 하나 더 붙여서 사용하기도(머신러닝, 딥러닝 훈련 루프 코드에 종종 보임) 하는데,  해당 괄호는 지정 <code class="language-plaintext highlighter-rouge">attribute</code> 의 호출에 필요한 매개변수를 전달하기 위한 용도로 쓰인다. 이번 예시의 객체 내부 메서드들은 호출에 필요한 매개변수가 정의되어 있지 않기 때문에 괄호 안을 비워뒀다.</p>
+
+<h4 id="️-setattr"><strong><code class="language-plaintext highlighter-rouge">✂️ setattr</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" setattr(object, attribute_name, value) """</span>
+
+<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
+    <span class="s">"""--------[Common]--------"""</span>
+    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
+    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
+    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
+</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
+    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
+    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
+</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
+</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="s">""" Model """</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="c1">#    pooling = 'attention'
+</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
+    <span class="s">""" CV, Epoch, Batch Size """</span>
+    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">setattr(object: object, attribute_name: str, value: Any)</code> 는 지정 객체의 지정 메서드 혹은 변수에 접근하고 제어하는 용도로 사용하는 함수다. 지정 객체 단위로 접근 가능하기 때문에 모델을 튜닝할 때 정말 많이 사용하게 된다. <code class="language-plaintext highlighter-rouge">setattr()</code> 를 활용해 상황에 맞는 파라미터를 모델에 주입하고 해당 <code class="language-plaintext highlighter-rouge">config</code>를 <code class="language-plaintext highlighter-rouge">json</code> 혹은 <code class="language-plaintext highlighter-rouge">yaml</code> 형식으로 저장해두면 모델의 버전별 파라미터 값을 효율적으로 관리할 수 있으니 기억해두자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="bp">True</span>
+<span class="bp">False</span>
+<span class="bp">True</span>
+</code></pre></div></div>
+
+<h4 id="-hasattr"><strong><code class="language-plaintext highlighter-rouge">📌 hasattr</code></strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">hasattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 존재하면 <code class="language-plaintext highlighter-rouge">True</code>, 없다면 <code class="language-plaintext highlighter-rouge">False</code> 를 반환한다. 사용법은 <code class="language-plaintext highlighter-rouge">getattr()</code> 와 매우 유사하기 때문에 생략한다.</p>
+
+<h4 id="️-delattr"><strong><code class="language-plaintext highlighter-rouge">✏️ delattr</code></strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">delattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>를 객체 내부에서 삭제하는 역할을 한다. 사용 예시는 아래와 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">delattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
+<span class="nb">hasattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
+
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="bp">False</span>
+</code></pre></div></div>
+
+<p>한편, 모듈(ex: config,py, model.py, model_utils.py 등)도 객체로 간주되기 때문에 위에서 살펴본 4가지 function은 모듈 레벨에서도 동일하게 사용할 수 있다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#attribute" class="page__taxonomy-item p-category" rel="tag">Attribute</a><span class="sep">, </span>
+    
+      <a href="/tags/#deep-learning" class="page__taxonomy-item p-category" rel="tag">Deep Learning</a><span class="sep">, </span>
+    
+      <a href="/tags/#ml" class="page__taxonomy-item p-category" rel="tag">ML</a><span class="sep">, </span>
+    
+      <a href="/tags/#object" class="page__taxonomy-item p-category" rel="tag">Object</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-17">August 17, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB%F0%9F%90%8D%C2%A0%5BPython%5D+Object+Attribute+Function%20http%3A%2F%2Flocalhost%3A4000%2Fpython%2Fattribute_function" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Fattribute_function" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Fattribute_function" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/nlp/transformer" class="pagination--pager" title="🤖 [Transformer] Attention Is All You Need
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/transformer" rel="permalink">🤖 [Transformer] Attention Is All You Need
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          40 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 04 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Transformer Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/deberta" rel="permalink">🪢 [DeBERTa] DeBERTa: Decoding-Enhanced BERT with Disentangled-Attention
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          34 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 04 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Transformer Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/torch-indexing-function" rel="permalink">🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          9 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 04 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/calculus/gradient" rel="permalink">📈 Gradient: Directional Derivative
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> July 31 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Proof of gradient direction with Total Derivative
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>

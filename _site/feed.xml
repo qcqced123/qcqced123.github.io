@@ -1,4 +1,127 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T14:33:24+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집</title><link href="http://localhost:4000/framework-library/torch-indexing-function" rel="alternate" type="text/html" title="🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집" /><published>2023-08-04T00:00:00+09:00</published><updated>2023-08-05T02:00:00+09:00</updated><id>http://localhost:4000/framework-library/Pytorch-Tensor-Indexing-Function</id><content type="html" xml:base="http://localhost:4000/framework-library/torch-indexing-function"><![CDATA[<p>파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T16:59:11+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨‍💻🐍 [Python] Object Attribute Function</title><link href="http://localhost:4000/python/attribute_function" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] Object Attribute Function" /><published>2023-08-17T00:00:00+09:00</published><updated>2023-08-18T02:00:00+09:00</updated><id>http://localhost:4000/python/python_object_attribute_func</id><content type="html" xml:base="http://localhost:4000/python/attribute_function"><![CDATA[<h3 id="-attribute-function"><code class="language-plaintext highlighter-rouge">🧧 Attribute Function</code></h3>
+
+<p>이번 포스팅은 <code class="language-plaintext highlighter-rouge">Python</code> 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> , <code class="language-plaintext highlighter-rouge">delattr</code> , <code class="language-plaintext highlighter-rouge">hasttr</code> 함수들의 사용법에 대해 다뤄보려 한다. 특히 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 <code class="language-plaintext highlighter-rouge">hyper-parameter</code>를 튜닝하거나 기타 실험을 할 때 정의한 객체의 변수 혹은 메서드에 쉽고 간결하게 접근하기 위해 사용되고 있기 때문이다.</p>
+
+<h4 id="-getattr"><strong><code class="language-plaintext highlighter-rouge">📌 getattr</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" getattr(object, attribute_name, default) """</span>
+
+<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
+    <span class="s">"""--------[Common]--------"""</span>
+    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
+    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
+    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
+</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
+    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
+    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
+</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
+</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="s">""" Model """</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="c1">#    pooling = 'attention'
+</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
+    <span class="s">""" CV, Epoch, Batch Size """</span>
+    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</code></pre></div></div>
+
+<p>위의 객체는 실제 제가 캐글 대회를 준비하면서 사용했던 <a href="http://config.py"><code class="language-plaintext highlighter-rouge">config.py</code></a> 를 가져왔다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">getattr(object: object, attribute_name: str, default: Any)</code> 함수는 사용자가 지정한 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>가 존재하는지 여부를 판단하고, 존재한다면 해당 <code class="language-plaintext highlighter-rouge">attribute</code>의 <code class="language-plaintext highlighter-rouge">value</code>를 반환한다. 한편 존재하지 않으면 <code class="language-plaintext highlighter-rouge">default</code>로 세팅한 값을 반환한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
+<span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'MPL'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="mi">180</span>
+<span class="n">This</span> <span class="n">Attribute</span> <span class="n">doesn</span><span class="s">'t find
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">if-else</code> 구문보다 훨씬 간결하게 객체의 메서드에 접근하는 것이 가능해졌으며, <code class="language-plaintext highlighter-rouge">default</code> 값을 매개변수로 전달 받기 때문에 클라이언트가 지정한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 객체 내부에 없어도 <code class="language-plaintext highlighter-rouge">AttributeError</code> 를 발생시키지 않아 예외 처리를 별도로 지정할 필요가 사라져 코드 가독성 및 유지보수에 용이하다는 장점이 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Exmple</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">test1</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">test2</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">def</span> <span class="nf">A</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"A"</span><span class="p">)</span>  
+    <span class="k">def</span> <span class="nf">B</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"B"</span><span class="p">)</span>  
+    <span class="k">def</span> <span class="nf">C</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"C"</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="n">exmple</span> <span class="o">=</span> <span class="n">Exmple</span><span class="p">()</span>
+    <span class="n">class_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">,</span><span class="s">'C'</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_list</span><span class="p">:</span>
+        <span class="nb">getattr</span><span class="p">(</span><span class="n">exmple</span><span class="p">,</span> <span class="n">c</span><span class="p">)()</span>
+</code></pre></div></div>
+
+<p>한편 <code class="language-plaintext highlighter-rouge">getattr()</code> 뒤에 괄호를 하나 더 붙여서 사용하기도(머신러닝, 딥러닝 훈련 루프 코드에 종종 보임) 하는데,  해당 괄호는 지정 <code class="language-plaintext highlighter-rouge">attribute</code> 의 호출에 필요한 매개변수를 전달하기 위한 용도로 쓰인다. 이번 예시의 객체 내부 메서드들은 호출에 필요한 매개변수가 정의되어 있지 않기 때문에 괄호 안을 비워뒀다.</p>
+
+<h4 id="️-setattr"><strong><code class="language-plaintext highlighter-rouge">✂️ setattr</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" setattr(object, attribute_name, value) """</span>
+
+<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
+    <span class="s">"""--------[Common]--------"""</span>
+    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
+    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
+    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
+    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
+</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
+    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
+    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
+</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
+</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
+    <span class="s">""" Model """</span>
+    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
+    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<span class="c1">#    pooling = 'attention'
+</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
+    <span class="s">""" CV, Epoch, Batch Size """</span>
+    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
+    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">setattr(object: object, attribute_name: str, value: Any)</code> 는 지정 객체의 지정 메서드 혹은 변수에 접근하고 제어하는 용도로 사용하는 함수다. 지정 객체 단위로 접근 가능하기 때문에 모델을 튜닝할 때 정말 많이 사용하게 된다. <code class="language-plaintext highlighter-rouge">setattr()</code> 를 활용해 상황에 맞는 파라미터를 모델에 주입하고 해당 <code class="language-plaintext highlighter-rouge">config</code>를 <code class="language-plaintext highlighter-rouge">json</code> 혹은 <code class="language-plaintext highlighter-rouge">yaml</code> 형식으로 저장해두면 모델의 버전별 파라미터 값을 효율적으로 관리할 수 있으니 기억해두자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
+
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="bp">True</span>
+<span class="bp">False</span>
+<span class="bp">True</span>
+</code></pre></div></div>
+
+<h4 id="-hasattr"><strong><code class="language-plaintext highlighter-rouge">📌 hasattr</code></strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">hasattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 존재하면 <code class="language-plaintext highlighter-rouge">True</code>, 없다면 <code class="language-plaintext highlighter-rouge">False</code> 를 반환한다. 사용법은 <code class="language-plaintext highlighter-rouge">getattr()</code> 와 매우 유사하기 때문에 생략한다.</p>
+
+<h4 id="️-delattr"><strong><code class="language-plaintext highlighter-rouge">✏️ delattr</code></strong></h4>
+
+<p><code class="language-plaintext highlighter-rouge">delattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>를 객체 내부에서 삭제하는 역할을 한다. 사용 예시는 아래와 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">delattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
+<span class="nb">hasattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
+
+<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
+<span class="bp">False</span>
+</code></pre></div></div>
+
+<p>한편, 모듈(ex: config,py, model.py, model_utils.py 등)도 객체로 간주되기 때문에 위에서 살펴본 4가지 function은 모듈 레벨에서도 동일하게 사용할 수 있다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Object" /><category term="Attribute" /><category term="ML" /><category term="Deep Learning" /><summary type="html"><![CDATA[getattr, setattr, delattr, hasattr 사용방법]]></summary></entry><entry><title type="html">🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집</title><link href="http://localhost:4000/framework-library/torch-indexing-function" rel="alternate" type="text/html" title="🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집" /><published>2023-08-04T00:00:00+09:00</published><updated>2023-08-05T02:00:00+09:00</updated><id>http://localhost:4000/framework-library/Pytorch-Tensor-Indexing-Function</id><content type="html" xml:base="http://localhost:4000/framework-library/torch-indexing-function"><![CDATA[<p>파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다.</p>
 
 <h3 id="torchargmax"><code class="language-plaintext highlighter-rouge">🔎 torch.argmax</code></h3>
 
@@ -2827,11 +2950,4 @@ dL = [dx_1, dx_2]\ •\ \begin{vmatrix}
 <p>입실론 값을 문제가 되는 연산 전에 일괄적으로 더할 경우, 아무리 작은 값이라도 연산 종류에 따라서 결과가 크게 왜곡되는 경우가 발생한다. 따라서 연산을 먼저 적용한 뒤 결과에 <code class="language-plaintext highlighter-rouge">NaN</code>, <code class="language-plaintext highlighter-rouge">Inf</code>, <code class="language-plaintext highlighter-rouge">Zero</code>가 발생하는지 체크하고, 발생한 부분에 한해서 입실론 값을 더해주는 커스텀 <code class="language-plaintext highlighter-rouge">function</code>울 정의해 문제를 해결했다.<br />
 (위의 코드 예제 <code class="language-plaintext highlighter-rouge">check_nan</code>, <code class="language-plaintext highlighter-rouge">zero_filtering</code>, <code class="language-plaintext highlighter-rouge">nan_filtering</code>)</p>
 
-<p>한편 <code class="language-plaintext highlighter-rouge">torch.autograd.set_detect_anomaly(True)</code> 를 훈련 루프 초반에 정의해주면, <code class="language-plaintext highlighter-rouge">NaN</code>이 발생하는 즉시 실행이 멈추고 <code class="language-plaintext highlighter-rouge">NaN</code>을 유발한 라인을 출력해준다. 꼭 활용해보자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Logsoftmax" /><category term="NaN" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Backward NaN values]]></summary></entry><entry><title type="html">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device</title><link href="http://localhost:4000/framework-library/cuda-num/" rel="alternate" type="text/html" title="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device" /><published>2023-07-11T00:00:00+09:00</published><updated>2023-07-11T13:00:00+09:00</updated><id>http://localhost:4000/framework-library/cuda-device-num</id><content type="html" xml:base="http://localhost:4000/framework-library/cuda-num/"><![CDATA[<h3 id="-pytorch-잘못된-cuda-장치-번호-사용-문제"><code class="language-plaintext highlighter-rouge">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s">'cuda:0'</span><span class="p">)</span> 
-<span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">pretrained model</code>, <code class="language-plaintext highlighter-rouge">weight</code>를 <code class="language-plaintext highlighter-rouge">load</code>하거나 혹은 훈련 루프를 <code class="language-plaintext highlighter-rouge">resume</code> 을 위해 <code class="language-plaintext highlighter-rouge">torch.load()</code> 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 <code class="language-plaintext highlighter-rouge">GPU</code> 에 할당하려는 모델이 사전 훈련때 할당 되었던 <code class="language-plaintext highlighter-rouge">GPU</code> 번호와 현재 할당하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호가 서로 상이하기 때문이다. 따라서 <code class="language-plaintext highlighter-rouge">torch.load</code>의 <code class="language-plaintext highlighter-rouge">map_location</code>인자에 현재 자신이 사용하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호를 입력해주자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="CUDA" /><summary type="html"><![CDATA[Pytorch Error: Wrong CUDA Device Number]]></summary></entry></feed>
+<p>한편 <code class="language-plaintext highlighter-rouge">torch.autograd.set_detect_anomaly(True)</code> 를 훈련 루프 초반에 정의해주면, <code class="language-plaintext highlighter-rouge">NaN</code>이 발생하는 즉시 실행이 멈추고 <code class="language-plaintext highlighter-rouge">NaN</code>을 유발한 라인을 출력해준다. 꼭 활용해보자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Logsoftmax" /><category term="NaN" /><category term="Error Handling" /><summary type="html"><![CDATA[Pytorch Error: Backward NaN values]]></summary></entry></feed>

@@ -82,4 +82,10 @@ var store = [{
         "tags": ["Natural Language Process","Transformer","Self-Attention","Seq2Seq","Encoder","Decoder"],
         "url": "/nlp/transformer",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👨‍💻🐍 [Python] Object Attribute Function",
+        "excerpt":"🧧 Attribute Function 이번 포스팅은 Python 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 getattr, setattr , delattr , hasttr 함수들의 사용법에 대해 다뤄보려 한다. 특히 getattr, setattr 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 hyper-parameter를 튜닝하거나 기타...","categories": ["Python"],
+        "tags": ["Python","Object","Attribute","ML","Deep Learning"],
+        "url": "/python/attribute_function",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
