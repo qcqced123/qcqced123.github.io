@@ -1,6 +1,6 @@
 ---
-title: "👨‍💻🐍 [Python] Object Attribute Function"
-excerpt: "getattr, setattr, delattr, hasattr 사용방법"
+title: "👨‍💻🐍 [Python] Object Attribute & Assertion Function"
+excerpt: "getattr, setattr, delattr, hasattr, Assertion 사용방법"
 permalink: "/python/attribute_function"
 toc: true  # option for table of contents
 toc_sticky: true  # option for table of content
@@ -10,6 +10,7 @@ tags:
   - Python
   - Object
   - Attribute
+  - Assertion
   - ML
   - Deep Learning
   
@@ -146,3 +147,30 @@ False
 ```
 
 한편, 모듈(ex: config,py, model.py, model_utils.py 등)도 객체로 간주되기 때문에 위에서 살펴본 4가지 function은 모듈 레벨에서도 동일하게 사용할 수 있다.
+
+### `⚠️ Assertion`
+
+```python
+assert 조건, 메세지 
+```
+
+조건이 True이면 아무런 일이 일어나지 않는다. 하지만 조건이 False이면 AssertionError가 발생하고 지정한 메세지가 출력된다. 메세지를 지정하지 않았다면 `AssertionError`가 동일하게 발생하지만 구체적인 에러 명시란은 비워진 채로 로그가 출력된다. 
+
+`assert`는 코드의 오류를 찾는 데 유용하다. 또한 코드의 의도를 명확하게 표현하는 데에도 유용하다. 예를 들어, 변수의 값이 특정 조건을 만족해야 한다는 것을 `assert`를 사용해 표현할 수 있다.
+
+`assert`는 에러 로그를 반환하면서 개발자가 프로그램을 만드는 과정에 관여한다. 원하는 조건의 변수 값을 보증받을 때까지 `assert`로 테스트 할 수 있다. 이는 데이터 유효성 검사처럼 단순히 에러를 찾는것이 아니라 값을 보증하기 위해 사용된다. 예를 들어 함수의 입력 값이 어떤 조건의 참임을 보증하기 위해 사용할 수 있고 함수의 반환 값이 어떤 조건에 만족하도록 만들 수 있다. 혹은 변수 값이 변하는 과정에서 특정 부분은 반드시 어떤 영역에 속하는 것을 보증하기 위해 가정 설정문을 통해 확인 할 수도 있다. `assert`는 실수를 가정해 값을 보증하는 방식으로 코딩 하기 때문에 `'방어적 프로그래밍'`에 속한다. 방어적 프로그래밍에 대한 자세한 내용은 다음 포스트에서 살펴보도록 하자. 
+
+```python
+# Python assert 데이터 유효성 검사 예시
+class DeBERTa(nn.Module):
+    def __init__(self,):
+    ...중략...
+
+    def forward(self, inputs: Tensor, mask: Tensor):
+        assert inputs.ndim == 3, f'Expected (batch, sequence, vocab_size) got {inputs.shape}'
+    ...중략...
+```
+
+위의 코드는 필자가 논문을 보고 따라 구현한 `DeBERTa` 모델 최상위 객체의 코드 일부분이다. 최상위 객체는 모델의 입력 임베딩 층과 위치 임베딩 층을 정의해줘야 하기 때문에 반드시 입력값을 미리 정해진 차원 형식에 맞게 객체의 매개 변수로 넘겨줘야 한다. 지정 형식에서 벗어난 텐서는 입력으로 사용될 수 없게 만들기 위해 객체의 `forward` 메서드 시작부분에 `assert` 함수를 두어 데이터 유효성 검사를 하도록 구현했다. 지정된 차원 형태에 맞지 않는 데이터를 입력하게 되면 `AssertionError`와 함께 필자가 지정한 에러 메세지를 반환 받게 될 것이다. 
+
+한편 `AssertionError`는 프로그래머가 의도에 맞지 않는 메서드 혹은 객체 사용을 막기 위해 선제적으로 대응한 것이라고 볼 수 있다. 이는 프로그래머가 만든 규칙에 해당할 뿐, 실제 파이썬이나 컴퓨터 내부 동작 문법에 틀렸다는 것을 의미하는 것은 아니다.
