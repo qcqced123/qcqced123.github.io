@@ -83,9 +83,27 @@ var store = [{
         "url": "/nlp/transformer",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
+        "title": "✏️  Summary of Useful Library for Coding Test",
+        "excerpt":"📚 collections 🪢 deque python에서 stack이나 queue 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 collections에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자. # collections.deque usage example deque([iterable[, maxlen]]) --&gt; deque object &gt;&gt;&gt; from collections import deque, Counter &gt;&gt;&gt; queue = deque() # 1) &gt;&gt;&gt; queue deque([]) &gt;&gt;&gt; queue...","categories": ["Algorithm"],
+        "tags": ["Python","collections","Codeing Test","Algorithm"],
+        "url": "/algorithm/useful_library",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
         "title": "👨‍💻🐍 [Python] Object Attribute & Assertion Function",
         "excerpt":"🧧 Attribute Function 이번 포스팅은 Python 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 getattr, setattr , delattr , hasttr 함수들의 사용법에 대해 다뤄보려 한다. 특히 getattr, setattr 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 hyper-parameter를 튜닝하거나 기타...","categories": ["Python"],
         "tags": ["Python","Object","Attribute","Assertion","ML","Deep Learning"],
         "url": "/python/attribute_function",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 1120번: 문자열",
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 22:10 ~ 22:32 [요약] 1) 두 문자열 X와 Y의 차이: X[i] ≠ Y[i]인 i의 개수 - X=”jimin”, Y=”minji”이면, 둘의 차이는 4 2) A ≤ B, 두 문자열의 길이가 똑같아 지도록 아래 연산 선택 - A의 앞에 아무 알파벳이나 추가한다. - A의 뒤에 아무 알파벳이나...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1120",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 1427번: 소트인사이드",
+        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 23:50 ~ 24:03 [요약] 1) 수의 각 자리수를 내림차순 - 2143: 4321 [전략] 1) 입력 받는 숫자를 split으로 잘라서 다시 sort 해야지 - split, Counter, sort 같이 사용하면 될 듯 \"\"\" n = list(sys.stdin.readline().rstrip()) count = Counter(n) tmp_result = sorted(count.elements(),...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1427",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]

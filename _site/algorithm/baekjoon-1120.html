@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>📏 Lp-Norm: Concept &amp; Insight - AI/Business Study Log</title>
-<meta name="description" content="Concept of Lp-Norm &amp; GeM Pool">
+<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 1120번: 문자열 - AI/Business Study Log</title>
+<meta name="description" content="백준 1120번 문자열 풀이">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="📏 Lp-Norm: Concept &amp; Insight">
-<meta property="og:url" content="http://localhost:4000/linear-algebra/lp-norm">
+<meta property="og:title" content="👩‍💻🔠 [baekjoon] 1120번: 문자열">
+<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-1120">
 
 
-  <meta property="og:description" content="Concept of Lp-Norm &amp; GeM Pool">
-
-
-
+  <meta property="og:description" content="백준 1120번 문자열 풀이">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-04T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-05T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-08-18T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-08-19T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/linear-algebra/lp-norm">
+
+<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-1120">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="📏 Lp-Norm: Concept &amp; Insight">
-    <meta itemprop="description" content="Concept of Lp-Norm &amp; GeM Pool">
-    <meta itemprop="datePublished" content="2023-07-04T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-05T13:00:00+09:00">
+    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 1120번: 문자열">
+    <meta itemprop="description" content="백준 1120번 문자열 풀이">
+    <meta itemprop="datePublished" content="2023-08-18T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-19T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/linear-algebra/lp-norm" class="u-url" itemprop="url">📏 Lp-Norm: Concept &amp; Insight
+            <a href="http://localhost:4000/algorithm/baekjoon-1120" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 1120번: 문자열
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/linear-algebra/lp-norm"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/linear-algebra/lp-norm&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-1120"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-1120&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-07-04T00:00:00+09:00">July 04, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-18T00:00:00+09:00">August 18, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,38 +410,56 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              
+              <ul class="toc__menu"><li><a href="#️solution">🖍️ solution</a></li><li><a href="#idea">💡 idea</a></li></ul>
 
             </nav>
           </aside>
         
-        \[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
+        <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
-<p><strong><code class="language-plaintext highlighter-rouge">Lp-Norm</code></strong>은 <code class="language-plaintext highlighter-rouge">Lebesgue</code>라는 프랑스 수학자에 의해 고안된 개념으로<strong>,</strong> 기계학습을 공부하는 사람이라면 지겹도록 듣는 <code class="language-plaintext highlighter-rouge">L2-Norm</code>, <code class="language-plaintext highlighter-rouge">L1-Norm</code>을 일반화 버전이라고 생각하면 된다. <strong><u>다시 말해, 벡터의 크기를 나타내는 표현식을 일반화한</u></strong> 것이 바로 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 이며 수식은 위와 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
-<p><code class="language-plaintext highlighter-rouge">p=1</code>이라고 가정하고 수식을 전개해보자. 
-$||x||_1 = (|x_1|^1 + |x_2|^1+ … + |x_n|^1)^{1/1}$이 된다. 우리가 아는 <code class="language-plaintext highlighter-rouge">L1-Norm</code> 의 수식과 동일하다.</p>
+<span class="s">"""
+[시간]
+1) 22:10 ~ 22:32
 
-<p>그렇다면 <code class="language-plaintext highlighter-rouge">p=2</code>일 때 수식을 살펴보자. 
-$||x||_2 = (|x_1|^2 + |x_2|^2+ … + |x_n|^2)^{1/2}$으로 전개 된다는 것을 알 수 있다. 역시 우리가 맨날 보는 <code class="language-plaintext highlighter-rouge">L2-Norm</code> 과 동일하다.</p>
+[요약]
+1) 두 문자열 X와 Y의 차이: X[i] ≠ Y[i]인 i의 개수
+    - X=”jimin”, Y=”minji”이면, 둘의 차이는 4
+2) A ≤ B, 두 문자열의 길이가 똑같아 지도록 아래 연산 선택
+    - A의 앞에 아무 알파벳이나 추가한다.
+    - A의 뒤에 아무 알파벳이나 추가한다.
+=&gt; A와 B의 길이가 같으면서, A와 B의 차이를 최소로 하는 프로그램
+"""</span>
 
-<p><code class="language-plaintext highlighter-rouge">L1-Norm</code>은 맨허튼 거리, <code class="language-plaintext highlighter-rouge">L2-Norm</code> 은 유클리드 거리를 의미한다는 것은 익히 들어 봤을 것이다. 만약 $p=∞$라면, 수식은 어떻게 될까, 과연 어떤 의미를 갖고 있을까??</p>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">slicer</span><span class="p">,</span> <span class="n">checker</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 
-<p>이전과 똑같이 전개해보면
-\(||x||_∞ = (|x_1|^∞ + |x_2|^∞+ ... + |x_n|^∞)^{1/∞}\), 이렇게 식이 도출될 것이다. 이제 괄호 내부 원소들의 지수가 <code class="language-plaintext highlighter-rouge">무한대</code>라는 점에 주목해보자. 직관적으로 무한대 값들 사이의 덧셈, 곱셈의 결과는 <code class="language-plaintext highlighter-rouge">무한대</code> 라는 것을 알 수 있다. 그렇다면 우리는 위 수식에서 절대값이 가장 큰 $|x_i|$만 남겨도 역시 무한대 값을 얻을 수 있다. <strong><u>무한대는 미지수 개념에 가깝지 실제 실수 개념은 아니기 때문이다.</u></strong> 따라서 괄호 내부에는 $|x_i|^p$ 값만 남게 되고 괄호 밖의 $1/p$와 남은 연산을 해주면 결국 $|x_i|$만 남게 된다. 따라서 $||x||_∞ = max(|x_1|, \ |x_2|, \ … \ , |x_n|)$가 된다.</p>
+<span class="n">tmp_min</span> <span class="o">=</span> <span class="mi">99999</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">checker</span><span class="p">):</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">tmp_b</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">slicer</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">slicer</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tmp_b</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">tmp_min</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">tmp_min</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">tmp_min</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>이와 같은 성질 때문에 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 은 <code class="language-plaintext highlighter-rouge">Lp-Pooling</code> 으로도 해석할 수 있으며, 수식의 우변에  $1/n$을 곱해주면 <code class="language-plaintext highlighter-rouge">Generalized Mean Pooling</code> 이 된다는 사실을 알 수 있다. 결국 <code class="language-plaintext highlighter-rouge">Norm</code>과 <code class="language-plaintext highlighter-rouge">Pooling</code> 은 같은 개념이었던 것이다. 
-<strong>그래서 위에서 살펴본 $ L_∞ $ 역시 <code class="language-plaintext highlighter-rouge">Max Pooling</code> 이라 해석이 가능해진다.</strong></p>
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
-<p>여담으로 맨앞의 대문자 L은 <code class="language-plaintext highlighter-rouge">Lebesgue</code> 의 이름에서 본따왔다고 알려져 있다. 그리고 예전부터 $L_2$값을 수식으로 표현할 때 왜 짝대기 두개를 사용할까 항상 궁금했는데  $L_p$와 <code class="language-plaintext highlighter-rouge">일반 절대값</code>을 구분하기 위해 짝대기를 두 개 사용하게 되었다고 한다.</p>
-<p align="center">
-<img src="/assets/images/220px-Vector-p-Norms_qtl1.svg.png" alt="Lp-Norm Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<em>Lp-Norm</em>
-</p>
+<ul>
+  <li><strong>1) 두 문자열의 길이 차이 구하기</strong>
+    <ul>
+      <li><strong>문자열 A를 B의 <code class="language-plaintext highlighter-rouge">subsequence</code> 로 간주하고, 가장 왼쪽 자리부터 차례로 대입</strong></li>
+      <li><strong>A와 B의 차이를 계산하고 임시로 값을 저장, 그 중에서 최소값을 결과로 출력</strong></li>
+    </ul>
+  </li>
+</ul>
 
-<p>위 자료는 
-$L_p$
-norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. <code class="language-plaintext highlighter-rouge">p=1</code> 일 때는 $L_1: |x| + |y| =1$가 되기 때문에 마름모 형태의 영역을 갖는다. 한편 <code class="language-plaintext highlighter-rouge">p=2</code> 일 때는 $L_2: x^2 + y^2 =1^2$가 되기 때문에 원의 영역을 갖는다. $p=∞$ 일 때는 $L_∞: max(|x_1|…|x_n|) = 1$ 이 되기 때문에 정사각형 형태의 영역을 갖게 될 것이다.</p>
+<p>문제는 두 문자열의 차이가 최소가 되도록 문자열 A를 적절히 조작하는 것이었다. 다만 차이가 최소가 되는 방향으로 조작하려면 무조건 빈 자리수에 B의 글자를 그대로 대입하면 된다. 따라서 A의 빈자리에 어떤 글자를 넣을지 그런 경우의 수는 고려할 필요가 없다.</p>
+
+<p>A를 B의 하위 문자열이라고 생각하고 B의 가장 왼쪽부터 A의 길이만큼의 문자열과 A를 대조해 차이를 구하고, 그다음 B의 가장 왼쪽+1부터 A의 길이만큼의 문자열과 다시 차이를 구하고, 이 과정을 계속 반복해 가장 최소가 되는 경우의 값을 출력하면 정답이 된다.</p>
 
         
       </section>
@@ -458,11 +476,15 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
+      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
     
-      <a href="/tags/#norm" class="page__taxonomy-item p-category" rel="tag">Norm</a><span class="sep">, </span>
+      <a href="/tags/#baekjoon" class="page__taxonomy-item p-category" rel="tag">Baekjoon</a><span class="sep">, </span>
     
-      <a href="/tags/#pooling" class="page__taxonomy-item p-category" rel="tag">Pooling</a>
+      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/tags/#string-handle" class="page__taxonomy-item p-category" rel="tag">String Handle</a>
     
     </span>
   </p>
@@ -479,7 +501,7 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
     
     </span>
   </p>
@@ -487,7 +509,7 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-04">July 4, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-18">August 18, 2023</time></p>
 
       </footer>
 
@@ -496,21 +518,22 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%8F+Lp-Norm%3A+Concept+%26+Insight%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+1120%EB%B2%88%3A+%EB%AC%B8%EC%9E%90%EC%97%B4%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1120" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1120" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1120" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/python/attribute_function" class="pagination--pager" title="👨‍💻🐍 [Python] Object Attribute &amp; Assertion Function
+">Previous</a>
     
     
-      <a href="/linear-algebra/inner-product" class="pagination--pager" title="📐 Inner Product: Projection Matrix, Least Sqaure Method
+      <a href="/algorithm/baekjoon-1427" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1427번: 소트인사이드
 ">Next</a>
     
   </nav>
@@ -568,53 +591,6 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 18 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 1427번 문자열 풀이
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/baekjoon-1120" rel="permalink">👩‍💻🔠 [baekjoon] 1120번: 문자열
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 18 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">백준 1120번 문자열 풀이
 </p>
   </article>
 </div>
@@ -709,6 +685,53 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 17 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/transformer" rel="permalink">🤖 [Transformer] Attention Is All You Need
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          40 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 04 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Transformer Official Paper Review with Pytorch Implementation
 </p>
   </article>
 </div>
