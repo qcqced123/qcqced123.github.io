@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device - AI/Business Study Log</title>
-<meta name="description" content="Pytorch Error: Wrong CUDA Device Number">
+<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커 - AI/Business Study Log</title>
+<meta name="description" content="백준 1316 그룹 단어 체커 풀이">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device">
-<meta property="og:url" content="http://localhost:4000/framework-library/cuda-num/">
+<meta property="og:title" content="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커">
+<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-1316">
 
 
-  <meta property="og:description" content="Pytorch Error: Wrong CUDA Device Number">
-
-
-
+  <meta property="og:description" content="백준 1316 그룹 단어 체커 풀이">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-11T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-11T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-08-20T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-08-21T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/framework-library/cuda-num/">
+
+<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-1316">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device">
-    <meta itemprop="description" content="Pytorch Error: Wrong CUDA Device Number">
-    <meta itemprop="datePublished" content="2023-07-11T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-11T13:00:00+09:00">
+    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커">
+    <meta itemprop="description" content="백준 1316 그룹 단어 체커 풀이">
+    <meta itemprop="datePublished" content="2023-08-20T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-21T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/framework-library/cuda-num/" class="u-url" itemprop="url">🖥️ RuntimeError: Attempting to deserialize object on CUDA device 2 but torch.cuda.device_count() is 1. Please use torch.load with map_location to map your storages to an existing device
+            <a href="http://localhost:4000/algorithm/baekjoon-1316" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/framework-library/cuda-num/"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/framework-library/cuda-num/&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-1316"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-1316&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-07-11T00:00:00+09:00">July 11, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-20T00:00:00+09:00">August 20, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,19 +410,55 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#-pytorch-잘못된-cuda-장치-번호-사용-문제">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</a></li></ul>
+              <ul class="toc__menu"><li><a href="#️solution">🖍️ solution</a></li><li><a href="#idea">💡 idea</a></li></ul>
 
             </nav>
           </aside>
         
-        <h3 id="-pytorch-잘못된-cuda-장치-번호-사용-문제"><code class="language-plaintext highlighter-rouge">🔢 Pytorch 잘못된 CUDA 장치 번호 사용 문제</code></h3>
+        <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
-    <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s">'cuda:0'</span><span class="p">)</span> 
-<span class="p">)</span>
+<span class="s">"""
+[풀이 시간]
+1) 16:30 ~ 17:50
+
+[요약]
+1) 그룹 문자: ccazzzzbb, kin
+    - 아닌 경우: aabbbccb (b가 혼자 떨어져 있기 때문에 그룹 문자열이 아님)
+"""</span>
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">N</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">word_set</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">}</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">word</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="ow">in</span> <span class="n">word_set</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">break</span>
+
+        <span class="k">if</span> <span class="n">j</span><span class="o">+</span><span class="mi">1</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="ow">and</span> <span class="n">word</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">word</span><span class="p">[</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">word_set</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">word</span><span class="p">[</span><span class="n">j</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">pretrained model</code>, <code class="language-plaintext highlighter-rouge">weight</code>를 <code class="language-plaintext highlighter-rouge">load</code>하거나 혹은 훈련 루프를 <code class="language-plaintext highlighter-rouge">resume</code> 을 위해 <code class="language-plaintext highlighter-rouge">torch.load()</code> 를 사용할 때 마주할 수 있는 에러 로그다. 발생하는 이유는 현재 <code class="language-plaintext highlighter-rouge">GPU</code> 에 할당하려는 모델이 사전 훈련때 할당 되었던 <code class="language-plaintext highlighter-rouge">GPU</code> 번호와 현재 할당하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호가 서로 상이하기 때문이다. 따라서 <code class="language-plaintext highlighter-rouge">torch.load</code>의 <code class="language-plaintext highlighter-rouge">map_location</code>인자에 현재 자신이 사용하려는 <code class="language-plaintext highlighter-rouge">GPU</code> 번호를 입력해주자.</p>
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 선형으로 문자열을 탐색</strong>
+    <ul>
+      <li><strong>탐색 도중, 현재 철자가 세트 자료형에 이미 있는 경우</strong>
+        <ul>
+          <li><strong>현재 문자열은 비그룹 단어로 간주</strong></li>
+        </ul>
+      </li>
+      <li><strong>탐색 도중, 현재 철자와 바로 다음 시점 철자가 다른 경우</strong>
+        <ul>
+          <li><strong>세트 자료형에 현재 철자 추가</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
 
         
       </section>
@@ -439,9 +475,15 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#cuda" class="page__taxonomy-item p-category" rel="tag">CUDA</a><span class="sep">, </span>
+      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
     
-      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a>
+      <a href="/tags/#baekjoon" class="page__taxonomy-item p-category" rel="tag">Baekjoon</a><span class="sep">, </span>
+    
+      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/tags/#string-handle" class="page__taxonomy-item p-category" rel="tag">String Handle</a>
     
     </span>
   </p>
@@ -458,7 +500,7 @@
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#framework-library" class="page__taxonomy-item p-category" rel="tag">Framework & Library</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
     
     </span>
   </p>
@@ -466,7 +508,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-10">July 10, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-20">August 20, 2023</time></p>
 
       </footer>
 
@@ -475,22 +517,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%96%A5%EF%B8%8F+RuntimeError%3A+Attempting+to+deserialize+object+on+CUDA+device+2+but+torch.cuda.device_count%28%29+is+1.+Please+use+torch.load+with+map_location+to+map+your+storages+to+an+existing+device%20http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+1316%EB%B2%88%3A+%EA%B7%B8%EB%A3%B9+%EB%8B%A8%EC%96%B4+%EC%B2%B4%EC%BB%A4%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1316" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1316" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fframework-library%2Fcuda-num%2F" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1316" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/framework-library/backward-nan/" class="pagination--pager" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output
+      <a href="/algorithm/baekjoon-1427" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1427번: 소트인사이드
 ">Previous</a>
     
     
-      <a href="/framework-library/dataloader-collatefn" class="pagination--pager" title="🚚 RuntimeError: stack expects each tensor to be equal size, but got [32] at entry 0 and [24] at entry 1
+      <a href="/algorithm/baekjoon-9012" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 9012번: 괄호
 ">Next</a>
     
   </nav>
@@ -548,53 +590,6 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 20 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 9012번 괄호 풀이
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/baekjoon-1316" rel="permalink">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 20 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">백준 1316 그룹 단어 체커 풀이
 </p>
   </article>
 </div>
@@ -689,6 +684,53 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 18 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 1120번 문자열 풀이
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/python/attribute_function" rel="permalink">👨‍💻🐍 [Python] Object Attribute &amp; Assertion Function
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          4 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 17 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">getattr, setattr, delattr, hasattr, Assertion 사용방법
 </p>
   </article>
 </div>
