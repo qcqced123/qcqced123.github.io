@@ -106,4 +106,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-1427",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 9012번: 괄호",
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 15:45 ~ 16:15 \"\"\" for i in range(int(sys.stdin.readline())): left, right, checker = 0, 0, False ps = list(sys.stdin.readline().rstrip()) for j in ps: if j == '(': left += 1 else: right += 1 if right &gt; left: checker = True break if checker:...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-9012",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
