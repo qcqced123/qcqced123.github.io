@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 9012번: 괄호 - AI/Business Study Log</title>
-<meta name="description" content="백준 9012번 괄호 풀이">
+<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 5430번: AC - AI/Business Study Log</title>
+<meta name="description" content="백준 5430번 괄호 풀이">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="👩‍💻🔠 [baekjoon] 9012번: 괄호">
-<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-9012">
+<meta property="og:title" content="👩‍💻🔠 [baekjoon] 5430번: AC">
+<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-5430">
 
 
-  <meta property="og:description" content="백준 9012번 괄호 풀이">
-
-
-
+  <meta property="og:description" content="백준 5430번 괄호 풀이">
 
 
 
 
-  <meta property="article:published_time" content="2023-08-20T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-08-21T02:00:00+09:00">
+  <meta property="article:published_time" content="2023-08-24T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-08-25T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-9012">
+
+<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-5430">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 9012번: 괄호">
-    <meta itemprop="description" content="백준 9012번 괄호 풀이">
-    <meta itemprop="datePublished" content="2023-08-20T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-08-21T02:00:00+09:00">
+    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 5430번: AC">
+    <meta itemprop="description" content="백준 5430번 괄호 풀이">
+    <meta itemprop="datePublished" content="2023-08-24T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-25T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/algorithm/baekjoon-9012" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 9012번: 괄호
+            <a href="http://localhost:4000/algorithm/baekjoon-5430" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 5430번: AC
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-9012"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-9012&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-5430"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-5430&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-20T00:00:00+09:00">August 20, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-24T00:00:00+09:00">August 24, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -416,51 +416,83 @@
           </aside>
         
         <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 <span class="s">"""
-[풀이 시간]
-1) 15:45 ~ 16:15
+[시간]
+1) 18:25 ~ 18:55
+
+[요약]
+1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어
+    - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed
+    - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue
+2) 특정 동작을 의미하는 문자열을 입력 받아 의도한 처리를 하는 프로그램을 만들기
+[전략]
+1) 무식하게 만들자
 """</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">checker</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">False</span>
-    <span class="n">ps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="s">'('</span><span class="p">:</span>
-            <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">right</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">right</span> <span class="o">&gt;</span> <span class="n">left</span><span class="p">:</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
+    <span class="n">method_seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">checker</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()),</span> <span class="n">deque</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())),</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_seq</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">'R'</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'error'</span><span class="p">)</span>
             <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">break</span>
-    <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'NO'</span><span class="p">)</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="n">left</span> <span class="o">==</span> <span class="n">right</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"YES"</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">left</span> <span class="o">!=</span> <span class="n">right</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"NO"</span><span class="p">)</span>
+            
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">'['</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'[]'</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">target_list</span><span class="p">)):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1) 선형으로 괄호 문자열을 탐색</strong>
+  <li><strong>1)  문자열 리스트 to Python List</strong>
     <ul>
-      <li><strong>탐색 도중, 오른쪽 괄호가 더 많아지는 시점이 있다면 루프 종료</strong>
+      <li><strong><code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code> 을 적용해 파이썬의 리스트로 변환</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) <code class="language-plaintext highlighter-rouge">reverse</code> 연산 대체</strong>
+    <ul>
+      <li><strong>파이썬으로 풀면 시간 제한 때문에 루프마다 <code class="language-plaintext highlighter-rouge">reverse</code>를 수행할 수 없는 문제 발생</strong>
         <ul>
-          <li><strong><code class="language-plaintext highlighter-rouge">NO</code> 출력, 다음 괄호 문자열 탐색</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">popleft</code>, <code class="language-plaintext highlighter-rouge">pop</code> 동시에 가지고 있는 <code class="language-plaintext highlighter-rouge">collections.deque</code> 이용해서 루프 내부에서 <code class="language-plaintext highlighter-rouge">reverse</code> 수행을 피함</strong></li>
         </ul>
       </li>
-      <li><strong>탐색 완료, 왼쪽 괄호 &amp; 오른쪽 괄호 개수 비교</strong>
+    </ul>
+  </li>
+  <li><strong>3) 출력 문자열</strong>
+    <ul>
+      <li><strong>예제 출력을 보면 리스트의 원소 사이에 공백이 없음</strong>
         <ul>
-          <li><strong>왼쪽 괄호 &gt; 오른쪽 괄호: NO 출력</strong></li>
-          <li><strong>왼쪽 괄호 == 오른쪽 괄호: YES 출력</strong></li>
+          <li><strong>파이썬 내장 리스트를 그대로 출력하면 원소 사이의 공백 때문에 문제를 틀리게 된다</strong></li>
+          <li><strong>루프 돌려서 내장 리스트를 다시 문자열 리스트로 변환</strong></li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
+
+<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>
 
         
       </section>
@@ -510,7 +542,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-20">August 20, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-24">August 24, 2023</time></p>
 
       </footer>
 
@@ -519,23 +551,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+9012%EB%B2%88%3A+%EA%B4%84%ED%98%B8%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-9012" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+5430%EB%B2%88%3A+AC%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5430" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-9012" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5430" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-9012" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5430" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/algorithm/baekjoon-1316" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커
+      <a href="/algorithm/baekjoon-1764" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡
 ">Previous</a>
     
     
-      <a href="/algorithm/baekjoon-1254" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -549,53 +580,6 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/baekjoon-5430" rel="permalink">👩‍💻🔠 [baekjoon] 5430번: AC
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 24 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">백준 5430번 괄호 풀이
-</p>
-  </article>
-</div>
-
         
           
 
@@ -733,6 +717,53 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 24 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 1254번 괄호 풀이
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/baekjoon-9012" rel="permalink">👩‍💻🔠 [baekjoon] 9012번: 괄호
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 20 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">백준 9012번 괄호 풀이
 </p>
   </article>
 </div>

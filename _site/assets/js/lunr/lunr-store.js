@@ -118,4 +118,28 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-9012",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기",
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 17:00 ~ 17:30 [요약] 1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다. - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음 [전략] 1) 그냥 무식 단순 루프 돌리기 \"\"\" text = sys.stdin.readline().rstrip() result, slicer = 99999, 1...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1254",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 14425번: 문자열 집합",
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 16:30 ~ 16:50 [요약] 1) N개의 문자열로 이루어진 집합 S가 주어진다. - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성 [전략] 1) 세트 교차 방식 (시간 효율성 GOOD) - 집합 S에 중복 문자열은 없지만, M개의...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-14425",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 1764번: 듣보잡",
+        "excerpt":"🖍️ solution 1 import sys \"\"\" [풀이 시간] 1) 15:50 ~ 16:10 [요약] 1) 명단 A, 명단 B의 교집합 구하는 문제 [전략] 1) 두 명단을 세트 자료형에 넣고 교집합을 구해주기 \"\"\" N, M = map(int, sys.stdin.readline().split()) set_a, set_b = set(), set() # 듣도 못한 사람 명단 for _ in range(N): set_a.add(sys.stdin.readline().rstrip())...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1764",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 5430번: AC",
+        "excerpt":"🖍️ solution import sys from collections import deque \"\"\" [시간] 1) 18:25 ~ 18:55 [요약] 1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어 - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue 2) 특정 동작을 의미하는...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-5430",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
