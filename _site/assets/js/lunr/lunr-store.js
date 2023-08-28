@@ -137,15 +137,21 @@ var store = [{
         "url": "/algorithm/baekjoon-1764",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "👩‍💻🔠 [baekjoon] 1969번: DNA",
-        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 20:00 ~ 20:30 [요약] 1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지 - A, T, G, C 2) N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기 - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른...","categories": ["Algorithm"],
-        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1969",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "👩‍💻🔠 [baekjoon] 5430번: AC",
         "excerpt":"🖍️ solution import sys from collections import deque \"\"\" [시간] 1) 18:25 ~ 18:55 [요약] 1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어 - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue 2) 특정 동작을 의미하는...","categories": ["Algorithm"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-5430",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호",
+        "excerpt":"🖍️ solution import sys from collections import Counter, deque \"\"\" [시간] 1) 21:30 ~ 22:00 [요약] 1) DNA 문자열: A, C, G, T로만 구성된 문자열 =&gt; DNA 문자열의 일부를 뽑아 비밀번호로 사용 =&gt; 추출 기준은 서로 다른 문자의 개수가 특정 개수 이상 등장해야 함 =&gt; 만들 수 있는 비밀번호 종류, 추출된...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-12891",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 1969번: DNA",
+        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 20:00 ~ 20:30 [요약] 1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지 - A, T, G, C 2) N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기 - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1969",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]

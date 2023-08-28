@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 1969번: DNA - AI/Business Study Log</title>
-<meta name="description" content="백준 1969번 괄호 풀이">
+<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호 - AI/Business Study Log</title>
+<meta name="description" content="백준 12891번 DNA 비밀번호 풀이">
 
 
   <meta name="author" content="qcqced">
@@ -22,11 +22,11 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="👩‍💻🔠 [baekjoon] 1969번: DNA">
-<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-1969">
+<meta property="og:title" content="👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호">
+<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-12891">
 
 
-  <meta property="og:description" content="백준 1969번 괄호 풀이">
+  <meta property="og:description" content="백준 12891번 DNA 비밀번호 풀이">
 
 
 
@@ -47,7 +47,7 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-1969">
+<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-12891">
 
 
 
@@ -380,8 +380,8 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 1969번: DNA">
-    <meta itemprop="description" content="백준 1969번 괄호 풀이">
+    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호">
+    <meta itemprop="description" content="백준 12891번 DNA 비밀번호 풀이">
     <meta itemprop="datePublished" content="2023-08-28T00:00:00+09:00">
     <meta itemprop="dateModified" content="2023-08-29T02:00:00+09:00">
 
@@ -389,12 +389,12 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/algorithm/baekjoon-1969" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 1969번: DNA
+            <a href="http://localhost:4000/algorithm/baekjoon-12891" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-1969"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-1969&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-12891"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-12891&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
             <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-28T00:00:00+09:00">August 28, 2023</time>
             <!-- <div style="text-align: left;"> -->
@@ -418,46 +418,56 @@
         <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">deque</span>
 
 <span class="s">"""
 [시간]
-1) 20:00 ~ 20:30
+1) 21:30 ~ 22:00
 
 [요약]
-1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지
-    - A, T, G, C
-2)  N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기
-    - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른 것의 개수
-    =&gt; 자기 자신을 제외한 나머지 모든 원소와 Hamming Distance를 구하고 총합이 가장 작은 아이를 리턴해라
+1) DNA 문자열: A, C, G, T로만 구성된 문자열
+    =&gt; DNA 문자열의 일부를 뽑아 비밀번호로 사용
+    =&gt; 추출 기준은 서로 다른 문자의 개수가 특정 개수 이상 등장해야 함
+    =&gt; 만들 수 있는 비밀번호 종류, 추출된 위치가 다르면 문자열이 같아도 다른 비밀번호로 취급
+[전략]
+1) collections.Counter 사용
+    - 처음 슬라이딩 부분까지만 계산
 """</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">dna</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">char_list</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>  <span class="c1"># for append char, count
-</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dna</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-    <span class="n">rank_counter</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
-</span>    <span class="n">result</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># counting
-</span>    <span class="n">char_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># append char
-</span>
-<span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">char_list</span><span class="p">))</span>
+<span class="n">S</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">dna</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">,</span> <span class="s">'G'</span><span class="p">,</span> <span class="s">'T'</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">minimal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chars</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())))}</span>
+
+<span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">dna</span><span class="p">[:</span><span class="n">P</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">P</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">dna</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">P</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">dna</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">counter</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimal</span><span class="p">[</span><span class="n">char</span><span class="p">]:</span>
+            <span class="n">checker</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
 <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1)  <code class="language-plaintext highlighter-rouge">linear search</code> 하면서 한 개라도 철자가 다른 자리수 찾기</strong>
+  <li><strong>1)  Sliding Window 사용</strong>
     <ul>
-      <li><strong>빈도수가 가장 높은 철자를 해당 자리의 문자로 결정, <code class="language-plaintext highlighter-rouge">collections.Counter</code> 이용</strong>
+      <li><strong>개별 윈도우에 포함된 철자의 개수를 세어 기준치를 넘기는지 대조</strong>
         <ul>
-          <li><strong>최빈값이 여러개인 상황 (사전식 우선)</strong>
+          <li><strong><code class="language-plaintext highlighter-rouge">Time Complexity</code> 고려해, <code class="language-plaintext highlighter-rouge">collections.Counter</code>는 처음 윈도우에 한 번 사용</strong>
             <ul>
-              <li><strong>다중 정렬 사용해 최빈값 &amp; 사전식 정렬 동시 적용</strong></li>
+              <li><strong><code class="language-plaintext highlighter-rouge">Input</code>이 백만까지라서 모든 윈도우에 <code class="language-plaintext highlighter-rouge">Counter</code> 적용하면 <code class="language-plaintext highlighter-rouge">O(n^2)</code>으로 시간 초과 발생할 가능성 있음</strong></li>
+            </ul>
+          </li>
+          <li><strong>이후 윈도우를 옮기면서 변화되는 철자의 개수만 수정</strong>
+            <ul>
+              <li><strong>맨 앞의 철자에 대한 개수를 한 개 빼주고, 앞으로 추가될 철자의 개수를 하나 늘려준다</strong></li>
             </ul>
           </li>
         </ul>
@@ -466,7 +476,7 @@
   </li>
 </ul>
 
-<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>
+<p>비밀번호라고 판정하는 기준이 특정 철자의 개수라는 점에 유의해, 슬라이딩 윈도우를 변형하면 시간 초과되지 않고 문제를 해결할 수 있다.</p>
 
         
       </section>
@@ -525,22 +535,23 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+1969%EB%B2%88%3A+DNA%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1969" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+12891%EB%B2%88%3A+DNA+%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-12891" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1969" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-12891" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1969" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-12891" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/algorithm/baekjoon-12891" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호
+      <a href="/algorithm/baekjoon-5430" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 5430번: AC
 ">Previous</a>
     
     
-      <a href="#" class="pagination--pager disabled">Next</a>
+      <a href="/algorithm/baekjoon-1969" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 1969번: DNA
+">Next</a>
     
   </nav>
 
@@ -568,7 +579,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/algorithm/baekjoon-12891" rel="permalink">👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호
+        <a href="/algorithm/baekjoon-1969" rel="permalink">👩‍💻🔠 [baekjoon] 1969번: DNA
 </a>
       
     </h2>
@@ -596,7 +607,7 @@
     
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 28 2023</p>
     
-    <p class="archive__item-excerpt" itemprop="description">백준 12891번 DNA 비밀번호 풀이
+    <p class="archive__item-excerpt" itemprop="description">백준 1969번 괄호 풀이
 </p>
   </article>
 </div>

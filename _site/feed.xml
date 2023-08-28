@@ -1,4 +1,116 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T21:25:58+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-29T00:57:49+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호</title><link href="http://localhost:4000/algorithm/baekjoon-12891" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호" /><published>2023-08-28T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_12891</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-12891"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">deque</span>
+
+<span class="s">"""
+[시간]
+1) 21:30 ~ 22:00
+
+[요약]
+1) DNA 문자열: A, C, G, T로만 구성된 문자열
+    =&gt; DNA 문자열의 일부를 뽑아 비밀번호로 사용
+    =&gt; 추출 기준은 서로 다른 문자의 개수가 특정 개수 이상 등장해야 함
+    =&gt; 만들 수 있는 비밀번호 종류, 추출된 위치가 다르면 문자열이 같아도 다른 비밀번호로 취급
+[전략]
+1) collections.Counter 사용
+    - 처음 슬라이딩 부분까지만 계산
+"""</span>
+<span class="n">S</span><span class="p">,</span> <span class="n">P</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">dna</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span> <span class="s">'C'</span><span class="p">,</span> <span class="s">'G'</span><span class="p">,</span> <span class="s">'T'</span><span class="p">]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">minimal</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">chars</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())))}</span>
+
+<span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">dna</span><span class="p">[:</span><span class="n">P</span><span class="p">])</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">P</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">P</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">dna</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">P</span><span class="p">]]</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">counter</span><span class="p">[</span><span class="n">dna</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">counter</span><span class="p">[</span><span class="n">char</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">minimal</span><span class="p">[</span><span class="n">char</span><span class="p">]:</span>
+            <span class="n">checker</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1)  Sliding Window 사용</strong>
+    <ul>
+      <li><strong>개별 윈도우에 포함된 철자의 개수를 세어 기준치를 넘기는지 대조</strong>
+        <ul>
+          <li><strong><code class="language-plaintext highlighter-rouge">Time Complexity</code> 고려해, <code class="language-plaintext highlighter-rouge">collections.Counter</code>는 처음 윈도우에 한 번 사용</strong>
+            <ul>
+              <li><strong><code class="language-plaintext highlighter-rouge">Input</code>이 백만까지라서 모든 윈도우에 <code class="language-plaintext highlighter-rouge">Counter</code> 적용하면 <code class="language-plaintext highlighter-rouge">O(n^2)</code>으로 시간 초과 발생할 가능성 있음</strong></li>
+            </ul>
+          </li>
+          <li><strong>이후 윈도우를 옮기면서 변화되는 철자의 개수만 수정</strong>
+            <ul>
+              <li><strong>맨 앞의 철자에 대한 개수를 한 개 빼주고, 앞으로 추가될 철자의 개수를 하나 늘려준다</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>비밀번호라고 판정하는 기준이 특정 철자의 개수라는 점에 유의해, 슬라이딩 윈도우를 변형하면 시간 초과되지 않고 문제를 해결할 수 있다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 12891번 DNA 비밀번호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1969번: DNA</title><link href="http://localhost:4000/algorithm/baekjoon-1969" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1969번: DNA" /><published>2023-08-28T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1969</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1969"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="s">"""
+[시간]
+1) 20:00 ~ 20:30
+
+[요약]
+1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지
+    - A, T, G, C
+2)  N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기
+    - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른 것의 개수
+    =&gt; 자기 자신을 제외한 나머지 모든 원소와 Hamming Distance를 구하고 총합이 가장 작은 아이를 리턴해라
+"""</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">dna</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">char_list</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>  <span class="c1"># for append char, count
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dna</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="n">rank_counter</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
+</span>    <span class="n">result</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># counting
+</span>    <span class="n">char_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># append char
+</span>
+<span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">char_list</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1)  <code class="language-plaintext highlighter-rouge">linear search</code> 하면서 한 개라도 철자가 다른 자리수 찾기</strong>
+    <ul>
+      <li><strong>빈도수가 가장 높은 철자를 해당 자리의 문자로 결정, <code class="language-plaintext highlighter-rouge">collections.Counter</code> 이용</strong>
+        <ul>
+          <li><strong>최빈값이 여러개인 상황 (사전식 우선)</strong>
+            <ul>
+              <li><strong>다중 정렬 사용해 최빈값 &amp; 사전식 정렬 동시 적용</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1969번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
@@ -75,7 +187,98 @@
   </li>
 </ul>
 
-<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
+<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[풀이 시간]
+1) 16:30 ~ 16:50
+
+[요약]
+1) N개의 문자열로 이루어진 집합 S가 주어진다.
+    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
+[전략]
+1) 세트 교차 방식 (시간 효율성 GOOD)
+    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
+    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
+    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
+2) 사전 대조 방식 (공간 효율성 GOOD)
+"""</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 사전 대조 방식 이용</strong>
+    <ul>
+      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
+      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
+        <ul>
+          <li><strong>이미 있다면, 교집합 처리</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[풀이 시간]
+1) 17:00 ~ 17:30
+
+[요약]
+1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
+    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
+[전략]
+1) 그냥 무식 단순 루프 돌리기
+"""</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
+
+<span class="c1"># input is palindrome
+</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
+            <span class="k">break</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
+    <ul>
+      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
+        <ul>
+          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="s">"""
@@ -169,149 +372,7 @@
 <strong><em>결과 비교</em></strong>
 </p>
 
-<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 16:30 ~ 16:50
-
-[요약]
-1) N개의 문자열로 이루어진 집합 S가 주어진다.
-    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
-[전략]
-1) 세트 교차 방식 (시간 효율성 GOOD)
-    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
-    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
-    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
-2) 사전 대조 방식 (공간 효율성 GOOD)
-"""</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">pass</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 사전 대조 방식 이용</strong>
-    <ul>
-      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
-      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
-        <ul>
-          <li><strong>이미 있다면, 교집합 처리</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 17:00 ~ 17:30
-
-[요약]
-1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
-    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
-[전략]
-1) 그냥 무식 단순 루프 돌리기
-"""</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
-
-<span class="c1"># input is palindrome
-</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
-        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
-            <span class="k">break</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
-    <ul>
-      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
-        <ul>
-          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1969번: DNA</title><link href="http://localhost:4000/algorithm/baekjoon-1969" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1969번: DNA" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1969</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1969"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-
-<span class="s">"""
-[시간]
-1) 20:00 ~ 20:30
-
-[요약]
-1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지
-    - A, T, G, C
-2)  N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기
-    - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른 것의 개수
-    =&gt; 자기 자신을 제외한 나머지 모든 원소와 Hamming Distance를 구하고 총합이 가장 작은 아이를 리턴해라
-"""</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">dna</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">char_list</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>  <span class="c1"># for append char, count
-</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-        <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dna</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
-    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
-    <span class="n">rank_counter</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
-</span>    <span class="n">result</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># counting
-</span>    <span class="n">char_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># append char
-</span>
-<span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">char_list</span><span class="p">))</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1)  <code class="language-plaintext highlighter-rouge">linear search</code> 하면서 한 개라도 철자가 다른 자리수 찾기</strong>
-    <ul>
-      <li><strong>빈도수가 가장 높은 철자를 해당 자리의 문자로 결정, <code class="language-plaintext highlighter-rouge">collections.Counter</code> 이용</strong>
-        <ul>
-          <li><strong>최빈값이 여러개인 상황 (사전식 우선)</strong>
-            <ul>
-              <li><strong>다중 정렬 사용해 최빈값 &amp; 사전식 정렬 동시 적용</strong></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1969번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="s">"""
@@ -479,152 +540,4 @@
 
 <p>문제는 두 문자열의 차이가 최소가 되도록 문자열 A를 적절히 조작하는 것이었다. 다만 차이가 최소가 되는 방향으로 조작하려면 무조건 빈 자리수에 B의 글자를 그대로 대입하면 된다. 따라서 A의 빈자리에 어떤 글자를 넣을지 그런 경우의 수는 고려할 필요가 없다.</p>
 
-<p>A를 B의 하위 문자열이라고 생각하고 B의 가장 왼쪽부터 A의 길이만큼의 문자열과 A를 대조해 차이를 구하고, 그다음 B의 가장 왼쪽+1부터 A의 길이만큼의 문자열과 다시 차이를 구하고, 이 과정을 계속 반복해 가장 최소가 되는 경우의 값을 출력하면 정답이 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1120번 문자열 풀이]]></summary></entry><entry><title type="html">👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function</title><link href="http://localhost:4000/python/attribute_function" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function" /><published>2023-08-17T00:00:00+09:00</published><updated>2023-08-18T02:00:00+09:00</updated><id>http://localhost:4000/python/python_object_attribute_func</id><content type="html" xml:base="http://localhost:4000/python/attribute_function"><![CDATA[<h3 id="-attribute-function"><code class="language-plaintext highlighter-rouge">🧧 Attribute Function</code></h3>
-
-<p>이번 포스팅은 <code class="language-plaintext highlighter-rouge">Python</code> 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> , <code class="language-plaintext highlighter-rouge">delattr</code> , <code class="language-plaintext highlighter-rouge">hasttr</code> 함수들의 사용법에 대해 다뤄보려 한다. 특히 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 <code class="language-plaintext highlighter-rouge">hyper-parameter</code>를 튜닝하거나 기타 실험을 할 때 정의한 객체의 변수 혹은 메서드에 쉽고 간결하게 접근하기 위해 사용되고 있기 때문이다.</p>
-
-<h4 id="-getattr"><strong><code class="language-plaintext highlighter-rouge">📌 getattr</code></strong></h4>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" getattr(object, attribute_name, default) """</span>
-
-<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
-    <span class="s">"""--------[Common]--------"""</span>
-    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
-    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
-    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
-    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
-</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
-    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
-    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
-</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
-</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
-    <span class="s">""" Model """</span>
-    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-<span class="c1">#    pooling = 'attention'
-</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
-    <span class="s">""" CV, Epoch, Batch Size """</span>
-    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
-    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
-</code></pre></div></div>
-
-<p>위의 객체는 실제 제가 캐글 대회를 준비하면서 사용했던 <a href="http://config.py"><code class="language-plaintext highlighter-rouge">config.py</code></a> 를 가져왔다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">getattr(object: object, attribute_name: str, default: Any)</code> 함수는 사용자가 지정한 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>가 존재하는지 여부를 판단하고, 존재한다면 해당 <code class="language-plaintext highlighter-rouge">attribute</code>의 <code class="language-plaintext highlighter-rouge">value</code>를 반환한다. 한편 존재하지 않으면 <code class="language-plaintext highlighter-rouge">default</code>로 세팅한 값을 반환한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
-<span class="nb">getattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'MPL'</span><span class="p">,</span> <span class="s">"This Attribute doesn't find"</span><span class="p">)</span>
-<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
-<span class="mi">180</span>
-<span class="n">This</span> <span class="n">Attribute</span> <span class="n">doesn</span><span class="s">'t find
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">if-else</code> 구문보다 훨씬 간결하게 객체의 메서드에 접근하는 것이 가능해졌으며, <code class="language-plaintext highlighter-rouge">default</code> 값을 매개변수로 전달 받기 때문에 클라이언트가 지정한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 객체 내부에 없어도 <code class="language-plaintext highlighter-rouge">AttributeError</code> 를 발생시키지 않아 예외 처리를 별도로 지정할 필요가 사라져 코드 가독성 및 유지보수에 용이하다는 장점이 있다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Exmple</span><span class="p">:</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">test1</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">test2</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">def</span> <span class="nf">A</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"A"</span><span class="p">)</span>  
-    <span class="k">def</span> <span class="nf">B</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"B"</span><span class="p">)</span>  
-    <span class="k">def</span> <span class="nf">C</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"C"</span><span class="p">)</span>
-
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
-    <span class="n">exmple</span> <span class="o">=</span> <span class="n">Exmple</span><span class="p">()</span>
-    <span class="n">class_list</span> <span class="o">=</span> <span class="p">[</span><span class="s">'A'</span><span class="p">,</span><span class="s">'B'</span><span class="p">,</span><span class="s">'C'</span><span class="p">]</span>
-
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">class_list</span><span class="p">:</span>
-        <span class="nb">getattr</span><span class="p">(</span><span class="n">exmple</span><span class="p">,</span> <span class="n">c</span><span class="p">)()</span>
-</code></pre></div></div>
-
-<p>한편 <code class="language-plaintext highlighter-rouge">getattr()</code> 뒤에 괄호를 하나 더 붙여서 사용하기도(머신러닝, 딥러닝 훈련 루프 코드에 종종 보임) 하는데,  해당 괄호는 지정 <code class="language-plaintext highlighter-rouge">attribute</code> 의 호출에 필요한 매개변수를 전달하기 위한 용도로 쓰인다. 이번 예시의 객체 내부 메서드들은 호출에 필요한 매개변수가 정의되어 있지 않기 때문에 괄호 안을 비워뒀다.</p>
-
-<h4 id="️-setattr"><strong><code class="language-plaintext highlighter-rouge">✂️ setattr</code></strong></h4>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" setattr(object, attribute_name, value) """</span>
-
-<span class="k">class</span> <span class="nc">CFG</span><span class="p">:</span>
-    <span class="s">"""--------[Common]--------"""</span>
-    <span class="n">wandb</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">competition</span><span class="p">,</span> <span class="n">seed</span><span class="p">,</span> <span class="n">cfg_name</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="bp">True</span><span class="p">,</span> <span class="s">'UPPPM'</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="s">'CFG'</span>
-    <span class="n">device</span><span class="p">,</span> <span class="n">gpu_id</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">'cuda'</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">'cpu'</span><span class="p">),</span> <span class="mi">0</span>
-    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="s">""" Mixed Precision, Gradient Check Point """</span>
-    <span class="n">amp_scaler</span> <span class="o">=</span> <span class="bp">True</span>
-    <span class="n">gradient_checkpoint</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># save parameter
-</span>    <span class="n">output_dir</span> <span class="o">=</span> <span class="s">'./output/'</span>
-    <span class="s">""" Clipping Grad Norm, Gradient Accumulation """</span>
-    <span class="n">clipping_grad</span> <span class="o">=</span> <span class="bp">True</span> <span class="c1"># clip_grad_norm
-</span>    <span class="n">n_gradient_accumulation_steps</span> <span class="o">=</span> <span class="mi">1</span> <span class="c1"># Gradient Accumulation
-</span>    <span class="n">max_grad_norm</span> <span class="o">=</span> <span class="n">n_gradient_accumulation_steps</span> <span class="o">*</span> <span class="mi">1000</span>
-    <span class="s">""" Model """</span>
-    <span class="n">model_name</span> <span class="o">=</span> <span class="s">'microsoft/deberta-v3-large'</span>
-    <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
-<span class="c1">#    pooling = 'attention'
-</span>    <span class="n">max_len</span> <span class="o">=</span> <span class="mi">512</span>
-    <span class="s">""" CV, Epoch, Batch Size """</span>
-    <span class="n">n_folds</span> <span class="o">=</span> <span class="mi">4</span>
-    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">180</span>
-    <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">setattr(object: object, attribute_name: str, value: Any)</code> 는 지정 객체의 지정 메서드 혹은 변수에 접근하고 제어하는 용도로 사용하는 함수다. 지정 객체 단위로 접근 가능하기 때문에 모델을 튜닝할 때 정말 많이 사용하게 된다. <code class="language-plaintext highlighter-rouge">setattr()</code> 를 활용해 상황에 맞는 파라미터를 모델에 주입하고 해당 <code class="language-plaintext highlighter-rouge">config</code>를 <code class="language-plaintext highlighter-rouge">json</code> 혹은 <code class="language-plaintext highlighter-rouge">yaml</code> 형식으로 저장해두면 모델의 버전별 파라미터 값을 효율적으로 관리할 수 있으니 기억해두자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
-<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
-<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
-<span class="nb">setattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'wandb'</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
-<span class="n">CFG</span><span class="p">.</span><span class="n">wandb</span>
-
-<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
-<span class="bp">True</span>
-<span class="bp">False</span>
-<span class="bp">True</span>
-</code></pre></div></div>
-
-<h4 id="-hasattr"><strong><code class="language-plaintext highlighter-rouge">📌 hasattr</code></strong></h4>
-
-<p><code class="language-plaintext highlighter-rouge">hasattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code> 가 존재하면 <code class="language-plaintext highlighter-rouge">True</code>, 없다면 <code class="language-plaintext highlighter-rouge">False</code> 를 반환한다. 사용법은 <code class="language-plaintext highlighter-rouge">getattr()</code> 와 매우 유사하기 때문에 생략한다.</p>
-
-<h4 id="️-delattr"><strong><code class="language-plaintext highlighter-rouge">✏️ delattr</code></strong></h4>
-
-<p><code class="language-plaintext highlighter-rouge">delattr(object, attribute_name)</code> 는 지정 객체에 매개변수로 전달한 <code class="language-plaintext highlighter-rouge">attribute</code>를 객체 내부에서 삭제하는 역할을 한다. 사용 예시는 아래와 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">delattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
-<span class="nb">hasattr</span><span class="p">(</span><span class="n">CFG</span><span class="p">,</span> <span class="s">'epochs'</span><span class="p">)</span>
-
-<span class="o">---------------</span> <span class="n">Result</span> <span class="o">---------------</span> 
-<span class="bp">False</span>
-</code></pre></div></div>
-
-<p>한편, 모듈(ex: config,py, model.py, model_utils.py 등)도 객체로 간주되기 때문에 위에서 살펴본 4가지 function은 모듈 레벨에서도 동일하게 사용할 수 있다.</p>
-
-<h3 id="️-assertion"><code class="language-plaintext highlighter-rouge">⚠️ Assertion</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">assert</span> <span class="n">조건</span><span class="p">,</span> <span class="n">메세지</span> 
-</code></pre></div></div>
-
-<p>조건이 True이면 아무런 일이 일어나지 않는다. 하지만 조건이 False이면 AssertionError가 발생하고 지정한 메세지가 출력된다. 메세지를 지정하지 않았다면 <code class="language-plaintext highlighter-rouge">AssertionError</code>가 동일하게 발생하지만 구체적인 에러 명시란은 비워진 채로 로그가 출력된다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">assert</code>는 코드의 오류를 찾는 데 유용하다. 또한 코드의 의도를 명확하게 표현하는 데에도 유용하다. 예를 들어, 변수의 값이 특정 조건을 만족해야 한다는 것을 <code class="language-plaintext highlighter-rouge">assert</code>를 사용해 표현할 수 있다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">assert</code>는 에러 로그를 반환하면서 개발자가 프로그램을 만드는 과정에 관여한다. 원하는 조건의 변수 값을 보증받을 때까지 <code class="language-plaintext highlighter-rouge">assert</code>로 테스트 할 수 있다. 이는 데이터 유효성 검사처럼 단순히 에러를 찾는것이 아니라 값을 보증하기 위해 사용된다. 예를 들어 함수의 입력 값이 어떤 조건의 참임을 보증하기 위해 사용할 수 있고 함수의 반환 값이 어떤 조건에 만족하도록 만들 수 있다. 혹은 변수 값이 변하는 과정에서 특정 부분은 반드시 어떤 영역에 속하는 것을 보증하기 위해 가정 설정문을 통해 확인 할 수도 있다. <code class="language-plaintext highlighter-rouge">assert</code>는 실수를 가정해 값을 보증하는 방식으로 코딩 하기 때문에 <code class="language-plaintext highlighter-rouge">'방어적 프로그래밍'</code>에 속한다. 방어적 프로그래밍에 대한 자세한 내용은 다음 포스트에서 살펴보도록 하자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Python assert 데이터 유효성 검사 예시
-</span><span class="k">class</span> <span class="nc">DeBERTa</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,):</span>
-    <span class="p">...</span><span class="n">중략</span><span class="p">...</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">inputs</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, sequence, vocab_size) got </span><span class="si">{</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
-    <span class="p">...</span><span class="n">중략</span><span class="p">...</span>
-</code></pre></div></div>
-
-<p>위의 코드는 필자가 논문을 보고 따라 구현한 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 모델 최상위 객체의 코드 일부분이다. 최상위 객체는 모델의 입력 임베딩 층과 위치 임베딩 층을 정의해줘야 하기 때문에 반드시 입력값을 미리 정해진 차원 형식에 맞게 객체의 매개 변수로 넘겨줘야 한다. 지정 형식에서 벗어난 텐서는 입력으로 사용될 수 없게 만들기 위해 객체의 <code class="language-plaintext highlighter-rouge">forward</code> 메서드 시작부분에 <code class="language-plaintext highlighter-rouge">assert</code> 함수를 두어 데이터 유효성 검사를 하도록 구현했다. 지정된 차원 형태에 맞지 않는 데이터를 입력하게 되면 <code class="language-plaintext highlighter-rouge">AssertionError</code>와 함께 필자가 지정한 에러 메세지를 반환 받게 될 것이다.</p>
-
-<p>한편 <code class="language-plaintext highlighter-rouge">AssertionError</code>는 프로그래머가 의도에 맞지 않는 메서드 혹은 객체 사용을 막기 위해 선제적으로 대응한 것이라고 볼 수 있다. 이는 프로그래머가 만든 규칙에 해당할 뿐, 실제 파이썬이나 컴퓨터 내부 동작 문법에 틀렸다는 것을 의미하는 것은 아니다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Object" /><category term="Attribute" /><category term="Assertion" /><category term="ML" /><category term="Deep Learning" /><summary type="html"><![CDATA[getattr, setattr, delattr, hasattr, Assertion 사용방법]]></summary></entry></feed>
+<p>A를 B의 하위 문자열이라고 생각하고 B의 가장 왼쪽부터 A의 길이만큼의 문자열과 A를 대조해 차이를 구하고, 그다음 B의 가장 왼쪽+1부터 A의 길이만큼의 문자열과 다시 차이를 구하고, 이 과정을 계속 반복해 가장 최소가 되는 경우의 값을 출력하면 정답이 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1120번 문자열 풀이]]></summary></entry></feed>
