@@ -1,95 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-25T00:06:37+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T21:25:58+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 <span class="s">"""
-[풀이 시간]
-1) 17:00 ~ 17:30
+[시간]
+1) 18:25 ~ 18:55
 
 [요약]
-1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
-    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
+1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어
+    - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed
+    - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue
+2) 특정 동작을 의미하는 문자열을 입력 받아 의도한 처리를 하는 프로그램을 만들기
 [전략]
-1) 그냥 무식 단순 루프 돌리기
+1) 무식하게 만들자
 """</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
-
-<span class="c1"># input is palindrome
-</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
-        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
+    <span class="n">method_seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">checker</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()),</span> <span class="n">deque</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())),</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_seq</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">'R'</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'error'</span><span class="p">)</span>
+            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">break</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">'['</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'[]'</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">target_list</span><span class="p">)):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
+  <li><strong>1)  문자열 리스트 to Python List</strong>
     <ul>
-      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
+      <li><strong><code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code> 을 적용해 파이썬의 리스트로 변환</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) <code class="language-plaintext highlighter-rouge">reverse</code> 연산 대체</strong>
+    <ul>
+      <li><strong>파이썬으로 풀면 시간 제한 때문에 루프마다 <code class="language-plaintext highlighter-rouge">reverse</code>를 수행할 수 없는 문제 발생</strong>
         <ul>
-          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">popleft</code>, <code class="language-plaintext highlighter-rouge">pop</code> 동시에 가지고 있는 <code class="language-plaintext highlighter-rouge">collections.deque</code> 이용해서 루프 내부에서 <code class="language-plaintext highlighter-rouge">reverse</code> 수행을 피함</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>3) 출력 문자열</strong>
+    <ul>
+      <li><strong>예제 출력을 보면 리스트의 원소 사이에 공백이 없음</strong>
+        <ul>
+          <li><strong>파이썬 내장 리스트를 그대로 출력하면 원소 사이의 공백 때문에 문제를 틀리게 된다</strong></li>
+          <li><strong>루프 돌려서 내장 리스트를 다시 문자열 리스트로 변환</strong></li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 16:30 ~ 16:50
-
-[요약]
-1) N개의 문자열로 이루어진 집합 S가 주어진다.
-    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
-[전략]
-1) 세트 교차 방식 (시간 효율성 GOOD)
-    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
-    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
-    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
-2) 사전 대조 방식 (공간 효율성 GOOD)
-"""</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">pass</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 사전 대조 방식 이용</strong>
-    <ul>
-      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
-      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
-        <ul>
-          <li><strong>이미 있다면, 교집합 처리</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
+<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="s">"""
@@ -183,84 +169,149 @@
 <strong><em>결과 비교</em></strong>
 </p>
 
-<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
 <span class="s">"""
-[시간]
-1) 18:25 ~ 18:55
+[풀이 시간]
+1) 16:30 ~ 16:50
 
 [요약]
-1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어
-    - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed
-    - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue
-2) 특정 동작을 의미하는 문자열을 입력 받아 의도한 처리를 하는 프로그램을 만들기
+1) N개의 문자열로 이루어진 집합 S가 주어진다.
+    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
 [전략]
-1) 무식하게 만들자
+1) 세트 교차 방식 (시간 효율성 GOOD)
+    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
+    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
+    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
+2) 사전 대조 방식 (공간 효율성 GOOD)
 """</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">method_seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
-    <span class="n">N</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">checker</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()),</span> <span class="n">deque</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())),</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_seq</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">'R'</span><span class="p">:</span>
-                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">target_list</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">target_list</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'error'</span><span class="p">)</span>
-            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">break</span>
-            
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="s">'['</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'[]'</span><span class="p">)</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
 
-        <span class="k">elif</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">target_list</span><span class="p">)):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1)  문자열 리스트 to Python List</strong>
+  <li><strong>1) 사전 대조 방식 이용</strong>
     <ul>
-      <li><strong><code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code> 을 적용해 파이썬의 리스트로 변환</strong></li>
-    </ul>
-  </li>
-  <li><strong>2) <code class="language-plaintext highlighter-rouge">reverse</code> 연산 대체</strong>
-    <ul>
-      <li><strong>파이썬으로 풀면 시간 제한 때문에 루프마다 <code class="language-plaintext highlighter-rouge">reverse</code>를 수행할 수 없는 문제 발생</strong>
+      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
+      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
         <ul>
-          <li><strong><code class="language-plaintext highlighter-rouge">popleft</code>, <code class="language-plaintext highlighter-rouge">pop</code> 동시에 가지고 있는 <code class="language-plaintext highlighter-rouge">collections.deque</code> 이용해서 루프 내부에서 <code class="language-plaintext highlighter-rouge">reverse</code> 수행을 피함</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>3) 출력 문자열</strong>
-    <ul>
-      <li><strong>예제 출력을 보면 리스트의 원소 사이에 공백이 없음</strong>
-        <ul>
-          <li><strong>파이썬 내장 리스트를 그대로 출력하면 원소 사이의 공백 때문에 문제를 틀리게 된다</strong></li>
-          <li><strong>루프 돌려서 내장 리스트를 다시 문자열 리스트로 변환</strong></li>
+          <li><strong>이미 있다면, 교집합 처리</strong></li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[풀이 시간]
+1) 17:00 ~ 17:30
+
+[요약]
+1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
+    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
+[전략]
+1) 그냥 무식 단순 루프 돌리기
+"""</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
+
+<span class="c1"># input is palindrome
+</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
+            <span class="k">break</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
+    <ul>
+      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
+        <ul>
+          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1969번: DNA</title><link href="http://localhost:4000/algorithm/baekjoon-1969" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1969번: DNA" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1969</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1969"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="s">"""
+[시간]
+1) 20:00 ~ 20:30
+
+[요약]
+1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지
+    - A, T, G, C
+2)  N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기
+    - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른 것의 개수
+    =&gt; 자기 자신을 제외한 나머지 모든 원소와 Hamming Distance를 구하고 총합이 가장 작은 아이를 리턴해라
+"""</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">dna</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">char_list</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[]</span>  <span class="c1"># for append char, count
+</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">tmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dna</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="n">rank_counter</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>  <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
+</span>    <span class="n">result</span> <span class="o">+=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">values</span><span class="p">())</span> <span class="o">-</span> <span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># counting
+</span>    <span class="n">char_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">rank_counter</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># append char
+</span>
+<span class="k">print</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">char_list</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1)  <code class="language-plaintext highlighter-rouge">linear search</code> 하면서 한 개라도 철자가 다른 자리수 찾기</strong>
+    <ul>
+      <li><strong>빈도수가 가장 높은 철자를 해당 자리의 문자로 결정, <code class="language-plaintext highlighter-rouge">collections.Counter</code> 이용</strong>
+        <ul>
+          <li><strong>최빈값이 여러개인 상황 (사전식 우선)</strong>
+            <ul>
+              <li><strong>다중 정렬 사용해 최빈값 &amp; 사전식 정렬 동시 적용</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1969번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="s">"""
@@ -348,7 +399,43 @@
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 9012번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1120번: 문자열</title><link href="http://localhost:4000/algorithm/baekjoon-1120" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1120번: 문자열" /><published>2023-08-18T00:00:00+09:00</published><updated>2023-08-19T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1120</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1120"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 9012번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1427번: 소트인사이드</title><link href="http://localhost:4000/algorithm/baekjoon-1427" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1427번: 소트인사이드" /><published>2023-08-18T00:00:00+09:00</published><updated>2023-08-19T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1427</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1427"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="s">"""
+[시간]
+1) 23:50 ~ 24:03
+
+[요약]
+1) 수의 각 자리수를 내림차순
+ - 2143: 4321
+[전략]
+1) 입력 받는 숫자를 split으로 잘라서 다시 sort 해야지
+    - split, Counter, sort 같이 사용하면 될 듯
+"""</span>
+<span class="n">n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="n">tmp_result</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="n">elements</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_result</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 입력된 숫자를 문자열로 간주</strong>
+    <ul>
+      <li><strong>문자열을 리스트에 담아 개별 원소로 찢어지게 만들기</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) <code class="language-plaintext highlighter-rouge">collection.Counter</code>를 이용해 개수 세기</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">Counter</code> 객체에 <code class="language-plaintext highlighter-rouge">sorted</code>와 <code class="language-plaintext highlighter-rouge">elements</code> 메서드 적용해서 내림차순으로 정렬된 문자열을 만들기</strong></li>
+      <li><strong>만들어진 내림차순 문자열을 다시 숫자로 변환</strong></li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1427번 문자열 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1120번: 문자열</title><link href="http://localhost:4000/algorithm/baekjoon-1120" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1120번: 문자열" /><published>2023-08-18T00:00:00+09:00</published><updated>2023-08-19T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1120</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1120"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -392,167 +479,7 @@
 
 <p>문제는 두 문자열의 차이가 최소가 되도록 문자열 A를 적절히 조작하는 것이었다. 다만 차이가 최소가 되는 방향으로 조작하려면 무조건 빈 자리수에 B의 글자를 그대로 대입하면 된다. 따라서 A의 빈자리에 어떤 글자를 넣을지 그런 경우의 수는 고려할 필요가 없다.</p>
 
-<p>A를 B의 하위 문자열이라고 생각하고 B의 가장 왼쪽부터 A의 길이만큼의 문자열과 A를 대조해 차이를 구하고, 그다음 B의 가장 왼쪽+1부터 A의 길이만큼의 문자열과 다시 차이를 구하고, 이 과정을 계속 반복해 가장 최소가 되는 경우의 값을 출력하면 정답이 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1120번 문자열 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1427번: 소트인사이드</title><link href="http://localhost:4000/algorithm/baekjoon-1427" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1427번: 소트인사이드" /><published>2023-08-18T00:00:00+09:00</published><updated>2023-08-19T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1427</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1427"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-
-<span class="s">"""
-[시간]
-1) 23:50 ~ 24:03
-
-[요약]
-1) 수의 각 자리수를 내림차순
- - 2143: 4321
-[전략]
-1) 입력 받는 숫자를 split으로 잘라서 다시 sort 해야지
-    - split, Counter, sort 같이 사용하면 될 듯
-"""</span>
-<span class="n">n</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
-<span class="n">count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
-<span class="n">tmp_result</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">count</span><span class="p">.</span><span class="n">elements</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">tmp_result</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 입력된 숫자를 문자열로 간주</strong>
-    <ul>
-      <li><strong>문자열을 리스트에 담아 개별 원소로 찢어지게 만들기</strong></li>
-    </ul>
-  </li>
-  <li><strong>2) <code class="language-plaintext highlighter-rouge">collection.Counter</code>를 이용해 개수 세기</strong>
-    <ul>
-      <li><strong><code class="language-plaintext highlighter-rouge">Counter</code> 객체에 <code class="language-plaintext highlighter-rouge">sorted</code>와 <code class="language-plaintext highlighter-rouge">elements</code> 메서드 적용해서 내림차순으로 정렬된 문자열을 만들기</strong></li>
-      <li><strong>만들어진 내림차순 문자열을 다시 숫자로 변환</strong></li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1427번 문자열 풀이]]></summary></entry><entry><title type="html">✏️  Summary of Useful Library for Coding Test</title><link href="http://localhost:4000/algorithm/useful_library" rel="alternate" type="text/html" title="✏️  Summary of Useful Library for Coding Test" /><published>2023-08-17T00:00:00+09:00</published><updated>2023-08-18T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/summary-of-useful-library</id><content type="html" xml:base="http://localhost:4000/algorithm/useful_library"><![CDATA[<h3 id="collections"><code class="language-plaintext highlighter-rouge">📚 collections</code></h3>
-
-<h4 id="deque"><code class="language-plaintext highlighter-rouge">🪢 deque</code></h4>
-<p><code class="language-plaintext highlighter-rouge">python</code>에서 <code class="language-plaintext highlighter-rouge">stack</code>이나 <code class="language-plaintext highlighter-rouge">queue</code> 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 <code class="language-plaintext highlighter-rouge">collections</code>에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.deque usage example
-</span><span class="n">deque</span><span class="p">([</span><span class="n">iterable</span><span class="p">[,</span> <span class="n">maxlen</span><span class="p">]])</span> <span class="o">--&gt;</span> <span class="n">deque</span> <span class="nb">object</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">Counter</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span> <span class="c1"># 1)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(())</span>  <span class="c1"># 2)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span> <span class="c1"># 3) 
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># 4)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># 5)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-
-</code></pre></div></div>
-
-<p>객체를 초기화할 때 값을 넣어줄 것이 아니라면 리스트를 굳이 전달하지 않아도 똑같이 초기화가 된다. 다만, 특정값을 넣어줄 것이라면 반드시 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 전달해야 한다. 이 때 <code class="language-plaintext highlighter-rouge">iterable</code> 객체는 어떤 형태를 넣어도 같은 결과를 반환하게 된다. 예를 들어 리스트를 넣고 <code class="language-plaintext highlighter-rouge">deque</code>를 초기화 하나 튜플을 넣고 초기화 하나 결과는 같다는 것이다. 예시 코드의 4번과 5번 예시를 보자. 각각 리스트와 튜플을 넣고 초기화를 했지만 초기화 결과는 동일한 것을 확인할 수 있다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque indexing &amp; slicing
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="mi">2</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[:]</span>
-<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sequence</span> <span class="n">index</span> <span class="n">must</span> <span class="n">be</span> <span class="n">integer</span><span class="p">,</span> <span class="ow">not</span> <span class="s">'slice'</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">deque</code> 는 리스트처럼 인덱싱은 가능하지만, 슬라이싱 기능은 활용할 수 없으니 참고하자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deqeue max_len example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># 객체라서 초기화가 필요하다.
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>한편, <code class="language-plaintext highlighter-rouge">max_len</code> 매개변수를 통해 선언한 객체의 최대 길이를 지정해 줄 수 있는데, 이 때 객체가 지정 길이를 넘어서면 큐의 동작처럼 가장 왼쪽에 위치한 원소를 먼저 빼고 새로운 원소를 가장 오른쪽에 추가한다.</p>
-
-<p>만약 deque를 이용해 스택을 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.pop</code>을 사용하자. 정확히 선입후출 동작을 구현할 수 있다. 한편 큐를 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.popleft</code>를 함께 사용하자. 정확히 선입선출 구조를 만들어낼 수 있다. 한편 가장 첫번째 원소 앞에 새로운 원소를 추가하고 싶다면 <code class="language-plaintext highlighter-rouge">appendleft()</code> 역시 지원하고 있으니 참고해두면 좋을 것 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque stack &amp; queue 구현
-</span>
-<span class="s">""" stack """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">3</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">1</span>
-
-<span class="s">""" queue """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">1</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">3</span>
-</code></pre></div></div>
-
-<h4 id="️-counter"><code class="language-plaintext highlighter-rouge">🗂️ Counter</code></h4>
-
-<p><code class="language-plaintext highlighter-rouge">Iterable</code> 객체에 있는 <code class="language-plaintext highlighter-rouge">hashable item</code>의 개수를 세어 <code class="language-plaintext highlighter-rouge">Dict</code> 자료형으로 반환하는 역할을 한다. 아래 예시를 보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collection.Counter example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
-<span class="n">Counter</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="s">'aabcdacdbbbbaaaadddcccbcbcbcbcbcbbcbcbcbcbcdaadaabadbcdbcdacdbacdbacdbcadacbbcabcadb'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
-<span class="n">Counter</span><span class="p">({</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="s">'d'</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="p">[(</span><span class="s">'b'</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="p">(</span><span class="s">'c'</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="mi">19</span><span class="p">)]</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">values</span>
-<span class="n">dict_values</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
-<span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">]</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">elements</span><span class="p">()))</span>
-<span class="s">'aaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccddddddddddddddd'</span>
-</code></pre></div></div>
-
-<p>이처럼 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체의 원소에 접근해 다양한 일을 수행할 수 있다. <code class="language-plaintext highlighter-rouge">most_common</code>은 가장 많이 사용된 원소를 순서대로 사용자가 지정한 등수만큼 보여준다. <code class="language-plaintext highlighter-rouge">values</code> 는 개별 <code class="language-plaintext highlighter-rouge">key</code>의 값을 반환한다. <code class="language-plaintext highlighter-rouge">join</code>, <code class="language-plaintext highlighter-rouge">sorted</code> 와 함께 하면 원소를 반복하는 것도 가능하다.</p>
-
-<h4 id="defaultdict"><code class="language-plaintext highlighter-rouge">👌 defaultdict</code></h4>
-
-<p>사전의 <code class="language-plaintext highlighter-rouge">key</code>에 대한 <code class="language-plaintext highlighter-rouge">value</code>가 아직 없지만, 미리 <code class="language-plaintext highlighter-rouge">value</code>의 자료형을 지정해주고 싶을 때 사용하면 유용하다. 예를 들어 동물의 종류를 분류하는 사전을 만들고 싶다고 가정해보자. 0번 <code class="language-plaintext highlighter-rouge">key</code>가 조류라고 해보자. 그럼 조류에 해당되는 <code class="language-plaintext highlighter-rouge">value</code>는 참새, 비둘기 … 앵무새 등 정말 많을 것이다. 이것을 한번에 그룹핑해 조류라는 카테고리에 속한다고 표현해주기 위해 우리는 리스트를 <code class="language-plaintext highlighter-rouge">value</code>의 기본 자료형으로 지정해주는 것이다. 이 때 defaultdict을 이용하면 쉽게 구현이 가능하다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.defaultdict example
-</span><span class="k">from</span> <span class="n">collections</span> <span class="n">ipmort</span> <span class="n">defaultdict</span>
-
-<span class="n">animal_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">defaultdict</code> 에 어떤 자료형을 매개변수로 전달하는가에 따라서 초기화 되는 기본 자료형이 바뀐다. 우리는 <code class="language-plaintext highlighter-rouge">list</code> 를 기본 자료형으로 지정했지만 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">set</code> 같은 것도 가능하니 참고해두자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="collections" /><category term="Codeing Test" /><category term="Algorithm" /><summary type="html"><![CDATA[코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리]]></summary></entry><entry><title type="html">👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function</title><link href="http://localhost:4000/python/attribute_function" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function" /><published>2023-08-17T00:00:00+09:00</published><updated>2023-08-18T02:00:00+09:00</updated><id>http://localhost:4000/python/python_object_attribute_func</id><content type="html" xml:base="http://localhost:4000/python/attribute_function"><![CDATA[<h3 id="-attribute-function"><code class="language-plaintext highlighter-rouge">🧧 Attribute Function</code></h3>
+<p>A를 B의 하위 문자열이라고 생각하고 B의 가장 왼쪽부터 A의 길이만큼의 문자열과 A를 대조해 차이를 구하고, 그다음 B의 가장 왼쪽+1부터 A의 길이만큼의 문자열과 다시 차이를 구하고, 이 과정을 계속 반복해 가장 최소가 되는 경우의 값을 출력하면 정답이 된다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1120번 문자열 풀이]]></summary></entry><entry><title type="html">👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function</title><link href="http://localhost:4000/python/attribute_function" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] Object Attribute &amp;amp; Assertion Function" /><published>2023-08-17T00:00:00+09:00</published><updated>2023-08-18T02:00:00+09:00</updated><id>http://localhost:4000/python/python_object_attribute_func</id><content type="html" xml:base="http://localhost:4000/python/attribute_function"><![CDATA[<h3 id="-attribute-function"><code class="language-plaintext highlighter-rouge">🧧 Attribute Function</code></h3>
 
 <p>이번 포스팅은 <code class="language-plaintext highlighter-rouge">Python</code> 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> , <code class="language-plaintext highlighter-rouge">delattr</code> , <code class="language-plaintext highlighter-rouge">hasttr</code> 함수들의 사용법에 대해 다뤄보려 한다. 특히 <code class="language-plaintext highlighter-rouge">getattr</code>, <code class="language-plaintext highlighter-rouge">setattr</code> 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 <code class="language-plaintext highlighter-rouge">hyper-parameter</code>를 튜닝하거나 기타 실험을 할 때 정의한 객체의 변수 혹은 메서드에 쉽고 간결하게 접근하기 위해 사용되고 있기 때문이다.</p>
 
