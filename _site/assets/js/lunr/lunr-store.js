@@ -160,4 +160,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-17609",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록",
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 15:20 ~ 16:00 [요약] 1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단 - 하나의 번호가 다른 번호의 접두어 X - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단 [전략] 1) 전화번호 앞자리를 최우선 기준으로 정렬 - 시간 제한 &amp; 입력의 길이: 이중...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-5052",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
