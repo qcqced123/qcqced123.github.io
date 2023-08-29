@@ -145,3 +145,88 @@ animal_dict = defaultdict(list)
 ```
 
 `defaultdict` 에 어떤 자료형을 매개변수로 전달하는가에 따라서 초기화 되는 기본 자료형이 바뀐다. 우리는 `list` 를 기본 자료형으로 지정했지만 `int`, `set` 같은 것도 가능하니 참고해두자.
+
+### **`🗂️ heapq`**
+
+다익스트라 최단 경로 알고리즘을 포함한 다양한 알고리즘 문제에서 우선순위 큐 기능을 구현할 때 사용하는 라이브러리로 기본적으로 최소 힙(오름차순, 파이썬 내장 정렬 알고리즘의 특성으로 모두 기본값이 오름차순) 구성으로 되어 있다. `heapq.heappush()` 로 힙에 원소를 삽입하는 기능을 구현하며, `heapq.heappop()` 을 통해서 힙으로부터 원소를 빼낸다. 아래는 힙 정렬을 구현한 코드이다.
+
+```python
+# Min Heapsort
+import heapq
+
+def min_heapsort(iterable):
+	h = []
+	result = []
+	# heap에 원소 삽입
+	for value in iterable:
+			heapq.heappush(h, value)
+	# heap으로부터 원소 빼내기
+	for _ in range(len(h)):
+			result.append(heapq.heappop(h))
+	
+	return result
+
+result = min_heapsort([])
+```
+
+```python
+# Max Heapsort
+import heapq
+
+def max_heapsort(iterable):
+	h = []
+	result = []
+	for value in iterable:
+			heapq.heappush(h, -value)
+	for _ in range(len(h)):
+			result.append(-heapq.heappop(h))
+
+	return result
+
+result = max_heapsort([])
+```
+
+구현된 힙의 모든 원소가 정렬되는 것은 아니며 현재 최대,최소 원소에 대한 정렬만 보장하기 때문에 주의가 필요하다. 개별 시점에서 최대,최소값만 필요하다면 힙정렬 사용을 고려해보자.
+
+### **`🗂️ sort & sorted`**
+
+python `iterable` 객체를 빠르게 정렬할 때 사용하는 기능이다. 두 함수 모두 기능은 같지만 적용 대상 범위가 다르며, 함수 실행 결과가 반환 방식도 다르기 때문에 사용할 때 주의해야 한다. 
+
+```python
+# sort, sorted 차이
+result = [[1,2], [2,1], [6,2]]
+result.sort(key=lambda x: x[1], reverse=False) # 정렬 결과가 result에 반영
+sorted(result, key=lambda x: x[1], reverse=False) # 정렬 결과를 result에 반영 x
+```
+
+`sort`는 정렬 결과를 매개 변수로 입력한 `iterable` 객체에 바로 적용되는 `in-place` 연산인 반면, `sorted`는 그렇지 않다. 한편 `sort` 는 리스트 자료형(`mutable object`)만 매개 변수로 입력 가능하지만, `sorted`는 모든 `iterable` 객체를 사용 가능하다. 
+
+`reverse`, `reversed` 역시 위와 같은 규칙을 따르는데, `sort`, `reverse` 처럼 자료형 객체 내부에 내장된 메서드인 경우는 `in-place` 연산을 지원하고 `sorted`, `reversed` 처럼 `global` 한 내장 메서드인 경우는 `in-place` 를 지원하지 않는다. 이러한 경우에는 반드시 다른 변수에 대입해줘야 하니 주의하자.
+
+만약 다중 조건을 적용해 `Iterable` 객체를 정렬하고 싶다면, 아래와 같이 튜플 형태로 `lambda function` 에 적용하고 싶은 우선순위대로 기준을 입력해주면 된다. 구체적인 예시는 아래와 같다.
+
+```python
+""" 
+lecture_schedule = [시작시간, 끝시간] 
+끝나는 시간을 기준으로 오름 차순 정렬하되, 끝나는 시간이 같으면, 시작 시간 오름 차순 정렬 적용 
+"""
+lecture_schedule = [[4,4], [1,4], [3,4]]
+lecture_schedule.sort(key=lambda x: (x[1], x[0])) # key=lambda x:(우선순위1, 우선순위2, 우선순위3 ...)
+lecture_schedule.sort(key=lambda x: (-x[1], x[0])) # - 붙인 정렬 조건은 현재 정렬 기준과 반대로
+```
+
+마지막으로 `-`를 붙인 조건은 현재 정렬 기준(오름차순, 내림차순)과 반대로 정렬을 하게 된다. 예시 코드의 3번째 라인처럼 `-` 을 붙이면 1번째는 내림 차순으로, 2번째는 오름 차순으로 정렬을 수행하게 된다. 정말 유용하니 꼭 기억해두자. 이걸 모르면, 해당 동작을 구현하기 위해 엄청난 코드 라인을 소비해야 한다.
+
+```python
+# lambda x: x[1]과 동일한 결과
+def second(data):
+	return data[1]
+
+result = [[1,2], [2,1], [6,2]]
+result.sort(key=second, reverse=False) # 정렬 결과가 result에 반영
+sorted(result, key=second, reverse=False) # 정렬 결과를 result에 반영 x
+```
+
+`lambda` 대신 직접 함수를 정의해 사용하는 것도 가능하니 꼭 기억해두자.
+
+
