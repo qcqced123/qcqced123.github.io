@@ -410,7 +410,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#collections">📚 collections</a><ul><li><a href="#deque">🪢 deque</a></li><li><a href="#️-counter">🗂️ Counter</a></li><li><a href="#defaultdict">👌 defaultdict</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#collections">📚 collections</a><ul><li><a href="#deque">🪢 deque</a></li><li><a href="#️-counter">🗂️ Counter</a></li><li><a href="#defaultdict">👌 defaultdict</a></li></ul></li><li><a href="#️-heapq">🗂️ heapq</a></li><li><a href="#️-sort--sorted">🗂️ sort &amp; sorted</a></li></ul>
 
             </nav>
           </aside>
@@ -540,6 +540,85 @@
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">defaultdict</code> 에 어떤 자료형을 매개변수로 전달하는가에 따라서 초기화 되는 기본 자료형이 바뀐다. 우리는 <code class="language-plaintext highlighter-rouge">list</code> 를 기본 자료형으로 지정했지만 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">set</code> 같은 것도 가능하니 참고해두자.</p>
+
+<h3 id="️-heapq"><strong><code class="language-plaintext highlighter-rouge">🗂️ heapq</code></strong></h3>
+
+<p>다익스트라 최단 경로 알고리즘을 포함한 다양한 알고리즘 문제에서 우선순위 큐 기능을 구현할 때 사용하는 라이브러리로 기본적으로 최소 힙(오름차순, 파이썬 내장 정렬 알고리즘의 특성으로 모두 기본값이 오름차순) 구성으로 되어 있다. <code class="language-plaintext highlighter-rouge">heapq.heappush()</code> 로 힙에 원소를 삽입하는 기능을 구현하며, <code class="language-plaintext highlighter-rouge">heapq.heappop()</code> 을 통해서 힙으로부터 원소를 빼낸다. 아래는 힙 정렬을 구현한 코드이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Min Heapsort
+</span><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="k">def</span> <span class="nf">min_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="c1"># heap에 원소 삽입
+</span>	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+			<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+	<span class="c1"># heap으로부터 원소 빼내기
+</span>	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
+			<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+	
+	<span class="k">return</span> <span class="n">result</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">min_heapsort</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Max Heapsort
+</span><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="k">def</span> <span class="nf">max_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+			<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">value</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
+			<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+
+	<span class="k">return</span> <span class="n">result</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">max_heapsort</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<p>구현된 힙의 모든 원소가 정렬되는 것은 아니며 현재 최대,최소 원소에 대한 정렬만 보장하기 때문에 주의가 필요하다. 개별 시점에서 최대,최소값만 필요하다면 힙정렬 사용을 고려해보자.</p>
+
+<h3 id="️-sort--sorted"><strong><code class="language-plaintext highlighter-rouge">🗂️ sort &amp; sorted</code></strong></h3>
+
+<p>python <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 빠르게 정렬할 때 사용하는 기능이다. 두 함수 모두 기능은 같지만 적용 대상 범위가 다르며, 함수 실행 결과가 반환 방식도 다르기 때문에 사용할 때 주의해야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># sort, sorted 차이
+</span><span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
+</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">sort</code>는 정렬 결과를 매개 변수로 입력한 <code class="language-plaintext highlighter-rouge">iterable</code> 객체에 바로 적용되는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산인 반면, <code class="language-plaintext highlighter-rouge">sorted</code>는 그렇지 않다. 한편 <code class="language-plaintext highlighter-rouge">sort</code> 는 리스트 자료형(<code class="language-plaintext highlighter-rouge">mutable object</code>)만 매개 변수로 입력 가능하지만, <code class="language-plaintext highlighter-rouge">sorted</code>는 모든 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 사용 가능하다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">reverse</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 역시 위와 같은 규칙을 따르는데, <code class="language-plaintext highlighter-rouge">sort</code>, <code class="language-plaintext highlighter-rouge">reverse</code> 처럼 자료형 객체 내부에 내장된 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산을 지원하고 <code class="language-plaintext highlighter-rouge">sorted</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 처럼 <code class="language-plaintext highlighter-rouge">global</code> 한 내장 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 를 지원하지 않는다. 이러한 경우에는 반드시 다른 변수에 대입해줘야 하니 주의하자.</p>
+
+<p>만약 다중 조건을 적용해 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체를 정렬하고 싶다면, 아래와 같이 튜플 형태로 <code class="language-plaintext highlighter-rouge">lambda function</code> 에 적용하고 싶은 우선순위대로 기준을 입력해주면 된다. 구체적인 예시는 아래와 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 
+lecture_schedule = [시작시간, 끝시간] 
+끝나는 시간을 기준으로 오름 차순 정렬하되, 끝나는 시간이 같으면, 시작 시간 오름 차순 정렬 적용 
+"""</span>
+<span class="n">lecture_schedule</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># key=lambda x:(우선순위1, 우선순위2, 우선순위3 ...)
+</span><span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
+</span></code></pre></div></div>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">-</code>를 붙인 조건은 현재 정렬 기준(오름차순, 내림차순)과 반대로 정렬을 하게 된다. 예시 코드의 3번째 라인처럼 <code class="language-plaintext highlighter-rouge">-</code> 을 붙이면 1번째는 내림 차순으로, 2번째는 오름 차순으로 정렬을 수행하게 된다. 정말 유용하니 꼭 기억해두자. 이걸 모르면, 해당 동작을 구현하기 위해 엄청난 코드 라인을 소비해야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lambda x: x[1]과 동일한 결과
+</span><span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
+</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">lambda</code> 대신 직접 함수를 정의해 사용하는 것도 가능하니 꼭 기억해두자.</p>
+
 
         
       </section>
@@ -687,6 +766,53 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
+        <a href="/algorithm/baekjoon-1789" rel="permalink">👩‍💻💵 [baekjoon] 1789번: 수들의 합
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 29 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">백준 1789번 수들의 합 풀이
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
         <a href="/algorithm/baekjoon-17609" rel="permalink">👩‍💻🔠 [baekjoon] 17609번: 회문
 </a>
       
@@ -763,53 +889,6 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 28 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 1969번 괄호 풀이
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/baekjoon-12891" rel="permalink">👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 28 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">백준 12891번 DNA 비밀번호 풀이
 </p>
   </article>
 </div>

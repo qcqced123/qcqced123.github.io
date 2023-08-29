@@ -161,6 +161,12 @@ var store = [{
         "url": "/algorithm/baekjoon-17609",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
+        "title": "👩‍💻💵 [baekjoon] 1789번: 수들의 합",
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 01:40 ~ 02:10 [요약] 1) S: 서로 다른 N개의 자연수들의 합 =&gt; 이 때, 자연수 N의 최대값 [전략] 1) 자연수 개수가 최대가 되도록 만들 어야 하기 때문에 최대한 작은 수들의 합으로 S를 구성 - 10: 1,2,3,4 =&gt; 4개 \"\"\" S = int(sys.stdin.readline()) # for...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1789",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
         "title": "👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록",
         "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 15:20 ~ 16:00 [요약] 1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단 - 하나의 번호가 다른 번호의 접두어 X - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단 [전략] 1) 전화번호 앞자리를 최우선 기준으로 정렬 - 시간 제한 &amp; 입력의 길이: 이중...","categories": ["Algorithm"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],

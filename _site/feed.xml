@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-29T17:37:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 17609번: 회문</title><link href="http://localhost:4000/algorithm/baekjoon-17609" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 17609번: 회문" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_17609</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-17609"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-30T02:25:52+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👩‍💻🔠 [baekjoon] 17609번: 회문</title><link href="http://localhost:4000/algorithm/baekjoon-17609" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 17609번: 회문" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_17609</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-17609"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -65,7 +65,52 @@
 
 <p>시간압박이 있는 상황에서 혼합 슬라이딩 윈도우과 포인터 혼합 방식을 깔끔하게 구현하는 것이 생각보다 쉽지 않아서, 직관적으로 코드를 빠르게 만들 수 있는 <strong><code class="language-plaintext highlighter-rouge">슬라이싱 대조</code></strong> 방식을 선택하게 되었다. 혼합 방식에 비해 우아하고 느리지만, 훨씬 직관적인 풀이라고 생각한다.</p>
 
-<p>철자 제거할 때 주의할 점은 원본과 역본 케이스 모두 고려해야 한다는 점이다. 둘 중 하나만 고려하면 반례에 걸리는게 생긴다. 필자는 처음에 무지성으로 역본의 철자만 제거하는 방식으로 코드를 서술했다가 예제 입력 3번째 문자열에 의해 원본 역시 고려해야 함을 깨닫고 수정하게 되었다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 17609번 회문 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록</title><link href="http://localhost:4000/algorithm/baekjoon-5052" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5052</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5052"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>철자 제거할 때 주의할 점은 원본과 역본 케이스 모두 고려해야 한다는 점이다. 둘 중 하나만 고려하면 반례에 걸리는게 생긴다. 필자는 처음에 무지성으로 역본의 철자만 제거하는 방식으로 코드를 서술했다가 예제 입력 3번째 문자열에 의해 원본 역시 고려해야 함을 깨닫고 수정하게 되었다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 17609번 회문 풀이]]></summary></entry><entry><title type="html">👩‍💻💵 [baekjoon] 1789번: 수들의 합</title><link href="http://localhost:4000/algorithm/baekjoon-1789" rel="alternate" type="text/html" title="👩‍💻💵 [baekjoon] 1789번: 수들의 합" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1789</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1789"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[시간]
+1) 01:40 ~ 02:10
+[요약]
+1) S: 서로 다른 N개의 자연수들의 합
+    =&gt; 이 때, 자연수 N의 최대값
+[전략]
+1) 자연수 개수가 최대가 되도록 만들 어야 하기 때문에 최대한 작은 수들의 합으로 S를 구성
+    - 10: 1,2,3,4 =&gt; 4개
+"""</span>
+<span class="n">S</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
+<span class="c1"># for 1, 2
+</span><span class="k">if</span> <span class="n">S</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">result</span><span class="p">,</span> <span class="n">tmp_sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">S</span> <span class="o">-</span> <span class="n">tmp_sum</span> <span class="o">&gt;=</span> <span class="n">num</span><span class="p">:</span>
+            <span class="n">tmp_sum</span> <span class="o">+=</span> <span class="n">num</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 최대한 작은 수들의 합으로 S를 구성</strong>
+    <ul>
+      <li><strong>최대한 작은 수들로 더할수록 N이 가장 커지기 때문</strong>
+        <ul>
+          <li><strong>쭉 더하다가 마지막에 <code class="language-plaintext highlighter-rouge">S - 지금까지 합</code> 의 수를 포함 시켜주면 되기 때문에 해결 가능</strong>
+            <ul>
+              <li><strong>사실 그 마저도 구하는게 숫자의 개수라서 값을 정확히 안구해줘도 된다</strong></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1789번 수들의 합 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록</title><link href="http://localhost:4000/algorithm/baekjoon-5052" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5052</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5052"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -231,84 +276,98 @@
   </li>
 </ul>
 
-<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1969번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>문제 풀이에 필요한 아이디어보다 다중 정렬 사용법을 정확히 아는 것이 해결에 더 중요했던 문제다. 코드 주석에 써있는대로 <code class="language-plaintext highlighter-rouge">-</code> 붙인 조건은 현재 정렬 기준과 반대로 정렬할 수 있다. 이걸 모르면 해결하기 꽤나 까다로운 문제라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1969번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+
 <span class="s">"""
-[시간]
-1) 18:25 ~ 18:55
+[풀이 시간]
+1) 17:00 ~ 17:30
 
 [요약]
-1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어
-    - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed
-    - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue
-2) 특정 동작을 의미하는 문자열을 입력 받아 의도한 처리를 하는 프로그램을 만들기
+1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
+    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
 [전략]
-1) 무식하게 만들자
+1) 그냥 무식 단순 루프 돌리기
 """</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">method_seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
-    <span class="n">N</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">checker</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()),</span> <span class="n">deque</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())),</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_seq</span><span class="p">:</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">'R'</span><span class="p">:</span>
-                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="n">target_list</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">target_list</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-        <span class="k">except</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'error'</span><span class="p">)</span>
-            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">break</span>
-            
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="s">'['</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'[]'</span><span class="p">)</span>
+<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
 
-        <span class="k">elif</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">target_list</span><span class="p">)):</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
-            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
+<span class="c1"># input is palindrome
+</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
+        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
+            <span class="k">break</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1)  문자열 리스트 to Python List</strong>
+  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
     <ul>
-      <li><strong><code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code> 을 적용해 파이썬의 리스트로 변환</strong></li>
-    </ul>
-  </li>
-  <li><strong>2) <code class="language-plaintext highlighter-rouge">reverse</code> 연산 대체</strong>
-    <ul>
-      <li><strong>파이썬으로 풀면 시간 제한 때문에 루프마다 <code class="language-plaintext highlighter-rouge">reverse</code>를 수행할 수 없는 문제 발생</strong>
+      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
         <ul>
-          <li><strong><code class="language-plaintext highlighter-rouge">popleft</code>, <code class="language-plaintext highlighter-rouge">pop</code> 동시에 가지고 있는 <code class="language-plaintext highlighter-rouge">collections.deque</code> 이용해서 루프 내부에서 <code class="language-plaintext highlighter-rouge">reverse</code> 수행을 피함</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li><strong>3) 출력 문자열</strong>
-    <ul>
-      <li><strong>예제 출력을 보면 리스트의 원소 사이에 공백이 없음</strong>
-        <ul>
-          <li><strong>파이썬 내장 리스트를 그대로 출력하면 원소 사이의 공백 때문에 문제를 틀리게 된다</strong></li>
-          <li><strong>루프 돌려서 내장 리스트를 다시 문자열 리스트로 변환</strong></li>
+          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
+<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[풀이 시간]
+1) 16:30 ~ 16:50
+
+[요약]
+1) N개의 문자열로 이루어진 집합 S가 주어진다.
+    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
+[전략]
+1) 세트 교차 방식 (시간 효율성 GOOD)
+    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
+    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
+    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
+2) 사전 대조 방식 (공간 효율성 GOOD)
+"""</span>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
+
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
+            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">pass</span>
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 사전 대조 방식 이용</strong>
+    <ul>
+      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
+      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
+        <ul>
+          <li><strong>이미 있다면, 교집합 처리</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1764번: 듣보잡</title><link href="http://localhost:4000/algorithm/baekjoon-1764" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1764번: 듣보잡" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1764</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1764"><![CDATA[<h3 id="️solution-1"><code class="language-plaintext highlighter-rouge">🖍️ solution 1</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="s">"""
@@ -402,98 +461,84 @@
 <strong><em>결과 비교</em></strong>
 </p>
 
-<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 14425번: 문자열 집합</title><link href="http://localhost:4000/algorithm/baekjoon-14425" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 14425번: 문자열 집합" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_14425</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-14425"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>제일 상단의 제출 결과가 <code class="language-plaintext highlighter-rouge">solution 1</code>, 하단의 결과가 <code class="language-plaintext highlighter-rouge">solution 2</code>에 해당 된다. 시간 복잡도는 전자가, 공간 복잡도는 후자가 더 효율적인 것으로 나타난다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1764번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5430번: AC</title><link href="http://localhost:4000/algorithm/baekjoon-5430" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5430번: AC" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5430</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5430"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
 <span class="s">"""
-[풀이 시간]
-1) 16:30 ~ 16:50
+[시간]
+1) 18:25 ~ 18:55
 
 [요약]
-1) N개의 문자열로 이루어진 집합 S가 주어진다.
-    - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성
+1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어
+    - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed
+    - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue
+2) 특정 동작을 의미하는 문자열을 입력 받아 의도한 처리를 하는 프로그램을 만들기
 [전략]
-1) 세트 교차 방식 (시간 효율성 GOOD)
-    - 집합 S에 중복 문자열은 없지만, M개의 문자열 속에는 중복 문자열 존재 가능
-    - 중복 문자열까지 모두 세어주도록 코드를 작성해야 함
-    =&gt; 그게 까다로우니까 사전 대조 방식으로 문제를 해결하자
-2) 사전 대조 방식 (공간 효율성 GOOD)
+1) 무식하게 만들자
 """</span>
-<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">str_dict</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">{}</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
-    <span class="n">str_dict</span><span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()]</span> <span class="o">=</span> <span class="bp">True</span>
-
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
-    <span class="n">str_tmp</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">str_dict</span><span class="p">[</span><span class="n">str_tmp</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">+=</span> <span class="mi">1</span>
-    <span class="k">except</span> <span class="nb">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">pass</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 사전 대조 방식 이용</strong>
-    <ul>
-      <li><strong>집합 S에 속하는 모든 문자열을 사전에 투입,  <code class="language-plaintext highlighter-rouge">value</code>는 <code class="language-plaintext highlighter-rouge">True</code>로 초기화</strong></li>
-      <li><strong>예외 처리 구문 이용, M개의 문자열이 사전에 존재하는지 대조</strong>
-        <ul>
-          <li><strong>이미 있다면, 교집합 처리</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>문제에서 집합 S에는 중복 문자열이 없다고 언급하지만, M개의 문자열에 대해서는 그런 조건이 없다. 즉, 중복 문자열이 존재할 수 있다는 말이다. 그래서 세트 자료형 방식으로 문제를 풀게 되면 중복 문자열 처리를 해주는게 까다로워진다. 따라서 사전 대조 방식을 선택해 문제를 해결했다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 14425번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 17:00 ~ 17:30
-
-[요약]
-1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
-    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
-[전략]
-1) 그냥 무식 단순 루프 돌리기
-"""</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
-
-<span class="c1"># input is palindrome
-</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
-        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
+    <span class="n">method_seq</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
+    <span class="n">N</span><span class="p">,</span> <span class="n">target_list</span><span class="p">,</span> <span class="n">checker</span><span class="p">,</span> <span class="n">count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()),</span> <span class="n">deque</span><span class="p">(</span><span class="nb">eval</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())),</span> <span class="bp">False</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">method_seq</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s">'R'</span><span class="p">:</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">target_list</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'error'</span><span class="p">)</span>
+            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">break</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+            
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="s">'['</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'[]'</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">count</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">target_list</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">target_list</span><span class="p">)):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">result</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">char</span><span class="p">)</span> <span class="o">+</span> <span class="s">','</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="s">']'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
 
 <ul>
-  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
+  <li><strong>1)  문자열 리스트 to Python List</strong>
     <ul>
-      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
+      <li><strong><code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code> 을 적용해 파이썬의 리스트로 변환</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) <code class="language-plaintext highlighter-rouge">reverse</code> 연산 대체</strong>
+    <ul>
+      <li><strong>파이썬으로 풀면 시간 제한 때문에 루프마다 <code class="language-plaintext highlighter-rouge">reverse</code>를 수행할 수 없는 문제 발생</strong>
         <ul>
-          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
+          <li><strong><code class="language-plaintext highlighter-rouge">popleft</code>, <code class="language-plaintext highlighter-rouge">pop</code> 동시에 가지고 있는 <code class="language-plaintext highlighter-rouge">collections.deque</code> 이용해서 루프 내부에서 <code class="language-plaintext highlighter-rouge">reverse</code> 수행을 피함</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>3) 출력 문자열</strong>
+    <ul>
+      <li><strong>예제 출력을 보면 리스트의 원소 사이에 공백이 없음</strong>
+        <ul>
+          <li><strong>파이썬 내장 리스트를 그대로 출력하면 원소 사이의 공백 때문에 문제를 틀리게 된다</strong></li>
+          <li><strong>루프 돌려서 내장 리스트를 다시 문자열 리스트로 변환</strong></li>
         </ul>
       </li>
     </ul>
   </li>
 </ul>
 
-<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>풀이 필요한 아이디어가 복잡하기보다 여러 함정을 잘 피해야 풀 수 있는 문제다. 문자열로 주어지는 리스트를 <code class="language-plaintext highlighter-rouge">eval()</code> , <code class="language-plaintext highlighter-rouge">ast.literal_eval()</code>같은 내장 메서드를 이용해 효율적으로 파이썬 리스트로 인식시키는 것부터 마지막에 출력에 공백을 없애주는 것까지 출제자가 맘먹고 함정을 여러개 파놨다. 실제 시험에 나오면 솔직히 틀릴 것 같다. 실전에서 이렇게 여러 함정을 과연 잘 피해갈 수 있을지…</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5430번 괄호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커</title><link href="http://localhost:4000/algorithm/baekjoon-1316" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1316</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1316"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
 <span class="s">"""
@@ -536,49 +581,4 @@
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1316 그룹 단어 체커 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 9012번: 괄호</title><link href="http://localhost:4000/algorithm/baekjoon-9012" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 9012번: 괄호" /><published>2023-08-20T00:00:00+09:00</published><updated>2023-08-21T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_9012</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-9012"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 15:45 ~ 16:15
-"""</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">checker</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">False</span>
-    <span class="n">ps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">())</span>
-    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">ps</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="s">'('</span><span class="p">:</span>
-            <span class="n">left</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">right</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="k">if</span> <span class="n">right</span> <span class="o">&gt;</span> <span class="n">left</span><span class="p">:</span>
-            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">break</span>
-    <span class="k">if</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">'NO'</span><span class="p">)</span>
-        <span class="k">continue</span>
-    <span class="k">if</span> <span class="n">left</span> <span class="o">==</span> <span class="n">right</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"YES"</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">left</span> <span class="o">!=</span> <span class="n">right</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="s">"NO"</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 선형으로 괄호 문자열을 탐색</strong>
-    <ul>
-      <li><strong>탐색 도중, 오른쪽 괄호가 더 많아지는 시점이 있다면 루프 종료</strong>
-        <ul>
-          <li><strong><code class="language-plaintext highlighter-rouge">NO</code> 출력, 다음 괄호 문자열 탐색</strong></li>
-        </ul>
-      </li>
-      <li><strong>탐색 완료, 왼쪽 괄호 &amp; 오른쪽 괄호 개수 비교</strong>
-        <ul>
-          <li><strong>왼쪽 괄호 &gt; 오른쪽 괄호: NO 출력</strong></li>
-          <li><strong>왼쪽 괄호 == 오른쪽 괄호: YES 출력</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 9012번 괄호 풀이]]></summary></entry></feed>
+</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1316 그룹 단어 체커 풀이]]></summary></entry></feed>
