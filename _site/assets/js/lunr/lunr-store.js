@@ -155,6 +155,12 @@ var store = [{
         "url": "/algorithm/baekjoon-1969",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
+        "title": "👩‍💻💵 [baekjoon] 11501번: 주식",
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:10 ~ 14:34 [요약] 1) 주식을 '하나' 사기/원하는 만큼 가지고 있는 주식을 팔기/아무것도 안하기 - 날 별로 주식의 가격을 알려주었을 때, 최대 이익이 얼마나 되는지 계산하는 프로그램 작성 [전략] 1) max() 이용해 문제 해결 - max - 현재 ≥ 0: 사기 - max -...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-11501",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
         "title": "👩‍💻🔠 [baekjoon] 17609번: 회문",
         "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:20 ~ 14:45 [요약] 1) 유사회문: 한 문자를 삭제하여 회문으로 만들 수 있는 문자열 =&gt; 유사회문인지 아닌지 판단하는 프로그램 작성 2) 주어진 문자열의 길이는 10만, 문자열 개수는 최대 30개 =&gt; 제한 시간이 1초라서 O(n)의 알고리즘을 설계 필요, Counter 사용 불가 [전략] 1) 슬라이싱 이용해서...","categories": ["Algorithm"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
