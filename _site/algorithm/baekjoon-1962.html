@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>📏 Lp-Norm: Concept &amp; Insight - AI/Business Study Log</title>
-<meta name="description" content="Concept of Lp-Norm &amp; GeM Pool">
+<!-- begin _includes/seo.html --><title>👩‍💻🔭 [baekjoon] 1962번: 그림 - AI/Business Study Log</title>
+<meta name="description" content="백준 1962번 그림 풀이">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="📏 Lp-Norm: Concept &amp; Insight">
-<meta property="og:url" content="http://localhost:4000/linear-algebra/lp-norm">
+<meta property="og:title" content="👩‍💻🔭 [baekjoon] 1962번: 그림">
+<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-1962">
 
 
-  <meta property="og:description" content="Concept of Lp-Norm &amp; GeM Pool">
-
-
-
+  <meta property="og:description" content="백준 1962번 그림 풀이">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-04T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-05T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-08-30T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-08-31T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/linear-algebra/lp-norm">
+
+<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-1962">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="📏 Lp-Norm: Concept &amp; Insight">
-    <meta itemprop="description" content="Concept of Lp-Norm &amp; GeM Pool">
-    <meta itemprop="datePublished" content="2023-07-04T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-05T13:00:00+09:00">
+    <meta itemprop="headline" content="👩‍💻🔭 [baekjoon] 1962번: 그림">
+    <meta itemprop="description" content="백준 1962번 그림 풀이">
+    <meta itemprop="datePublished" content="2023-08-30T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-08-31T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/linear-algebra/lp-norm" class="u-url" itemprop="url">📏 Lp-Norm: Concept &amp; Insight
+            <a href="http://localhost:4000/algorithm/baekjoon-1962" class="u-url" itemprop="url">👩‍💻🔭 [baekjoon] 1962번: 그림
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/linear-algebra/lp-norm"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/linear-algebra/lp-norm&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-1962"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-1962&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-07-04T00:00:00+09:00">July 04, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-30T00:00:00+09:00">August 30, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,38 +410,91 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              
+              <ul class="toc__menu"><li><a href="#️solution">🖍️ solution</a></li><li><a href="#idea">💡 idea</a></li><li><a href="#experiement">🧪 experiement</a></li></ul>
 
             </nav>
           </aside>
         
-        \[||x||_p = (∑_{i=1}^n |x_i|^p)^{1/p}\]
+        <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
-<p><strong><code class="language-plaintext highlighter-rouge">Lp-Norm</code></strong>은 <code class="language-plaintext highlighter-rouge">Lebesgue</code>라는 프랑스 수학자에 의해 고안된 개념으로<strong>,</strong> 기계학습을 공부하는 사람이라면 지겹도록 듣는 <code class="language-plaintext highlighter-rouge">L2-Norm</code>, <code class="language-plaintext highlighter-rouge">L1-Norm</code>을 일반화 버전이라고 생각하면 된다. <strong><u>다시 말해, 벡터의 크기를 나타내는 표현식을 일반화한</u></strong> 것이 바로 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 이며 수식은 위와 같다.</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 
-<p><code class="language-plaintext highlighter-rouge">p=1</code>이라고 가정하고 수식을 전개해보자. 
-$||x||_1 = (|x_1|^1 + |x_2|^1+ … + |x_n|^1)^{1/1}$이 된다. 우리가 아는 <code class="language-plaintext highlighter-rouge">L1-Norm</code> 의 수식과 동일하다.</p>
+<span class="s">"""
+[시간]
+1) 16:50 ~ 17:20
+[요약]
+1) 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력
+    - 영역 구분 및 넓이가 가장 큰 영역의 넓이 구하는 프로그램 작성
+    - 상하좌우 1로 연결된 것이 그림
+[전략]
+1) BFS
+    - 시간은 넉넉함
+    - 조건문에서 다중조건 쓸 때 순서 유의해서 작성하기
+"""</span>
+<span class="k">def</span> <span class="nf">bfs</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">visit</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">visit</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+    <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">queue</span><span class="p">:</span>
+        <span class="n">vy</span><span class="p">,</span> <span class="n">vx</span> <span class="o">=</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+            <span class="n">ny</span> <span class="o">=</span> <span class="n">dy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">vy</span>
+            <span class="n">nx</span> <span class="o">=</span> <span class="n">dx</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">vx</span>
+            <span class="k">if</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">ny</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="ow">and</span> <span class="o">-</span><span class="mi">1</span> <span class="o">&lt;</span> <span class="n">nx</span> <span class="o">&lt;</span> <span class="n">M</span> <span class="ow">and</span> <span class="n">paper</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">visit</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]:</span>
+                <span class="n">visit</span><span class="p">[</span><span class="n">ny</span><span class="p">][</span><span class="n">nx</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">])</span>
+                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">count</span>
 
-<p>그렇다면 <code class="language-plaintext highlighter-rouge">p=2</code>일 때 수식을 살펴보자. 
-$||x||_2 = (|x_1|^2 + |x_2|^2+ … + |x_n|^2)^{1/2}$으로 전개 된다는 것을 알 수 있다. 역시 우리가 맨날 보는 <code class="language-plaintext highlighter-rouge">L2-Norm</code> 과 동일하다.</p>
+<span class="n">N</span><span class="p">,</span> <span class="n">M</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+<span class="n">paper</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">()))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
+<span class="n">visited</span> <span class="o">=</span> <span class="p">[[</span><span class="bp">False</span><span class="p">]</span><span class="o">*</span><span class="n">M</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">)]</span>
 
-<p><code class="language-plaintext highlighter-rouge">L1-Norm</code>은 맨허튼 거리, <code class="language-plaintext highlighter-rouge">L2-Norm</code> 은 유클리드 거리를 의미한다는 것은 익히 들어 봤을 것이다. 만약 $p=∞$라면, 수식은 어떻게 될까, 과연 어떤 의미를 갖고 있을까??</p>
+<span class="n">dy</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="n">dx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
-<p>이전과 똑같이 전개해보면
-\(||x||_∞ = (|x_1|^∞ + |x_2|^∞+ ... + |x_n|^∞)^{1/∞}\), 이렇게 식이 도출될 것이다. 이제 괄호 내부 원소들의 지수가 <code class="language-plaintext highlighter-rouge">무한대</code>라는 점에 주목해보자. 직관적으로 무한대 값들 사이의 덧셈, 곱셈의 결과는 <code class="language-plaintext highlighter-rouge">무한대</code> 라는 것을 알 수 있다. 그렇다면 우리는 위 수식에서 절대값이 가장 큰 $|x_i|$만 남겨도 역시 무한대 값을 얻을 수 있다. <strong><u>무한대는 미지수 개념에 가깝지 실제 실수 개념은 아니기 때문이다.</u></strong> 따라서 괄호 내부에는 $|x_i|^p$ 값만 남게 되고 괄호 밖의 $1/p$와 남은 연산을 해주면 결국 $|x_i|$만 남게 된다. 따라서 $||x||_∞ = max(|x_1|, \ |x_2|, \ … \ , |x_n|)$가 된다.</p>
+<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">paper</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">visited</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]:</span>
+            <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">bfs</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">visited</span><span class="p">))</span>
 
-<p>이와 같은 성질 때문에 <code class="language-plaintext highlighter-rouge">Lp-Norm</code> 은 <code class="language-plaintext highlighter-rouge">Lp-Pooling</code> 으로도 해석할 수 있으며, 수식의 우변에  $1/n$을 곱해주면 <code class="language-plaintext highlighter-rouge">Generalized Mean Pooling</code> 이 된다는 사실을 알 수 있다. 결국 <code class="language-plaintext highlighter-rouge">Norm</code>과 <code class="language-plaintext highlighter-rouge">Pooling</code> 은 같은 개념이었던 것이다. 
-<strong>그래서 위에서 살펴본 $ L_∞ $ 역시 <code class="language-plaintext highlighter-rouge">Max Pooling</code> 이라 해석이 가능해진다.</strong></p>
+<span class="k">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>여담으로 맨앞의 대문자 L은 <code class="language-plaintext highlighter-rouge">Lebesgue</code> 의 이름에서 본따왔다고 알려져 있다. 그리고 예전부터 $L_2$값을 수식으로 표현할 때 왜 짝대기 두개를 사용할까 항상 궁금했는데  $L_p$와 <code class="language-plaintext highlighter-rouge">일반 절대값</code>을 구분하기 위해 짝대기를 두 개 사용하게 되었다고 한다.</p>
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) <code class="language-plaintext highlighter-rouge">BFS</code>로 풀이</strong>
+    <ul>
+      <li><strong>테이블 형태로 자료구조가 주어지면 BFS로 접근하는게 좀 더 편리</strong>
+        <ul>
+          <li>특히 영역 분할, 넓이 구하는 문제는 <code class="language-plaintext highlighter-rouge">BFS</code>가 유리</li>
+          <li><code class="language-plaintext highlighter-rouge">recursionlimit</code> 도 피할 수 있음</li>
+        </ul>
+      </li>
+      <li><strong>조건문에서 다중 조건 사용할 때, 순서 유의해서 조건 나열하기</strong>
+        <ul>
+          <li>순서 맘대로 막하면 <code class="language-plaintext highlighter-rouge">IndexError</code> 발생</li>
+        </ul>
+      </li>
+      <li><strong>도화지에 그림이 없는 경우 예외처리</strong></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="experiement"><code class="language-plaintext highlighter-rouge">🧪 experiement</code></h3>
+
 <p align="center">
-<img src="/assets/images/220px-Vector-p-Norms_qtl1.svg.png" alt="Lp-Norm Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<em>Lp-Norm</em>
+<img src="/assets/images/algorithm/baekjoon_1962_experiment_result.png" alt="Experiment Result" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em>Experiment Result</em></strong>
 </p>
 
-<p>위 자료는 
-$L_p$
-norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. <code class="language-plaintext highlighter-rouge">p=1</code> 일 때는 $L_1: |x| + |y| =1$가 되기 때문에 마름모 형태의 영역을 갖는다. 한편 <code class="language-plaintext highlighter-rouge">p=2</code> 일 때는 $L_2: x^2 + y^2 =1^2$가 되기 때문에 원의 영역을 갖는다. $p=∞$ 일 때는 $L_∞: max(|x_1|…|x_n|) = 1$ 이 되기 때문에 정사각형 형태의 영역을 갖게 될 것이다.</p>
+<p>첫번째 풀이 제출은 메서드에 <code class="language-plaintext highlighter-rouge">visited</code> 변수를 <code class="language-plaintext highlighter-rouge">지역 변수</code>로 할당하고 사용한 결과고, 두번째 풀이 제출은 <code class="language-plaintext highlighter-rouge">전역 변수</code> 처리하고 얻은 결과다. 전자가 메모리를 덜 소비하며, 연산 역시 더 빠른 모습이다. 반드시 메서드에서 사용할 변수들은 모두 스택에 할당해 지역 변수로 사용하자.</p>
 
         
       </section>
@@ -458,11 +511,15 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
+      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
     
-      <a href="/tags/#norm" class="page__taxonomy-item p-category" rel="tag">Norm</a><span class="sep">, </span>
+      <a href="/tags/#baekjoon" class="page__taxonomy-item p-category" rel="tag">Baekjoon</a><span class="sep">, </span>
     
-      <a href="/tags/#pooling" class="page__taxonomy-item p-category" rel="tag">Pooling</a>
+      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/tags/#string-handle" class="page__taxonomy-item p-category" rel="tag">String Handle</a>
     
     </span>
   </p>
@@ -479,7 +536,7 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
     
     </span>
   </p>
@@ -487,7 +544,7 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-04">July 4, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-30">August 30, 2023</time></p>
 
       </footer>
 
@@ -496,22 +553,22 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%8F+Lp-Norm%3A+Concept+%26+Insight%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%AD+%5Bbaekjoon%5D+1962%EB%B2%88%3A+%EA%B7%B8%EB%A6%BC%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1962" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1962" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Flp-norm" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-1962" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="#" class="pagination--pager disabled">Previous</a>
+      <a href="/algorithm/baekjoon-5052" class="pagination--pager" title="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록
+">Previous</a>
     
     
-      <a href="/linear-algebra/inner-product" class="pagination--pager" title="📐 Inner Product: Projection Matrix, Least Sqaure Method
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -525,53 +582,6 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/baekjoon-1962" rel="permalink">👩‍💻🔭 [baekjoon] 1962번: 그림
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          less than 1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 30 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">백준 1962번 그림 풀이
-</p>
-  </article>
-</div>
-
         
           
 
@@ -709,6 +719,53 @@ norm을 p값 변화 추이에 따라 기하학적으로 표현한 그림이다. 
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 29 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 17609번 회문 풀이
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/baekjoon-11501" rel="permalink">👩‍💻💵 [baekjoon] 11501번: 주식
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          less than 1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 29 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">백준 11501번 주식 풀이
 </p>
   </article>
 </div>

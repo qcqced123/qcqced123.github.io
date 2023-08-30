@@ -178,4 +178,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-5052",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🔭 [baekjoon] 1962번: 그림",
+        "excerpt":"🖍️ solution import sys from collections import deque from typing import List \"\"\" [시간] 1) 16:50 ~ 17:20 [요약] 1) 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력 - 영역 구분 및 넓이가 가장 큰 영역의 넓이 구하는 프로그램 작성 -...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
+        "url": "/algorithm/baekjoon-1962",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
