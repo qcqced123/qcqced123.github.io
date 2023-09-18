@@ -184,4 +184,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
         "url": "/algorithm/baekjoon-1962",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🤖 [P-Tuning] GPT Understand Too",
+        "excerpt":"🔭 Overview   ","categories": ["NLP"],
+        "tags": ["Natural Language Process","Self-Attention","GPT","Decoder","p-tuning","prompt learning","AR","Uni-Directional"],
+        "url": "/nlp/transformer",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
