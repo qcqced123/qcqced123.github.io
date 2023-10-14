@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록 - AI/Business Study Log</title>
-<meta name="description" content="백준 5052번 전화번호 목록">
+<!-- begin _includes/seo.html --><title>👨‍💻🐍 [Python] Function Argument - AI/Business Study Log</title>
+<meta name="description" content="함수 인자 전달 메커니즘에 대한 이해">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록">
-<meta property="og:url" content="http://localhost:4000/algorithm/baekjoon-5052">
+<meta property="og:title" content="👨‍💻🐍 [Python] Function Argument">
+<meta property="og:url" content="http://localhost:4000/python/func_argu">
 
 
-  <meta property="og:description" content="백준 5052번 전화번호 목록">
-
-
-
+  <meta property="og:description" content="함수 인자 전달 메커니즘에 대한 이해">
 
 
 
 
-  <meta property="article:published_time" content="2023-08-29T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-08-30T02:00:00+09:00">
+  <meta property="article:published_time" content="2023-10-14T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-10-15T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/algorithm/baekjoon-5052">
+
+<link rel="canonical" href="http://localhost:4000/python/func_argu">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록">
-    <meta itemprop="description" content="백준 5052번 전화번호 목록">
-    <meta itemprop="datePublished" content="2023-08-29T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-08-30T02:00:00+09:00">
+    <meta itemprop="headline" content="👨‍💻🐍 [Python] Function Argument">
+    <meta itemprop="description" content="함수 인자 전달 메커니즘에 대한 이해">
+    <meta itemprop="datePublished" content="2023-10-14T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-10-15T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/algorithm/baekjoon-5052" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록
+            <a href="http://localhost:4000/python/func_argu" class="u-url" itemprop="url">👨‍💻🐍 [Python] Function Argument
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/baekjoon-5052"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/baekjoon-5052&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/python/func_argu"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/python/func_argu&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-29T00:00:00+09:00">August 29, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-10-14T00:00:00+09:00">October 14, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,66 +410,39 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#️solution">🖍️ solution</a></li><li><a href="#idea">💡 idea</a></li></ul>
+              <ul class="toc__menu"><li><a href="#function-argument">👨‍👩‍👧‍👦 Function Argument</a></li><li><a href="#packingunpacking">📦 Packing/Unpacking</a></li></ul>
 
             </nav>
           </aside>
         
-        <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+        <h3 id="function-argument"><strong><code class="language-plaintext highlighter-rouge">👨‍👩‍👧‍👦 Function Argument</code></strong></h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<p>파이썬의 모든 메서드는 기본적으로 인자를 <code class="language-plaintext highlighter-rouge">call by value</code> 형태로 전달해야 한다. 하지만 <code class="language-plaintext highlighter-rouge">call by value</code> 라고 해서 함수의 동작과 원본 변수가 완전히 독립적인 것은 아니다. 이것은 인자로 어떤 데이터 타입을 전달하는가에 따라 달라진다. 만약 인자로 <code class="language-plaintext highlighter-rouge">mutable(dynamic)</code> 객체인 리스트 변수를 전달했다면, 함수의 동작에 따른 결과가 그대로 변수에 반영된다. <code class="language-plaintext highlighter-rouge">mutable</code> 객체는 함수 스코프 내부 지역 변수에 카피 되지 않기 때문에 이런 현상이 발생한다. 따라서 인자로 리스트와 같은 <code class="language-plaintext highlighter-rouge">mutable</code> 객체를 전달하는 것은 수많은 부작용을 불러오기 때문에 지양하는게 좋다. 아래 예시 코드를 보자.</p>
 
-<span class="s">"""
-[시간]
-1) 15:20 ~ 16:00
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" function argument experiment with mutable vs immutable """</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">+=</span> <span class="s">'in runtime'</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-[요약]
-1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단
-    - 하나의 번호가 다른 번호의 접두어 X
-    - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단
-[전략]
-1) 전화번호 앞자리를 최우선 기준으로 정렬
-    - 시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능
-    - 숫자처럼 생긴 '문자열'을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침
-        =&gt; 그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음
-        =&gt; 애초에 비슷한 것끼리 뭉쳐 있는 상태라서, local optimal ~ global optimal 기대 가능
-        =&gt; 다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.
-"""</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">checker</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'YES'</span>
-    <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()))]</span>
-    <span class="n">num_list</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
+<span class="c1"># immutable object string
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">immutable</span> <span class="o">=</span> <span class="s">'immutable'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">function</span><span class="p">(</span><span class="n">immutable</span><span class="p">)</span>
+<span class="n">immutable</span> <span class="ow">in</span> <span class="n">runtime</span> 
 
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]</span> <span class="o">==</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'NO'</span><span class="p">)</span>
-            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">break</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">mmutable</span><span class="p">)</span>
+<span class="n">immutable</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<span class="c1"># mutable object list
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">mutable</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">'mutable'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">function</span><span class="p">(</span><span class="n">mutable</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'m'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'l'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'r'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'m'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">mutable</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'m'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'l'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'r'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'m'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">]</span>
 </code></pre></div></div>
 
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+<p>동일한 함수에 동일하게 인자로 사용했지만, <code class="language-plaintext highlighter-rouge">immutable</code> 객체인 문자열은 함수의 실행 결과와 전혀 무관한 모습이다. 하지만 <code class="language-plaintext highlighter-rouge">mutable</code> 객체인 리스트는 함수의 실행 결과가 스코프 바깥의 원본 변수에 그대로 반영되었음을 확인할 수 있다. 이것은 리스트가 기본적으로 컨테이너 내부에 실제 값이 아닌 주소 값을 갖고 있고, <code class="language-plaintext highlighter-rouge">Resize()</code> 연산을 통해 수정이 가능하기 때문이다. 한편, <code class="language-plaintext highlighter-rouge">immutable</code> 객체의 경우 원본 수정이 불가하기 때문에 관련 연산 혹은 명령을 만나면 <code class="language-plaintext highlighter-rouge">deepcopy</code> 가 발생한다.</p>
 
-<ul>
-  <li><strong>1) 전화번호 앞자리를 최우선 기준으로 정렬</strong>
-    <ul>
-      <li><strong>시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능</strong></li>
-      <li><strong>숫자처럼 생긴 ‘문자열’을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침</strong>
-        <ul>
-          <li><strong>그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음</strong></li>
-          <li><strong>애초에 비슷한 것끼리 뭉쳐 있는 상태라서, <code class="language-plaintext highlighter-rouge">local optimal ~ global optimal</code> 기대 가능</strong></li>
-          <li><strong>다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>무지성으로 사용하던 정렬에 대해서 다시 한 번 생각하게 된 계기가 된 문제다. 필자는 처음 이 문제를 풀이할 때, 정렬하는 대상을 숫자라고 오인해 <code class="language-plaintext highlighter-rouge">key=len</code> 을 사용해 정렬을 했다. 이렇게 하면 문제가 무조건 이중 루프를 사용해야만 한다. 그러면 시간 초과에 걸리기 때문에 문제를 해결할 수 없다.</p>
-
-<p>문제를 틀리고 나서 생각을 해보니, 정렬하는 대상은 실제 숫자가 아니라 <code class="language-plaintext highlighter-rouge">‘숫자처럼 생긴’</code> 문자열이다. 이 점을 잘 이용하면, 앞자리의 숫자가 비슷한 것끼리 뭉치게 정렬을 해줄 수 있다. 그렇다면 굳이 이중루프를 사용할 필요가 사라지고, 바로 옆 원소와 대조만 해도 <code class="language-plaintext highlighter-rouge">global optimal</code>을 기대해볼 수 있게 된다. 하지만 길이를 기준으로 문자열을 정렬한 것은 아니기 때문에 슬라이싱 기준을 <code class="language-plaintext highlighter-rouge">min()</code>을 이용해 더 짧은 문자열로 삼아줘야 한다.</p>
+<h3 id="packingunpacking"><strong><code class="language-plaintext highlighter-rouge">📦 Packing/Unpacking</code></strong></h3>
 
         
       </section>
@@ -486,15 +459,15 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
+      <a href="/tags/#argument" class="page__taxonomy-item p-category" rel="tag">Argument</a><span class="sep">, </span>
     
-      <a href="/tags/#baekjoon" class="page__taxonomy-item p-category" rel="tag">Baekjoon</a><span class="sep">, </span>
+      <a href="/tags/#cs" class="page__taxonomy-item p-category" rel="tag">CS</a><span class="sep">, </span>
     
-      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+      <a href="/tags/#function" class="page__taxonomy-item p-category" rel="tag">Function</a><span class="sep">, </span>
     
-      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+      <a href="/tags/#mutable" class="page__taxonomy-item p-category" rel="tag">mutable</a><span class="sep">, </span>
     
-      <a href="/tags/#string-handle" class="page__taxonomy-item p-category" rel="tag">String Handle</a>
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
     
     </span>
   </p>
@@ -511,7 +484,7 @@
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
     
     </span>
   </p>
@@ -519,7 +492,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-29">August 29, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-10-14">October 14, 2023</time></p>
 
       </footer>
 
@@ -528,23 +501,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+5052%EB%B2%88%3A+%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8+%EB%AA%A9%EB%A1%9D%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5052" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB%F0%9F%90%8D%C2%A0%5BPython%5D+Function+Argument%20http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ffunc_argu" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5052" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ffunc_argu" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fbaekjoon-5052" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ffunc_argu" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/algorithm/baekjoon-1789" class="pagination--pager" title="👩‍💻💵 [baekjoon] 1789번: 수들의 합
+      <a href="/python/list_tuple" class="pagination--pager" title="👨‍💻🐍 [Python] List &amp; Tuple
 ">Previous</a>
     
     
-      <a href="/algorithm/baekjoon-1962" class="pagination--pager" title="👩‍💻🔭 [baekjoon] 1962번: 그림
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -558,53 +530,6 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/python/func_argu" rel="permalink">👨‍💻🐍 [Python] Function Argument
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> October 14 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">함수 인자 전달 메커니즘에 대한 이해
-</p>
-  </article>
-</div>
-
         
           
 
@@ -731,7 +656,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          less than 1 minute read
+          1 minute read
         
       </span>
     
@@ -742,6 +667,53 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 30 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">백준 1962번 그림 풀이
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/baekjoon-5052" rel="permalink">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> August 29 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">백준 5052번 전화번호 목록
 </p>
   </article>
 </div>

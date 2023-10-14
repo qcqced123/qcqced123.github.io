@@ -1,4 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-14T22:45:59+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨‍💻🐍 [Python] List &amp;amp; Tuple</title><link href="http://localhost:4000/python/list_tuple" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] List &amp;amp; Tuple" /><published>2023-10-14T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python_array</id><content type="html" xml:base="http://localhost:4000/python/list_tuple"><![CDATA[<h3 id="️concept-of-array-in-python"><strong><code class="language-plaintext highlighter-rouge">🗂️ Concept of Array in Python</code></strong></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-14T23:42:54+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨‍💻🐍 [Python] Function Argument</title><link href="http://localhost:4000/python/func_argu" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] Function Argument" /><published>2023-10-14T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python_function_arg</id><content type="html" xml:base="http://localhost:4000/python/func_argu"><![CDATA[<h3 id="function-argument"><strong><code class="language-plaintext highlighter-rouge">👨‍👩‍👧‍👦 Function Argument</code></strong></h3>
+
+<p>파이썬의 모든 메서드는 기본적으로 인자를 <code class="language-plaintext highlighter-rouge">call by value</code> 형태로 전달해야 한다. 하지만 <code class="language-plaintext highlighter-rouge">call by value</code> 라고 해서 함수의 동작과 원본 변수가 완전히 독립적인 것은 아니다. 이것은 인자로 어떤 데이터 타입을 전달하는가에 따라 달라진다. 만약 인자로 <code class="language-plaintext highlighter-rouge">mutable(dynamic)</code> 객체인 리스트 변수를 전달했다면, 함수의 동작에 따른 결과가 그대로 변수에 반영된다. <code class="language-plaintext highlighter-rouge">mutable</code> 객체는 함수 스코프 내부 지역 변수에 카피 되지 않기 때문에 이런 현상이 발생한다. 따라서 인자로 리스트와 같은 <code class="language-plaintext highlighter-rouge">mutable</code> 객체를 전달하는 것은 수많은 부작용을 불러오기 때문에 지양하는게 좋다. 아래 예시 코드를 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" function argument experiment with mutable vs immutable """</span>
+<span class="k">def</span> <span class="nf">function</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">args</span> <span class="o">+=</span> <span class="s">'in runtime'</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+
+<span class="c1"># immutable object string
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">immutable</span> <span class="o">=</span> <span class="s">'immutable'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">function</span><span class="p">(</span><span class="n">immutable</span><span class="p">)</span>
+<span class="n">immutable</span> <span class="ow">in</span> <span class="n">runtime</span> 
+
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">mmutable</span><span class="p">)</span>
+<span class="n">immutable</span>
+
+<span class="c1"># mutable object list
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">mutable</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s">'mutable'</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">function</span><span class="p">(</span><span class="n">mutable</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'m'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'l'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'r'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'m'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="k">print</span><span class="p">(</span><span class="n">mutable</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'m'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'l'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">' '</span><span class="p">,</span> <span class="s">'r'</span><span class="p">,</span> <span class="s">'u'</span><span class="p">,</span> <span class="s">'n'</span><span class="p">,</span> <span class="s">'t'</span><span class="p">,</span> <span class="s">'i'</span><span class="p">,</span> <span class="s">'m'</span><span class="p">,</span> <span class="s">'e'</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>동일한 함수에 동일하게 인자로 사용했지만, <code class="language-plaintext highlighter-rouge">immutable</code> 객체인 문자열은 함수의 실행 결과와 전혀 무관한 모습이다. 하지만 <code class="language-plaintext highlighter-rouge">mutable</code> 객체인 리스트는 함수의 실행 결과가 스코프 바깥의 원본 변수에 그대로 반영되었음을 확인할 수 있다. 이것은 리스트가 기본적으로 컨테이너 내부에 실제 값이 아닌 주소 값을 갖고 있고, <code class="language-plaintext highlighter-rouge">Resize()</code> 연산을 통해 수정이 가능하기 때문이다. 한편, <code class="language-plaintext highlighter-rouge">immutable</code> 객체의 경우 원본 수정이 불가하기 때문에 관련 연산 혹은 명령을 만나면 <code class="language-plaintext highlighter-rouge">deepcopy</code> 가 발생한다.</p>
+
+<h3 id="packingunpacking"><strong><code class="language-plaintext highlighter-rouge">📦 Packing/Unpacking</code></strong></h3>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[함수 인자 전달 메커니즘에 대한 이해]]></summary></entry><entry><title type="html">👨‍💻🐍 [Python] List &amp;amp; Tuple</title><link href="http://localhost:4000/python/list_tuple" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] List &amp;amp; Tuple" /><published>2023-10-14T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python_array</id><content type="html" xml:base="http://localhost:4000/python/list_tuple"><![CDATA[<h3 id="️concept-of-array-in-python"><strong><code class="language-plaintext highlighter-rouge">🗂️ Concept of Array in Python</code></strong></h3>
 
 <p>C, C++, Java 같은 언어를 배울 때 가장 먼저 배우는 자료구조는 바로 배열이다. 그러나 파이썬을 배울 때는 조금 양상이 다르다. 배열이라는 표현의 자료구조는 언급도 없고 리스트, 튜플, 딕셔너리와 같은 형태의 자료구조에 대해서만 배우게 된다. 그렇다면 파이썬에 배열은 없는 것일까??</p>
 
@@ -122,61 +149,7 @@
 <strong><em>Experiment Result</em></strong>
 </p>
 
-<p>첫번째 풀이 제출은 메서드에 <code class="language-plaintext highlighter-rouge">visited</code> 변수를 <code class="language-plaintext highlighter-rouge">지역 변수</code>로 할당하고 사용한 결과고, 두번째 풀이 제출은 <code class="language-plaintext highlighter-rouge">전역 변수</code> 처리하고 얻은 결과다. 전자가 메모리를 덜 소비하며, 연산 역시 더 빠른 모습이다. 반드시 메서드에서 사용할 변수들은 모두 스택에 할당해 지역 변수로 사용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1962번 그림 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록</title><link href="http://localhost:4000/algorithm/baekjoon-5052" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5052</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5052"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[시간]
-1) 15:20 ~ 16:00
-
-[요약]
-1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단
-    - 하나의 번호가 다른 번호의 접두어 X
-    - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단
-[전략]
-1) 전화번호 앞자리를 최우선 기준으로 정렬
-    - 시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능
-    - 숫자처럼 생긴 '문자열'을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침
-        =&gt; 그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음
-        =&gt; 애초에 비슷한 것끼리 뭉쳐 있는 상태라서, local optimal ~ global optimal 기대 가능
-        =&gt; 다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.
-"""</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">checker</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'YES'</span>
-    <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()))]</span>
-    <span class="n">num_list</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]</span> <span class="o">==</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s">'NO'</span><span class="p">)</span>
-            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
-            <span class="k">break</span>
-
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1) 전화번호 앞자리를 최우선 기준으로 정렬</strong>
-    <ul>
-      <li><strong>시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능</strong></li>
-      <li><strong>숫자처럼 생긴 ‘문자열’을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침</strong>
-        <ul>
-          <li><strong>그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음</strong></li>
-          <li><strong>애초에 비슷한 것끼리 뭉쳐 있는 상태라서, <code class="language-plaintext highlighter-rouge">local optimal ~ global optimal</code> 기대 가능</strong></li>
-          <li><strong>다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>무지성으로 사용하던 정렬에 대해서 다시 한 번 생각하게 된 계기가 된 문제다. 필자는 처음 이 문제를 풀이할 때, 정렬하는 대상을 숫자라고 오인해 <code class="language-plaintext highlighter-rouge">key=len</code> 을 사용해 정렬을 했다. 이렇게 하면 문제가 무조건 이중 루프를 사용해야만 한다. 그러면 시간 초과에 걸리기 때문에 문제를 해결할 수 없다.</p>
-
-<p>문제를 틀리고 나서 생각을 해보니, 정렬하는 대상은 실제 숫자가 아니라 <code class="language-plaintext highlighter-rouge">‘숫자처럼 생긴’</code> 문자열이다. 이 점을 잘 이용하면, 앞자리의 숫자가 비슷한 것끼리 뭉치게 정렬을 해줄 수 있다. 그렇다면 굳이 이중루프를 사용할 필요가 사라지고, 바로 옆 원소와 대조만 해도 <code class="language-plaintext highlighter-rouge">global optimal</code>을 기대해볼 수 있게 된다. 하지만 길이를 기준으로 문자열을 정렬한 것은 아니기 때문에 슬라이싱 기준을 <code class="language-plaintext highlighter-rouge">min()</code>을 이용해 더 짧은 문자열로 삼아줘야 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5052번 전화번호 목록]]></summary></entry><entry><title type="html">👩‍💻💵 [baekjoon] 1789번: 수들의 합</title><link href="http://localhost:4000/algorithm/baekjoon-1789" rel="alternate" type="text/html" title="👩‍💻💵 [baekjoon] 1789번: 수들의 합" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1789</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1789"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+<p>첫번째 풀이 제출은 메서드에 <code class="language-plaintext highlighter-rouge">visited</code> 변수를 <code class="language-plaintext highlighter-rouge">지역 변수</code>로 할당하고 사용한 결과고, 두번째 풀이 제출은 <code class="language-plaintext highlighter-rouge">전역 변수</code> 처리하고 얻은 결과다. 전자가 메모리를 덜 소비하며, 연산 역시 더 빠른 모습이다. 반드시 메서드에서 사용할 변수들은 모두 스택에 할당해 지역 변수로 사용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1962번 그림 풀이]]></summary></entry><entry><title type="html">👩‍💻💵 [baekjoon] 1789번: 수들의 합</title><link href="http://localhost:4000/algorithm/baekjoon-1789" rel="alternate" type="text/html" title="👩‍💻💵 [baekjoon] 1789번: 수들의 합" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1789</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1789"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 
@@ -332,7 +305,61 @@
       </li>
     </ul>
   </li>
-</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 11501번 주식 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1969번: DNA</title><link href="http://localhost:4000/algorithm/baekjoon-1969" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1969번: DNA" /><published>2023-08-28T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1969</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1969"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+</ul>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 11501번 주식 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록</title><link href="http://localhost:4000/algorithm/baekjoon-5052" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록" /><published>2023-08-29T00:00:00+09:00</published><updated>2023-08-30T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_5052</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-5052"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="s">"""
+[시간]
+1) 15:20 ~ 16:00
+
+[요약]
+1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단
+    - 하나의 번호가 다른 번호의 접두어 X
+    - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단
+[전략]
+1) 전화번호 앞자리를 최우선 기준으로 정렬
+    - 시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능
+    - 숫자처럼 생긴 '문자열'을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침
+        =&gt; 그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음
+        =&gt; 애초에 비슷한 것끼리 뭉쳐 있는 상태라서, local optimal ~ global optimal 기대 가능
+        =&gt; 다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.
+"""</span>
+<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
+    <span class="n">checker</span><span class="p">,</span> <span class="n">result</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="s">'YES'</span>
+    <span class="n">num_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">()))]</span>
+    <span class="n">num_list</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]</span> <span class="o">==</span> <span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">][:</span><span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">num_list</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]))]:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'NO'</span><span class="p">)</span>
+            <span class="n">checker</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">checker</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+
+<ul>
+  <li><strong>1) 전화번호 앞자리를 최우선 기준으로 정렬</strong>
+    <ul>
+      <li><strong>시간 제한 &amp; 입력의 길이: 이중 루프 커버 불가능</strong></li>
+      <li><strong>숫자처럼 생긴 ‘문자열’을 정렬, 길이와 관계 없이 자리수에 채워진 숫자가 비슷한 번호끼리 뭉침</strong>
+        <ul>
+          <li><strong>그래서 굳이 이중 루프를 이용해 전체를 탐색할 필요가 없음</strong></li>
+          <li><strong>애초에 비슷한 것끼리 뭉쳐 있는 상태라서, <code class="language-plaintext highlighter-rouge">local optimal ~ global optimal</code> 기대 가능</strong></li>
+          <li><strong>다만, 길이를 기준으로 정렬한게 아니라서, 슬라이싱 기준을 길이로 정해 줘야 한다.</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>무지성으로 사용하던 정렬에 대해서 다시 한 번 생각하게 된 계기가 된 문제다. 필자는 처음 이 문제를 풀이할 때, 정렬하는 대상을 숫자라고 오인해 <code class="language-plaintext highlighter-rouge">key=len</code> 을 사용해 정렬을 했다. 이렇게 하면 문제가 무조건 이중 루프를 사용해야만 한다. 그러면 시간 초과에 걸리기 때문에 문제를 해결할 수 없다.</p>
+
+<p>문제를 틀리고 나서 생각을 해보니, 정렬하는 대상은 실제 숫자가 아니라 <code class="language-plaintext highlighter-rouge">‘숫자처럼 생긴’</code> 문자열이다. 이 점을 잘 이용하면, 앞자리의 숫자가 비슷한 것끼리 뭉치게 정렬을 해줄 수 있다. 그렇다면 굳이 이중루프를 사용할 필요가 사라지고, 바로 옆 원소와 대조만 해도 <code class="language-plaintext highlighter-rouge">global optimal</code>을 기대해볼 수 있게 된다. 하지만 길이를 기준으로 문자열을 정렬한 것은 아니기 때문에 슬라이싱 기준을 <code class="language-plaintext highlighter-rouge">min()</code>을 이용해 더 짧은 문자열로 삼아줘야 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 5052번 전화번호 목록]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1969번: DNA</title><link href="http://localhost:4000/algorithm/baekjoon-1969" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1969번: DNA" /><published>2023-08-28T00:00:00+09:00</published><updated>2023-08-29T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1969</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1969"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
@@ -444,47 +471,4 @@
   </li>
 </ul>
 
-<p>비밀번호라고 판정하는 기준이 특정 철자의 개수라는 점에 유의해, 슬라이딩 윈도우를 변형하면 시간 초과되지 않고 문제를 해결할 수 있다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 12891번 DNA 비밀번호 풀이]]></summary></entry><entry><title type="html">👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기</title><link href="http://localhost:4000/algorithm/baekjoon-1254" rel="alternate" type="text/html" title="👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기" /><published>2023-08-24T00:00:00+09:00</published><updated>2023-08-25T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/baekjoon_1254</id><content type="html" xml:base="http://localhost:4000/algorithm/baekjoon-1254"><![CDATA[<h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
-
-<span class="s">"""
-[풀이 시간]
-1) 17:00 ~ 17:30
-
-[요약]
-1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다.
-    - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음
-[전략]
-1) 그냥 무식 단순 루프 돌리기
-"""</span>
-<span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-<span class="n">result</span><span class="p">,</span> <span class="n">slicer</span> <span class="o">=</span> <span class="mi">99999</span><span class="p">,</span> <span class="mi">1</span>
-
-<span class="c1"># input is palindrome
-</span><span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-<span class="k">else</span><span class="p">:</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
-        <span class="n">tmp_text</span> <span class="o">=</span> <span class="n">text</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">i</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">tmp_text</span> <span class="o">==</span> <span class="n">tmp_text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmp_text</span><span class="p">)</span>
-            <span class="k">break</span>
-<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
-
-<ul>
-  <li><strong>1)  주어진 입력의 하위 시퀀스를 입력에 덧붙여 팰린드롬 여부 판단</strong>
-    <ul>
-      <li><strong>추가 시퀀스를 최소한으로 사용하는게 목적이라 1글자짜리부터 시작</strong>
-        <ul>
-          <li><strong>짧은 시퀀스부터 루프를 시작했기 때문에, 팰린드롬으로 판정되는 순간 루프 종료</strong></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-</ul>
-
-<p>좀 예쁘게 풀어보고 싶었으나, 아이디어가 딱히 떠오르지 않아 무식하게 루프를 돌렸다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 1254번 괄호 풀이]]></summary></entry></feed>
+<p>비밀번호라고 판정하는 기준이 특정 철자의 개수라는 점에 유의해, 슬라이딩 윈도우를 변형하면 시간 초과되지 않고 문제를 해결할 수 있다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="String Handle" /><summary type="html"><![CDATA[백준 12891번 DNA 비밀번호 풀이]]></summary></entry></feed>

@@ -196,4 +196,10 @@ var store = [{
         "tags": ["Python","array","list","tuple","list comprehension","CS"],
         "url": "/python/list_tuple",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👨‍💻🐍 [Python] Function Argument",
+        "excerpt":"👨‍👩‍👧‍👦 Function Argument 파이썬의 모든 메서드는 기본적으로 인자를 call by value 형태로 전달해야 한다. 하지만 call by value 라고 해서 함수의 동작과 원본 변수가 완전히 독립적인 것은 아니다. 이것은 인자로 어떤 데이터 타입을 전달하는가에 따라 달라진다. 만약 인자로 mutable(dynamic) 객체인 리스트 변수를 전달했다면, 함수의 동작에 따른 결과가 그대로 변수에 반영된다. mutable...","categories": ["Python"],
+        "tags": ["Python","Function","Argument","mutable","CS"],
+        "url": "/python/func_argu",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
