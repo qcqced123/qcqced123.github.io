@@ -179,12 +179,6 @@ var store = [{
         "url": "/algorithm/baekjoon-5052",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "👩‍💻🎄 [baekjoon] 15558번: 점프 게임",
-        "excerpt":"🖍️ solution import sys from collections import deque from typing import List def bfs(y: int, x: int): time, flag = -1, False q = deque([[y, x]]) while q: for _ in range(len(q)): vy, vx = q.popleft() if vx+1 &gt;= N or vx+K &gt;= N: flag = True break if graph[vy][vx+1] and...","categories": ["Algorithm"],
-        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","BFS"],
-        "url": "/algorithm/baekjoon-15558",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "👩‍💻🔭 [baekjoon] 1962번: 그림",
         "excerpt":"🖍️ solution import sys from collections import deque from typing import List \"\"\" [시간] 1) 16:50 ~ 17:20 [요약] 1) 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력 - 영역 구분 및 넓이가 가장 큰 영역의 넓이 구하는 프로그램 작성 -...","categories": ["Algorithm"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
@@ -207,5 +201,17 @@ var store = [{
         "excerpt":"👨‍👩‍👧‍👦 Function Argument 파이썬의 모든 메서드는 기본적으로 인자를 call by value 형태로 전달해야 한다. 하지만 call by value 라고 해서 함수의 동작과 원본 변수가 완전히 독립적인 것은 아니다. 이것은 인자로 어떤 데이터 타입을 전달하는가에 따라 달라진다. 만약 인자로 mutable(dynamic) 객체인 리스트 변수를 전달했다면, 함수의 동작에 따른 결과가 그대로 변수에 반영된다. mutable...","categories": ["Python"],
         "tags": ["Python","Function","Argument","mutable","CS"],
         "url": "/python/func_argu",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🎄 [baekjoon] 15558번: 점프 게임",
+        "excerpt":"🖍️ solution import sys from collections import deque from typing import List def bfs(y: int, x: int): time, flag = -1, False q = deque([[y, x]]) while q: for _ in range(len(q)): vy, vx = q.popleft() if vx+1 &gt;= N or vx+K &gt;= N: flag = True break if graph[vy][vx+1] and...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","BFS"],
+        "url": "/algorithm/baekjoon-15558",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🎄 [baekjoon] 16920번: 확장게임",
+        "excerpt":"🖍️ solution import sys from collections import deque def solution(): N, M, P = map(int, sys.stdin.readline().split()) scores = [0] * (P + 1) dy = [0, 0, 1, -1] # direction of search dx = [1, -1, 0, 0] p_list = [0] + list(map(int, sys.stdin.readline().split())) # for matching index with player...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","BFS"],
+        "url": "/algorithm/baekjoon-16920",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]
