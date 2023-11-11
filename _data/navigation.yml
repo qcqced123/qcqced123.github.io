@@ -17,8 +17,10 @@ main:
         url: /framework-library/
       - title: Python
         url: /python/
-      - title: Algorithm
+      - title: Data Structure & Algorithm
         url: /algorithm/
+      - title: Problem Solving
+        url: /ps/
 
   - title: "Math"
     sublinks:

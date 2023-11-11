@@ -1,0 +1,938 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>🗂️ Graph Theory 5: MST with Kruskal &amp; Prim - AI/Business Study Log</title>
+<meta name="description" content="MST with Kruskal &amp; Prim Algorithm">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="🗂️ Graph Theory 5: MST with Kruskal &amp; Prim">
+<meta property="og:url" content="http://localhost:4000/algorithm/mst">
+
+
+  <meta property="og:description" content="MST with Kruskal &amp; Prim Algorithm">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-11-11T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-11-12T02:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/algorithm/mst">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Data Structure & Algorithm</a>
+                          
+                              <a class = "dropdown-item" href="/ps/">    Problem Solving</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/calculus/">    Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="🗂️ Graph Theory 5: MST with Kruskal &amp; Prim">
+    <meta itemprop="description" content="MST with Kruskal &amp; Prim Algorithm">
+    <meta itemprop="datePublished" content="2023-11-11T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-11-12T02:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/algorithm/mst" class="u-url" itemprop="url">🗂️ Graph Theory 5: MST with Kruskal &amp; Prim
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/mst"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/mst&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-11-11T00:00:00+09:00">November 11, 2023</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#spanning-tree">🎡 Spanning Tree</a></li><li><a href="#minimum-spanning-tree">💵 Minimum Spanning Tree</a></li><li><a href="#kruskal-algorithm-간선-선택">🍃 Kruskal Algorithm (간선 선택)</a></li><li><a href="#prim-algorithm-정점-선택">🔴 Prim Algorithm (정점 선택)</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="spanning-tree"><code class="language-plaintext highlighter-rouge">🎡 Spanning Tree</code></h3>
+
+<p>그래프 내부에 포함된 모든 노드를 포함하는 트리를 의미한다. 모든 정점을 포함하긴 하지만 근본은 트리라서 사이클이 발생하면 안되며, 최소의 간선을 사용해 모든 노드를 연결해야 한다. 따라서 <code class="language-plaintext highlighter-rouge">Spanning Tree</code> 의 간선 개수는 <code class="language-plaintext highlighter-rouge">노드 개수-1</code>에 해당한다.</p>
+
+<h3 id="minimum-spanning-tree"><code class="language-plaintext highlighter-rouge">💵 Minimum Spanning Tree</code></h3>
+
+<p>그래프 상에서 발생할 수 있는 여러 <code class="language-plaintext highlighter-rouge">Spanning Tree</code> 중에서 간선들의 가중치 합이 최소인 트리를 의미한다. <code class="language-plaintext highlighter-rouge">MST</code>를 구현하는 알고리즘은 대표적으로 <code class="language-plaintext highlighter-rouge">Kruskal</code>, <code class="language-plaintext highlighter-rouge">Prim</code>알고리즘이 있다. 전자의 시간 복잡도는 <code class="language-plaintext highlighter-rouge">O(ElogE)</code>, 후자는 기본적으로 <code class="language-plaintext highlighter-rouge">O(N^2)</code>이라서 노드에 비해 간선 개수가 적은 희소 그래프의 경우는 Kruskal을, 노드에 비해 간선이 많은 밀집 그래프의 경우는 Prim을 사용하는게 시간 복잡도 측면에서 유리하다. 한편, Prim은 구현시에 선택하는 자료구조에 따라서 시간 복잡도를 최적화할 수 있다. 자세한 내용은 개별 알고리즘에 대한 설명에서 다루도록 하겠다.</p>
+
+<h3 id="kruskal-algorithm-간선-선택"><code class="language-plaintext highlighter-rouge">🍃 Kruskal Algorithm (간선 선택)</code></h3>
+
+<p>그리디하게 그래프의 모든 정점을 최소 비용으로 연결하는 방법이다. 구체적으로는 개별 시점에서 사이클을 이루지 않으면서 최소 비용인 간선을 경로로 선택한다. 그리디를 기반으로 하기 때문에 이전 결과, 미래 결과를 고려하지 않고 현재 최소 비용이 되는 간선만을 선택한다. 알고리즘의 구체적인 동작 과정은 다음과 같다.</p>
+
+<ul>
+  <li>1) 그래프의 간선들을 오름차순으로 정렬, 가중치 기준</li>
+  <li>2) 사이클을 발생시키는지 여부를 체크하면서 순서대로 선택
+    <ul>
+      <li>가장 낮은 가중치부터 접근해 체크</li>
+      <li>사이클 발생 X라면 선택</li>
+    </ul>
+  </li>
+  <li>3) 선택한 간선을 <code class="language-plaintext highlighter-rouge">MST</code>집합에 추가</li>
+</ul>
+
+<p>사이클을 발생시키는지 여부를 체크하는 부분이 구현할 때 까다로울 수 있는데, Union-Find 알고리즘을 도입하면 수월하게 만들어 낼 수 있다. Union-Find를 도입한 Kruskal Algorithm을 Python 코드로 작성하면 다음과 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" kruskal algorithm example: baekjoon 1043 """</span>
+
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="k">def</span> <span class="nf">find</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="s">""" method for finding root node """</span>
+    <span class="k">if</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">union</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="s">""" method for union-find """</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">find</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span><span class="p">:</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">y</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">arr</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">y</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>  <span class="c1"># number of nodes
+</span><span class="n">M</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>  <span class="c1"># number of edges
+</span><span class="n">graph</span><span class="p">,</span> <span class="n">parent</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># 0-0) 간선 연결 정보 초기화, 정렬
+</span><span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">src</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">graph</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">cost</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">end</span><span class="p">))</span>
+<span class="n">graph</span><span class="p">.</span><span class="n">sort</span><span class="p">()</span>
+
+<span class="c1"># 0-1) 연결 정보 초기화
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">parent</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+
+<span class="c1"># 1) Kruskal Algorithm
+</span><span class="n">result</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">M</span><span class="p">):</span>
+    <span class="n">weight</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">final</span> <span class="o">=</span> <span class="n">graph</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span> <span class="o">!=</span> <span class="n">find</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">final</span><span class="p">):</span>
+        <span class="n">union</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">final</span><span class="p">)</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">weight</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>find 메서드는 입력한 노드의 루트 노드를 찾아 반환한다. 이것을 활용해 서로 다른 노드가 같은 집합(트리)에 속하는지 손쉽게 판정할 수 있으며 이것은 바꿔 생각해보면 선택된 두 노드가 사이클을 발생시키는지 여부를 알아 낼 수 있다는 것이다. 만약 두 노드가 같은 루트 노드값을 갖는다면, 결국 같은 집합(트리)에 속한다는 것을 의미하며, 이것은 사이클을 유발하게 되는 것이다. 따라서 사이클을 유발하는 정점은 선택하지 않으며, 트리의 성질을 유지할 수 있는 노드를 선택해 <code class="language-plaintext highlighter-rouge">union</code> 연산에 대입한다.</p>
+
+<h3 id="prim-algorithm-정점-선택"><code class="language-plaintext highlighter-rouge">🔴 Prim Algorithm (정점 선택)</code></h3>
+
+<p>특정 정점에서 시작해서 가중치가 작은 간선들 순서대로 트리를 확장해나가는 방법이다. 시작점을 지정한다는 점에서 다익스트라와 유사하며, 간선의 숫자가 많은 밀집 그래프 상황에서 <code class="language-plaintext highlighter-rouge">Kruskal</code>보다 빠르다. 구체적인 동작 방식은 다음과 같다.</p>
+
+<ul>
+  <li><strong>1) 선택 노드를 MST 집합에 추가</strong></li>
+  <li><strong>2) MST 집합에 포함된 노드들에 인접한 정점들 탐색</strong>
+    <ul>
+      <li><strong>사이클 발생 여부 확인</strong>
+        <ul>
+          <li><strong>사이클 발생 X: 최소 가중치의 간선을 선택</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li><strong>3) 전체 간선의 개수가 N-1개가 될 때까지, 1 &amp; 2 과정  <code class="language-plaintext highlighter-rouge">Iteration</code></strong></li>
+</ul>
+
+<p>기본적으로는 <code class="language-plaintext highlighter-rouge">O(N^2)</code>의 시간복잡도를 기록한다. 하지만 자료구조 최적화에 따라서 <code class="language-plaintext highlighter-rouge">Kruskal</code>과 비슷한 시간복잡도인 <code class="language-plaintext highlighter-rouge">O(ElogE)</code>정도로까지 만들어 낼 수 있다. 최소 힙정렬과 우선순위 큐를 이용하면 된다. 힙정렬을 이용해 그래프 연결 정보를 가중치를 기준으로 오름차순 정렬을 한 뒤에, 사이클을 발생시키지 않는 인접 노드를 선택하도록 만든다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" prim algorithm example: baekjoon 1197 """</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">heapq</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<span class="s">"""
+[풀이]
+1) Prim with 우선순위 큐 (힙)
+    - 시작점 선택, MST 집합에 추가
+    - MST 집합의 노드들에 인접한 모든 정점 탐색
+        - 사이클 발생 여부 확인: 방문 여부로 판정
+        - 사이클 발생 X: 최소 가중치 간선 선택 (heapify를 통해 개별 노드마다 간선들을 가중치 기준 오름차순 정렬)
+"""</span>
+
+<span class="k">def</span> <span class="nf">prim</span><span class="p">(</span><span class="n">grid</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">],</span> <span class="n">visit</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">bool</span><span class="p">],</span> <span class="n">start</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="n">visit</span><span class="p">[</span><span class="n">start</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="n">tmp</span> <span class="o">=</span> <span class="n">grid</span><span class="p">[</span><span class="n">start</span><span class="p">]</span>  <span class="c1"># 선택된 노드에 대한 모든 인접 간선 추출
+</span>    <span class="n">heapq</span><span class="p">.</span><span class="n">heapify</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>  <span class="c1"># 이미 생성되어 있는 자료구조에 대해서는 heapq.heapify를 사용하면 힙 성질을 만족하도록 할 수 있다
+</span>    <span class="n">mst</span><span class="p">,</span> <span class="n">total</span> <span class="o">=</span> <span class="p">[],</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="n">tmp</span><span class="p">:</span>
+        <span class="n">weight</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">visit</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>  <span class="c1"># 미방문 노드로의 간선만 선택하는 방식으로, 사이클 발생 여부 판정하는 알고리즘을 구현
+</span>            <span class="n">visit</span><span class="p">[</span><span class="n">v</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">mst</span><span class="p">.</span><span class="n">append</span><span class="p">((</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+            <span class="n">total</span> <span class="o">+=</span> <span class="n">weight</span>
+            <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">v</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">visit</span><span class="p">[</span><span class="n">edge</span><span class="p">[</span><span class="mi">2</span><span class="p">]]:</span>
+                    <span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">edge</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">total</span>
+
+<span class="k">def</span> <span class="nf">solution</span><span class="p">():</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">prim</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">visited</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># 시작 노드를 어떤 것으로 설정해도 상관 없음
+</span>    <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">sys</span><span class="p">.</span><span class="n">setrecursionlimit</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">V</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+    <span class="n">graph</span><span class="p">,</span> <span class="n">visited</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="bp">False</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">E</span><span class="p">):</span>
+        <span class="n">src</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">cost</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
+        <span class="n">graph</span><span class="p">[</span><span class="n">src</span><span class="p">].</span><span class="n">append</span><span class="p">([</span><span class="n">cost</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">end</span><span class="p">])</span>
+        <span class="n">graph</span><span class="p">[</span><span class="n">end</span><span class="p">].</span><span class="n">append</span><span class="p">([</span><span class="n">cost</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">src</span><span class="p">])</span>
+    <span class="n">solution</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>시작 정점은 아무거나 선택해도 상관없다. 그리고 가장 주목할 부분은 노드 선택시 사이클 여부를 판정하는 방법을 어떻게 구현했는가이다. 개별 노드에 대한 방문여부를 기록하는 배열을 따로 생성한 뒤, 방문(해당 노드와 연결되는 간선 선택)할 때 마다 방문 기록을 저장한다. 그리고 만약 어떤 노드를 선택했을 때, 이미 방문한 노드라면 해당 노드와 연결하는 간선의 가중치가 현재 가장 최소에 해당하더라도 사이클을 발생시키기 때문에 선택하지 않도록 사이클 여부를 판정하게 만들었다.<br />
+<code class="language-plaintext highlighter-rouge">Kruskal</code>처럼 전체 모든 간선을 알고 있는 상태가 아님에도 최소 스패닝 트리의 조건을 만족하는 결과를 만들어 낼 수 있는 이유는 미리 개별 노드별 간선들을 가중치 기준으로 오름차순 정렬 해뒀기 때문이다. 이것 때문에 지역 최적들의 합이 전역 최적이 되어야 하는 그리디의 제약 조건을 만족시킬 수 있게 된다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
+    
+      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+    
+      <a href="/tags/#kruskal" class="page__taxonomy-item p-category" rel="tag">Kruskal</a><span class="sep">, </span>
+    
+      <a href="/tags/#mst" class="page__taxonomy-item p-category" rel="tag">MST</a><span class="sep">, </span>
+    
+      <a href="/tags/#prim" class="page__taxonomy-item p-category" rel="tag">Prim</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-11-11">November 11, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%97%82%EF%B8%8F+Graph+Theory+5%3A+MST+with+Kruskal+%26+Prim%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fmst" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fmst" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fmst" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/algorithm/floyd-warshell" class="pagination--pager" title="🗂️ Graph Theory 3: Floyd-Warshall
+">Previous</a>
+    
+    
+      <a href="/algorithm/useful_library" class="pagination--pager" title="✏️  Summary of Useful Library for Coding Test
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/union-find" rel="permalink">🗂️ Graph Theory 4: Union-Find (Disjoint Set)
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Union-Find Algorithm with Disjoint Set
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/useful_library" rel="permalink">✏️  Summary of Useful Library for Coding Test
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/floyd-warshell" rel="permalink">🗂️ Graph Theory 3: Floyd-Warshall
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Floyd-Warshall Algorithm with DP Tabulation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/dijkstra" rel="permalink">🗂️ Graph Theory 2: Dijkstra
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Dijkstra Algorithm with Priority Queue
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>

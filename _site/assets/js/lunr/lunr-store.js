@@ -83,12 +83,6 @@ var store = [{
         "url": "/nlp/transformer",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "✏️  Summary of Useful Library for Coding Test",
-        "excerpt":"📚 collections 🪢 deque python에서 stack이나 queue 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 collections에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자. # collections.deque usage example deque([iterable[, maxlen]]) --&gt; deque object &gt;&gt;&gt; from collections import deque, Counter &gt;&gt;&gt; queue = deque() # 1) &gt;&gt;&gt; queue deque([]) &gt;&gt;&gt; queue...","categories": ["Algorithm"],
-        "tags": ["Python","collections","Codeing Test","Algorithm"],
-        "url": "/algorithm/useful_library",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "👨‍💻🐍 [Python] Object Attribute & Assertion Function",
         "excerpt":"🧧 Attribute Function 이번 포스팅은 Python 코드를 작성하면서 객체와 내부 메서드에 관련한 처리가 필요할 때 가장 많이 사용하게 되는 getattr, setattr , delattr , hasttr 함수들의 사용법에 대해 다뤄보려 한다. 특히 getattr, setattr 의 경우 머신러닝 혹은 딥러닝 관련 코드를 읽다가 심심치 않게 찾아볼 수 있다. 모델의 hyper-parameter를 튜닝하거나 기타...","categories": ["Python"],
         "tags": ["Python","Object","Attribute","Assertion","ML","Deep Learning"],
@@ -96,93 +90,93 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1120번: 문자열",
-        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 22:10 ~ 22:32 [요약] 1) 두 문자열 X와 Y의 차이: X[i] ≠ Y[i]인 i의 개수 - X=”jimin”, Y=”minji”이면, 둘의 차이는 4 2) A ≤ B, 두 문자열의 길이가 똑같아 지도록 아래 연산 선택 - A의 앞에 아무 알파벳이나 추가한다. - A의 뒤에 아무 알파벳이나...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 22:10 ~ 22:32 [요약] 1) 두 문자열 X와 Y의 차이: X[i] ≠ Y[i]인 i의 개수 - X=”jimin”, Y=”minji”이면, 둘의 차이는 4 2) A ≤ B, 두 문자열의 길이가 똑같아 지도록 아래 연산 선택 - A의 앞에 아무 알파벳이나 추가한다. - A의 뒤에 아무 알파벳이나...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1120",
+        "url": "/ps/baekjoon-1120",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1427번: 소트인사이드",
-        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 23:50 ~ 24:03 [요약] 1) 수의 각 자리수를 내림차순 - 2143: 4321 [전략] 1) 입력 받는 숫자를 split으로 잘라서 다시 sort 해야지 - split, Counter, sort 같이 사용하면 될 듯 \"\"\" n = list(sys.stdin.readline().rstrip()) count = Counter(n) tmp_result = sorted(count.elements(),...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 23:50 ~ 24:03 [요약] 1) 수의 각 자리수를 내림차순 - 2143: 4321 [전략] 1) 입력 받는 숫자를 split으로 잘라서 다시 sort 해야지 - split, Counter, sort 같이 사용하면 될 듯 \"\"\" n = list(sys.stdin.readline().rstrip()) count = Counter(n) tmp_result = sorted(count.elements(),...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1427",
+        "url": "/ps/baekjoon-1427",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1316번: 그룹 단어 체커",
-        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 16:30 ~ 17:50 [요약] 1) 그룹 문자: ccazzzzbb, kin - 아닌 경우: aabbbccb (b가 혼자 떨어져 있기 때문에 그룹 문자열이 아님) \"\"\" N = int(sys.stdin.readline()) result = N for i in range(N): word_set = {1} word = list(sys.stdin.readline().rstrip()) for j in range(len(word)): if...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 16:30 ~ 17:50 [요약] 1) 그룹 문자: ccazzzzbb, kin - 아닌 경우: aabbbccb (b가 혼자 떨어져 있기 때문에 그룹 문자열이 아님) \"\"\" N = int(sys.stdin.readline()) result = N for i in range(N): word_set = {1} word = list(sys.stdin.readline().rstrip()) for j in range(len(word)): if...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1316",
+        "url": "/ps/baekjoon-1316",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 9012번: 괄호",
-        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 15:45 ~ 16:15 \"\"\" for i in range(int(sys.stdin.readline())): left, right, checker = 0, 0, False ps = list(sys.stdin.readline().rstrip()) for j in ps: if j == '(': left += 1 else: right += 1 if right &gt; left: checker = True break if checker:...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 15:45 ~ 16:15 \"\"\" for i in range(int(sys.stdin.readline())): left, right, checker = 0, 0, False ps = list(sys.stdin.readline().rstrip()) for j in ps: if j == '(': left += 1 else: right += 1 if right &gt; left: checker = True break if checker:...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-9012",
+        "url": "/ps/baekjoon-9012",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1254번: 팰린드롬 만들기",
-        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 17:00 ~ 17:30 [요약] 1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다. - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음 [전략] 1) 그냥 무식 단순 루프 돌리기 \"\"\" text = sys.stdin.readline().rstrip() result, slicer = 99999, 1...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 17:00 ~ 17:30 [요약] 1) 규완이가 적어놓고 간 문자열 S에 0개 이상의 문자를 문자열 뒤에 추가해서 팰린드롬을 만들려고 한다. - 가능한 짧은 문자열을 추가해 펠린드롬을 만들고 싶음 [전략] 1) 그냥 무식 단순 루프 돌리기 \"\"\" text = sys.stdin.readline().rstrip() result, slicer = 99999, 1...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1254",
+        "url": "/ps/baekjoon-1254",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 14425번: 문자열 집합",
-        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 16:30 ~ 16:50 [요약] 1) N개의 문자열로 이루어진 집합 S가 주어진다. - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성 [전략] 1) 세트 교차 방식 (시간 효율성 GOOD) - 집합 S에 중복 문자열은 없지만, M개의...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [풀이 시간] 1) 16:30 ~ 16:50 [요약] 1) N개의 문자열로 이루어진 집합 S가 주어진다. - 입력으로 주어지는 M개의 문자열 중에서 집합 S에 포함되어 있는 것이 총 몇 개인지 구하는 프로그램 작성 [전략] 1) 세트 교차 방식 (시간 효율성 GOOD) - 집합 S에 중복 문자열은 없지만, M개의...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-14425",
+        "url": "/ps/baekjoon-14425",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1764번: 듣보잡",
-        "excerpt":"🖍️ solution 1 import sys \"\"\" [풀이 시간] 1) 15:50 ~ 16:10 [요약] 1) 명단 A, 명단 B의 교집합 구하는 문제 [전략] 1) 두 명단을 세트 자료형에 넣고 교집합을 구해주기 \"\"\" N, M = map(int, sys.stdin.readline().split()) set_a, set_b = set(), set() # 듣도 못한 사람 명단 for _ in range(N): set_a.add(sys.stdin.readline().rstrip())...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution 1 import sys \"\"\" [풀이 시간] 1) 15:50 ~ 16:10 [요약] 1) 명단 A, 명단 B의 교집합 구하는 문제 [전략] 1) 두 명단을 세트 자료형에 넣고 교집합을 구해주기 \"\"\" N, M = map(int, sys.stdin.readline().split()) set_a, set_b = set(), set() # 듣도 못한 사람 명단 for _ in range(N): set_a.add(sys.stdin.readline().rstrip())...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1764",
+        "url": "/ps/baekjoon-1764",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 5430번: AC",
-        "excerpt":"🖍️ solution import sys from collections import deque \"\"\" [시간] 1) 18:25 ~ 18:55 [요약] 1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어 - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue 2) 특정 동작을 의미하는...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import deque \"\"\" [시간] 1) 18:25 ~ 18:55 [요약] 1) 새로운 언어 AC: AC는 정수 배열에 연산을 하기 위해 만든 언어 - R(뒤집기): 배열에 있는 수의 순서를 뒤집는 함수 =&gt; reversed - D(버리기): D는 첫 번째 수를 버리는 함수 =&gt; queue 2) 특정 동작을 의미하는...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-5430",
+        "url": "/ps/baekjoon-5430",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 12891번: DNA 비밀번호",
-        "excerpt":"🖍️ solution import sys from collections import Counter, deque \"\"\" [시간] 1) 21:30 ~ 22:00 [요약] 1) DNA 문자열: A, C, G, T로만 구성된 문자열 =&gt; DNA 문자열의 일부를 뽑아 비밀번호로 사용 =&gt; 추출 기준은 서로 다른 문자의 개수가 특정 개수 이상 등장해야 함 =&gt; 만들 수 있는 비밀번호 종류, 추출된...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import Counter, deque \"\"\" [시간] 1) 21:30 ~ 22:00 [요약] 1) DNA 문자열: A, C, G, T로만 구성된 문자열 =&gt; DNA 문자열의 일부를 뽑아 비밀번호로 사용 =&gt; 추출 기준은 서로 다른 문자의 개수가 특정 개수 이상 등장해야 함 =&gt; 만들 수 있는 비밀번호 종류, 추출된...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-12891",
+        "url": "/ps/baekjoon-12891",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 1969번: DNA",
-        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 20:00 ~ 20:30 [요약] 1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지 - A, T, G, C 2) N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기 - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import Counter \"\"\" [시간] 1) 20:00 ~ 20:30 [요약] 1) DNA를 이루는 뉴클레오티드의 첫글자를 따서 표현, 종류는 4가지 - A, T, G, C 2) N개의 길이 M인 DNA가 주어지면 Hamming Distance의 합이 가장 작은 DNA S를 구하기 - Hamming Distance: 각 위치의 뉴클오티드 문자가 다른...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1969",
+        "url": "/ps/baekjoon-1969",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻💵 [baekjoon] 11501번: 주식",
-        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:10 ~ 14:34 [요약] 1) 주식을 '하나' 사기/원하는 만큼 가지고 있는 주식을 팔기/아무것도 안하기 - 날 별로 주식의 가격을 알려주었을 때, 최대 이익이 얼마나 되는지 계산하는 프로그램 작성 [전략] 1) max() 이용해 문제 해결 - max - 현재 ≥ 0: 사기 - max -...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:10 ~ 14:34 [요약] 1) 주식을 '하나' 사기/원하는 만큼 가지고 있는 주식을 팔기/아무것도 안하기 - 날 별로 주식의 가격을 알려주었을 때, 최대 이익이 얼마나 되는지 계산하는 프로그램 작성 [전략] 1) max() 이용해 문제 해결 - max - 현재 ≥ 0: 사기 - max -...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-11501",
+        "url": "/ps/baekjoon-11501",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 17609번: 회문",
-        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:20 ~ 14:45 [요약] 1) 유사회문: 한 문자를 삭제하여 회문으로 만들 수 있는 문자열 =&gt; 유사회문인지 아닌지 판단하는 프로그램 작성 2) 주어진 문자열의 길이는 10만, 문자열 개수는 최대 30개 =&gt; 제한 시간이 1초라서 O(n)의 알고리즘을 설계 필요, Counter 사용 불가 [전략] 1) 슬라이싱 이용해서...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 14:20 ~ 14:45 [요약] 1) 유사회문: 한 문자를 삭제하여 회문으로 만들 수 있는 문자열 =&gt; 유사회문인지 아닌지 판단하는 프로그램 작성 2) 주어진 문자열의 길이는 10만, 문자열 개수는 최대 30개 =&gt; 제한 시간이 1초라서 O(n)의 알고리즘을 설계 필요, Counter 사용 불가 [전략] 1) 슬라이싱 이용해서...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-17609",
+        "url": "/ps/baekjoon-17609",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻💵 [baekjoon] 1789번: 수들의 합",
-        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 01:40 ~ 02:10 [요약] 1) S: 서로 다른 N개의 자연수들의 합 =&gt; 이 때, 자연수 N의 최대값 [전략] 1) 자연수 개수가 최대가 되도록 만들 어야 하기 때문에 최대한 작은 수들의 합으로 S를 구성 - 10: 1,2,3,4 =&gt; 4개 \"\"\" S = int(sys.stdin.readline()) # for...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 01:40 ~ 02:10 [요약] 1) S: 서로 다른 N개의 자연수들의 합 =&gt; 이 때, 자연수 N의 최대값 [전략] 1) 자연수 개수가 최대가 되도록 만들 어야 하기 때문에 최대한 작은 수들의 합으로 S를 구성 - 10: 1,2,3,4 =&gt; 4개 \"\"\" S = int(sys.stdin.readline()) # for...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1789",
+        "url": "/ps/baekjoon-1789",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔠 [baekjoon] 5052번: 전화번호 목록",
-        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 15:20 ~ 16:00 [요약] 1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단 - 하나의 번호가 다른 번호의 접두어 X - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단 [전략] 1) 전화번호 앞자리를 최우선 기준으로 정렬 - 시간 제한 &amp; 입력의 길이: 이중...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys \"\"\" [시간] 1) 15:20 ~ 16:00 [요약] 1) 주어진 전화번호 목록을 보고, 일관성이 여부 판단 - 하나의 번호가 다른 번호의 접두어 X - 주어진 모든 번호에 동일하게 연락할 수 있어야 일관성 있다고 판단 [전략] 1) 전화번호 앞자리를 최우선 기준으로 정렬 - 시간 제한 &amp; 입력의 길이: 이중...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-5052",
+        "url": "/ps/baekjoon-5052",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🔭 [baekjoon] 1962번: 그림",
-        "excerpt":"🖍️ solution import sys from collections import deque from typing import List \"\"\" [시간] 1) 16:50 ~ 17:20 [요약] 1) 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력 - 영역 구분 및 넓이가 가장 큰 영역의 넓이 구하는 프로그램 작성 -...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import deque from typing import List \"\"\" [시간] 1) 16:50 ~ 17:20 [요약] 1) 큰 도화지에 그림이 그려져 있을 때, 그 그림의 개수와, 그 그림 중 넓이가 가장 넓은 것의 넓이를 출력 - 영역 구분 및 넓이가 가장 큰 영역의 넓이 구하는 프로그램 작성 -...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","String Handle"],
-        "url": "/algorithm/baekjoon-1962",
+        "url": "/ps/baekjoon-1962",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "🤖 [P-Tuning] GPT Understand Too",
@@ -204,14 +198,44 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🎄 [baekjoon] 15558번: 점프 게임",
-        "excerpt":"🖍️ solution import sys from collections import deque from typing import List def bfs(y: int, x: int): time, flag = -1, False q = deque([[y, x]]) while q: for _ in range(len(q)): vy, vx = q.popleft() if vx+1 &gt;= N or vx+K &gt;= N: flag = True break if graph[vy][vx+1] and...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import deque from typing import List def bfs(y: int, x: int): time, flag = -1, False q = deque([[y, x]]) while q: for _ in range(len(q)): vy, vx = q.popleft() if vx+1 &gt;= N or vx+K &gt;= N: flag = True break if graph[vy][vx+1] and...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","BFS"],
-        "url": "/algorithm/baekjoon-15558",
+        "url": "/ps/baekjoon-15558",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "👩‍💻🎄 [baekjoon] 16920번: 확장게임",
-        "excerpt":"🖍️ solution import sys from collections import deque def solution(): N, M, P = map(int, sys.stdin.readline().split()) scores = [0] * (P + 1) dy = [0, 0, 1, -1] # direction of search dx = [1, -1, 0, 0] p_list = [0] + list(map(int, sys.stdin.readline().split())) # for matching index with player...","categories": ["Algorithm"],
+        "excerpt":"🖍️ solution import sys from collections import deque def solution(): N, M, P = map(int, sys.stdin.readline().split()) scores = [0] * (P + 1) dy = [0, 0, 1, -1] # direction of search dx = [1, -1, 0, 0] p_list = [0] + list(map(int, sys.stdin.readline().split())) # for matching index with player...","categories": ["Problem Solving"],
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","BFS"],
-        "url": "/algorithm/baekjoon-16920",
+        "url": "/ps/baekjoon-16920",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗂️ Graph Theory 2: Dijkstra",
+        "excerpt":"📚 Dijkstra 다익스트라 최단 경로 문제는 그래프 자료 구조에서 여러 개의 노드가 주어졌을 때, 특정한 노드(시작점)에서 특정한 노드(도착점)까지의 최단 경로를 구해주는 알고리즘을 설계해야 한다. 특히 다익스트라는 음의 간선이 없을 때 정상적으로 동작하며, 유향 &amp; 무향을 가리지 않고 적용할 수 있다. 다익스트라 알고리즘의 동작을 기술하면 아래와 같다. 1) 출발 노드 설정...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Dijkstra"],
+        "url": "/algorithm/dijkstra",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗂️ Graph Theory 3: Floyd-Warshall",
+        "excerpt":"📚 Floyd-Warshall Floyd-Warshall은 모든 지점에서 다른 모든 지점까지의 최단 경로를 구하는 알고리즘이다. 지정된 출발점에서 나머지 다른 지점가지의 최단 경로를 구하는 다익스트라 알고리즘과는 차이가 있다. 따라서 솔루션을 도출하는 방식에도 살짝 차이가 생기는데, Floyd-Warshall 은 그리디하게 매번 최단 경로에 있는 노드를 구할 필요가 없다. 이유는 모든 지점에서 다른 모든 지점까지의 경로를 구해야...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Floyd-Warshall"],
+        "url": "/algorithm/floyd-warshell",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗂️ Graph Theory 5: MST with Kruskal & Prim",
+        "excerpt":"🎡 Spanning Tree 그래프 내부에 포함된 모든 노드를 포함하는 트리를 의미한다. 모든 정점을 포함하긴 하지만 근본은 트리라서 사이클이 발생하면 안되며, 최소의 간선을 사용해 모든 노드를 연결해야 한다. 따라서 Spanning Tree 의 간선 개수는 노드 개수-1에 해당한다. 💵 Minimum Spanning Tree 그래프 상에서 발생할 수 있는 여러 Spanning Tree 중에서 간선들의 가중치 합이...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","MST","Kruskal","Prim"],
+        "url": "/algorithm/mst",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "✏️  Summary of Useful Library for Coding Test",
+        "excerpt":"📚 collections 🪢 deque python에서 stack이나 queue 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 collections에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자. # collections.deque usage example deque([iterable[, maxlen]]) --&gt; deque object &gt;&gt;&gt; from collections import deque, Counter &gt;&gt;&gt; queue = deque() # 1) &gt;&gt;&gt; queue deque([]) &gt;&gt;&gt; queue...","categories": ["Algorithm"],
+        "tags": ["Python","collections","Codeing Test","Algorithm"],
+        "url": "/algorithm/useful_library",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗂️ Graph Theory 4: Union-Find (Disjoint Set)",
+        "excerpt":"🙅 Disjoint Set 서로 공통된 원소를 가지고 있지 않은 여러 집합들을 지칭하는 용어다. 개별 원소가 정확히 하나의 집합에 속하며, 어떤 집합도 서로 공통 원소를 가지고 있지 않아야 한다. 서로소 집합 자료구조를 사용하면 서로 다른 원소들이 같은 집합군에 속해 있는가 판별하는 것과 같은 작업을 쉽게 할 수 있다. 그렇다면 이제부터 자료구조로서 서로소...","categories": ["Algorithm"],
+        "tags": ["Python","Codeing Test","Algorithm","Union-Find"],
+        "url": "/algorithm/union-find",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]
