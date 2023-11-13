@@ -238,4 +238,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Union-Find"],
         "url": "/algorithm/union-find",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗂️ Convex Optimization Problem",
+        "excerpt":"❓ Convex Optimization Problem \\[f(wx_1 + (1-w)x_2)≤ wf(x_1) + (1-w)f(x_2),\\ \\ w \\in [0,1] \\\\ f''(x) ≥ 0\\] Convex Problem 이란, 목적 함수 $f(x)$가 Convex Function 이면서 Feasible Set 역시 Convex Set 이 되는 문제 상황을 일컫는다. Convex Problem 는 수학적 최적화에서 매우 중요한 개념인데, 그 이유는 해당 조건을 만족하면 국소...","categories": ["Optimization Theory"],
+        "tags": ["Optimization Theory","Convex Optimization"],
+        "url": "/optimization-theory/convex",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
