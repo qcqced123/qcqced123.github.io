@@ -244,4 +244,10 @@ var store = [{
         "tags": ["Optimization Theory","Convex Optimization"],
         "url": "/optimization-theory/convex",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🍎 Newton-Raphson Method for Optimization",
+        "excerpt":"🤔 Zero-Find Ver 비선형 방정식의 근사해를 찾거나 최적화 문제를 해결하는 방식으로, 같은 과정을 반복해 최적값에 수렴한다는 점에서 경사하강법이랑 근본이 같다. 반면, 경사하강에 비해 빠른 수렴 속도를 자랑하고 풀이 방식이 매우 간단하다는 장점이 있다. 하지만 여러 제약 조건과 더불어 해당 알고리즘이 잘 작동하는 상황이 비현실적인 부분이 많아 경사하강에 비해 자주 사용되지는 않고...","categories": ["Optimization Theory"],
+        "tags": ["Optimization Theory","Newton-Raphson"],
+        "url": "/optimization-theory/newton-raphson",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]

@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-13T14:20:24+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🗂️ Convex Optimization Problem</title><link href="http://localhost:4000/optimization-theory/convex" rel="alternate" type="text/html" title="🗂️ Convex Optimization Problem" /><published>2023-11-13T00:00:00+09:00</published><updated>2023-11-14T02:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/convex_problem</id><content type="html" xml:base="http://localhost:4000/optimization-theory/convex"><![CDATA[<h3 id="convex-optimization-problem"><code class="language-plaintext highlighter-rouge">❓ Convex Optimization Problem</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-15T16:20:22+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🍎 Newton-Raphson Method for Optimization</title><link href="http://localhost:4000/optimization-theory/newton-raphson" rel="alternate" type="text/html" title="🍎 Newton-Raphson Method for Optimization" /><published>2023-11-15T00:00:00+09:00</published><updated>2023-11-16T02:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/newton_raphson</id><content type="html" xml:base="http://localhost:4000/optimization-theory/newton-raphson"><![CDATA[<h3 id="zero-find-ver"><code class="language-plaintext highlighter-rouge">🤔 Zero-Find Ver</code></h3>
+
+<p>비선형 방정식의 근사해를 찾거나 최적화 문제를 해결하는 방식으로, 같은 과정을 반복해 최적값에 수렴한다는 점에서 경사하강법이랑 근본이 같다. 반면, 경사하강에 비해 빠른 수렴 속도를 자랑하고 풀이 방식이 매우 간단하다는 장점이 있다. 하지만 여러 제약 조건과 더불어 해당 알고리즘이 잘 작동하는 상황이 비현실적인 부분이 많아 경사하강에 비해 자주 사용되지는 않고 있다. 뉴턴-랩슨 방식은 근사해를 찾거나, 최적화 문제를 푸는 두 가지 버젼이 있는데 먼저 해를 찾는 버전부터 살펴보자. 알고리즘의 수식은 다음과 같다.</p>
+
+\[x_{n+1}:= x_n - \frac{f(x_n)}{f'(x_n)}\]
+
+<p>반복법을 사용하기 때문에 수식의 생김새가 상당히 경사하강법과 비슷하다. 왜 이런 수식이 등장하게 되었을까?? 일단 뉴턴-랩슨 방식의 풀이 과정을 살펴보자. 먼저 초기값을 설정한다. 그 다음 해당 점을 지나는 접선의 방정식을 세운다. 이제 접선의 방정식의 $x$절편을 구하고 이것을 다음 초기값으로 사용한다. 이제 $f(x_n) \approx 0$이 될 때까지 위 과정을 지속적으로 반복하면 된다. 아래 그래프와 함께 다시 살펴보자.</p>
+
+<p align="center">
+<img src="/assets/images/optimization/zero_find.png" alt="Newton-Raphson for Zero Find" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
+<strong><em><a href="">Newton-Raphson for Zero Find</a></em></strong>
+</p>
+
+<p>초기값은 $x_0=3$이다. 시작점 $(x_0, f(x_0))$을 지나는 접선의 방정식을 세우고 해당 방정식의 $x$절편을 구하는 수식을 작성하면 아래와 같다.</p>
+
+\[f'(x_0)(x-x_n) + f(x_0) = 0\]
+
+<p>이제 이것을 예쁘게 잘 정리해서 다음 초기값 $x_1$을 구해보자.</p>
+
+\[x = x_0 - \frac{f(x_0)}{f'(x_0)}\]
+
+<p>이번 포스트 맨 처음에 봤던 뉴턴-랩슨 방법의 수식과 똑같다는 것을 알 수 있다. 다시 말해 뉴턴-랩슨의 Zero-Find 버전은 접선의 방정식의 $x$절편을 활용해 목적 함수의 해를 찾아가는 방식인 것이다.</p>
+
+<p>지금까지 근사해를 찾아주는 뉴턴-랩슨 메서드를 살펴보았다. 하지만 머신러닝처럼 현실의 최적화 문제를 풀어야 하는 우리 입장에서는 단순 목적 함수의 근을 찾는 것만으로는 주어진 문제를 해결할 수 없다. 머신러닝의 최적화 대상인 비용 함수는 거의 모든 경우에 근이 없기(베이지안 오차까지 고려하면 사실상 불가능) 때문에 일단 알고리즘의 가정 자체가 성립하지 않는다. 이러한 한계점을 극복하고자 최적화 버전의 뉴턴-랩슨 메서드가 등장하게 된다.</p>
+
+<h3 id="optimization-ver"><code class="language-plaintext highlighter-rouge">📉 Optimization Ver</code></h3>
+
+\[x_{n+1}:= x_n - \frac{f'(x_n)}{f''(x_n)}\]
+
+<p>최적화 버전의 뉴턴 랩슨 메서드는 이계도함수를 사용한다. 원함수(비용함수)가 근이 없을지라도, 함수의 극점이 존재하는한 도함수의 근은 항상 존재한다는 가정에서 출발한다. 근을 찾는 행위는 동일하게 하되, 이번에는 원함수의 근이 아니라 도함수의 근을 찾는다. 도함수의 근사해를 찾으면, 해당 위치는 국소/전역 최적값에 근접한 수치일 것이라고 기대해볼 수 있다.</p>
+
+<p>하지만 최적화 버전의 뉴턴 랩슨 메서드 역시 여전히 많은 단점을 갖고 있다. 일단 먼저 계산량이 지나치게 많아진다. 예시를 모두 스칼라 형태로 들어서 간단해 보이지만, 다변수함수에 적용하면 과정이 매우 매우 복잡해진다. 모든 <code class="language-plaintext highlighter-rouge">iteration</code> 마다 자코비안, 헤시안 행렬을 구해줘야 한다. 도함수만 이용하는 경사 하강에 비해 연산 부담이 상당히 커질 수 밖에 없는 것이다. 그리고 결정적으로 헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 해야한다. 이게 개인적으로 <code class="language-plaintext highlighter-rouge">뉴턴-랩슨</code> 방식의 가장 큰 단점이라고 생각한다. 헤시안 행렬의 역행렬이 존재하려면 반드시 원함수는 <code class="language-plaintext highlighter-rouge">Convex Function</code>이어야 하기 때문이다. 따라서 상당히 비현실적인 풀이 방식이라고 볼 수 있다.</p>
+
+<p>한편, 위 모든 제약 조건을 만족한다면 최적화 버전의 뉴턴-랩슨 방식은 경사하강에 비해 상당히 빠른 수렴 속도를 갖는데 그 이유를 간단히 살펴보자. 결과부터 설명하면 뉴턴-랩슨 방식이 사실상 <code class="language-plaintext highlighter-rouge">Least Square Method(최소 자승법)</code> 와 동치라서 그렇다. 목적함수 $f(x)$를 <code class="language-plaintext highlighter-rouge">MSE</code> 로 두고 선형 회귀 문제를 푸는 상황을 가정해보자.</p>
+
+\[Z = Ax+n \\
+f(x) = (Z-Ax)^T(Z-Ax)\]
+
+<p>목적함수를 정의했기 때문에 우리는 이제 목적함수의 도함수와 이계도함수를 구할 수 있다.</p>
+
+\[f'(x) = -2A^T(Z-Ax)\\
+f''(x) = 2A^tA\]
+
+<p>도함수와 이계도 함수를 뉴턴—랩슨 수식에 대입하면 다음과 같다.</p>
+
+\[x_{n+1} := x_n + \frac{A^T(Z-Ax)} {A^TA} = x_n + (A^TA)^{-1}A^T(Z-Ax)\]
+
+<p>분모는 헤시안 행렬과 동치다. 행렬로 어떤 수를 나눌 수는 없기 때문에 나눗셈 표현 대신 역행렬로 표기했다. 그리고 수식이 상당히 더럽기 때문에 정리를 위해 전개를 해보려 한다. 전개 결과는 다음과 같다.</p>
+
+\[x_{n+1} := x_n + (A^TA)^{-1}A^TZ - (A^TA)^{-1}A^TAx_n = (A^TA)^{-1}A^TZ\]
+
+<p>헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 해야한다라는 제약 조건이 여기서 등장한다. 만약 헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 이라면, 다 날라가고 우변의 항만 남게 된다. 우변의 항을 자세히 살펴보면, <code class="language-plaintext highlighter-rouge">Least Square Method(최소 자승법)</code> 의 수식과 동일하다는 것을 알 수 있다. 경사하강과는 다르게 $x_n$과 관련된 항이 수식에 전혀 남아있지 않기 때문에, 최소 자승법 수식을 한 번 풀어내는 것만으로 극점에 도달하여 수렴속도가 훨씬 빠르게 되는 것이다.</p>
+
+<p align="center">
+<img src="/assets/images/optimization/gd_nr_1.png" alt="Newton-Raphson for Optimization" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
+<strong><em><a href="">Newton-Raphson for Optimization</a></em></strong>
+</p>
+
+<p>두 방식이 최적화 문제를 풀어나가는 과정을 비교하기 위해 시각화를 시도해봤다. 필자의 시각화 실력이 매우 좋지 못해 그 차이가 직관적으로 잘 안보인다… 빨간 직선은 뉴턴-랩슨 방식이고 파란 직선은 경사 하강 방법이다. 전자는 위에서 살펴본 것처럼 한번에 극소점으로 이동하는 것을 볼 수 있다. 한편 후자는 수많은 <code class="language-plaintext highlighter-rouge">Iteration</code> 을 거쳐 극소점에 도달한다. 필자의 시각화 자료가 상당히 좋지 못하다고 생각해 하단에 <a href="https://www.youtube.com/watch?v=MlZoafOnMS0&amp;list=PL_iJu012NOxeMJ5TPPW1JZKec7rhjKXUy&amp;index=6&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98">혁펜하임</a>님의 자료도 함께 첨부했으니 참고하자. 훨씬 직관적으로 잘 보인다.</p>
+
+<p align="center">
+<img src="/assets/images/optimization/gradient_vs_newton.png" alt="Newton-Raphson vs Gradient-Descent" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
+<strong><em><a href="https://ibb.co/VjvkYL7">Newton-Raphson vs Gradient-Descent</a></em></strong>
+</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Newton-Raphson" /><summary type="html"><![CDATA[최적화 문제를 위한 뉴턴-랩슨 메서드 설명]]></summary></entry><entry><title type="html">🗂️ Convex Optimization Problem</title><link href="http://localhost:4000/optimization-theory/convex" rel="alternate" type="text/html" title="🗂️ Convex Optimization Problem" /><published>2023-11-13T00:00:00+09:00</published><updated>2023-11-14T02:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/convex_problem</id><content type="html" xml:base="http://localhost:4000/optimization-theory/convex"><![CDATA[<h3 id="convex-optimization-problem"><code class="language-plaintext highlighter-rouge">❓ Convex Optimization Problem</code></h3>
 
 \[f(wx_1 + (1-w)x_2)≤ wf(x_1) + (1-w)f(x_2),\ \ w \in [0,1] \\
 f''(x) ≥ 0\]
@@ -47,209 +110,7 @@ f(wx^! + (1-w)x^@)≤ f(x^!) +(1-w)(f(x^@) -f(x^!))\]
 
 <p>우리는 $f(x^!)$가 지역 최소값이라고 정의한 바 있다. 지역 최소값이라는 것은 그 주변에서 가장 작은값이라는 의미를 갖는다. 그런데 $f(x^!)$의 주변값인 $\alpha$가 지역 최소값보다 작다고 부등식은 말하고 있기 때문에, 지역 최소값 정의에 위배되어 위 명제는 거짓이 된다.</p>
 
-<p>정리하자면, 어떤 함수 $f(x)$가 컨백스 성질을 만족하면서, Feasible Set 역시 Convex Set인 경우에 국소 최소값이 전역 최소값이 아닐 경우, 국소 최적이 국소 최적이 아닌 경우가 발생하기 떄문에 반드시 위 조건에서 국소 최적값은 전역 최적값이 되어야 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Convex Optimization" /><summary type="html"><![CDATA[컨백스 최적화 문제 증명]]></summary></entry><entry><title type="html">✏️  Summary of Useful Library for Coding Test</title><link href="http://localhost:4000/algorithm/useful_library" rel="alternate" type="text/html" title="✏️  Summary of Useful Library for Coding Test" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/summary-of-useful-library</id><content type="html" xml:base="http://localhost:4000/algorithm/useful_library"><![CDATA[<h3 id="collections"><code class="language-plaintext highlighter-rouge">📚 collections</code></h3>
-
-<h4 id="deque"><code class="language-plaintext highlighter-rouge">🪢 deque</code></h4>
-<p><code class="language-plaintext highlighter-rouge">python</code>에서 <code class="language-plaintext highlighter-rouge">stack</code>이나 <code class="language-plaintext highlighter-rouge">queue</code> 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 <code class="language-plaintext highlighter-rouge">collections</code>에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.deque usage example
-</span><span class="n">deque</span><span class="p">([</span><span class="n">iterable</span><span class="p">[,</span> <span class="n">maxlen</span><span class="p">]])</span> <span class="o">--&gt;</span> <span class="n">deque</span> <span class="nb">object</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">Counter</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span> <span class="c1"># 1)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(())</span>  <span class="c1"># 2)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span> <span class="c1"># 3) 
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># 4)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># 5)
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-
-</code></pre></div></div>
-
-<p>객체를 초기화할 때 값을 넣어줄 것이 아니라면 리스트를 굳이 전달하지 않아도 똑같이 초기화가 된다. 다만, 특정값을 넣어줄 것이라면 반드시 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 전달해야 한다. 이 때 <code class="language-plaintext highlighter-rouge">iterable</code> 객체는 어떤 형태를 넣어도 같은 결과를 반환하게 된다. 예를 들어 리스트를 넣고 <code class="language-plaintext highlighter-rouge">deque</code>를 초기화 하나 튜플을 넣고 초기화 하나 결과는 같다는 것이다. 예시 코드의 4번과 5번 예시를 보자. 각각 리스트와 튜플을 넣고 초기화를 했지만 초기화 결과는 동일한 것을 확인할 수 있다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque indexing &amp; slicing
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="mi">2</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[:]</span>
-<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sequence</span> <span class="n">index</span> <span class="n">must</span> <span class="n">be</span> <span class="n">integer</span><span class="p">,</span> <span class="ow">not</span> <span class="s">'slice'</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">deque</code> 는 리스트처럼 인덱싱은 가능하지만, 슬라이싱 기능은 활용할 수 없으니 참고하자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deqeue max_len example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># 객체라서 초기화가 필요하다.
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
-<span class="n">deque</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>한편, <code class="language-plaintext highlighter-rouge">max_len</code> 매개변수를 통해 선언한 객체의 최대 길이를 지정해 줄 수 있는데, 이 때 객체가 지정 길이를 넘어서면 큐의 동작처럼 가장 왼쪽에 위치한 원소를 먼저 빼고 새로운 원소를 가장 오른쪽에 추가한다.</p>
-
-<p>만약 deque를 이용해 스택을 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.pop</code>을 사용하자. 정확히 선입후출 동작을 구현할 수 있다. 한편 큐를 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.popleft</code>를 함께 사용하자. 정확히 선입선출 구조를 만들어낼 수 있다. 한편 가장 첫번째 원소 앞에 새로운 원소를 추가하고 싶다면 <code class="language-plaintext highlighter-rouge">appendleft()</code> 역시 지원하고 있으니 참고해두면 좋을 것 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque stack &amp; queue 구현
-</span>
-<span class="s">""" stack """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">3</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
-<span class="mi">1</span>
-
-<span class="s">""" queue """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">1</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">2</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
-<span class="mi">3</span>
-</code></pre></div></div>
-
-<h4 id="️-counter"><code class="language-plaintext highlighter-rouge">🗂️ Counter</code></h4>
-
-<p><code class="language-plaintext highlighter-rouge">Iterable</code> 객체에 있는 <code class="language-plaintext highlighter-rouge">hashable item</code>의 개수를 세어 <code class="language-plaintext highlighter-rouge">Dict</code> 자료형으로 반환하는 역할을 한다. 아래 예시를 보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collection.Counter example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
-<span class="n">Counter</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="s">'aabcdacdbbbbaaaadddcccbcbcbcbcbcbbcbcbcbcbcdaadaabadbcdbcdacdbacdbacdbcadacbbcabcadb'</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
-<span class="n">Counter</span><span class="p">({</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="s">'d'</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-<span class="p">[(</span><span class="s">'b'</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="p">(</span><span class="s">'c'</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="mi">19</span><span class="p">)]</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">values</span>
-<span class="n">dict_values</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
-<span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">]</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">elements</span><span class="p">()))</span>
-<span class="s">'aaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccddddddddddddddd'</span>
-</code></pre></div></div>
-
-<p>이처럼 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체의 원소에 접근해 다양한 일을 수행할 수 있다. <code class="language-plaintext highlighter-rouge">most_common</code>은 가장 많이 사용된 원소를 순서대로 사용자가 지정한 등수만큼 보여준다. <code class="language-plaintext highlighter-rouge">values</code> 는 개별 <code class="language-plaintext highlighter-rouge">key</code>의 값을 반환한다. <code class="language-plaintext highlighter-rouge">join</code>, <code class="language-plaintext highlighter-rouge">sorted</code> 와 함께 하면 원소를 반복하는 것도 가능하다.</p>
-
-<h4 id="defaultdict"><code class="language-plaintext highlighter-rouge">👌 defaultdict</code></h4>
-
-<p>사전의 <code class="language-plaintext highlighter-rouge">key</code>에 대한 <code class="language-plaintext highlighter-rouge">value</code>가 아직 없지만, 미리 <code class="language-plaintext highlighter-rouge">value</code>의 자료형을 지정해주고 싶을 때 사용하면 유용하다. 예를 들어 동물의 종류를 분류하는 사전을 만들고 싶다고 가정해보자. 0번 <code class="language-plaintext highlighter-rouge">key</code>가 조류라고 해보자. 그럼 조류에 해당되는 <code class="language-plaintext highlighter-rouge">value</code>는 참새, 비둘기 … 앵무새 등 정말 많을 것이다. 이것을 한번에 그룹핑해 조류라는 카테고리에 속한다고 표현해주기 위해 우리는 리스트를 <code class="language-plaintext highlighter-rouge">value</code>의 기본 자료형으로 지정해주는 것이다. 이 때 defaultdict을 이용하면 쉽게 구현이 가능하다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.defaultdict example
-</span><span class="k">from</span> <span class="n">collections</span> <span class="n">ipmort</span> <span class="n">defaultdict</span>
-
-<span class="n">animal_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">defaultdict</code> 에 어떤 자료형을 매개변수로 전달하는가에 따라서 초기화 되는 기본 자료형이 바뀐다. 우리는 <code class="language-plaintext highlighter-rouge">list</code> 를 기본 자료형으로 지정했지만 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">set</code> 같은 것도 가능하니 참고해두자.</p>
-
-<h3 id="️-heapq"><strong><code class="language-plaintext highlighter-rouge">🗂️ heapq</code></strong></h3>
-
-<p>다익스트라 최단 경로 알고리즘을 포함한 다양한 알고리즘 문제에서 우선순위 큐 기능을 구현할 때 사용하는 라이브러리로 기본적으로 최소 힙(오름차순, 파이썬 내장 정렬 알고리즘의 특성으로 모두 기본값이 오름차순) 구성으로 되어 있다. <code class="language-plaintext highlighter-rouge">heapq.heappush()</code> 로 힙에 원소를 삽입하는 기능을 구현하며, <code class="language-plaintext highlighter-rouge">heapq.heappop()</code> 을 통해서 힙으로부터 원소를 빼낸다. 아래는 힙 정렬을 구현한 코드이다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Min Heapsort
-</span><span class="kn">import</span> <span class="nn">heapq</span>
-
-<span class="k">def</span> <span class="nf">min_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="c1"># heap에 원소 삽입
-</span>	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-		<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
-	<span class="c1"># heap으로부터 원소 빼내기
-</span>	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
-		<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-	
-	<span class="k">return</span> <span class="n">result</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">min_heapsort</span><span class="p">([])</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Max Heapsort
-</span><span class="kn">import</span> <span class="nn">heapq</span>
-
-<span class="k">def</span> <span class="nf">max_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
-	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
-	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
-		<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">value</span><span class="p">)</span>
-	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
-		<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
-
-	<span class="k">return</span> <span class="n">result</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="n">max_heapsort</span><span class="p">([])</span>
-</code></pre></div></div>
-
-<p>구현된 힙의 모든 원소가 정렬되는 것은 아니며 현재 최대,최소 원소에 대한 정렬만 보장하기 때문에 주의가 필요하다. 개별 시점에서 최대,최소값만 필요하다면 힙정렬 사용을 고려해보자.</p>
-
-<h3 id="️-sort--sorted"><strong><code class="language-plaintext highlighter-rouge">🗂️ sort &amp; sorted</code></strong></h3>
-
-<p>python <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 빠르게 정렬할 때 사용하는 기능이다. 두 함수 모두 기능은 같지만 적용 대상 범위가 다르며, 함수 실행 결과가 반환 방식도 다르기 때문에 사용할 때 주의해야 한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># sort, sorted 차이
-</span><span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
-<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
-</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">sort</code>는 정렬 결과를 매개 변수로 입력한 <code class="language-plaintext highlighter-rouge">iterable</code> 객체에 바로 적용되는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산인 반면, <code class="language-plaintext highlighter-rouge">sorted</code>는 그렇지 않다. 한편 <code class="language-plaintext highlighter-rouge">sort</code> 는 리스트 자료형(<code class="language-plaintext highlighter-rouge">mutable object</code>)만 매개 변수로 입력 가능하지만, <code class="language-plaintext highlighter-rouge">sorted</code>는 모든 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 사용 가능하다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">reverse</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 역시 위와 같은 규칙을 따르는데, <code class="language-plaintext highlighter-rouge">sort</code>, <code class="language-plaintext highlighter-rouge">reverse</code> 처럼 자료형 객체 내부에 내장된 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산을 지원하고 <code class="language-plaintext highlighter-rouge">sorted</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 처럼 <code class="language-plaintext highlighter-rouge">global</code> 한 내장 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 를 지원하지 않는다. 이러한 경우에는 반드시 다른 변수에 대입해줘야 하니 주의하자.</p>
-
-<p>만약 다중 조건을 적용해 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체를 정렬하고 싶다면, 아래와 같이 튜플 형태로 <code class="language-plaintext highlighter-rouge">lambda function</code> 에 적용하고 싶은 우선순위대로 기준을 입력해주면 된다. 구체적인 예시는 아래와 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 
-lecture_schedule = [시작시간, 끝시간] 
-끝나는 시간을 기준으로 오름 차순 정렬하되, 끝나는 시간이 같으면, 시작 시간 오름 차순 정렬 적용 
-"""</span>
-<span class="n">lecture_schedule</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
-<span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># key=lambda x:(우선순위1, 우선순위2, 우선순위3 ...)
-</span><span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
-</span></code></pre></div></div>
-
-<p>마지막으로 <code class="language-plaintext highlighter-rouge">-</code>를 붙인 조건은 현재 정렬 기준(오름차순, 내림차순)과 반대로 정렬을 하게 된다. 예시 코드의 3번째 라인처럼 <code class="language-plaintext highlighter-rouge">-</code> 을 붙이면 1번째는 내림 차순으로, 2번째는 오름 차순으로 정렬을 수행하게 된다. 정말 유용하니 꼭 기억해두자. 이걸 모르면, 해당 동작을 구현하기 위해 엄청난 코드 라인을 소비해야 한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lambda x: x[1]과 동일한 결과
-</span><span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-	<span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
-<span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
-<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
-</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
-</span></code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">lambda</code> 대신 직접 함수를 정의해 사용하는 것도 가능하니 꼭 기억해두자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="collections" /><category term="Codeing Test" /><category term="Algorithm" /><summary type="html"><![CDATA[코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리]]></summary></entry><entry><title type="html">🗂️ Graph Theory 5: MST with Kruskal &amp;amp; Prim</title><link href="http://localhost:4000/algorithm/mst" rel="alternate" type="text/html" title="🗂️ Graph Theory 5: MST with Kruskal &amp;amp; Prim" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/mst</id><content type="html" xml:base="http://localhost:4000/algorithm/mst"><![CDATA[<h3 id="spanning-tree"><code class="language-plaintext highlighter-rouge">🎡 Spanning Tree</code></h3>
+<p>정리하자면, 어떤 함수 $f(x)$가 컨백스 성질을 만족하면서, Feasible Set 역시 Convex Set인 경우에 국소 최소값이 전역 최소값이 아닐 경우, 국소 최적이 국소 최적이 아닌 경우가 발생하기 떄문에 반드시 위 조건에서 국소 최적값은 전역 최적값이 되어야 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Convex Optimization" /><summary type="html"><![CDATA[컨백스 최적화 문제 증명]]></summary></entry><entry><title type="html">🗂️ Graph Theory 5: MST with Kruskal &amp;amp; Prim</title><link href="http://localhost:4000/algorithm/mst" rel="alternate" type="text/html" title="🗂️ Graph Theory 5: MST with Kruskal &amp;amp; Prim" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/mst</id><content type="html" xml:base="http://localhost:4000/algorithm/mst"><![CDATA[<h3 id="spanning-tree"><code class="language-plaintext highlighter-rouge">🎡 Spanning Tree</code></h3>
 
 <p>그래프 내부에 포함된 모든 노드를 포함하는 트리를 의미한다. 모든 정점을 포함하긴 하지만 근본은 트리라서 사이클이 발생하면 안되며, 최소의 간선을 사용해 모든 노드를 연결해야 한다. 따라서 <code class="language-plaintext highlighter-rouge">Spanning Tree</code> 의 간선 개수는 <code class="language-plaintext highlighter-rouge">노드 개수-1</code>에 해당한다.</p>
 
@@ -477,7 +338,209 @@ lecture_schedule = [시작시간, 끝시간]
 <span class="n">dijkstra</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">costs</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span> <span class="k">else</span> <span class="s">'INF'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Dijkstra" /><summary type="html"><![CDATA[Dijkstra Algorithm with Priority Queue]]></summary></entry><entry><title type="html">🗂️ Graph Theory 4: Union-Find (Disjoint Set)</title><link href="http://localhost:4000/algorithm/union-find" rel="alternate" type="text/html" title="🗂️ Graph Theory 4: Union-Find (Disjoint Set)" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/union-find</id><content type="html" xml:base="http://localhost:4000/algorithm/union-find"><![CDATA[<h3 id="disjoint-set"><code class="language-plaintext highlighter-rouge">🙅 Disjoint Set</code></h3>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Dijkstra" /><summary type="html"><![CDATA[Dijkstra Algorithm with Priority Queue]]></summary></entry><entry><title type="html">✏️  Summary of Useful Library for Coding Test</title><link href="http://localhost:4000/algorithm/useful_library" rel="alternate" type="text/html" title="✏️  Summary of Useful Library for Coding Test" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/summary-of-useful-library</id><content type="html" xml:base="http://localhost:4000/algorithm/useful_library"><![CDATA[<h3 id="collections"><code class="language-plaintext highlighter-rouge">📚 collections</code></h3>
+
+<h4 id="deque"><code class="language-plaintext highlighter-rouge">🪢 deque</code></h4>
+<p><code class="language-plaintext highlighter-rouge">python</code>에서 <code class="language-plaintext highlighter-rouge">stack</code>이나 <code class="language-plaintext highlighter-rouge">queue</code> 자료형을 구현할 때 일반적으로 사용하는 내장 라이브러리 <code class="language-plaintext highlighter-rouge">collections</code>에 구현된 클래스다. 메서드가 아닌 객체라서 사용하려면 초기화가 필요하다. 사용 예시를 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.deque usage example
+</span><span class="n">deque</span><span class="p">([</span><span class="n">iterable</span><span class="p">[,</span> <span class="n">maxlen</span><span class="p">]])</span> <span class="o">--&gt;</span> <span class="n">deque</span> <span class="nb">object</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">deque</span><span class="p">,</span> <span class="n">Counter</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span> <span class="c1"># 1)
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">(())</span>  <span class="c1"># 2)
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([])</span> <span class="c1"># 3) 
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> <span class="c1"># 4)
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># 5)
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+
+</code></pre></div></div>
+
+<p>객체를 초기화할 때 값을 넣어줄 것이 아니라면 리스트를 굳이 전달하지 않아도 똑같이 초기화가 된다. 다만, 특정값을 넣어줄 것이라면 반드시 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 전달해야 한다. 이 때 <code class="language-plaintext highlighter-rouge">iterable</code> 객체는 어떤 형태를 넣어도 같은 결과를 반환하게 된다. 예를 들어 리스트를 넣고 <code class="language-plaintext highlighter-rouge">deque</code>를 초기화 하나 튜플을 넣고 초기화 하나 결과는 같다는 것이다. 예시 코드의 4번과 5번 예시를 보자. 각각 리스트와 튜플을 넣고 초기화를 했지만 초기화 결과는 동일한 것을 확인할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque indexing &amp; slicing
+</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="mi">2</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">[:]</span>
+<span class="nb">TypeError</span><span class="p">:</span> <span class="n">sequence</span> <span class="n">index</span> <span class="n">must</span> <span class="n">be</span> <span class="n">integer</span><span class="p">,</span> <span class="ow">not</span> <span class="s">'slice'</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">deque</code> 는 리스트처럼 인덱싱은 가능하지만, 슬라이싱 기능은 활용할 수 없으니 참고하자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deqeue max_len example
+</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">],</span><span class="mi">6</span><span class="p">)</span>  <span class="c1"># 객체라서 초기화가 필요하다.
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span>
+<span class="n">deque</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="n">maxlen</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">max_len</code> 매개변수를 통해 선언한 객체의 최대 길이를 지정해 줄 수 있는데, 이 때 객체가 지정 길이를 넘어서면 큐의 동작처럼 가장 왼쪽에 위치한 원소를 먼저 빼고 새로운 원소를 가장 오른쪽에 추가한다.</p>
+
+<p>만약 deque를 이용해 스택을 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.pop</code>을 사용하자. 정확히 선입후출 동작을 구현할 수 있다. 한편 큐를 구현하고 싶다면 <code class="language-plaintext highlighter-rouge">deque.append</code>와 <code class="language-plaintext highlighter-rouge">deque.popleft</code>를 함께 사용하자. 정확히 선입선출 구조를 만들어낼 수 있다. 한편 가장 첫번째 원소 앞에 새로운 원소를 추가하고 싶다면 <code class="language-plaintext highlighter-rouge">appendleft()</code> 역시 지원하고 있으니 참고해두면 좋을 것 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># deque stack &amp; queue 구현
+</span>
+<span class="s">""" stack """</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="mi">3</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">pop</span><span class="p">()</span>
+<span class="mi">1</span>
+
+<span class="s">""" queue """</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+<span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+<span class="mi">2</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">queue</span><span class="p">.</span><span class="n">popleft</span><span class="p">()</span>
+<span class="mi">3</span>
+</code></pre></div></div>
+
+<h4 id="️-counter"><code class="language-plaintext highlighter-rouge">🗂️ Counter</code></h4>
+
+<p><code class="language-plaintext highlighter-rouge">Iterable</code> 객체에 있는 <code class="language-plaintext highlighter-rouge">hashable item</code>의 개수를 세어 <code class="language-plaintext highlighter-rouge">Dict</code> 자료형으로 반환하는 역할을 한다. 아래 예시를 보자.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collection.Counter example
+</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
+<span class="n">Counter</span><span class="p">({</span><span class="mi">1</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">12</span><span class="p">:</span> <span class="mi">2</span><span class="p">})</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">test</span> <span class="o">=</span> <span class="s">'aabcdacdbbbbaaaadddcccbcbcbcbcbcbbcbcbcbcbcdaadaabadbcdbcdacdbacdbacdbcadacbbcabcadb'</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span>
+<span class="n">Counter</span><span class="p">({</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">19</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="s">'d'</span><span class="p">:</span> <span class="mi">15</span><span class="p">})</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="p">[(</span><span class="s">'b'</span><span class="p">,</span> <span class="mi">26</span><span class="p">),</span> <span class="p">(</span><span class="s">'c'</span><span class="p">,</span> <span class="mi">24</span><span class="p">),</span> <span class="p">(</span><span class="s">'a'</span><span class="p">,</span> <span class="mi">19</span><span class="p">)]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">counter</span><span class="p">.</span><span class="n">values</span>
+<span class="n">dict_values</span><span class="p">([</span><span class="mi">19</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span>
+<span class="p">[</span><span class="s">'a'</span><span class="p">,</span> <span class="s">'b'</span><span class="p">,</span> <span class="s">'c'</span><span class="p">,</span> <span class="s">'d'</span><span class="p">]</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">counter</span><span class="p">.</span><span class="n">elements</span><span class="p">()))</span>
+<span class="s">'aaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbccccccccccccccccccccccccddddddddddddddd'</span>
+</code></pre></div></div>
+
+<p>이처럼 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체의 원소에 접근해 다양한 일을 수행할 수 있다. <code class="language-plaintext highlighter-rouge">most_common</code>은 가장 많이 사용된 원소를 순서대로 사용자가 지정한 등수만큼 보여준다. <code class="language-plaintext highlighter-rouge">values</code> 는 개별 <code class="language-plaintext highlighter-rouge">key</code>의 값을 반환한다. <code class="language-plaintext highlighter-rouge">join</code>, <code class="language-plaintext highlighter-rouge">sorted</code> 와 함께 하면 원소를 반복하는 것도 가능하다.</p>
+
+<h4 id="defaultdict"><code class="language-plaintext highlighter-rouge">👌 defaultdict</code></h4>
+
+<p>사전의 <code class="language-plaintext highlighter-rouge">key</code>에 대한 <code class="language-plaintext highlighter-rouge">value</code>가 아직 없지만, 미리 <code class="language-plaintext highlighter-rouge">value</code>의 자료형을 지정해주고 싶을 때 사용하면 유용하다. 예를 들어 동물의 종류를 분류하는 사전을 만들고 싶다고 가정해보자. 0번 <code class="language-plaintext highlighter-rouge">key</code>가 조류라고 해보자. 그럼 조류에 해당되는 <code class="language-plaintext highlighter-rouge">value</code>는 참새, 비둘기 … 앵무새 등 정말 많을 것이다. 이것을 한번에 그룹핑해 조류라는 카테고리에 속한다고 표현해주기 위해 우리는 리스트를 <code class="language-plaintext highlighter-rouge">value</code>의 기본 자료형으로 지정해주는 것이다. 이 때 defaultdict을 이용하면 쉽게 구현이 가능하다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># collections.defaultdict example
+</span><span class="k">from</span> <span class="n">collections</span> <span class="n">ipmort</span> <span class="n">defaultdict</span>
+
+<span class="n">animal_dict</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">defaultdict</code> 에 어떤 자료형을 매개변수로 전달하는가에 따라서 초기화 되는 기본 자료형이 바뀐다. 우리는 <code class="language-plaintext highlighter-rouge">list</code> 를 기본 자료형으로 지정했지만 <code class="language-plaintext highlighter-rouge">int</code>, <code class="language-plaintext highlighter-rouge">set</code> 같은 것도 가능하니 참고해두자.</p>
+
+<h3 id="️-heapq"><strong><code class="language-plaintext highlighter-rouge">🗂️ heapq</code></strong></h3>
+
+<p>다익스트라 최단 경로 알고리즘을 포함한 다양한 알고리즘 문제에서 우선순위 큐 기능을 구현할 때 사용하는 라이브러리로 기본적으로 최소 힙(오름차순, 파이썬 내장 정렬 알고리즘의 특성으로 모두 기본값이 오름차순) 구성으로 되어 있다. <code class="language-plaintext highlighter-rouge">heapq.heappush()</code> 로 힙에 원소를 삽입하는 기능을 구현하며, <code class="language-plaintext highlighter-rouge">heapq.heappop()</code> 을 통해서 힙으로부터 원소를 빼낸다. 아래는 힙 정렬을 구현한 코드이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Min Heapsort
+</span><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="k">def</span> <span class="nf">min_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="c1"># heap에 원소 삽입
+</span>	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+		<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+	<span class="c1"># heap으로부터 원소 빼내기
+</span>	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
+		<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+	
+	<span class="k">return</span> <span class="n">result</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">min_heapsort</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Max Heapsort
+</span><span class="kn">import</span> <span class="nn">heapq</span>
+
+<span class="k">def</span> <span class="nf">max_heapsort</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+	<span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+	<span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">iterable</span><span class="p">:</span>
+		<span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="o">-</span><span class="n">value</span><span class="p">)</span>
+	<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)):</span>
+		<span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">))</span>
+
+	<span class="k">return</span> <span class="n">result</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">max_heapsort</span><span class="p">([])</span>
+</code></pre></div></div>
+
+<p>구현된 힙의 모든 원소가 정렬되는 것은 아니며 현재 최대,최소 원소에 대한 정렬만 보장하기 때문에 주의가 필요하다. 개별 시점에서 최대,최소값만 필요하다면 힙정렬 사용을 고려해보자.</p>
+
+<h3 id="️-sort--sorted"><strong><code class="language-plaintext highlighter-rouge">🗂️ sort &amp; sorted</code></strong></h3>
+
+<p>python <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 빠르게 정렬할 때 사용하는 기능이다. 두 함수 모두 기능은 같지만 적용 대상 범위가 다르며, 함수 실행 결과가 반환 방식도 다르기 때문에 사용할 때 주의해야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># sort, sorted 차이
+</span><span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
+</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">sort</code>는 정렬 결과를 매개 변수로 입력한 <code class="language-plaintext highlighter-rouge">iterable</code> 객체에 바로 적용되는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산인 반면, <code class="language-plaintext highlighter-rouge">sorted</code>는 그렇지 않다. 한편 <code class="language-plaintext highlighter-rouge">sort</code> 는 리스트 자료형(<code class="language-plaintext highlighter-rouge">mutable object</code>)만 매개 변수로 입력 가능하지만, <code class="language-plaintext highlighter-rouge">sorted</code>는 모든 <code class="language-plaintext highlighter-rouge">iterable</code> 객체를 사용 가능하다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">reverse</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 역시 위와 같은 규칙을 따르는데, <code class="language-plaintext highlighter-rouge">sort</code>, <code class="language-plaintext highlighter-rouge">reverse</code> 처럼 자료형 객체 내부에 내장된 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 연산을 지원하고 <code class="language-plaintext highlighter-rouge">sorted</code>, <code class="language-plaintext highlighter-rouge">reversed</code> 처럼 <code class="language-plaintext highlighter-rouge">global</code> 한 내장 메서드인 경우는 <code class="language-plaintext highlighter-rouge">in-place</code> 를 지원하지 않는다. 이러한 경우에는 반드시 다른 변수에 대입해줘야 하니 주의하자.</p>
+
+<p>만약 다중 조건을 적용해 <code class="language-plaintext highlighter-rouge">Iterable</code> 객체를 정렬하고 싶다면, 아래와 같이 튜플 형태로 <code class="language-plaintext highlighter-rouge">lambda function</code> 에 적용하고 싶은 우선순위대로 기준을 입력해주면 된다. 구체적인 예시는 아래와 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 
+lecture_schedule = [시작시간, 끝시간] 
+끝나는 시간을 기준으로 오름 차순 정렬하되, 끝나는 시간이 같으면, 시작 시간 오름 차순 정렬 적용 
+"""</span>
+<span class="n">lecture_schedule</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">]]</span>
+<span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># key=lambda x:(우선순위1, 우선순위2, 우선순위3 ...)
+</span><span class="n">lecture_schedule</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span> <span class="c1"># - 붙인 정렬 조건은 현재 정렬 기준과 반대로
+</span></code></pre></div></div>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">-</code>를 붙인 조건은 현재 정렬 기준(오름차순, 내림차순)과 반대로 정렬을 하게 된다. 예시 코드의 3번째 라인처럼 <code class="language-plaintext highlighter-rouge">-</code> 을 붙이면 1번째는 내림 차순으로, 2번째는 오름 차순으로 정렬을 수행하게 된다. 정말 유용하니 꼭 기억해두자. 이걸 모르면, 해당 동작을 구현하기 위해 엄청난 코드 라인을 소비해야 한다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># lambda x: x[1]과 동일한 결과
+</span><span class="k">def</span> <span class="nf">second</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<span class="n">result</span><span class="p">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과가 result에 반영
+</span><span class="nb">sorted</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">second</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span> <span class="c1"># 정렬 결과를 result에 반영 x
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">lambda</code> 대신 직접 함수를 정의해 사용하는 것도 가능하니 꼭 기억해두자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="collections" /><category term="Codeing Test" /><category term="Algorithm" /><summary type="html"><![CDATA[코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리]]></summary></entry><entry><title type="html">🗂️ Graph Theory 4: Union-Find (Disjoint Set)</title><link href="http://localhost:4000/algorithm/union-find" rel="alternate" type="text/html" title="🗂️ Graph Theory 4: Union-Find (Disjoint Set)" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/union-find</id><content type="html" xml:base="http://localhost:4000/algorithm/union-find"><![CDATA[<h3 id="disjoint-set"><code class="language-plaintext highlighter-rouge">🙅 Disjoint Set</code></h3>
 
 <p>서로 공통된 원소를 가지고 있지 않은 여러 집합들을 지칭하는 용어다. 개별 원소가 정확히 하나의 집합에 속하며, 어떤 집합도 서로 공통 원소를 가지고 있지 않아야 한다. 서로소 집합 자료구조를 사용하면 서로 다른 원소들이 같은 집합군에 속해 있는가 판별하는 것과 같은 작업을 쉽게 할 수 있다. 그렇다면 이제부터 자료구조로서 서로소 집합을 효과적으로 표현하고 조작할 수 있는 <code class="language-plaintext highlighter-rouge">Makeset</code>, <code class="language-plaintext highlighter-rouge">Union</code>, <code class="language-plaintext highlighter-rouge">Find</code> 연산에 대해서 알아보자.</p>
 
@@ -727,49 +790,4 @@ lecture_schedule = [시작시간, 끝시간]
 
 <p>동일한 함수에 동일하게 인자로 사용했지만, <code class="language-plaintext highlighter-rouge">immutable</code> 객체인 문자열은 함수의 실행 결과와 전혀 무관한 모습이다. 하지만 <code class="language-plaintext highlighter-rouge">mutable</code> 객체인 리스트는 함수의 실행 결과가 스코프 바깥의 원본 변수에 그대로 반영되었음을 확인할 수 있다. 이것은 리스트가 기본적으로 컨테이너 내부에 실제 값이 아닌 주소 값을 갖고 있고, <code class="language-plaintext highlighter-rouge">Resize()</code> 연산을 통해 수정이 가능하기 때문이다. 한편, <code class="language-plaintext highlighter-rouge">immutable</code> 객체의 경우 원본 수정이 불가하기 때문에 관련 연산 혹은 명령을 만나면 <code class="language-plaintext highlighter-rouge">deepcopy</code> 가 발생한다.</p>
 
-<h3 id="packingunpacking"><strong><code class="language-plaintext highlighter-rouge">📦 Packing/Unpacking</code></strong></h3>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[함수 인자 전달 메커니즘에 대한 이해]]></summary></entry><entry><title type="html">👨‍💻🐍 [Python] List &amp;amp; Tuple</title><link href="http://localhost:4000/python/list_tuple" rel="alternate" type="text/html" title="👨‍💻🐍 [Python] List &amp;amp; Tuple" /><published>2023-10-14T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python_array</id><content type="html" xml:base="http://localhost:4000/python/list_tuple"><![CDATA[<h3 id="️concept-of-array-in-python"><strong><code class="language-plaintext highlighter-rouge">🗂️ Concept of Array in Python</code></strong></h3>
-
-<p>C, C++, Java 같은 언어를 배울 때 가장 먼저 배우는 자료구조는 바로 배열이다. 그러나 파이썬을 배울 때는 조금 양상이 다르다. 배열이라는 표현의 자료구조는 언급도 없고 리스트, 튜플, 딕셔너리와 같은 형태의 자료구조에 대해서만 배우게 된다. 그렇다면 파이썬에 배열은 없는 것일까??</p>
-
-<p>반은 맞고 반은 틀린 질문이라고 할 수 있다. 엄밀하게 말하면 앞에 나열한 언어들과 동일한 개념의 배열은 파이썬에 존재하지 않는다. 앞의 언어에서 배열이란 컨테이너 안에 값을 직접 담는 형태로 사용되지만, 순수한 파이썬의 배열은 값을 직접 담지 않고, 값의 래퍼런스를 담는 형태로 사용된다. 다시 말해 컨테이너에 값 대신 값이 위치한 곳의 주소를 담는다는 것이다. 덕분에 파이썬은 배열 형태의 자료구조에 데이터를 입력할 때, <code class="language-plaintext highlighter-rouge">type casting</code> 에서 자유롭다. 그래서 배열을 선언할 때 미리 배열의 자료형을 선언해줄 필요가 없는 것이다.</p>
-
-<p>하지만 단점도 명확하다. 값 대신 주소를 담기 때문에 배열의 특정 위치값에 접근하려면 한단계를 더 거쳐야 하는 것이다. 주소를 갖고 있기 때문에, 물리 메모리 상에서 다닥다닥 붙어 있을 필요가 사라지고, 물리 메모리 공간 여기 저기에 흩어져 있다. 결국 다닥다닥 서로 붙어 있는 다른 언어의 배열보다 동작 속도는 필연적으로 느릴 수 밖에 없다. 배열의 동작 속도를 높이기 위해 넘파이나, 파이토치, 텐서플로와 같은 수학 연산 프레임워크는 C/C++의 배열을 파이썬 API로 호출하는 형식을 사용하고 있다. 덕분에 순수 파이썬 배열 자료구조보다 훨씬 빠른 동작속도를 자랑한다.</p>
-
-<p>여기까지 파이썬의 배열에 해당되는 자료구조에 대한 공통적인 특징에 대해서 살펴보았다. 파이썬에서 배열 역할을 하는 자료구조는 무엇이 있을까?? 바로 리스트와 튜플인데, 리스트는 <code class="language-plaintext highlighter-rouge">mutable(dynamic) array</code>, 튜플은 <code class="language-plaintext highlighter-rouge">immutable(static) array</code> 의 역할을 한다. 리스트는 수정이 가능한 배열, 튜플은 선언 이후 수정이 불가한 배열이라고 생각하면 된다. 덕분에 객체 내부에 내장된 매직 메서드에 차이가 생긴다.</p>
-
-<p>전자는 수정 사항을 반영해야 하기 때문에 <code class="language-plaintext highlighter-rouge">Resize()</code> 연산을 위해 별도의 매직 메서드가 구현되어 있으며, 이를 위해 현재 리스트의 길이 정보를 리스트 내부에 저장한다. 한편, 같은 크기의 데이터를 각각 리스트, 튜플에 넣더라도 리스트의 메모리가 더 크게 잡히게 된다. 그 이유는 <code class="language-plaintext highlighter-rouge">mutable</code> 한 특성을 고려해 인터프리터가 메모리 요청을 위해 커널과 커뮤니케이션 하는 횟수를 줄이기 위해 여유분까지 추가해두기 때문이다.</p>
-
-<p>반면 튜플은 선언 시점에 고정되기 때문에 굳이 런타임 때 커널에 메모리를 요청할 필요가 없다. 따라서 운영체제를 거치지 않기 때문에 리스트보다 빠르다. 또한 크기가 20 이하의 튜플이라면 최대 2만개까지는 래퍼런싱이 풀려도 <code class="language-plaintext highlighter-rouge">python gc(메모리 관리)</code> 가 곧바로 삭제하지 않고 캐시에 저장해둔다. 때문에 같은 크기의 튜플이 다시 필요해지면 메모리를 새로이 할당할 필요 없이 저장되어 있던 튜플을 재활용할 수 있어서 훨씬 효율적이다. 리스트 경우처럼 인터프리터가 운영체제에 메모리를 구걸할 필요가 없기 때문에 튜플의 생성 및 할당 속도가 훨씬 빨라진다.</p>
-
-<p>따라서 저장하려는 데이터의 특성(가변, 불변)을 잘 파악해 자료구조를 선택하는 것이 파이썬 코드의 성능 개선에 매우 중요하다. 이제부터는 리스트와 튜플 각각에 대한 특성을 살펴보자.</p>
-
-<h3 id="️-features-of-list"><strong><code class="language-plaintext highlighter-rouge">⭐️ Features of list</code></strong></h3>
-
-<p>앞서 리스트는 <code class="language-plaintext highlighter-rouge">array + resize()</code> 이라고 언급했다. 그렇다면 리스트가 동적 속성을 어떻게 구현하고 있는지 살펴보자. 리스트는 동적 배열이라고 이름 붙었지만 사실 진짜 실시간으로 배열의 크기가 증가하는 것은 아니다. 튜플과 마찬가지로 선언 시점에 특정한 크기에 맞는 공간을 할당 받는다. 다만 이후 수정될 것을 고려해 같은 데이터라도 좀 더 큰 공간을 할당 받을 뿐이다. 만약 어떤 입력 $A$에 대해서 튜플이 $N$의 공간을 할당 받는다면, 같은 입력에 대해 리스트는 $M (M &gt;N)$의 공간을 할당 받는 것이다. 만약 데이터가 추가될 때, 리스트의 전체 공간 크기를 점진적으로 늘리지 않고 남은 공간($M-N)$에 할당만 하다가, $N==M$이 되는 시점에 더 이상 추가하지 않고 크기가 $M$보다 큰 새로운 리스트를 메모리에 할당한다. 그 다음 기존 리스트를 그대로 복사해 <strong>새롭게 할당한 리스트에 복사</strong>한 뒤, 래퍼런싱이 사라진 이전 리스트는 <code class="language-plaintext highlighter-rouge">python gc</code> 가 삭제한다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Time Consuming """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="o">%</span><span class="n">timeit</span> <span class="p">[[</span><span class="n">i</span><span class="o">*</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)]</span>
-<span class="mf">3.85</span> <span class="n">s</span> <span class="err">±</span> <span class="mf">44.5</span> <span class="n">ms</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">1</span> <span class="n">loop</span> <span class="n">each</span><span class="p">)</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="o">%</span><span class="n">timeit</span> <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>         <span class="n">t</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">j</span><span class="p">)</span>
-<span class="mf">13.3</span> <span class="n">ns</span> <span class="err">±</span> <span class="mf">0.0774</span> <span class="n">ns</span> <span class="n">per</span> <span class="n">loop</span> <span class="p">(</span><span class="n">mean</span> <span class="err">±</span> <span class="n">std</span><span class="p">.</span> <span class="n">dev</span><span class="p">.</span> <span class="n">of</span> <span class="mi">7</span> <span class="n">runs</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span><span class="mi">000</span><span class="p">,</span><span class="mi">000</span> <span class="n">loops</span> <span class="n">each</span><span class="p">)</span>
-
-<span class="s">""" Memory Consuming """</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="o">%</span><span class="n">memit</span> <span class="p">[[</span><span class="n">i</span><span class="o">*</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">)]</span>
-<span class="n">peak</span> <span class="n">memory</span><span class="p">:</span> <span class="mf">4323.73</span> <span class="n">MiB</span><span class="p">,</span> <span class="n">increment</span><span class="p">:</span> <span class="mf">3161.28</span> <span class="n">MiB</span>
-
-<span class="o">&gt;&gt;&gt;</span>  <span class="o">%</span><span class="n">memit</span> <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="o">&gt;&gt;&gt;</span>  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10000</span><span class="p">):</span>
-<span class="o">&gt;&gt;&gt;</span>         <span class="n">t</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="o">*</span><span class="n">j</span><span class="p">)</span>
-<span class="n">peak</span> <span class="n">memory</span><span class="p">:</span> <span class="mf">1297.91</span> <span class="n">MiB</span><span class="p">,</span> <span class="n">increment</span><span class="p">:</span> <span class="mf">0.02</span> <span class="n">MiB</span>
-</code></pre></div></div>
-
-<p>정리하면, 리스트는 실시간으로 배열 크기를 증가시키는게 아니라, 생성할 때 필요한 양보다 일부러 좀 더 많이 땡겨놓고 데이터를 계속 추가 하다가 빈공간이 없으면 더 큰 공간에 리스트를 새롭게 할당해 동적인 속성을 구현한다.</p>
-
-<p>따라서 이미 선언된 리스트(특히 꽉찬)에 <code class="language-plaintext highlighter-rouge">append()</code> 를 통해 데이터를 추가하게 되면 메모리 재할당이 지속적으로 일어나 메모리도 많이 잡아먹고 생성 시간도 매우 느려지게 된다. 이것이 파이썬에서 <code class="language-plaintext highlighter-rouge">list comprehension</code> 사용을 권장하는 이유다.</p>
-
-<h3 id="️-features-of-tuple"><strong><code class="language-plaintext highlighter-rouge">⭐️ Features of tuple</code></strong></h3>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="array" /><category term="list" /><category term="tuple" /><category term="list comprehension" /><category term="CS" /><summary type="html"><![CDATA[List, Tuple에 대한 이해]]></summary></entry></feed>
+<h3 id="packingunpacking"><strong><code class="language-plaintext highlighter-rouge">📦 Packing/Unpacking</code></strong></h3>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[함수 인자 전달 메커니즘에 대한 이해]]></summary></entry></feed>
