@@ -59,12 +59,6 @@ var store = [{
         "url": "/cv/vit",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "📈 Gradient: Directional Derivative",
-        "excerpt":"🤔 Concept of Gradient 그라디언트는 다변수 함수의 기울기를 나타내는 벡터를 말한다. 그라디언트의 원소는 함수에 존재하는 모든 변수를 대상으로 편미분한 결과로 구성되는데, 예를 들어 변수가 $x_1, x_2$ 2개인 다변수 함수 $f(x_1, x_2)$가 있다고 가정해보자. 다변수 함수 $f$의 그라디언트는 아래 수식처럼 표현할 수 있다. \\[f'(x_1, x_2) = \\begin{vmatrix} \\frac{∂f}{∂x_1} \\\\ \\frac{∂f}{∂x_2} \\end{vmatrix}\\] 이러한...","categories": ["Calculus"],
-        "tags": ["Calculus","Partial Derivative","Total Derivative","loss function","Gradient","Gradient Descent","Machine Learning"],
-        "url": "/calculus/gradient",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집",
         "excerpt":"파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다. 🔎 torch.argmax 입력 텐서에서...","categories": ["Framework & Library"],
         "tags": ["Pytorch","Tensor","Linear Algebra"],
@@ -249,5 +243,17 @@ var store = [{
         "excerpt":"🤔 Zero-Find Ver 비선형 방정식의 근사해를 찾거나 최적화 문제를 해결하는 방식으로, 같은 과정을 반복해 최적값에 수렴한다는 점에서 경사하강법이랑 근본이 같다. 반면, 경사하강에 비해 빠른 수렴 속도를 자랑하고 풀이 방식이 매우 간단하다는 장점이 있다. 하지만 여러 제약 조건과 더불어 해당 알고리즘이 잘 작동하는 상황이 비현실적인 부분이 많아 경사하강에 비해 자주 사용되지는 않고...","categories": ["Optimization Theory"],
         "tags": ["Optimization Theory","Newton-Raphson"],
         "url": "/optimization-theory/newton-raphson",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔢 Eigen Decomposition",
+        "excerpt":"고유값, 고유벡터, 고유값 분해는 비단 선형대수학뿐만 아니라 해석기하학 나아가 데이터 사이언스 전반에서 가장 중요한 개념 중 하나라고 생각한다. 머신러닝에서 자주 사용하는 여러 행렬 분해(Matrix Factorization) 기법(ex: SVD)과 PCA의 이론적 토대가 되므로 반드시 완벽하게 숙지하고 넘어가야 하는 파트다. 이번 포스팅 역시 혁펜하임님의 선형대수학 강의와 공돌이의 수학정리님의 강의 및 포스트 그리고 딥러닝을...","categories": ["Linear Algebra"],
+        "tags": ["Linear Algebra","Eigen Decomposition","Eigen Vector","Eigen Value","SVD","PCA"],
+        "url": "/linear-algebra/eigen-decomposition",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "📈 Gradient: Directional Derivative",
+        "excerpt":"🤔 Concept of Gradient 그라디언트는 다변수 함수의 기울기를 나타내는 벡터를 말한다. 그라디언트의 원소는 함수에 존재하는 모든 변수를 대상으로 편미분한 결과로 구성되는데, 예를 들어 변수가 $x_1, x_2$ 2개인 다변수 함수 $f(x_1, x_2)$가 있다고 가정해보자. 다변수 함수 $f$의 그라디언트는 아래 수식처럼 표현할 수 있다. \\[f'(x_1, x_2) = \\begin{vmatrix} \\frac{∂f}{∂x_1} \\\\ \\frac{∂f}{∂x_2} \\end{vmatrix}\\] 이러한...","categories": ["Optimization Theory"],
+        "tags": ["Optimization Theory","Calculus","Partial Derivative","Total Derivative","loss function","Gradient","Gradient Descent","Machine Learning"],
+        "url": "/optimization-theory/gradient",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]

@@ -1,0 +1,915 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>🔢 Eigen Decomposition - AI/Business Study Log</title>
+<meta name="description" content="💡 Concept of Eigen Decomposition">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="🔢 Eigen Decomposition">
+<meta property="og:url" content="http://localhost:4000/linear-algebra/eigen-decomposition">
+
+
+  <meta property="og:description" content="💡 Concept of Eigen Decomposition">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2023-11-25T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-11-26T13:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/linear-algebra/eigen-decomposition">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Data Structure & Algorithm</a>
+                          
+                              <a class = "dropdown-item" href="/ps/">    Problem Solving</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory/Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="🔢 Eigen Decomposition">
+    <meta itemprop="description" content="💡 Concept of Eigen Decomposition">
+    <meta itemprop="datePublished" content="2023-11-25T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-11-26T13:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/linear-algebra/eigen-decomposition" class="u-url" itemprop="url">🔢 Eigen Decomposition
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/linear-algebra/eigen-decomposition"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/linear-algebra/eigen-decomposition&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-11-25T00:00:00+09:00">November 25, 2023</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#concept-of-eigen-value--vector">🌟 Concept of Eigen Value &amp; Vector</a></li><li><a href="#-eigen-decomposition">🔢 Eigen Decomposition</a></li><li><a href="#️-property-of-eigen-decomposition">⭐️ Property of Eigen Decomposition</a></li><li><a href="#insight-of-eigen-decomposition">💡 Insight of Eigen Decomposition</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <p>고유값, 고유벡터, 고유값 분해는 비단 선형대수학뿐만 아니라 해석기하학 나아가 데이터 사이언스 전반에서 가장 중요한 개념 중 하나라고 생각한다. 머신러닝에서 자주 사용하는 여러 행렬 분해(Matrix Factorization) 기법(ex: <code class="language-plaintext highlighter-rouge">SVD</code>)과 <code class="language-plaintext highlighter-rouge">PCA</code>의 이론적 토대가 되므로 반드시 완벽하게 숙지하고 넘어가야 하는 파트다. 이번 포스팅 역시 <a href="https://www.youtube.com/watch?v=PP9VQXKvSCY&amp;t=108s&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98"><strong><u>혁펜하임님의 선형대수학 강의</u></strong></a>와 <a href="https://www.youtube.com/watch?v=7dmV3p3Iy90&amp;ab_channel=%EA%B3%B5%EB%8F%8C%EC%9D%B4%EC%9D%98%EC%88%98%ED%95%99%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8"><strong><u>공돌이의 수학정리님의 강의 및 포스트</u></strong></a> 그리고 <a href="https://product.kyobobook.co.kr/detail/S000001743773"><strong><u>딥러닝을 위한 선형대수학 교재</u></strong></a>을 참고하고 개인적인 해석을 더해 정리했다.</p>
+
+<h3 id="concept-of-eigen-value--vector"><code class="language-plaintext highlighter-rouge">🌟 Concept of Eigen Value &amp; Vector</code></h3>
+
+\[Av = \lambda v\]
+
+<p>등식을 만족시키는 벡터 $v$를 <code class="language-plaintext highlighter-rouge">고유 벡터(Eigen Vector)</code>, 람다 $\lambda$를 <code class="language-plaintext highlighter-rouge">고유값(Eigen Value)</code>이라고 정의한다. 좌변의 $A$는 <code class="language-plaintext highlighter-rouge">선형 변환(행렬)</code>을 의미한다. 이러한 정보를 활용해 위 등식의 의미를 살펴보자. 어떤 선형변환 $A$와 벡터 $v$를 곱했더니, 어떤 스칼라와 벡터를 곱한 결과와 같았다는 것인데, 벡터에 스칼라를 곱하면 그 크기만 변화할 뿐 방향은 이전과 동일하다. 따라서 선형변환 $A$를 가해도 그 크기만 스칼라 배(고유값 배)만큼 변할뿐 방향은 동일한 벡터를 찾고자 하는게 위 수식의 목적이며 이게 바로 고유벡터의 정의가 된다.</p>
+
+<p>그렇다면 수식을 풀어서 고유값과 고유벡터를 직접 구해보자. 먼저 좌변으로 모든 항을 넘긴 뒤, 고유 벡터 $v$로 좌변의 모든 항을 묶어준다.</p>
+
+\[(A - \lambda I) v = 0\]
+
+<p>고유 벡터 $v$로 묶어준다고만 했는데 왜 갑자기 람다 뒤에 항등행렬이 붙게 되었을까?? 람다는 고유값, 다시 말해 스칼라다. <code class="language-plaintext highlighter-rouge">행렬 - 스칼라</code>는 불가능하기 때문에 선형변환 $A$와 크기를 맞춰주기 위해 곱한 것이다. 다시 등식을 전체적인 관점에서 살펴보자. 지금 <code class="language-plaintext highlighter-rouge">행렬•벡터 = 0</code> 의 형태를 취하고 있다. 어디서 많이 본 듯한 꼴이 아닌가?? 바로 행렬의 영공간을 구할 때 사용하던 수식이다. 따라서 우리는 고유벡터 $v$가 좌측 괄호 안의 행렬 $A-\lambda I$의 영공간이 span하는 공간 어딘가에 위치했다는 것을 알 수 있다.</p>
+
+<p>한편, 우리가 이 등식을 풀어헤친 목적은 고유값 그리고 고유벡터를 구하기 위함이다. 등식을 만족시키려면 고유벡터가 0이기만 하면 되겠지만, $v=0$인 경우를 찾자고 우리가 이렇게 고생하는 것은 당연히 아닐 것이다. 따라서 $v=0$이 아니라 좌측 괄호 안의 항 $A-\lambda I=0$이 되어야 한다. 이 때 $det(A-\lambda I) =0$를 만족해야 한다. 그 이유는 만약 행렬식이 0이 아니라면 역행렬이 존재한다는 것이 되고, 전체 등식에서 좌측 항에 대한 역행렬을 양변에 곱해주면 다시 $v=0$이라는 결과를 얻게 된다. 따라서 반드시 $det(A-\lambda I) =0$을 충족해 역행렬이 없도록 만들어야 한다.</p>
+
+<p>따라서 결론적으로 우리는 두 가지 수식을 풀어내면 고유값과 고유벡터를 구할 수 있다.</p>
+
+\[N(A-\lambda I) = V \\
+det(A-\lambda I) = 0\]
+
+<p>이 때, 영공간에 <code class="language-plaintext highlighter-rouge">span</code>하는 벡터는 무수히 많기 때문에 일반적으로 <code class="language-plaintext highlighter-rouge">Basis</code>를 고유값으로 간주한다.</p>
+
+<h3 id="-eigen-decomposition"><code class="language-plaintext highlighter-rouge">🔢 Eigen Decomposition</code></h3>
+
+\[A = V\Lambda V^{-1} \\
+\Lambda = V^{-1}AV\]
+
+<p>위 수식과 같은 형태로 임의의 정사각행렬 $A$를 표현 가능하다면, 우리는 이러한 행렬 $A$를 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code>라고 부르며, <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code>를 고유벡터와 고유값 행렬로 분해하는 것을 <code class="language-plaintext highlighter-rouge">고유값 분해(Eidgen Decomposition)</code>라고 한다.</p>
+
+<p>여기서 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code> 이란, 고유값 행렬을 이용해 대각행렬로 변환이 가능한 정사각행렬을 말한다. 두번째 수식이 바로 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code> 를 표현한 것이다. 어떤 행렬이 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code> 하다는 것은 다시 말해, 행렬에 <code class="language-plaintext highlighter-rouge">Independent</code>한 고유벡터가 N개 있다는 것과 동치다. 방금 서술한 사실을 유도해보자.</p>
+
+<p>3X3 크기의 행렬 $A$와 서로 독립인 고유 벡터 $v_1, v_2, v_3$과 이에 대응되는 고유값 $\lambda_1, \lambda_2, \lambda_3$이 있다고 가정해보자. 여러개의 고유 벡터와 고유값을 수식 하나로 표현하기 위해 벡터화를 이용하고자 한다.</p>
+
+\[A[v_1, v_2, v_3] = [v_1, v_2, v_3]•   \begin{bmatrix} 
+   \lambda_1 &amp; 0 &amp; 0 \\
+   0 &amp; \lambda_2 &amp; 0 \\
+   0 &amp; 0 &amp; \lambda_3 \\
+   \end{bmatrix} \\\]
+
+<p>우리는 지금 어떤 행렬이 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code> 일 때 벌어지는 현상에 대해 증명하는게 목표라서 좌변에 행렬 $A$만 남기려고 한다. $[v_1, v_2, v_3]$ 은 서로 독립인 고유 벡터다. 그리고 사이즈는 3x3으로 정사각행렬에 해당된다. 열벡터가 서로 독립이면서 정사각행렬에 해당되기 때문에 $[v_1, v_2, v_3]$ 은 가역행렬의 조건을 모두 충족한다. 따라서 양변에 $[v_1, v_2, v_3]$ 의 역행렬을 곱해주자. 이제부터 편의상 $[v_1, v_2, v_3]$ 은 $V$,  고유값-대각행렬(우변 오른쪽 항) $\Lambda$로 표기하겠다.</p>
+
+\[A = V\Lambda V^{-1} \\\]
+
+<p>$V$가 <code class="language-plaintext highlighter-rouge">Independent</code>한 고유벡터가 N개를 갖고 있기 때문에 $V$를 일부분으로 갖고 있는 행렬 $A$는 당연히 <code class="language-plaintext highlighter-rouge">Independent</code>한 고유벡터가 N개 있다고 말할 수 있다.</p>
+
+<h3 id="️-property-of-eigen-decomposition"><code class="language-plaintext highlighter-rouge">⭐️ Property of Eigen Decomposition</code></h3>
+
+<p>고유값 분해가 가능한 <code class="language-plaintext highlighter-rouge">Diagonalizable Matrix</code> $A$의 속성에 대해 알아보자. 이런 속성들은 이후 <code class="language-plaintext highlighter-rouge">PCA</code>, <code class="language-plaintext highlighter-rouge">SVD</code>에서 사용되니 숙지하고 있는게 좋다.</p>
+
+<ul>
+  <li><strong>1) $A^k = V \Lambda V^{-1}•V \Lambda V^{-1} … = V \Lambda^k V^{-1}$</strong></li>
+  <li><strong>2) $A^{-1} = (V \Lambda V^{-1})^{-1}$= $(V \Lambda^{-1} V^{-1})$</strong>
+    <ul>
+      <li>$AA^{-1}=I$</li>
+    </ul>
+  </li>
+  <li><strong>3) $det(A) = det(V \Lambda V^{-1}) = det(V)det(\Lambda)det(V ^{-1}) = \prod_{i=1}^{N} {\lambda_i}$</strong>
+    <ul>
+      <li><strong>행렬식은 곱으로 쪼개는게 성립</strong></li>
+    </ul>
+  </li>
+  <li><strong>4) $tr(A)=tr(V \Lambda V^{-1})=tr( \Lambda V^{-1}V)=tr(\Lambda)=\sum_i^{N}\lambda_i$</strong>
+    <ul>
+      <li><strong><code class="language-plaintext highlighter-rouge">trace</code> 는 원소의 순서를 바꾸는거 허용</strong></li>
+    </ul>
+  </li>
+  <li><strong>5) rank-difficient == $det(A)=0$ ⇒ 행렬 $A$에는 값이 0인 고유값이 적어도 하나 이상 존재</strong>
+    <ul>
+      <li><strong>3)번 속성 이용</strong></li>
+    </ul>
+  </li>
+  <li><strong>6) Diagonalizable Matrix의 non-zero eidgen value 개수 == rank(A)</strong>
+    <ul>
+      <li>$rank(A) = rank(V \Lambda V^{-1}) = rank(\Lambda)$</li>
+      <li>$V, V^{-1}$ <strong>은 서로 독립인 열벡터를 쌓아 만든 행렬이라서 반드시 Full Rank</strong></li>
+      <li><strong>랭크의 성질에 의해 가장 작은 값이 행렬의 랭크가 된다</strong></li>
+      <li><strong><code class="language-plaintext highlighter-rouge">non-zero eigen value 개수</code> ==</strong> $rank(\Lambda)$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="insight-of-eigen-decomposition"><code class="language-plaintext highlighter-rouge">💡 Insight of Eigen Decomposition</code></h3>
+
+<p>이렇게 고유값, 고유벡터, 고유값 분해에 대해서 전반적으로 살펴보았다. 하지만 아직도 왜 고유값 분해가 그리도 중요하다는 것인지 아직 감이 오지 않을 것이다. 고유값 분해의 중요성에 대해 알아보기 위해 먼저 다음과 같은 명제에 대해서 증명해보자.</p>
+
+<p><strong><em>“대칭행렬(Symmetric Matrix)은 대각화 가능한 행렬(Diagonalizable Matrix)이다”</em></strong></p>
+
+\[V^T = V^{-1} = Q\]
+
+<p>대칭행렬은 정사각행렬 중에서 원본과 전치행렬이 동일한($A=A^{T}$) 특수 행렬을 말한다. 따라서 어떤 행렬 $A$가 대칭행렬이라면, $V \Lambda V^{-1} = V^{-T} \Lambda V^{T}$가 된다. 각변의 가장 마지막 항에 주목해보자. 등식 조건에 의해 $V^{-1} = V^T$가 성립하기 때문에 행렬 $V$는 전치행렬과 역행렬이 같은 행렬이 된다. 다시 말해, $V$는 직교행렬 $Q$가 된다. 따라서 행렬 $A$에 대한 고유값 분해식을 아래처럼 직교행렬로 표현할 수 있다.</p>
+
+\[A = Q \Lambda Q^{-1} \\
+A = [q_1, q_2, q_3]•\begin{bmatrix} 
+   \lambda_1 &amp; 0 &amp; 0 \\
+   0 &amp; \lambda_2 &amp; 0 \\
+   0 &amp; 0 &amp; \lambda_3 \\
+   \end{bmatrix}•\begin{bmatrix} 
+   q_1^T \\
+   q_2^T \\
+   q_3^T \\
+   \end{bmatrix} \\\]
+
+<p>이제 우변을 수식을 전개해서 그 의미를 알아보자. 전개하면 아래와 같다.</p>
+
+\[A = \lambda_1q_1q_1^T + \lambda_2q_2q_2^T + \lambda_3q_3q_3^T\]
+
+<p>우변의 항을 하나 하나 살펴보자. 세개의 항은 모두 개별 고유벡터에 대한 <code class="language-plaintext highlighter-rouge">고유값</code>, <code class="language-plaintext highlighter-rouge">고유벡터</code> 그리고 <code class="language-plaintext highlighter-rouge">고유벡터의 전치</code>에 대한 곱으로 구성되어 있다. 고유벡터와 그것의 전치벡터의 곱은 크기는 <code class="language-plaintext highlighter-rouge">nxn</code>이지만, 사실 같은 벡터를 두번 곱한 것과 같기에 랭크는 1이된다. 다시 말해, 3차원 공간에서 1차원 직선 공간으로 <code class="language-plaintext highlighter-rouge">span</code>하는 부분 공간이 3개가 만들어지며 3개의 부분 공간은 서로 독립이면서, 모두 근본이 직교 행렬의 열벡터라는 점 때문에 서로 직교한다. 따라서 우리는 대칭행렬 $A$를 크기는 <code class="language-plaintext highlighter-rouge">NxN</code>이면서 랭크는 <code class="language-plaintext highlighter-rouge">1</code>인 행렬 3개를 고유값을 이용해 <code class="language-plaintext highlighter-rouge">가중합 방식</code>으로 더한 것이라고 해석할 수 있다. 뒤집어 서술하면 대칭행렬 $A$를 크기는 <code class="language-plaintext highlighter-rouge">NxN</code>이면서 랭크는 <code class="language-plaintext highlighter-rouge">1</code>인 행렬 <code class="language-plaintext highlighter-rouge">3</code>개로 쪼개는 방식이 바로 <code class="language-plaintext highlighter-rouge">고유값 분해</code>이다.</p>
+
+<p>고유값에 따라, 부분 공간의 크기를 조절할 수 있다는 점에서 차원 축소나 제거처럼 중요도가 높은 데이터•특징만 추출하는게 가능해진다. 이러한 고유값 분해를 정사각행렬(대칭행렬)이 아닌 일반적인 직사각행렬에도 적용할 수 있도록 개념을 확장한게 바로 <code class="language-plaintext highlighter-rouge">SVD(Singular Vector Decomposition)</code>이고, 중요도(고유값의 크기)에 따라서 중요한 특징•데이터만 남기는 방법론은 <code class="language-plaintext highlighter-rouge">PCA(Princlpal Component Analysis)</code>의 이론적 토대가 된다.</p>
+
+<p>이렇게 대칭행렬은 대각화 가능한 행렬이라는 점을 통해 <code class="language-plaintext highlighter-rouge">고유값 분해</code>의 의미에 대해서 알아보았다. 이제 마지막으로 선형변환으로서 행렬 $A$가 갖는 의미를 살펴보자. 고유벡터가 아닌 임의의 벡터 $\vec x$를 선형변환 $A$에 통과시켜보자. 그럼 우리는 아래와 같은 식을 얻을 수 있다.</p>
+
+\[A\vec x = \lambda_1q_1q_1^T•\vec x + \lambda_2q_2q_2^T•\vec x + \lambda_3q_3q_3^T•\vec x\]
+
+<p>우변을 해석해보자. 아까 고유값 분해의 의미를 살펴보면서 $q_1q_1^T$는 전체 공간에서 1차원 직선 공간으로 span하는 부분 공간을 의미한다고 했었다. 따라서 우변에는 서로 다른 항이 3개 있기 때문에 부분 공간이 3개 있는 3차원 공간이 형성된다. 이제 부분 공간과 벡터 $\vec x$를 내적한 형태로 바라볼 수 있다. 내적은 정사영이다. 따라서 $q_nq_n^T•\vec x$은 벡터 $\vec x$를 부분 공간에 정사영 내려준 벡터가 된다. 그리고 고유값을 곱해 정사영 내린 벡터들의 크기를 조절해주는게 우변의 의미가 된다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#eigen-decomposition" class="page__taxonomy-item p-category" rel="tag">Eigen Decomposition</a><span class="sep">, </span>
+    
+      <a href="/tags/#eigen-value" class="page__taxonomy-item p-category" rel="tag">Eigen Value</a><span class="sep">, </span>
+    
+      <a href="/tags/#eigen-vector" class="page__taxonomy-item p-category" rel="tag">Eigen Vector</a><span class="sep">, </span>
+    
+      <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
+    
+      <a href="/tags/#pca" class="page__taxonomy-item p-category" rel="tag">PCA</a><span class="sep">, </span>
+    
+      <a href="/tags/#svd" class="page__taxonomy-item p-category" rel="tag">SVD</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-11-25">November 25, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%94%A2%C2%A0Eigen+Decomposition%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Feigen-decomposition" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Feigen-decomposition" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Feigen-decomposition" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/optimization-theory/newton-raphson" class="pagination--pager" title="🍎 Newton-Raphson Method for Optimization
+">Previous</a>
+    
+    
+      <a href="/optimization-theory/gradient" class="pagination--pager" title="📈 Gradient: Directional Derivative
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/gradient" rel="permalink">📈 Gradient: Directional Derivative
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 25 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Proof of gradient direction with Total Derivative
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/newton-raphson" rel="permalink">🍎 Newton-Raphson Method for Optimization
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 15 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">최적화 문제를 위한 뉴턴-랩슨 메서드 설명
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/convex" rel="permalink">🗂️ Convex Optimization Problem
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 13 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">컨백스 최적화 문제 증명
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/algorithm/union-find" rel="permalink">🗂️ Graph Theory 4: Union-Find (Disjoint Set)
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Union-Find Algorithm with Disjoint Set
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2023 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>

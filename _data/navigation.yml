@@ -26,9 +26,7 @@ main:
     sublinks:
       - title: Linear Algebra
         url: /linear-algebra/
-      - title: Calculus
-        url: /calculus/
-      - title: Optimization Theory
+      - title: Optimization Theory/Calculus
         url: /optimization-theory/
       - title: Signal & System
         url: /signal-system/
