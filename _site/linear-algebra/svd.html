@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>📐 Inner Product: Projection Matrix, Least Sqaure Method - AI/Business Study Log</title>
-<meta name="description" content="💡 Concept &amp; Insight of Inner Product">
+<!-- begin _includes/seo.html --><title>🗄️ SVD: Singular Value Decomposition - AI/Business Study Log</title>
+<meta name="description" content="💡 Concept of Singular Value Decomposition">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
-<meta property="og:url" content="http://localhost:4000/linear-algebra/inner-product">
+<meta property="og:title" content="🗄️ SVD: Singular Value Decomposition">
+<meta property="og:url" content="http://localhost:4000/linear-algebra/svd">
 
 
-  <meta property="og:description" content="💡 Concept &amp; Insight of Inner Product">
-
-
-
+  <meta property="og:description" content="💡 Concept of Singular Value Decomposition">
 
 
 
 
-  <meta property="article:published_time" content="2023-07-10T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-07-11T13:00:00+09:00">
+  <meta property="article:published_time" content="2023-11-26T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2023-11-27T13:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/linear-algebra/inner-product">
+
+<link rel="canonical" href="http://localhost:4000/linear-algebra/svd">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="📐 Inner Product: Projection Matrix, Least Sqaure Method">
-    <meta itemprop="description" content="💡 Concept &amp; Insight of Inner Product">
-    <meta itemprop="datePublished" content="2023-07-10T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-07-11T13:00:00+09:00">
+    <meta itemprop="headline" content="🗄️ SVD: Singular Value Decomposition">
+    <meta itemprop="description" content="💡 Concept of Singular Value Decomposition">
+    <meta itemprop="datePublished" content="2023-11-26T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-11-27T13:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/linear-algebra/inner-product" class="u-url" itemprop="url">📐 Inner Product: Projection Matrix, Least Sqaure Method
+            <a href="http://localhost:4000/linear-algebra/svd" class="u-url" itemprop="url">🗄️ SVD: Singular Value Decomposition
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/linear-algebra/inner-product"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/linear-algebra/inner-product&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/linear-algebra/svd"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/linear-algebra/svd&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-07-10T00:00:00+09:00">July 10, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-11-26T00:00:00+09:00">November 26, 2023</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,58 +410,89 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#concept-of-inner-product">💡 Concept of Inner Product</a></li><li><a href="#-what-is-projection-matrix">🔢 What is Projection Matrix</a></li><li><a href="#️-least-square-method">🖍️ Least Square Method</a></li></ul>
+              <ul class="toc__menu"><li><a href="#concept-of-svd">🌟 Concept of SVD</a></li><li><a href="#insight-of-svd">💡 Insight of SVD</a></li></ul>
 
             </nav>
           </aside>
         
-        <h3 id="concept-of-inner-product"><code class="language-plaintext highlighter-rouge">💡 Concept of Inner Product</code></h3>
+        <p>특이값 분해는 고유값 분해를 일반적인 상황으로 확장시킨 개념으로 LSA(Latent Semantic Anaylsis), Collaborative Filtering과 같은 머신러닝 기법에 사용되기 때문에 자연어처리, 추천시스템에 관심이 있다면 반드시 이해하고 넘어가야 하는 중요한 방법론이다. <a href="https://www.youtube.com/watch?v=PP9VQXKvSCY&amp;t=108s&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98"><strong><u>혁펜하임님의 선형대수학 강의</u></strong></a>와 <a href="https://www.youtube.com/watch?v=7dmV3p3Iy90&amp;ab_channel=%EA%B3%B5%EB%8F%8C%EC%9D%B4%EC%9D%98%EC%88%98%ED%95%99%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8"><strong><u>공돌이의 수학정리님의 강의 및 포스트</u></strong></a> 그리고 <a href="https://product.kyobobook.co.kr/detail/S000001743773"><strong><u>딥러닝을 위한 선형대수학 교재</u></strong></a>을 참고하고 개인적인 해석을 더해 정리했다.</p>
 
-\[a^Tb = ||a||•||b||cos\theta\]
+<h3 id="concept-of-svd"><code class="language-plaintext highlighter-rouge">🌟 Concept of SVD</code></h3>
 
-<p>내적은 <code class="language-plaintext highlighter-rouge">Inner Product</code>, <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code>로 불리며 두 벡터의 유사도, 즉 닮은 정도를 구하는데 사용되는 벡터•행렬 연산의 한 종류다. 두 벡터의 정사영과도 동일한 개념으로 사용된다. 위 수식의 우변에 주목해보자. 
-$||a||cos\theta$ 는 벡터 $a$를 벡터 $b$에 정사영 내린 크기로 해석할 수 있다. 한편 $||b||$ 는 벡터 $b$의 길이이므로, 결국 내적이란 한 벡터를 다른 벡터에 정사영 해준 결과와 벡터 크기의 곱이 된다.</p>
+\[A = UΣV^T\]
 
-<p align="center">
-<img src="/assets/images/inner_product.png" alt="Inner Product Image" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
-<strong><em><a href="https://wikidocs.net/22384">Inner Product Image</a></em></strong>
-</p>
+<p>크기가 <code class="language-plaintext highlighter-rouge">mxn</code>인 임의의 행렬 $A$를 위 수식의 우변처럼 여러 다른 행렬로 분해하는 방법을 말한다. 행렬 분해 기법이라는 점에서 고유값 분해와 궤를 같이하지만 좀 더 실용적인 형태로 변화했다. 고유값 분해는 행렬 $A$가 정사각행렬 일 때만 적용할 수 있다는 한계를 가지고 있다. 실생활에서 다루는 행렬 모형의 테이블 데이터는 99.9999999%의 확률로 직사각행렬이다. 필자는 살면서 한 번도 정사각행렬 형태의 테이블 데이터를 본적이 없다. 즉 실생활의 데이터에 고유값 분해를 적용하기 위해 직사각행렬 형태로 확장한 것이 바로 특이값 분해다.</p>
 
-<p>내적을 기하학적으로 생각해보자. $\theta$는 두 벡터 사이의 끼인각이다. 그렇다면 끼인각과 내적의 크기 사이의 상관관계는 어떻게 될까?? 내적의 의미는 서로 같은 정도가 아니라 <code class="language-plaintext highlighter-rouge">“서로 닮은 정도”</code>라고 했다. 중학교 때 배웠던 닮음 개념을 떠올려보자. 닮음이란 유클리드 공간에서 모든 각을 보존하며 모든 거리를 일정한 비율로 확대 또는 축소시키는 아핀 변환이다. 다시 말해, 어떤 두 도형을 닮았다고 말하는데 절대적인 거리 혹은 길이가 같을 필요가 없다. 그래서 두 벡터의 닮은 정도를 파악하려면 우리는 벡터의 길이 대신 방향이라는 물리량에 주목해야 한다. 벡터는 직선으로 표현되기 때문에 두 벡터가 완전히 닮았다고 말하려면, 끼인각의 크기가 0이 되어야 한다. 따라서 끼인각의 크기가 작아질수록 두 벡터의 닮은 정도는 커지게 되고, $\theta=0$ 에서 내적값은 최대가 된다. 만약 $\theta=90$ 이라면 내적값은 어떻게 될까?? 삼각비 정의에 의해 $cos \theta = 0$ 이 될 것이다. 따라서 내적값은 0이 되고, 두 벡터는 서로 전혀 닮지 않았다고 판단할 수 있다. 한편 $\theta=180$ 일 때 내적값은 최소가 되고, 두 벡터는 음의 방향으로 닮은 상태를 갖는다.</p>
+<p>선형변환 $A$
+가 다음과 같다고 가정하고 구체적인 예시와 함께 우변의 항들에 대해 자세히 살펴보자.</p>
 
-\[N_a=\frac{a}{\sqrt{a^Ta}} = \frac{a}{||a||}\]
+\[A = \begin{pmatrix}
+1 &amp; 2 \\
+3 &amp; 4 \\
+5 &amp; 6
+\end{pmatrix}\]
 
-<p>한편 내적을 벡터 정규화에도 사용할 수 있는데, 방법은 위 수식과 같다. 일반적으로 벡터를 정규화하는 방법은 벡터를 벡터의 크기로 나누면 된다고만 알고 있을 것이다. 하지만 벡터의 전치와 벡터와의 내적으로도 벡터의 크기를 구할 수 있기 때문에 (벡터의 전치와 벡터는 $cos\theta=0$이 되기 때문) 위 등식이 성립한다. 한편, 벡터 정규화 결과는 벡터의 길이가 1이 되기 때문에 <code class="language-plaintext highlighter-rouge">‘단위 벡터’</code> 라고 정의한다. 벡터의 길이가 1이라는 점을 이용하면, 단위 벡터에는 방향에 대한 물리량만 남아 있다는 사실을 알 수 있다. 그래서 우리가 어떤 벡터의 방향 정보를 얻고 싶을 때, 벡터의 정규화를 사용하면 간단하게 구할 수 있다.</p>
+<p>먼저 행렬 $U$는 크기가 <code class="language-plaintext highlighter-rouge">mxm</code>인 정사각행렬이다.</p>
 
-\[\frac{b^Ta}{||b||} * \frac{b}{||b||} = \frac{b^Ta}{\sqrt{b^Tb}} * \frac{b}{\sqrt{b^Tb}} = \frac{b^Ta}{b^Tb}*b\]
+\[U = \begin{pmatrix}-0.2298 &amp; 0.8835 &amp; 0.4082 \\-0.5247 &amp; 0.2408 &amp; -0.8165 \\-0.8196 &amp; -0.4019 &amp; 0.4082\end{pmatrix}\]
 
-<p>내적 공식과 벡터 정규화 공식을 함께 사용하면 벡터 $a$를 벡터 $b$에 정사영 내렸을 때 도출되는 벡터 또한 직접 구할 수 있다. 위 수식을 살펴보자. 각 변의 좌측 항은 내적 공식에 의해 
-$||a||\cos\theta$ 가 된다. 지금 우리가 구하고 싶은 것은 정사영 내린 벡터 자체인데, $||a||\cos\theta$ 은 크기에 대한 물리량만 담고 있을뿐 방향에 대한 정보가 담겨 있지 않다. 앞에서 언급했듯이, 벡터 정규화 결과는 해당 벡터의 방향에 대한 물리량을 의미한다. 따라서 우변에 벡터 $b$ 의 방향(정규화 결과)를 곱하게 되는 것이다.</p>
+<p>고유값 분해에서 고유벡터를 쌓아 만든 행렬 $V$와 비슷한 역할을 하면서 특이값 행렬의 왼족에 있다는 의미에서 <code class="language-plaintext highlighter-rouge">Left Singular Vector</code>라고도 부른다. 행렬의 개별 열차원의 벡터는 고유한 특이벡터가 된다. 따라서 개별 고유벡터는 서로에게 독립이며 직교한다. 따라서 전체 행렬 $U$는 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code>가 된다.</p>
 
-\[(a - \hat{x}•b)^T•\ b\hat{x} = 0 \\
-\hat{x} = \frac{b^Ta}{b^Tb} \\
-\hat{x}•b = \frac{b^Ta}{b^Tb}*b\]
+<p>한편,  $Σ$는 개별 특이벡터에 해당되는 특이값들을 저장한 행렬로 크기는 <code class="language-plaintext highlighter-rouge">mxn</code>이다.</p>
 
-<p>한편, 정사영 내린 벡터(벡터 
-$\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡터로 생각해도 쉽게 구할 수 있다. 스칼라를 미지수로 두고 정사영 내린 벡터를 $b•\hat{x}$라고 정의하면 우리는 벡터 $a$를 빗변, 정사영 내린 벡터를 밑변으로 하는 직각삼각형의 높이를 구할 수 있게 된다. 정사영 내린 벡터 $b•\hat{x}$에 마이너스 부호를 취해 반대 방향으로 뒤집어주면 우리는 직각삼각형의 높이를 밑변과 빗변의 합($a - b•\hat{x}$)으로 나타낼 수 있기 때문이다. 따라서 밑변과 높이의 끼인각이 수직이라는 점을 내적 공식에 적용해 우리는 다음 수식을 풀어내면 정사영 내린 벡터를 얻을 수 있다. 정사영 내린 벡터를 실제로는 <code class="language-plaintext highlighter-rouge">투영 벡터</code>라고 정의한다.</p>
+\[\Sigma = \begin{pmatrix}
+\sigma_1 &amp; 0 \\
+0 &amp; \sigma_2 \\
+0 &amp; 0
+\end{pmatrix}\]
 
-<h3 id="-what-is-projection-matrix"><code class="language-plaintext highlighter-rouge">🔢 What is Projection Matrix</code></h3>
+<p>현재 제시된 예시 행렬의 크기가 <code class="language-plaintext highlighter-rouge">m&gt;n</code>이기 때문에 $Σ$의 모양 역시 행 방향으로 더 길게 놓인 직사각행렬이 된다. 반대의 상황이라면 열방향으로 길게 누적된 직사각행렬이 될 것이다. 또한 $Σ$은 직사각행렬이지만 대각행렬이라서, 주대각성분 원소를 제외한 나머지 원소는 모두 반드시 0이 된다.</p>
 
-<p>벡터 $a$와 벡터 $b$의 변화에 따른 투영 벡터 크기의 추이를 살펴보자. 벡터 $a$가 만약 2배 커진다면 $a$가 분자에만 있기 때문에 투영 벡터 역시 그대로 2배 증가할 것이다. 반면 벡터 $b$는 2배가 커져도 분자•분모 모두 동일하게 2개씩  $b$가 있기 때문에 이전과 변화가 없다. 따라서 투영 벡터의 크기는 전적으로 벡터 $a$에 의존적이다. 다시 말해, 벡터 $a$는 무언가 매개체에 의해 벡터 $b$로 정사영 되고 있으며 그 매개체를 우리는 <code class="language-plaintext highlighter-rouge">projection matrix</code> 라고 한다.</p>
+<p>마지막으로 행렬 $V^T$는 크기가 <code class="language-plaintext highlighter-rouge">nxn</code>인 정사각행렬이다.</p>
 
-\[P = \frac{bb^T}{b^Tb}\]
+\[V^T = \begin{pmatrix}-0.6196 &amp; -0.7849 \\-0.7849 &amp; 0.6196\end{pmatrix}\]
 
-<p>분모는 행벡터와 열벡터의 내적이라서 스칼라(상수), 분자는 열벡터와 행벡터의 곱이라서 행렬 형태가 될 것이다. 따라서 끝에 <code class="language-plaintext highlighter-rouge">Matrix</code> 라는 단어를 붙이게 되었다. 이러한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code>는 $n$차원 벡터에도 동일하게 적용할 수 있기 때문에 훗날 차원축소 혹은 선형변환 같은 테크닉으로 머신러닝, 딥러닝에서 유용하게 사용된다.</p>
+<p>행렬 $U$때와 같은 논리와 더불어 특이값 행렬의 오른족에 배치되어 있기 때문에 <code class="language-plaintext highlighter-rouge">Right singular Vector</code> 라고 부른다. 마찬가지로 개별 고유벡터는 서로에게 독립이며 직교한다. 따라서 전체 행렬 $V^T$역시 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code>가 된다.</p>
 
-<h3 id="️-least-square-method"><code class="language-plaintext highlighter-rouge">🖍️ Least Square Method</code></h3>
+<p>그렇다면 특이값 분해는 어떻게 고유값 분해의 제약조건을 탈피했는지 살펴보자. 바로 크기가 <code class="language-plaintext highlighter-rouge">mxn</code>인 행렬 $A$와 그것의 전치 행렬 $A^T$ 사이의 곱은 항상 대칭 행렬이 되고, 대칭행렬은 대각화-가능 행렬이라는 점을 이용한다.</p>
 
-\[Measurement = Ax + n\]
+\[A•A^T = UΣV^T•VΣ^TU^T = UΣΣ^TU^T \\
+A^T•A = VΣ^TU^T•UΣV^T = VΣ^TΣV^T\]
 
-<p>$(a - \hat{x}•b)^T$
-를 에러 벡터 $e$로 치환하면 내적•정사영을 <code class="language-plaintext highlighter-rouge">Least Square Method</code> (최소 자승법)으로 해석할 수도 있다. 예를 들어 5차원의 공간에서 2차원의 공간으로 <code class="language-plaintext highlighter-rouge">span</code>하는 행렬 $A$(<code class="language-plaintext highlighter-rouge">[5x2]</code>, <code class="language-plaintext highlighter-rouge">full column rank</code>) 그리고 5차원 공간에서 정의되는 벡터 $b$가 있다고 가정해보자. 현재 상황은 $C(A)$와 벡터 $b$ 사이의 해가 존재하지 않는 상태, 즉 모델의 예측값과 실제 정답이 일치하지 않는다는 것이다. 비록 해가 없지만 예측값을 그래도 최대한 정답에 가깝게 위치 시켜보자는 취지에서 나온 것이 바로 <code class="language-plaintext highlighter-rouge">최소 자승법</code>이다. 최소자승법은 $||e||$를 모델의 예측과 정답 사이 오차로 정의하는데, 이 때 $L_2$의 제곱근 연산을 피하기 위해서 $||e||^2$을 최적화 한다. 오차의 제곱을 최소화한다는 동작 방식에 맞게 <code class="language-plaintext highlighter-rouge">Least Square</code> 라는 이름을 갖게 되었다.<br />
-한편, 이 오차를 최대한 줄이는 방법은 무엇일까?? $C(A)$ 상에서 정의되는 벡터 $b\hat{x}$와 에러 벡터 $e$ 사이의 내적(두 벡터가 수직)값이 0일 때 벡터 $e$의 길이가 최소 된다는 점을 이용해 미지수 $\hat{x}$를 찾고 최적화 식에 넣어 오차 제곱이 최소가 되는 계수를 구해주면 된다.</p>
+<p>새롭게 정의된 행렬 $A•A^T$은 크기가 mxm인 정사각•대칭행렬이 되고, 행렬 $A^T•A$은 크기가 nxn인 정사각•대칭행렬이 된다. 행렬 $U,V$ 모두 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code> 라는 점을 이용하면 우리는 새롭게 정의된 두 행렬을 고유값분해 결과와 유사하게 나타낼 수 있다.</p>
 
-<p>마지막으로 <code class="language-plaintext highlighter-rouge">Dot Product</code>, <code class="language-plaintext highlighter-rouge">Scalar Product</code> , <code class="language-plaintext highlighter-rouge">Inner Product</code>는 넓은 의미에서 모두 내적에 포함된다. 하지만 미세한 의미 차이는 있다. 하나 하나 살펴보자. 먼저 <code class="language-plaintext highlighter-rouge">Dot Product</code>란, 내적을 유클리드 좌표계에서 정의할 때 사용되는 명칭이며, 연산 기호가 점곱이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Dot</code> 이라는 단어를 사용하게 되었다. 한편, <code class="language-plaintext highlighter-rouge">Scalar Product</code> 역시 내적을 유클리드 좌표계에서 정의할 때 사용하는 명칭이지만, 그 결과가 스칼라 값이라는 점을 강조하기 위해 <code class="language-plaintext highlighter-rouge">Scalar Product</code>라고 명명했다. 마지막으로 <code class="language-plaintext highlighter-rouge">Inner Product</code>는 벡터 공간에서 정의 되어 행렬 같은 다른 개체들에 대해서 확장 적용이 가능하다는 점에서 <code class="language-plaintext highlighter-rouge">Dot Product</code>  , <code class="language-plaintext highlighter-rouge">Scalar Product</code> 보다 더 일반적인 개념으로 볼 수 있겠다.</p>
+\[A•A^T = Q_m \Lambda_m Q^T_m \\
+A^T•A = Q_n \Lambda_n Q^T_n\]
+
+<p>수식 우변에 놓인 $\Lambda_m, \Lambda_n$ 의 구체적인 예시는 다음과 같다.</p>
+
+\[\Lambda_m = \Sigma\Sigma^T = \begin{pmatrix}
+\sigma_1^2 &amp; 0 &amp; 0 \\
+0 &amp; \sigma_2^2 &amp; 0 \\
+0 &amp; 0 &amp; 0 \\
+\end{pmatrix} \\
+
+\Lambda_n = \Sigma^T\Sigma = \begin{pmatrix}
+\sigma_1^2 &amp; 0 \\
+0 &amp; \sigma_2^2 \\
+\end{pmatrix}\]
+
+<p>이제 두 행렬에 각각 양의 제곱근을 사용해 $\sigma_1, \sigma_2$(특이값)를 구하고 원래 수식($A = UΣV^T$)의 $Σ$에 대입한다. 이렇게 하면 선형변환 $A$에 대한 특이값 분해를 모두 끝마친 셈이다. 지금까지 살펴본 내용을 요약 정리하면 다음과 같다.</p>
+
+<ul>
+  <li>1) $AA^T, A^TA$ 계산</li>
+  <li>2) $AA^T, A^TA$의 고유값, 고유벡터 계산</li>
+  <li>3) $A^TA$로 Right Singular Vector $V$를,  $AA^T$로 Left Singular Vector $U$를 도출</li>
+  <li>4) 고유값($\Sigma\Sigma^T$)의 제곱근에서 나온 값들을 $\Sigma$의 대각선에 배치합니다. 이 값들이 특이값에 해당</li>
+</ul>
+
+<h3 id="insight-of-svd"><code class="language-plaintext highlighter-rouge">💡 Insight of SVD</code></h3>
+
+\[A\vec x = \sigma_1u_1v_1\vec x + \sigma_2u_2v_2\vec x + ... +\sigma_n u_nv_n\vec x\]
+
+<p>고유값 분해의 활용과 사실상 다른게 없다. 역시 데이터 압축•복원 혹은 PCA 같은 차원 축소 기법에 사용된다. 고유값 분해와 다른게 있다면 선형변환 $A$가 반드시 정사각행렬일 필요가 없다는 것이다. 그리고 고유값 분해를 데이터 압축이나 차원 축소에 간편히 사용하려면, 선형변환 $A$가 대칭행렬이여야 한다는 조건도 붙고 상당히 사용하게 까다로웠는데 특이값 분해에서는 그런 번거로운 제약 조건이 모두 사라진다는 장점이 있다.</p>
+
+<p>특히 특이값 분해는 분해되는 과정 자체보다 분해되는 행렬을 개별 특이벡터에 대한 특이값의 가중합 방식으로 조합하는 과정에서 그 빛을 발한다. 특이값에 $argmax$를 적용해 상위 p개의 특이벡터만 반영한 부분 행렬 $A$를 이용할 수도 있고, 필요에 따라서 다시 p개의 개수를 늘려 원본으로 복원하는 것도 가능해진다. 이러한 기능이 가장 빛을 발하는 분야가 이미지 해상도 압축•복원 분야다. 현재 내가 사용하려면 이미지의 해상도가 너무 높아서 용량이 커져 사용하기 어렵다면 SVD를 이용해 필수적인 특이벡터 몇개만 남겨놓는 방식으로 해상도 압축을 수행해 용량을 줄일 수 도 있다. <a href="https://angeloyeo.github.io/2019/08/01/SVD.html#%ED%8A%B9%EC%9D%B4%EA%B0%92-%EB%B6%84%ED%95%B4%EC%9D%98-%ED%99%9C%EC%9A%A9"><strong><u>공돌이의 수학정리님의 포스트 하단부에</u></strong></a> 정말 직관적으로 잘 만들어진 사례가 있으니 꼭 한 번씩 보고 오시길 권장한다.</p>
 
         
       </section>
@@ -478,15 +509,17 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#inner-product" class="page__taxonomy-item p-category" rel="tag">Inner Product</a><span class="sep">, </span>
-    
       <a href="/tags/#linear-algebra" class="page__taxonomy-item p-category" rel="tag">Linear Algebra</a><span class="sep">, </span>
     
-      <a href="/tags/#projection-matrix" class="page__taxonomy-item p-category" rel="tag">Projection Matrix</a><span class="sep">, </span>
+      <a href="/tags/#pca" class="page__taxonomy-item p-category" rel="tag">PCA</a><span class="sep">, </span>
     
-      <a href="/tags/#%EB%82%B4%EC%A0%81" class="page__taxonomy-item p-category" rel="tag">내적</a><span class="sep">, </span>
+      <a href="/tags/#singular-value" class="page__taxonomy-item p-category" rel="tag">Singular Value</a><span class="sep">, </span>
     
-      <a href="/tags/#%EC%A0%95%EC%82%AC%EC%98%81" class="page__taxonomy-item p-category" rel="tag">정사영</a>
+      <a href="/tags/#singular-value-decomposition" class="page__taxonomy-item p-category" rel="tag">Singular Value Decomposition</a><span class="sep">, </span>
+    
+      <a href="/tags/#singular-vector" class="page__taxonomy-item p-category" rel="tag">Singular Vector</a><span class="sep">, </span>
+    
+      <a href="/tags/#svd" class="page__taxonomy-item p-category" rel="tag">SVD</a>
     
     </span>
   </p>
@@ -511,7 +544,7 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-07-10">July 10, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-11-26">November 26, 2023</time></p>
 
       </footer>
 
@@ -520,23 +553,22 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%93%90+Inner+Product%3A+Projection+Matrix%2C+Least+Sqaure+Method%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%97%84%EF%B8%8F%C2%A0SVD%3A+Singular+Value+Decomposition%20http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fsvd" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fsvd" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Finner-product" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Flinear-algebra%2Fsvd" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/linear-algebra/lp-norm" class="pagination--pager" title="📏 Lp-Norm: Concept &amp; Insight
+      <a href="/optimization-theory/gradient" class="pagination--pager" title="📈 Gradient: Directional Derivative
 ">Previous</a>
     
     
-      <a href="/framework-library/backward-nan/" class="pagination--pager" title="🤔 RuntimeError: Function ‘LogSoftmaxBackward0’ returned nan values in its 0th output
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -550,53 +582,6 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/linear-algebra/svd" rel="permalink">🗄️ SVD: Singular Value Decomposition
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 26 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">💡 Concept of Singular Value Decomposition
-</p>
-  </article>
-</div>
-
         
           
 
@@ -734,6 +719,53 @@ $\frac{a^Tb}{b^Tb}*b$)를 기준 벡터(벡터 $b$)의 스칼라배 해준 벡�
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 15 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">최적화 문제를 위한 뉴턴-랩슨 메서드 설명
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/convex" rel="permalink">🗂️ Convex Optimization Problem
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          3 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 13 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">컨백스 최적화 문제 증명
 </p>
   </article>
 </div>

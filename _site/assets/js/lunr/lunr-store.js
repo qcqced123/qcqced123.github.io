@@ -256,4 +256,10 @@ var store = [{
         "tags": ["Optimization Theory","Calculus","Partial Derivative","Total Derivative","loss function","Gradient","Gradient Descent","Machine Learning"],
         "url": "/optimization-theory/gradient",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🗄️ SVD: Singular Value Decomposition",
+        "excerpt":"특이값 분해는 고유값 분해를 일반적인 상황으로 확장시킨 개념으로 LSA(Latent Semantic Anaylsis), Collaborative Filtering과 같은 머신러닝 기법에 사용되기 때문에 자연어처리, 추천시스템에 관심이 있다면 반드시 이해하고 넘어가야 하는 중요한 방법론이다. 혁펜하임님의 선형대수학 강의와 공돌이의 수학정리님의 강의 및 포스트 그리고 딥러닝을 위한 선형대수학 교재을 참고하고 개인적인 해석을 더해 정리했다. 🌟 Concept of SVD \\[A...","categories": ["Linear Algebra"],
+        "tags": ["Linear Algebra","Singular Value Decomposition","Singular Vector","Singular Value","SVD","PCA"],
+        "url": "/linear-algebra/svd",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
