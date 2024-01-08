@@ -264,7 +264,7 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "📈 Chain Rule: 합성함수 미분법",
-        "excerpt":"Chain Rule 이라고 불리기도 하는 합성함수 미분법은 미적분학에서 특히나 중요한 개념 중 하나다. 근래에는 신경망을 활용한 딥러닝이 주목받으면서 그 중요성이 더욱 부각되고 있다. 신경망 모델은 쉽게 생각하면 정말 많은 1차함수와 여러 활성함수를 합성한 것과 같기 때문이다. 따라서 오차 역전을 통해 가중치를 최적화 하는 과정을 정확히 이해하려면 합성함수 미분법에 대한 이해는...","categories": ["Calculus"],
+        "excerpt":"Chain Rule 이라고 불리기도 하는 합성함수 미분법은 미적분학에서 특히나 중요한 개념 중 하나다. 근래에는 신경망을 활용한 딥러닝이 주목받으면서 그 중요성이 더욱 부각되고 있다. 신경망 모델은 쉽게 생각하면 정말 많은 1차함수와 여러 활성함수를 합성한 것과 같기 때문이다. 따라서 오차 역전을 통해 가중치를 최적화 하는 과정을 정확히 이해하려면 합성함수 미분법에 대한 이해는...","categories": ["Optimization Theory"],
         "tags": ["Calculus"],
         "url": "/optimization-theory/chain-rule",
         "teaser": "/assets/images/huggingface_emoji.png"
