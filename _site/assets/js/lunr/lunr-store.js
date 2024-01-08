@@ -268,4 +268,10 @@ var store = [{
         "tags": ["Calculus"],
         "url": "/optimization-theory/chain-rule",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔢 Product & Quotient Rule: 곱의 미분, 몫의 미분",
+        "excerpt":"곱의 미분, 몫의 미분은 함수가 곱의 꼴 형태 $f(x)g(x)$ 혹은 분수 꼴 형태 $\\frac{f(x)}{g(x)}$를 가지고 있을 때 도함수를 구하는 방법이다. 고등학교 미적분 시간(17~18학번 기준)에 배운적이 있지만, 합성함수 미분법과 더불어 단순 암기의 폐해로 까먹기 좋은 미분법들이다. 크로스 엔트로피, 소프트맥스 미분에 쓰이므로 합성함수 미분법과 마찬가지로 딥러닝, 머신러닝에서 매우 중요하다. ✖️ Product Rule 몫의...","categories": ["Optimization Theory"],
+        "tags": ["Calculus","Product Rule","Quotient Rule"],
+        "url": "/optimization-theory/product_quotient_rule",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]

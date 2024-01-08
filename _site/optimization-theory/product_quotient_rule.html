@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>👩‍💻🔠 [baekjoon] 17609번: 회문 - AI/Business Study Log</title>
-<meta name="description" content="백준 17609번 회문 풀이">
+<!-- begin _includes/seo.html --><title>🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분 - AI/Business Study Log</title>
+<meta name="description" content="곱의 미분, 몫의 미분 공식 유도">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="👩‍💻🔠 [baekjoon] 17609번: 회문">
-<meta property="og:url" content="http://localhost:4000/ps/baekjoon-17609">
+<meta property="og:title" content="🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분">
+<meta property="og:url" content="http://localhost:4000/optimization-theory/product_quotient_rule">
 
 
-  <meta property="og:description" content="백준 17609번 회문 풀이">
-
-
-
+  <meta property="og:description" content="곱의 미분, 몫의 미분 공식 유도">
 
 
 
 
-  <meta property="article:published_time" content="2023-08-29T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-08-30T02:00:00+09:00">
+  <meta property="article:published_time" content="2024-01-08T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2024-01-08T23:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/ps/baekjoon-17609">
+
+<link rel="canonical" href="http://localhost:4000/optimization-theory/product_quotient_rule">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="👩‍💻🔠 [baekjoon] 17609번: 회문">
-    <meta itemprop="description" content="백준 17609번 회문 풀이">
-    <meta itemprop="datePublished" content="2023-08-29T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-08-30T02:00:00+09:00">
+    <meta itemprop="headline" content="🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분">
+    <meta itemprop="description" content="곱의 미분, 몫의 미분 공식 유도">
+    <meta itemprop="datePublished" content="2024-01-08T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-01-08T23:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/ps/baekjoon-17609" class="u-url" itemprop="url">👩‍💻🔠 [baekjoon] 17609번: 회문
+            <a href="http://localhost:4000/optimization-theory/product_quotient_rule" class="u-url" itemprop="url">🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/ps/baekjoon-17609"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/ps/baekjoon-17609&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/optimization-theory/product_quotient_rule"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/optimization-theory/product_quotient_rule&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-08-29T00:00:00+09:00">August 29, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2024-01-08T00:00:00+09:00">January 08, 2024</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,79 +410,68 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#️solution">🖍️ solution</a></li><li><a href="#idea">💡 idea</a></li></ul>
+              <ul class="toc__menu"><li><a href="#️product-rule">✖️ Product Rule</a></li><li><a href="#quotient-rule">➗ Quotient Rule</a></li></ul>
 
             </nav>
           </aside>
         
-        <h3 id="️solution"><code class="language-plaintext highlighter-rouge">🖍️ solution</code></h3>
+        <p>곱의 미분, 몫의 미분은 함수가 곱의 꼴 형태 $f(x)g(x)$ 혹은 분수 꼴 형태 $\frac{f(x)}{g(x)}$를 가지고 있을 때 도함수를 구하는 방법이다. 고등학교 미적분 시간(17~18학번 기준)에 배운적이 있지만, 합성함수 미분법과 더불어 단순 암기의 폐해로 까먹기 좋은 미분법들이다. 크로스 엔트로피, 소프트맥스 미분에 쓰이므로 합성함수 미분법과 마찬가지로 딥러닝, 머신러닝에서 매우 중요하다.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<h3 id="️product-rule"><code class="language-plaintext highlighter-rouge">✖️ Product Rule</code></h3>
 
-<span class="s">"""
-[시간]
-1) 14:20 ~ 14:45
+<p>몫의 미분은 곱의 미분의 원리를 이해하면 자동으로 알 수 있기 때문에 곱의 미분부터 살펴보겠다. 먼저 아래와 같이 곱의 형태를 가지는 함수 $p(x)$가 있다고 가정해보자.</p>
 
-[요약]
-1) 유사회문: 한 문자를 삭제하여 회문으로 만들 수 있는 문자열
-    =&gt; 유사회문인지 아닌지 판단하는 프로그램 작성
-2) 주어진 문자열의 길이는 10만, 문자열 개수는 최대 30개
-    =&gt; 제한 시간이 1초라서 O(n)의 알고리즘을 설계 필요, Counter 사용 불가
-[전략]
-1) 슬라이싱 이용해서 원본과 뒤집은 문자열을 비교하는 과정에서 걸러내기 (루프 하나만 쓰게 만들 수 있음)
-    - 각 자리를 대조하면 가장 처음 다른 문자가 등장하는 지점을 찾아재 해당 문자를 제거함.
-    - 제거하는 것도 두가지 케이스가 발생, 둘 중 하나만 만족해도 유사 팰린드롬으로 판정
-        =&gt; 원본의 문자 제거
-        =&gt; 역본의 문자 제거
-"""</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())):</span>
-    <span class="n">checker1</span><span class="p">,</span> <span class="n">checker2</span> <span class="o">=</span> <span class="s">''</span><span class="p">,</span> <span class="s">''</span>
-    <span class="n">text</span> <span class="o">=</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">rstrip</span><span class="p">()</span>
-    <span class="n">tmp_pal</span> <span class="o">=</span> <span class="n">text</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+\[p(x) = f(x)g(x)\ \ \ (0)\]
 
-    <span class="c1"># pure palindrome
-</span>    <span class="k">if</span> <span class="n">text</span> <span class="o">==</span> <span class="n">tmp_pal</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">continue</span>
+<p>우변의 두 항을 분리하기 전에 도함수의 정의를 이용해 도함수 $p’(x)$를 구하면 다음과 같다.</p>
 
-    <span class="c1"># similar palindrome or not
-</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="n">tmp_pal</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> 
-            <span class="n">checker1</span> <span class="o">=</span> <span class="n">checker1</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># remove original text's char
-</span>            <span class="n">checker2</span> <span class="o">=</span> <span class="n">checker2</span> <span class="o">+</span> <span class="n">tmp_pal</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># remove reversed text's char
-</span>            <span class="k">break</span>
-        <span class="n">checker1</span> <span class="o">+=</span> <span class="n">text</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">checker2</span> <span class="o">+=</span> <span class="n">tmp_pal</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+\[p'(x) = \lim_{h -&gt; 0} \frac{p(x+h) - p(x)}{h}\ \ \ (1)\]
 
-    <span class="k">if</span> <span class="n">checker1</span> <span class="o">==</span> <span class="n">checker1</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="ow">or</span> <span class="n">checker2</span> <span class="o">==</span> <span class="n">checker2</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-        <span class="k">print</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre></div></div>
+<p>이제 다시 $p(x+h),\  p(x)$에 $f(x)g(x)$를 대입해보자.</p>
 
-<h3 id="idea"><code class="language-plaintext highlighter-rouge">💡 idea</code></h3>
+\[p'(x) = \lim_{h -&gt; 0} \frac{p(x+h) - p(x)}{h} = \lim_{h-&gt;0} \frac{f(x+h)g(x+h) - f(x)(g(x)}{h}\ \ \ (2)\]
 
-<ul>
-  <li><strong>1)  슬라이싱을 이용한 풀이</strong>
-    <ul>
-      <li><strong>원본과 슬라이싱으로 뒤집은 문자열을 철자 하나 하나 비교 (문자열 길이 및 시간 제한 때문에 이중 루프는 불가)</strong>
-        <ul>
-          <li><strong><code class="language-plaintext highlighter-rouge">linear search</code> 하면서, 처음으로 다른 철자가 등장하는 지점을 찾아 해당 문자를 제거, 제거는 두가지 케이스 발생</strong>
-            <ul>
-              <li><strong>원본의 철자를 제거하는 경우</strong></li>
-              <li><strong>역본의 철자를 제거하는 경우</strong></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><strong>두가지 케이스 중에서 하나라도 만족한다면 유사 팰린드롬으로 판정</strong></li>
-    </ul>
-  </li>
-</ul>
+<p>이 지점에서 우리가 뭘하려고 지금 이렇게 수식을 전개하고 있는지 상기할 필요가 있다. 우리는 곱의 형태를 갖는 함수의 <code class="language-plaintext highlighter-rouge">도함수</code>를 구하고 싶은 것이다. (1)번처럼 함수에 대입하는 입력값을 뺀 결과가 $h$가 되도록 말이다. (1)과 같은 꼴을 만들어주기 위해 약간의 트릭을 쓸 필요가 있다. 사용할 트릭은 대수학에서 정말 빈번하게 사용되므로 잘 기억하고 있는게 좋다. 바로 $A-A = 0$이라는 것을 이용하는 것이다. 이게 무슨 말인가는 아래 수식을 보면 알 수 있다.</p>
 
-<p>시간압박이 있는 상황에서 슬라이딩 윈도우과 포인터 혼합 방식을 깔끔하게 구현하는 것이 생각보다 쉽지 않아서, 직관적으로 코드를 빠르게 만들 수 있는 <strong><code class="language-plaintext highlighter-rouge">슬라이싱 대조</code></strong> 방식을 선택하게 되었다. 혼합 방식에 비해 덜 엘레강스하고 느리지만, 훨씬 직관적인 풀이라고 생각한다.</p>
+\[p'(x) = \lim_{h-&gt;0} \frac{f(x+h)g(x+h) - f(x)g(x+h) + f(x)g(x+h) - f(x)g(x)}{h}\ \ \ (3)\]
 
-<p>철자 제거할 때 주의할 점은 원본과 역본 케이스 모두 고려해야 한다는 점이다. 둘 중 하나만 고려하면 반례에 걸리는게 생긴다. 필자는 처음에 무지성으로 역본의고 철자만 제거하는 방식으로 코드를 서술했다가 예제 입력 3번째 문자열에 의해 원본 역시 고려해야 함을 깨닫고 수정하게 되었다.</p>
+<p>(3)번 수식은 (2)번 수식의 분자에 $- f(x)g(x+h) + f(x)g(x+h)$만 추가된 형태다. 두항을 더하면 0이 되기 때문에 사실 (2)번과 (3)번은 같은 수식이라고 볼 수 있는 것이다. 그래서 두항을 추가해도 전혀 문제가 없다. 이제 우리가 익숙한 도함수 정의를 만족하는 항들이 직관적으로 보인다.</p>
+
+\[p'(x) = f'(x)g(x) + f(x)g'(x)\ \ \ (4)\]
+
+<p>따라서 수식을 정리하면 결국 곱의 형태를 갖는 함수의 도함수는 (4)번과 같은 공식을 갖게 되는 것이다. 한편, 곱의 미분법은 (0)번 수식을 직사각형의 넓이라고 간주하면 좀 더 직관적으로 이해할 수 있다. 따라서 직사각형 넓이 $p(x)$에 대한 도함수 $p’(x)$는 넓이의 순간 변화율로 해석할 수 있다.</p>
+
+<p align="center">
+<img src="/assets/images/optimization/product_rule_rectangle.jpeg" alt="곱의 미분의 직관적 해석" class="align-center image-caption" width="50%&quot;, height=&quot;30%" />
+<strong><em><a href="https://blog.naver.com/sodong212/220924875183">곱의 미분의 직관적 해석</a></em></strong>
+</p>
+
+<p>우변의 왼쪽항이 직사각형의 아래 부분의 증가하는 영역이 되고, 우측항이 회색이 칠해진 영역이 되는 것이다. 그렇다면 그림의 우측 하단에 위치한 작은 사각형의 넓이는 어떻게 처리해줘야 할까?? 곱의 미분 공식에는 해당 영역을 반영하는 항이 전혀 없다. 그 이유는 영역의 넓이가 너무나 작아서 근사치로 간주하고 무시해도 될 정도라서 그렇다. 해당 사각형의 가로 길이는 $g’(h)$, 세로 길이는 $f’(h)$가 된다. 도함수의 정의를 다시 떠올려보면 $h$는 0의 극한으로 근사하기 때문에 두 항의 곱인 영역의 넓이 역시 0에 매우 근접하게 된다. 따라서 고려할 필요 없이 무시해도 된다.</p>
+
+<h3 id="quotient-rule"><code class="language-plaintext highlighter-rouge">➗ Quotient Rule</code></h3>
+
+<p>몫의 미분은 곱의 미분 공식을 이용하고 나서 남은 지저분한 수식만 잘 정리하면 된다. 다음과 같이 분수 꼴 형태의 함수 $q(x)$가 있다고 가정해보자.</p>
+
+\[q(x) = \frac{f(x)}{g(x)} \ \ \ (0)\]
+
+<p>곱의 미분 공식을 이용하기 위해 분수 꼴의 함수를 다시 곱의 형태로 바꿔보자.</p>
+
+\[f(x) = q(x)g(x) \ \ \ (1)\]
+
+<p>이제 공식을 이용해 좌변에 대한 도함수를 구해보자.</p>
+
+\[f'(x) = q'(x)g(x) + q(x)g'(x)\ \ \  (2)\]
+
+<p>우리가 구하고 싶은 것은 분수 꼴을 갖는 함수 $q(x)$의 도함수 $q’(x)$이다. 따라서 (2)번 수식을 $q’(x)$에 대해서 정리해야 한다.</p>
+
+\[q'(x) = \frac{f'(x) - q(x)g'(x)}{g(x)}\ \ \ (3)\]
+
+<p>(3)번 수식을 예쁘게 정리하기 위해 공통 분모 $\frac{1}{g(x)}$를 앞으로 빼주고, $q(x)$에 (0)번 수식을 대입해 정리하면 몫의 미분법 공식, (5)번이 도출된다.</p>
+
+\[q'(x) = \frac{1}{g(x)}(\frac{f'(x)g(x)-f(x)g'(x)}{g(x)})\ \ \ (4) \\
+q'(x) = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}\ \ \ (5)\]
+
+<p>이렇게 곱의 미분법, 몫의 미분법의 공식이 유도되는 과정을 모두 살펴보았다.</p>
 
         
       </section>
@@ -499,15 +488,11 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
+      <a href="/tags/#calculus" class="page__taxonomy-item p-category" rel="tag">Calculus</a><span class="sep">, </span>
     
-      <a href="/tags/#baekjoon" class="page__taxonomy-item p-category" rel="tag">Baekjoon</a><span class="sep">, </span>
+      <a href="/tags/#product-rule" class="page__taxonomy-item p-category" rel="tag">Product Rule</a><span class="sep">, </span>
     
-      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
-    
-      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
-    
-      <a href="/tags/#string-handle" class="page__taxonomy-item p-category" rel="tag">String Handle</a>
+      <a href="/tags/#quotient-rule" class="page__taxonomy-item p-category" rel="tag">Quotient Rule</a>
     
     </span>
   </p>
@@ -524,7 +509,7 @@
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#problem-solving" class="page__taxonomy-item p-category" rel="tag">Problem Solving</a>
+      <a href="/categories/#optimization-theory" class="page__taxonomy-item p-category" rel="tag">Optimization Theory</a>
     
     </span>
   </p>
@@ -532,7 +517,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-08-29">August 29, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-01-08">January 8, 2024</time></p>
 
       </footer>
 
@@ -541,23 +526,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A9%E2%80%8D%F0%9F%92%BB%F0%9F%94%A0+%5Bbaekjoon%5D+17609%EB%B2%88%3A+%ED%9A%8C%EB%AC%B8%20http%3A%2F%2Flocalhost%3A4000%2Fps%2Fbaekjoon-17609" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%94%A2%C2%A0Product+%26+Quotient+Rule%3A+%EA%B3%B1%EC%9D%98+%EB%AF%B8%EB%B6%84%2C+%EB%AA%AB%EC%9D%98+%EB%AF%B8%EB%B6%84%20http%3A%2F%2Flocalhost%3A4000%2Foptimization-theory%2Fproduct_quotient_rule" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fps%2Fbaekjoon-17609" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Foptimization-theory%2Fproduct_quotient_rule" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fps%2Fbaekjoon-17609" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Foptimization-theory%2Fproduct_quotient_rule" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/ps/baekjoon-11501" class="pagination--pager" title="👩‍💻💵 [baekjoon] 11501번: 주식
+      <a href="/optimization-theory/chain-rule" class="pagination--pager" title="📈 Chain Rule: 합성함수 미분법
 ">Previous</a>
     
     
-      <a href="/ps/baekjoon-1789" class="pagination--pager" title="👩‍💻💵 [baekjoon] 1789번: 수들의 합
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -571,53 +555,6 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/optimization-theory/product_quotient_rule" rel="permalink">🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          2 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 08 2024</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">곱의 미분, 몫의 미분 공식 유도
-</p>
-  </article>
-</div>
-
         
           
 
@@ -755,6 +692,53 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 25 2023</p>
     
     <p class="archive__item-excerpt" itemprop="description">Proof of gradient direction with Total Derivative
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/linear-algebra/eigen-decomposition" rel="permalink">🔢 Eigen Decomposition
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          5 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 25 2023</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">💡 Concept of Eigen Decomposition
 </p>
   </article>
 </div>
