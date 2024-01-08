@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-26T13:37:33+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🗄️ SVD: Singular Value Decomposition</title><link href="http://localhost:4000/linear-algebra/svd" rel="alternate" type="text/html" title="🗄️ SVD: Singular Value Decomposition" /><published>2023-11-26T00:00:00+09:00</published><updated>2023-11-27T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/svd</id><content type="html" xml:base="http://localhost:4000/linear-algebra/svd"><![CDATA[<p>특이값 분해는 고유값 분해를 일반적인 상황으로 확장시킨 개념으로 LSA(Latent Semantic Anaylsis), Collaborative Filtering과 같은 머신러닝 기법에 사용되기 때문에 자연어처리, 추천시스템에 관심이 있다면 반드시 이해하고 넘어가야 하는 중요한 방법론이다. <a href="https://www.youtube.com/watch?v=PP9VQXKvSCY&amp;t=108s&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98"><strong><u>혁펜하임님의 선형대수학 강의</u></strong></a>와 <a href="https://www.youtube.com/watch?v=7dmV3p3Iy90&amp;ab_channel=%EA%B3%B5%EB%8F%8C%EC%9D%B4%EC%9D%98%EC%88%98%ED%95%99%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8"><strong><u>공돌이의 수학정리님의 강의 및 포스트</u></strong></a> 그리고 <a href="https://product.kyobobook.co.kr/detail/S000001743773"><strong><u>딥러닝을 위한 선형대수학 교재</u></strong></a>을 참고하고 개인적인 해석을 더해 정리했다.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-08T23:23:30+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">📈 Chain Rule: 합성함수 미분법</title><link href="http://localhost:4000/optimization-theory/chain-rule" rel="alternate" type="text/html" title="📈 Chain Rule: 합성함수 미분법" /><published>2024-01-08T00:00:00+09:00</published><updated>2024-01-08T23:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/chain_rule</id><content type="html" xml:base="http://localhost:4000/optimization-theory/chain-rule"><![CDATA[<p><code class="language-plaintext highlighter-rouge">Chain Rule</code> 이라고 불리기도 하는 합성함수 미분법은 미적분학에서 특히나 중요한 개념 중 하나다. 근래에는 신경망을 활용한 딥러닝이 주목받으면서 그 중요성이 더욱 부각되고 있다. 신경망 모델은 쉽게 생각하면 정말 많은 1차함수와 여러 활성함수를 합성한 것과 같기 때문이다. 따라서 오차 역전을 통해 가중치를 최적화 하는 과정을 정확히 이해하려면 합성함수 미분법에 대한 이해는 필수적이다.</p>
+
+<h3 id="concept"><code class="language-plaintext highlighter-rouge">💡 Concept</code></h3>
+
+<p>합성함수 미분을 이해하기 전에 먼저 도함수 표기법에 대해서 익숙해질 필요가 있다. 도함수 표기법은 크게 뉴턴 표기법과 라이프니츠 표기법으로 나뉜다. 아래 표기된 수식을 보자. (1)번 수식이 뉴턴 표기법, (2)번이 라이프니츠의 표기법이다.</p>
+
+\[y'= 2x\ \ \ \ (1) \\
+f'(x) = 2x\ \ \ (2)\]
+
+<p>이제 아래와 같은 합성함수가 있다고 가정해보자. 도함수의 정의에 따라서 해당 함수에 대한 도함수는 다음과 같이 표현할 수 있을 것이다.</p>
+
+\[y = g(f(x))\ \ \ (3) \\
+y' = {g(f(x))}' = \frac{dy}{dx}\ \ \ (4)\]
+
+<p>위에 작성한 수식들은 잠시 잊고 이제 $f’(x)$ 를 먼저 생각해보자. $f(x)$에 대한 도함수 $f’(x)$는 다음과 같이 나타낼 수 있다.</p>
+
+\[u = f(x) \\
+u' = f'(x) = \frac{du}{dx} \\\]
+
+<p>그렇다면 함수 $g$에 대한 도함수는 어떻게 나타낼 수 있을까?? 답은 바로 치환을 이용하는 것이다. 위에서 우리는 $f(x)$가 $u$와 같다고 정의했다. 이것을 이용해 도함수 $g’$는 다음과 같이 나타낼 수 있겠다.</p>
+
+\[y' = g'(u) = \frac{dy}{du} \\\]
+
+<p>눈치가 빠르다면 벌써 왜 합성함수 미분법을 <code class="language-plaintext highlighter-rouge">Chain Rule</code>이라고 부르는지 깨닫게 되었을 것이다. (4)번 수식의 우변은 사실 분자와 분모에 위치한 $du$가 약분된 꼴이라고 볼 수 있다. 이것을 뉴턴 표기법으로 나타내면 아래와 같다.</p>
+
+\[y' = \frac{dy}{du}•\frac{du}{dx}\]
+
+<p>뉴턴 표기법은 직관적이지 않기 때문에 라이프니츠 표기법으로 다시 정리하면 다음과 같다.</p>
+
+\[y' = g'(f(x))•f'(x)\]
+
+<p>아마 고등학교 때는 합성함수 미분 공식을 겉미분•속미분이라는 명칭으로 처음 접했을 것이다. 안에 감싸져 있는 함수를 미분해서 밖으로 빼낸다 해서 속미분이라 부르고, 다시 속은 냅두고 밖의 둘러져 있는 함수만 미분한다해서 겉미분이라 칭하는데, 이렇게 단순하게 외우기보다는 공식이 도출되는 흐름을 이해하는 것이 훨씬 오래 기억에 남는다. 필자가 바로 그러했다. 대학교에 입학하고 수도 없이 합성함수 미분을 해야할 일이 생겼지만, 사용할 때마다 까먹어서 인터넷을 찾아보거나 교과서를 뒤적뒤적했던 기억이 있다. 이글을 읽는 독자들은 나와 같은 실수를 반복하지 않기를 바라며 포스팅을 마친다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Calculus" /><category term="Calculus" /><summary type="html"><![CDATA[합성함수 미분법 공식 유도]]></summary></entry><entry><title type="html">🗄️ SVD: Singular Value Decomposition</title><link href="http://localhost:4000/linear-algebra/svd" rel="alternate" type="text/html" title="🗄️ SVD: Singular Value Decomposition" /><published>2023-11-26T00:00:00+09:00</published><updated>2023-11-27T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/svd</id><content type="html" xml:base="http://localhost:4000/linear-algebra/svd"><![CDATA[<p>특이값 분해는 고유값 분해를 일반적인 상황으로 확장시킨 개념으로 LSA(Latent Semantic Anaylsis), Collaborative Filtering과 같은 머신러닝 기법에 사용되기 때문에 자연어처리, 추천시스템에 관심이 있다면 반드시 이해하고 넘어가야 하는 중요한 방법론이다. <a href="https://www.youtube.com/watch?v=PP9VQXKvSCY&amp;t=108s&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98"><strong><u>혁펜하임님의 선형대수학 강의</u></strong></a>와 <a href="https://www.youtube.com/watch?v=7dmV3p3Iy90&amp;ab_channel=%EA%B3%B5%EB%8F%8C%EC%9D%B4%EC%9D%98%EC%88%98%ED%95%99%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8"><strong><u>공돌이의 수학정리님의 강의 및 포스트</u></strong></a> 그리고 <a href="https://product.kyobobook.co.kr/detail/S000001743773"><strong><u>딥러닝을 위한 선형대수학 교재</u></strong></a>을 참고하고 개인적인 해석을 더해 정리했다.</p>
 
 <h3 id="concept-of-svd"><code class="language-plaintext highlighter-rouge">🌟 Concept of SVD</code></h3>
 
@@ -799,51 +830,4 @@ lecture_schedule = [시작시간, 끝시간]
         <span class="k">else</span><span class="p">:</span>
             <span class="k">print</span><span class="p">(</span><span class="n">dp</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s">' '</span><span class="p">)</span>
     <span class="k">print</span><span class="p">()</span>
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Floyd-Warshall" /><summary type="html"><![CDATA[Floyd-Warshall Algorithm with DP Tabulation]]></summary></entry><entry><title type="html">🗂️ Graph Theory 2: Dijkstra</title><link href="http://localhost:4000/algorithm/dijkstra" rel="alternate" type="text/html" title="🗂️ Graph Theory 2: Dijkstra" /><published>2023-11-11T00:00:00+09:00</published><updated>2023-11-12T02:00:00+09:00</updated><id>http://localhost:4000/algorithm/dijkstra</id><content type="html" xml:base="http://localhost:4000/algorithm/dijkstra"><![CDATA[<h3 id="-dijkstra"><code class="language-plaintext highlighter-rouge">📚 Dijkstra</code></h3>
-
-<p>다익스트라 최단 경로 문제는 그래프 자료 구조에서 여러 개의 노드가 주어졌을 때, 특정한 노드(시작점)에서 특정한 노드(도착점)까지의 최단 경로를 구해주는 알고리즘을 설계해야 한다. 특히 다익스트라는 <code class="language-plaintext highlighter-rouge">음의 간선</code>이 없을 때 정상적으로 동작하며, 유향 &amp; 무향을 가리지 않고 적용할 수 있다. 다익스트라 알고리즘의 동작을 기술하면 아래와 같다.</p>
-
-<ul>
-  <li><strong>1) 출발 노드 설정</strong></li>
-  <li><strong>2) 최단 거리 테이블 초기화(출발 노드 값은 0)</strong></li>
-  <li><strong>3) 방문하지 않은 노드 중에서 현재 가장 가까운 노드를 선택(최단 거리 노드)</strong></li>
-  <li><strong>4) 선택된 노드로부터 파생되는 다른 경로값 업데이트</strong></li>
-  <li><strong>5) 모든 노드에 대한 계산 끝날 때까지 3~4번 반복</strong></li>
-</ul>
-
-<p>다익스트라 알고리즘을 설계하는 방법은 크게 두가지가 있다. 먼저 3번을 수행하기 위해 1) 최단 거리 테이블을 매번 선형 탐색하는 알고리즘,  2) 선형 탐색 대신에 힙 정렬을 이용해 가장 가까운 노드를 선택하는 방식이 있다. 1번의 경우 <code class="language-plaintext highlighter-rouge">O(V^2)</code> 가 되어 입력 노드가 1000개만 넘어가도 시간 초과를 당하기 때문에, 2번의 경우로 소스 코드를 작성하는 게 바람직하다. 코드 예시는 아래와 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Dijkstra implementation """</span>
-
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">heapq</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-
-<span class="k">def</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="n">distance</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
-    <span class="k">while</span> <span class="n">h</span><span class="p">:</span>
-        <span class="n">min_cost</span><span class="p">,</span> <span class="n">node</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="c1"># 방문한 노드 처리: cost를 기준으로 다음 노드를 선정, 따라서 cost가 distance[node]보다 크다면 이미 방문 했던 노드로 볼 수 있음
-</span>        <span class="k">if</span> <span class="n">min_cost</span> <span class="o">&gt;</span> <span class="n">distance</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
-            <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
-            <span class="n">cost</span> <span class="o">=</span> <span class="n">min_cost</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">cost</span> <span class="o">&lt;</span> <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]:</span>
-                <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cost</span>
-                <span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-
-<span class="n">V</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">src</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
-
-<span class="c1"># 1) init graph
-</span><span class="n">graph</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">costs</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">E</span><span class="p">):</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-    <span class="n">graph</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">append</span><span class="p">((</span><span class="n">weight</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
-
-<span class="n">dijkstra</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">costs</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span> <span class="k">else</span> <span class="s">'INF'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Dijkstra" /><summary type="html"><![CDATA[Dijkstra Algorithm with Priority Queue]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Algorithm" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Floyd-Warshall" /><summary type="html"><![CDATA[Floyd-Warshall Algorithm with DP Tabulation]]></summary></entry></feed>
