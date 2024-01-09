@@ -11,7 +11,7 @@ tags:
   - Tensor
   - Linear Algebra
   
-last_modified_at: 2023-08-04T12:00:00-05:00
+last_modified_at: 2024-01-09T12:00:00-05:00
 ---
 파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다.
 
@@ -346,3 +346,31 @@ input_tensors.masked_fill(mask: BoolTensor, value: float)
 1.22 2.1 3.4 -inf -inf
 1.22 2.1 3.4 9.9 -inf
 ```
+
+### `🗂️ torch.clone`
+
+`inputs` 인자로 전달한 텐서를 복사하는 파이토치 내장 메서드다.  사용법은 아래와 같다.
+
+```python
+""" torch.clone """
+torch.clone(
+    input, 
+    *,
+    memory_format=torch.preserve_format
+) → [Tensor]
+```
+
+딥러닝 파이프라인을 만들다 보면 많이 사용하게 되는 기본적인 메서드인데, 이렇게 따로 정리하게 된 이유가 있다. 입력된 텐서를 그대로 복사한다는 특성 때문에 사용시 주의해야 할 점이 있기 때문이다. 해당 메서드를 사용하기 전에 반드시 입력할 텐서가 현재 어느 디바이스(CPU, GPU) 위에 있는지, 그리고 해당 텐서가 계산 그래프를 가지고 있는지를 **반드시** 파악해야 한다.
+
+필자는 ELECTRA 모델을 직접 구현하는 과정에서 `clone()` 메서드를 사용했는데, Generator 모델의 결과 로짓을 Discriminator의 입력으로 변환해주기 위함이었다. 그 과정에서 Generator가 반환한 로짓을 그대로 `clone`한 뒤, 입력을 만들어 주었고 그 결과 아래와 같은 에러를 마주했다.
+
+```python
+RuntimeError: one of the variables needed for gradient computation has been modified by an inplace operation: [
+torch.cuda.LongTensor [8, 511]] is at version 1; expected version 0 
+instead. Hint: the backtrace further above shows the operation that failed to compute its gradient. 
+The variable in question was changed in there or anywhere later. Good luck!
+```
+
+에러 로그를 자세히 읽어보면 텐서 버전의 변경으로 인해 그라디언트 계산이 불가하다는 내용이 담겨있다. 구글링해봐도 잘 안나와서 포기하려던 찰라에 우연히 `torch.clone()` 메서드의 정확한 사용법이 궁금해 공식 Docs를 읽게 되었고, 거기서 엄청난 사실을 발견했다. `clone()` 메서드가 입력된 텐서의 현재 디바이스 위치에 똑같이 복사될 것이란 예상은 했지만, 입력 텐서의 계산그래프까지 복사될 것이란 생각은 전혀 하지 못했기 때문이다. 그래서 위와 같은 에러를 마주하지 않으려면, `clone()`을 호출할 때 뒤에 반드시 `detach()`를 함께 호출해줘야 한다.
+
+`clone()` 메서드는 입력된 텐서의 모든 것을 복사한다는 점을 반드시 기억하자.
