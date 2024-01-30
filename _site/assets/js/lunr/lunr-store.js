@@ -59,12 +59,6 @@ var store = [{
         "url": "/cv/vit",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집",
-        "excerpt":"파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다. 🔎 torch.argmax 입력 텐서에서...","categories": ["Framework & Library"],
-        "tags": ["Pytorch","Tensor","Linear Algebra"],
-        "url": "/framework-library/torch-indexing-function",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "🪢 [DeBERTa] DeBERTa: Decoding-Enhanced BERT with Disentangled-Attention",
         "excerpt":"🔭 Overview DeBERTa는 2020년 Microsoft가 ICLR에서 발표한 자연어 처리용 신경망 모델이다. Disentangled Self-Attention, Enhanced Mask Decoder라는 두가지 새로운 테크닉을 BERT, RoBERTa에 적용해 당시 SOTA를 달성했으며, 특히 영어처럼 문장에서 자리하는 위치에 따라 단어의 의미, 형태가 결정되는 굴절어 계열에 대한 성능이 좋아 꾸준히 사랑받고 있는 모델이다. 또한 인코딩 가능한 최대 시퀀스 길이가 4096으로...","categories": ["NLP"],
         "tags": ["Natural Language Process","DeBERTa","BERT","RoBERTa","Transformer","Self-Attention","Disentangled-Attention","Relative Position Embedding","EMD","Encoder"],
@@ -273,5 +267,17 @@ var store = [{
         "excerpt":"곱의 미분, 몫의 미분은 함수가 곱의 꼴 형태 $f(x)g(x)$ 혹은 분수 꼴 형태 $\\frac{f(x)}{g(x)}$를 가지고 있을 때 도함수를 구하는 방법이다. 고등학교 미적분 시간(17~18학번 기준)에 배운적이 있지만, 합성함수 미분법과 더불어 단순 암기의 폐해로 까먹기 좋은 미분법들이다. 크로스 엔트로피, 소프트맥스 미분에 쓰이므로 합성함수 미분법과 마찬가지로 딥러닝, 머신러닝에서 매우 중요하다. ✖️ Product Rule 몫의...","categories": ["Optimization Theory"],
         "tags": ["Calculus","Product Rule","Quotient Rule"],
         "url": "/optimization-theory/product_quotient_rule",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집",
+        "excerpt":"파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다. 🔎 torch.argmax 입력 텐서에서...","categories": ["Framework & Library"],
+        "tags": ["Pytorch","Tensor","Linear Algebra"],
+        "url": "/framework-library/torch-indexing-function",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👩‍💻🎄 [baekjoon] 1987번: 알파벳",
+        "excerpt":"🖍️ solution import sys from typing import List def backtracking(y: int, x: int, count: int, visit: List, graph: List[List]): global result visit[ord(graph[y][x]) - 65] = True result.add(count) for i in range(4): ny, nx = dy[i] + y, dx[i] + x if -1 &lt; ny &lt; r and -1 &lt; nx &lt;...","categories": ["Problem Solving"],
+        "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","DFS","BackTracking"],
+        "url": "/ps/baekjoon-1987",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]
