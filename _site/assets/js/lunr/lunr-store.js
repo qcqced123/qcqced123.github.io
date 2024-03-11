@@ -280,4 +280,10 @@ var store = [{
         "tags": ["Python","Codeing Test","Algorithm","Baekjoon","Graph","DFS","BackTracking"],
         "url": "/ps/baekjoon-1987",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators",
+        "excerpt":"🔭 Overview ELECTRA는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 RTD(Replace Token Dection) Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다. [MLM 단점] 1) 사전학습과 파인튜닝 사이 불일치...","categories": ["NLP"],
+        "tags": ["Natural Language Process","ELECTRA","BERT","GAN","Transformer","Self-Attention","Pytorch"],
+        "url": "/nlp/electra",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]

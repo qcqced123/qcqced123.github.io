@@ -566,7 +566,7 @@ P(pos, 2i+1) = cos(pos/\overset{}
 <strong><em><a href="https://wikidocs.net/162099">Positional Encoding Result</a></em></strong>
 </p>
 
-<p>위 그림은 토큰 <code class="language-plaintext highlighter-rouge">256</code>개로 구성된 시퀀스에 대해 <code class="language-plaintext highlighter-rouge">Positional Encoding</code>한 결과를 시각화한 자료다. 그래프의 $x$축은 <code class="language-plaintext highlighter-rouge">행벡터의 원소</code>이자 <code class="language-plaintext highlighter-rouge">Transformer</code>의 은닉 벡터 차원을 가리키고, $y$축은 <code class="language-plaintext highlighter-rouge">시퀀스의 인덱스</code>(행벡터)를 의미한다. 육안으로 정확하게 차이를 인식하기 쉽지는 않지만, 행벡터가 모두 유니크하게 표현된다는 사실(직접 실수값을 확인해보면 정말 미세한 차이지만 개별 토큰의 희소성이 보장)을 알 수 있다. 작은 차이를 시각화 자료로 파악하기는 쉽지 않기 때문에 진짜 그런가 궁금하신 분들은 직접 실수값을 구해보는 것을 추천드린다.</p>
+<p>위 그림은 토큰 <code class="language-plaintext highlighter-rouge">50</code>개, 은닉층이 256차원으로 구성된 시퀀스에 대해 <code class="language-plaintext highlighter-rouge">Positional Encoding</code>한 결과를 시각화한 자료다. 그래프의 $x$축은 <code class="language-plaintext highlighter-rouge">행벡터의 원소</code>이자 <code class="language-plaintext highlighter-rouge">Transformer</code>의 은닉 벡터 차원을 가리키고, $y$축은 <code class="language-plaintext highlighter-rouge">시퀀스의 인덱스</code>(행벡터)를 의미한다. 육안으로 정확하게 차이를 인식하기 쉽지는 않지만, 행벡터가 모두 유니크하게 표현된다는 사실(직접 실수값을 확인해보면 정말 미세한 차이지만 개별 토큰의 희소성이 보장)을 알 수 있다. 작은 차이를 시각화 자료로 파악하기는 쉽지 않기 때문에 진짜 그런가 궁금하신 분들은 직접 실수값을 구해보는 것을 추천드린다.</p>
 
 <p><strong>여기서 행벡터의 희소성이란 개별 행벡터 원소의 희소성을 말하는게 아니다.</strong> 0번 토큰, 4번 토큰, 9번 토큰의 행벡터 1번째 원소의 값은 같을 수 있다. 하지만 진동 주기가 갈수록 커지는 주기함수를 사용하기 때문에 다른 원소(차원)값은 다를 것이라 기대할 수 있는데, <strong>바로 이것을 행벡터의 희소성이라고 정의하는 것이다.</strong> 만약 1번 토큰과 2번 토큰의 모든 행벡터 원소값이 같다면 그것은 희소성 원칙에 위배되는 상황이다.</p>
 
@@ -1378,6 +1378,53 @@ W_{P_D} \in R^{S_D * d} \\\]
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
+        <a href="/nlp/electra" rel="permalink">🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          7 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">ELECTRA Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
         <a href="/ps/baekjoon-1987" rel="permalink">👩‍💻🎄 [baekjoon] 1987번: 알파벳
 </a>
       
@@ -1501,53 +1548,6 @@ W_{P_D} \in R^{S_D * d} \\\]
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 08 2024</p>
     
     <p class="archive__item-excerpt" itemprop="description">곱의 미분, 몫의 미분 공식 유도
-</p>
-  </article>
-</div>
-
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/optimization-theory/chain-rule" rel="permalink">📈 Chain Rule: 합성함수 미분법
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          1 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 08 2024</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">합성함수 미분법 공식 유도
 </p>
   </article>
 </div>

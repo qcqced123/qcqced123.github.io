@@ -1,0 +1,1052 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators - AI/Business Study Log</title>
+<meta name="description" content="ELECTRA Official Paper Review with Pytorch Implementation">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators">
+<meta property="og:url" content="http://localhost:4000/nlp/electra">
+
+
+  <meta property="og:description" content="ELECTRA Official Paper Review with Pytorch Implementation">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-03-11T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2024-03-12T02:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/nlp/electra">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Data Structure & Algorithm</a>
+                          
+                              <a class = "dropdown-item" href="/ps/">    Problem Solving</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory/Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators">
+    <meta itemprop="description" content="ELECTRA Official Paper Review with Pytorch Implementation">
+    <meta itemprop="datePublished" content="2024-03-11T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-03-12T02:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/nlp/electra" class="u-url" itemprop="url">🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/nlp/electra"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/nlp/electra&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2024-03-11T00:00:00+09:00">March 11, 2024</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#rtd-new-pre-train-task">🌆 RTD: New Pre-train Task</a></li><li><a href="#architecture">🌟 Architecture</a></li><li><a href="#implementation-by-pytorch">👩‍💻 Implementation by Pytorch</a><ul><li><a href="#-rtd-trainer-method">🌆 RTD trainer method</a></li><li><a href="#-electra-module">🌆 ELECTRA Module</a></li><li><a href="#-rtd-input-making">🌆 RTD Input Making</a></li></ul></li><li><a href="#-future-work-읽고-구현하면서-느낀점--개선방향">🌟 Future Work (읽고 구현하면서 느낀점 &amp; 개선방향)</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">ELECTRA</code>는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 <code class="language-plaintext highlighter-rouge">RTD(Replace Token Dection)</code> Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다.</p>
+
+<p><strong>[MLM 단점]</strong></p>
+<ul>
+  <li>1) 사전학습과 파인튜닝 사이 불일치
+    <ul>
+      <li>파인튜닝 때 Masking Task가 없음</li>
+    </ul>
+  </li>
+  <li>2) 연산량 대비 학습량은 적은편
+    <ul>
+      <li>전체 시퀀스의 15%만 마스킹 활용(15%만 학습)</li>
+      <li>전역 어텐션의 시공간 복잡도 고려하면 상당히 비효율적인 수치
+        <ul>
+          <li>시퀀스길이 ** 2의 복잡도</li>
+          <li>Vocab Size만큼의 차원을 갖는 소프트맥스 계산 반복</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>그래서 MLM은 활용하되, 파인튜닝과 괴리는 크지 않은 목적함수를 설계함으로서 입력된 전체 시퀀스에 대해서 모델이 학습하여 연산량 대비 학습량을 늘리고자 했던게 바로 ELECTRA 모델이다.</p>
+
+<p>정리하자면, ELECTRA 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법에 대한 개선 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 ELECTRA 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 그래서 본 포스팅에서도 BERT에 대한 설명 없이 RTD에 대해서만 다루려고 한다.</p>
+
+<h3 id="rtd-new-pre-train-task"><code class="language-plaintext highlighter-rouge">🌆 RTD: New Pre-train Task</code></h3>
+
+<p align="center">
+<img src="/assets/images/electra/electra.png" alt="RTD Task" class="align-center image-caption" width="100%&quot;, height=&quot;100%" />
+<strong><em><a href="https://arxiv.org/abs/2003.10555">RTD Task</a></em></strong>
+</p>
+
+<p>RTD의 아이디어는 간단하다. 생성자(Generator)가 출력으로 내놓은 토큰 시퀀스에 대해서 판별자(Discriminator)가 개별 토큰들이 원본인지 아닌지를 판정(이진 분류)하도록 만든다. 생성자는 기존의 MLM을 그대로 수행하고, 판별자는 생성자의 예측에 대해 진짜인지 가짜인지 분류하는 식이다.</p>
+
+<p>위 그림을 예시로 살펴보자. 모델에 입력으로 <code class="language-plaintext highlighter-rouge">the chef cooked the meal</code>라는 시퀀스 준다. 그러면 MLM 규칙에 따라서 15%의 토큰이 무작위로 선택된다. 그래서 <code class="language-plaintext highlighter-rouge">the</code>, <code class="language-plaintext highlighter-rouge">cooked</code>가 마스킹 되었다. 이제 생성자는 마스킹 토큰에 대해 <code class="language-plaintext highlighter-rouge">the</code>, <code class="language-plaintext highlighter-rouge">ate</code>라는 결과를 내놓는다. 그래서 최종적으로 생성자가 반환하는 시퀀스는 <code class="language-plaintext highlighter-rouge">the chef ate the meal</code>이 된다. 이제 생성자가 반환한 시퀀스를 판별자에 입력으로 대입한다. 판별자는 개별 토큰들이 원본인지 아닌지를 판정해 결과를 출력한다.</p>
+
+<p>이러한 구조 및 사전학습 방식의 장점은 판별자가 MLM 학습에 따른 지식을 생성자로부터 전수 받는 동시에 전체 시퀀스에 대해서 학습할 기회가 생긴다는 것이다. 시퀀스 내부 모든 토큰에 대해서 예측을 수행하고 손실을 계산할 수 있기 때문에 같은 크기의 시퀀스를 사용해도 기존 MLM 대비 더 풍부한 문맥 정보를 모델이 포착할 수 있게 된다. 또한 판별자를 파인튜닝의 BackBone으로 사용하면, 판별자의 사전학습은 결국 마스킹 없이 모든 시퀀스를 활용한 이진 분류라고 볼 수 있기 때문에, 사전학습과 파인튜닝 사이의 괴리도 상당히 많이 줄어들게 된다.</p>
+
+<h3 id="architecture"><code class="language-plaintext highlighter-rouge">🌟 Architecture</code></h3>
+
+<p align="center">
+<img src="/assets/images/electra/electra_experiment.png" alt="Model Architecture" class="align-center image-caption" width="100%&quot;, height=&quot;100%" />
+<strong><em><a href="https://arxiv.org/abs/2003.10555">Model Architecture</a></em></strong>
+</p>
+
+<p>저자는 위와 같은 실험 결과를 바탕으로, 생성자의 width (은닉층) 크기가 판별자보다 작도록 모델 크기를 세팅하는게 가장 효율적이라고 주장한다. 제시된 그래프는 생성자와 판별자의 크기 변화 대비 파인튜닝 성능의 추이를 나타낸다. 생성자의 width 크기가 256, 판별자의 width 크기가 768일 때 가장 점수가 높다. depth(레이어 개수)에 대한 언급은 따로 없지만, 저자에 의해 공개된 Hyper-Param 테이블을 보면 은닉층의 크기만 줄이고, 레이어 개수는 생성자와 판별자가 같은 것으로 추정된다.</p>
+
+<p>추가로, 생성자와 판별자가 임베딩 층을 서로 공유하는게 가장 높은 성능을 낸다고 주장한다. 오른쪽 그래프 추이를 보면 같은 연산량이라면, 임베딩 공유(파란색 실선) 방식이 가장 높은 파인튜닝 성능을 보여준다는 것을 알 수 있다. 따라서 단어 임베딩, 절대 위치 임베딩을 서로 공유하도록 설계한다. 대신 생성자 은닉층의 크기가 더 작은게 유리하다고 언급했기 때문에, 이것을 실제로 구현하려면 임베딩 층으로부터 나온 결과값을 생성자의 은닉층 차원으로 선형 투영해줘야 한다. 그래서 생성자의 임베딩 층과 인코더 사이에 linear layer가 추가되어야 한다.</p>
+
+\[\min_{\theta_G, \theta_D}\sum_{x \in X} \mathcal{L}_{\text{MLM}}(x, \theta_G) + \lambda \mathcal{L}_{\text{Disc}}(x, \theta_D)\]
+
+<p>따라서, 지금까지 살펴본 모든 내용을 종합해보면 ELECTRA의 목적함수는 다음 수식과 같다. 생성자의 MLM 손실과 판별자의 이진 분류 손실을 더해서 모델에 오차 역전해주면 되는데, 특이한 점은 판별자의 손실에 상수값인 람다가 곱해진다는 것이다. 실제 모델을 구현하고 사전학습을 해보면, 데이터의 양이나 모델 크기 혹은 종류에 따라 달라지겠지만 두 손실 사이의 스케일의 차이가 10배정도 차이 나게 된다. 두 손실의 스케일을 맞춰주는 동시에, 임베딩층의 학습이 판별자의 손실을 줄이는데 더 집중하도록 만들기 위해 도입한 것으로 추정된다. 논문과 코드를 보면 저자는 $\lambda=50$ 으로 두고 학습하고 있다.</p>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+
+<p>논문의 내용과 저자가 직접 공개한 코드를 종합하여 파이토치로 ELECTRA를 구현해봤다. 두 개의 서로 다른 모델을 같은 스탭에서 학습시켜야 하기 때문에, 제시된 내용에 비해 실제 구현은 매우 까다로운 편이었다. 본 포스팅에서는 ELECTRA 모델 구조를 비롯해 RTD 학습 파이프라인 구성에 필수적인 요소 몇 가지에 대해서만 설명하려 한다. 전체 구조에 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고 부탁드린다.</p>
+
+<p>ELECTRA의 사전 학습인 RTD의 학습 파이프라인을 구현한 코드를 본 뒤, 세부 구성 요소들에 대해서 살펴보자.</p>
+
+<h4 id="-rtd-trainer-method"><strong><code class="language-plaintext highlighter-rouge">🌆 RTD trainer method</code></strong></h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_val_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader_train</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">criterion</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+  <span class="n">scaler</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">GradScaler</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">)</span>
+  <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">loader_train</span><span class="p">)):</span>
+      <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="n">inputs</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'input_ids'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'labels'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  
+      <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'padding_mask'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  
+
+      <span class="n">mask_labels</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+          <span class="n">mask_labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'mask_labels'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+      <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">):</span>
+          <span class="n">g_logit</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generator_fw</span><span class="p">(</span>
+              <span class="n">inputs</span><span class="p">,</span>
+              <span class="n">labels</span><span class="p">,</span>
+              <span class="n">padding_mask</span><span class="p">,</span>
+              <span class="n">mask_labels</span>
+          <span class="p">)</span>
+          <span class="n">d_logit</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">discriminator_fw</span><span class="p">(</span>
+              <span class="n">d_inputs</span><span class="p">,</span>
+              <span class="n">padding_mask</span>
+          <span class="p">)</span>
+          <span class="n">g_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">g_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+          <span class="n">d_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">d_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">d_labels</span><span class="p">)</span>
+          <span class="n">loss</span> <span class="o">=</span> <span class="n">g_loss</span> <span class="o">+</span> <span class="n">d_loss</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">discriminator_lambda</span>
+
+      <span class="n">scaler</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">).</span><span class="n">backward</span><span class="p">()</span>
+      <span class="n">scaler</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+      <span class="n">scaler</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+      <span class="n">scheduler</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+<p>데이터로더로부터 받은 입력들을 생성자에 넣고 MLM 예측 결과, RTD 수행을 위해 필요한 새로운 라벨값을 반환 받는다. 그리고 이것을 다시 판별자의 입력으로 사용하고, 판별자의 예측 결과를 반환받아 서로 다른 두 모델에 대한 가중 손실합산을 구한 뒤, 옵티마이저에 보내고 최적화를 수행한다. 이 때, 처음에 데이터로더가 반환하는 입력 시퀀스와 라벨은 MLM의 그것과 동일하다,</p>
+
+<p>구현하면서 가장 어려웠던게, 옵티마이저 및 스케줄러의 구성이었다. 두 개의 모델을 같은 스탭에서 학습시키는 경험이 처음이라서 처음에 모델 개수만큼 옵티마이저와 스케줄러 객체를 만들어줘야 한다고 생각했다. 특히 두 모델의 스케일이 다르기 때문에 서로 다른 옵티마이저, 스케줄러 도입으로 각기 다른 학습률을 적용하는게 정확할 것이라 생각했다.</p>
+
+<p>하지만, 옵티마이저를 두 개 사용하는 것은 매우 많은 메모리를 차지할 뿐더러 논문에서 공개한 하이퍼파라미터 테이블을 보면 두 모델에 같은 학습률을 적용하고 있는 것을 알 수 있었다. 따라서 그에 맞게 같은 옵티마이저, 스케줄러를 사용해 동시에 두 모델이 학습되도록 파이프라인을 만들게 되었다.</p>
+
+<p>추가로, 공개된 오피셜 코드 역시 단일 옵티마이저 및 스케줄러를 사용하는 것을 확인했다.</p>
+
+<h4 id="-electra-module"><strong><code class="language-plaintext highlighter-rouge">🌆 ELECTRA Module</code></strong></h4>
+<p>🌟 Architecture</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">experiment.models.abstract_model</span> <span class="kn">import</span> <span class="n">AbstractModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.mlm</span> <span class="kn">import</span> <span class="n">MLMHead</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.sbo</span> <span class="kn">import</span> <span class="n">SBOHead</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.rtd</span> <span class="kn">import</span> <span class="n">get_discriminator_input</span><span class="p">,</span> <span class="n">RTDHead</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="k">class</span> <span class="nc">ELECTRA</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span> <span class="n">model_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ELECTRA</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">generator</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">generator_num_layers</span><span class="p">)</span>  <span class="c1"># init generator
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span> <span class="o">=</span> <span class="n">MLMHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span> <span class="o">=</span> <span class="n">SBOHead</span><span class="p">(</span>
+                <span class="n">cfg</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">,</span>
+                <span class="n">is_concatenate</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_concatenate</span><span class="p">,</span>
+                <span class="n">max_span_length</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">max_span_length</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">discriminator_num_layers</span><span class="p">)</span>  <span class="c1"># init generator
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">rtd_head</span> <span class="o">=</span> <span class="n">RTDHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">share_embed_method</span>  <span class="c1"># instance, es, gdes
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">share_embedding</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">share_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">discriminator_hook</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="o">*</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">==</span> <span class="s">'instance'</span><span class="p">:</span>  <span class="c1"># Instance Sharing
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">==</span> <span class="s">'ES'</span><span class="p">:</span>  <span class="c1"># ES (Embedding Sharing)
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">.</span><span class="n">weight</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">abs_pos_emb</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">abs_pos_emb</span><span class="p">.</span><span class="n">weight</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">register_forward_pre_hook</span><span class="p">(</span><span class="n">discriminator_hook</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">generator_fw</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">mask_labels</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="n">g_last_hidden_states</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'MaskedLanguageModel'</span><span class="p">:</span>
+            <span class="n">g_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">(</span>
+                <span class="n">g_last_hidden_states</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+            <span class="n">g_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">(</span>
+                <span class="n">g_last_hidden_states</span><span class="p">,</span>
+                <span class="n">mask_labels</span>
+            <span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">g_logit</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">get_discriminator_input</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">labels</span><span class="p">,</span>
+            <span class="n">pred</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">g_logit</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span>
+
+    <span class="k">def</span> <span class="nf">discriminator_fw</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">d_last_hidden_states</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">d_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rtd_head</span><span class="p">(</span>
+            <span class="n">d_last_hidden_states</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">d_logit</span>
+
+</code></pre></div></div>
+<p>ELECTRA 모델 객체는 크게 임배딩 레이어 공유, 생성자 포워드, 판별자 포워드 파트로 나뉜다. 먼저 임베딩 레이어 공유는 크게 두 가지 방식으로 구현 가능하다. 하나는 임베딩 레이어 인스턴스 자체를 공유하는 방식으로, 생성자와 판별자의 스케일이 동일할 때 사용할 수 있다. 나머지는 단어 임베딩, 포지션 임베딩의 가중치 행렬만 공유하는 방식으로, 서로 스케일이 달라도 사용할 수 있다. 논문에서 제시하는 가장 효율적인 방법은 후자이며, 판별자의 임베딩 행렬이 생성자의 임베딩 행렬의 주소를 가리키도록 함으로서 구현 가능하다.</p>
+
+<h4 id="-rtd-input-making"><strong><code class="language-plaintext highlighter-rouge">🌆 RTD Input Making</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="k">def</span> <span class="nf">get_discriminator_input</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+    <span class="s">""" Post Processing for Replaced Token Detection Task
+    1) get index of the highest probability of [MASK] token in pred tensor
+    2) convert [MASK] token to prediction token
+    3) make label for Discriminator
+
+    Args:
+        inputs: pure inputs from tokenizing by tokenizer
+        labels: labels for masked language modeling
+        pred: prediction tensor from Generator
+
+    returns:
+        d_inputs: torch.Tensor, shape of [Batch, Sequence], for Discriminator inputs
+        d_labels: torch.Tensor, shape of [Sequence], for Discriminator labels
+    """</span>
+    <span class="c1"># 1) flatten pred to 2D Tensor
+</span>    <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="bp">None</span>  <span class="c1"># detach to prevent back-propagation
+</span>    <span class="n">flat_pred</span><span class="p">,</span> <span class="n">flat_label</span> <span class="o">=</span> <span class="n">pred</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pred</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">labels</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (batch * sequence, vocab_size)
+</span>
+    <span class="c1"># 2) get index of the highest probability of [MASK] token
+</span>    <span class="n">pred_token_idx</span><span class="p">,</span> <span class="n">mlm_mask_idx</span> <span class="o">=</span> <span class="n">flat_pred</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">flat_label</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pred_tokens</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">index_select</span><span class="p">(</span><span class="n">pred_token_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># 3) convert [MASK] token to prediction token
+</span>    <span class="n">d_inputs</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">pred_tokens</span>
+
+    <span class="c1"># 4) make label for Discriminator
+</span>    <span class="n">original_tokens</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">original_tokens</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">flat_label</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">d_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">original_tokens</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">).</span><span class="nb">long</span><span class="p">()</span>
+    <span class="n">d_inputs</span> <span class="o">=</span> <span class="n">d_inputs</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">pred</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># covert to [batch, sequence]
+</span>    <span class="k">return</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span>
+</code></pre></div></div>
+<p>이제 마지막으로 판별자의 입력을 만드는 알고리즘에 대한 코드를 보자. 알고리즘은 다음과 같다.</p>
+<ul>
+  <li>1) 개별 마스킹 토큰에 대한 예측 토큰 구하기</li>
+  <li>2) 모든 마스킹 부분에 예측 토큰들로 대체</li>
+  <li>3) 기존 입력과 2번으로 만들어진 시퀀스 비교해 라벨 생성
+    <ul>
+      <li>서로 같으면 0</li>
+      <li>서로 다르면 1
+이렇게 만들어진 새로운 입력 시퀀스와 라벨을 ELECTRA 모델 인스턴스의 판별자 포워드 메서드에 인자로 전달하면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-future-work-읽고-구현하면서-느낀점--개선방향"><code class="language-plaintext highlighter-rouge">🌟 Future Work (읽고 구현하면서 느낀점 &amp; 개선방향)</code></h3>
+
+<p>이렇게 ELECTRA 모델에 대한 구현까지 살펴봤다. 논문을 읽고 구현하면서 가장 의문스러웠던 부분은 임베딩 공유 방법이었다. 수학적으로 엄밀하게 계산하고 따져보지 못했지만, 직관적으로도 생성자의 MLM과 판별자의 RTD는 서로 성격이 상당히 다른 사전 학습 방법론이라는 것을 알 수 있다. 그렇다면 단순히 단어, 포지션 임베딩을 공유하는 경우 학습 방향성이 달라서 간섭이 발생하고 모델이 수렴하지 못할 여지가 생긴다. 이러한 <code class="language-plaintext highlighter-rouge">줄다리기 현상(tag-of-war)</code>을 어떻게 해결할 수 있을까에 대한 고민이 더 필요하다고 생각한다.</p>
+
+<p>그래서 다음 포스팅에서는 이러한 줄다리기 현상을 해결하고자한 논문인 <strong><a href="https://arxiv.org/abs/2111.09543">&lt;DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing&gt;</a></strong>을 리뷰해보고자 한다.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#bert" class="page__taxonomy-item p-category" rel="tag">BERT</a><span class="sep">, </span>
+    
+      <a href="/tags/#electra" class="page__taxonomy-item p-category" rel="tag">ELECTRA</a><span class="sep">, </span>
+    
+      <a href="/tags/#gan" class="page__taxonomy-item p-category" rel="tag">GAN</a><span class="sep">, </span>
+    
+      <a href="/tags/#natural-language-process" class="page__taxonomy-item p-category" rel="tag">Natural Language Process</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a><span class="sep">, </span>
+    
+      <a href="/tags/#self-attention" class="page__taxonomy-item p-category" rel="tag">Self-Attention</a><span class="sep">, </span>
+    
+      <a href="/tags/#transformer" class="page__taxonomy-item p-category" rel="tag">Transformer</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#nlp" class="page__taxonomy-item p-category" rel="tag">NLP</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-03-11">March 11, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%8C%86+%5BELECTRA%5D+Pre-training+Text+Encoders+as+Discriminators+Rather+Than+Generators%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Felectra" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Felectra" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Felectra" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/ps/baekjoon-1987" class="pagination--pager" title="👩‍💻🎄 [baekjoon] 1987번: 알파벳
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/ps/baekjoon-1987" rel="permalink">👩‍💻🎄 [baekjoon] 1987번: 알파벳
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 30 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">백준 1987번: 알파벳
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/framework-library/torch-indexing-function" rel="permalink">🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          11 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 09 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/product_quotient_rule" rel="permalink">🔢 Product &amp; Quotient Rule: 곱의 미분, 몫의 미분
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          2 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 08 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">곱의 미분, 몫의 미분 공식 유도
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/optimization-theory/chain-rule" rel="permalink">📈 Chain Rule: 합성함수 미분법
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> January 08 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">합성함수 미분법 공식 유도
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>
