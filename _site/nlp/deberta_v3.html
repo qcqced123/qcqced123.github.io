@@ -428,13 +428,13 @@
 <strong><em><a href="https://arxiv.org/abs/2111.09543">GDES</a></em></strong>
 </p>
 
-<p>그림의 (a)가 기존 ELECTRA의 가중치 공유 방식, (c)가 GDES에 해당된다. 그림속 모식도와 설명이 좀 복잡해 보이지만 아이디어는 매우 간단하다.</p>
+<p>그림의 (a)가 기존 ELECTRA의 가중치 공유 방식, (c)가 GDES에 해당된다. 그림 속 모식도와 설명이 좀 복잡해 보이지만 아이디어는 매우 간단하다.</p>
 
 <p>생성자와 판별자가 서로 포워드 패스 시점에는 단어, 위치 임베딩을 공유하되, 백워드 패스 시점에서는 공유되지 못하도록 하여, 판별자의 학습 결과에 의해 생성자의 단어 임베딩, 위치 임베딩이 업데이트 되지 못하도록 하지는 것이다. 오직 생성자의 MLM 학습에 의해서만 단어 및 위치 임베딩이 업데이트 되어야 한다.</p>
 
 \[E_{D} = \text{sg}(E_{G}) + E_{\Delta}\]
 
-<p>필자가 추정하기로는 <code class="language-plaintext highlighter-rouge">Skip-Connection</code>에서 영감을 받지 않았나 싶은 이 수식은, 생성자의 임베딩에 잔차값들을 더해 판별아의 임베잉 행렬이 RTD에 최적화 되도록 설계 되었다. 여기서 <code class="language-plaintext highlighter-rouge">sg()</code> 는 <code class="language-plaintext highlighter-rouge">stop gradient</code>를 의미한다. 다시 말해, 생성자의 임베딩 가중치를 판별자 학습에 사용하되, 해당 시점에서는 계산 그래프 작성을 중단시켜 판별자의 학습 결과(이진 분류 손실)가 생성자의 임베딩 가중치에 영향을 미치지 못하도록 한 것이다.</p>
+<p>필자가 추정하기로는 <code class="language-plaintext highlighter-rouge">Skip-Connection</code>에서 영감을 받지 않았나 싶은 이 수식은, 생성자의 임베딩에 잔차값들을 더해 판별자의 임베딩 행렬이 RTD에 최적화 되도록 설계 되었다. 여기서 <code class="language-plaintext highlighter-rouge">sg()</code> 는 <code class="language-plaintext highlighter-rouge">stop gradient</code>를 의미한다. 다시 말해, 생성자의 임베딩 가중치를 판별자 학습에 사용하되, 해당 시점에서는 계산 그래프 작성을 중단시켜 판별자의 학습 결과(이진 분류 손실)가 생성자의 임베딩 가중치에 영향을 미치지 못하도록 한 것이다.</p>
 
 <p>이러한 아이디어는 실제로 어떻게 코드로 구현해야할까, 아래 코드와 함께 살펴보자.</p>
 <h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
