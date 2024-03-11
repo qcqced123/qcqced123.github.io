@@ -167,12 +167,6 @@ var store = [{
         "url": "/ps/baekjoon-1962",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
-        "title": "🤖 [P-Tuning] GPT Understand Too",
-        "excerpt":"🔭 Overview   ","categories": ["NLP"],
-        "tags": ["Natural Language Process","Self-Attention","GPT","Decoder","p-tuning","prompt learning","AR","Uni-Directional"],
-        "url": "/nlp/p-tuning",
-        "teaser": "/assets/images/huggingface_emoji.png"
-      },{
         "title": "👨‍💻🐍 [Python] List & Tuple",
         "excerpt":"🗂️ Concept of Array in Python C, C++, Java 같은 언어를 배울 때 가장 먼저 배우는 자료구조는 바로 배열이다. 그러나 파이썬을 배울 때는 조금 양상이 다르다. 배열이라는 표현의 자료구조는 언급도 없고 리스트, 튜플, 딕셔너리와 같은 형태의 자료구조에 대해서만 배우게 된다. 그렇다면 파이썬에 배열은 없는 것일까?? 반은 맞고 반은 틀린 질문이라고 할...","categories": ["Python"],
         "tags": ["Python","array","list","tuple","list comprehension","CS"],
