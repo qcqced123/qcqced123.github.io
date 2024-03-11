@@ -276,7 +276,7 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing",
-        "excerpt":"🔭 Overview 2021년 Microsoft에서 공개한 DeBERTa-V3은 기존 DeBERTa의 모델 구조는 그대로 유지하되, ELECTRA의 Generator-Discriminator 구조를 차용하여 전작 대비 성능을 향상 시킨 모델이다. ELECTRA에서 BackBone 모델로 BERT 대신 DeBERTa을 사용했다고 생각하면 된다. 거기에 더해 ELECTRA의 Tug-of-War 현상을 방지하기 위해 새로운 임베딩 공유 기법인 GDES(Gradient Disentagnled Embedding Sharing)방법을 제시했다. 이번 포스팅에서는구현 코드와 함께...","categories": ["NLP"],
+        "excerpt":"🔭 Overview 2021년 Microsoft에서 공개한 DeBERTa-V3은 기존 DeBERTa의 모델 구조는 그대로 유지하되, ELECTRA의 Generator-Discriminator 구조를 차용하여 전작 대비 성능을 향상 시킨 모델이다. ELECTRA에서 BackBone 모델로 BERT 대신 DeBERTa을 사용했다고 생각하면 된다. 거기에 더해 ELECTRA의 Tug-of-War 현상을 방지하기 위해 새로운 임베딩 공유 기법인 GDES(Gradient Disentagnled Embedding Sharing)방법을 제시했다. 이번 포스팅에서는 구현 코드와...","categories": ["NLP"],
         "tags": ["Natural Language Process","DeBERTa-V3","DeBERTa","ELECTRA","Weight Sharing","GDES","Pytorch"],
         "url": "/nlp/deberta_v3",
         "teaser": "/assets/images/huggingface_emoji.png"
@@ -285,5 +285,11 @@ var store = [{
         "excerpt":"🔭 Overview ELECTRA는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 RTD(Replace Token Dection) Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다. [MLM 단점] 1) 사전학습과 파인튜닝 사이 불일치...","categories": ["NLP"],
         "tags": ["Natural Language Process","ELECTRA","BERT","GAN","Transformer","Self-Attention","Pytorch"],
         "url": "/nlp/electra",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🌆 [SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans",
+        "excerpt":"🔭 Overview SpanBERT는 2020년 페이스북에서 발표한 BERT 계열 모델로, 새로운 방법론인 SBO(Span Boundary Objective)를 고안해 사전학습을 하여 기존 대비 높은 성능을 기록했다. 기존 MLM, CLM은 단일 토큰을 예측하는 방식을 사용하기 때문에 Word-Level Task에 아주 적합하지만 상대적으로 QA, Sentence-Similarity 같은 문장 단위 테스크에 그대로 활용하기에는 부족한 점이 있었다. 이러한 문제를 해결하기 위해...","categories": ["NLP"],
+        "tags": ["Natural Language Process","SpanBERT","BERT","Self-Attention","Pytorch"],
+        "url": "/nlp/spanbert",
         "teaser": "/assets/images/huggingface_emoji.png"
       }]

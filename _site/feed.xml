@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-11T12:40:28+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing</title><link href="http://localhost:4000/nlp/deberta_v3" rel="alternate" type="text/html" title="🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/deberta-v3</id><content type="html" xml:base="http://localhost:4000/nlp/deberta_v3"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-11T17:44:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing</title><link href="http://localhost:4000/nlp/deberta_v3" rel="alternate" type="text/html" title="🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/deberta-v3</id><content type="html" xml:base="http://localhost:4000/nlp/deberta_v3"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p>2021년 Microsoft에서 공개한 <code class="language-plaintext highlighter-rouge">DeBERTa-V3</code>은 기존 DeBERTa의 모델 구조는 그대로 유지하되, ELECTRA의 Generator-Discriminator 구조를 차용하여 전작 대비 성능을 향상 시킨 모델이다. ELECTRA에서 BackBone 모델로 BERT 대신 <code class="language-plaintext highlighter-rouge">DeBERTa을</code> 사용했다고 생각하면 된다. 거기에 더해 ELECTRA의 <code class="language-plaintext highlighter-rouge">Tug-of-War</code> 현상을 방지하기 위해 새로운 임베딩 공유 기법인 <code class="language-plaintext highlighter-rouge">GDES(Gradient Disentagnled Embedding Sharing)</code>방법을 제시했다.</p>
 
-<p>이번 포스팅에서는구현 코드와 함께 GDES에 대해서만 살펴보려 한다. ELECTRA, DeBERTa에 대해 궁금하다면 이전 포스팅을, 전체 구조에 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 확인 가능하다.</p>
+<p>이번 포스팅에서는 구현 코드와 함께 GDES에 대해서만 살펴보려 한다. ELECTRA, DeBERTa에 대해 궁금하다면 이전 포스팅을, 전체 구조에 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 확인 가능하다.</p>
 
 <h3 id="gdes-gradient-disentangled-embedding-sharing"><code class="language-plaintext highlighter-rouge">🪢GDES: Gradient Disentangled Embedding Sharing</code></h3>
 
@@ -282,7 +282,7 @@
 <p>추가로, 공개된 오피셜 코드 역시 단일 옵티마이저 및 스케줄러를 사용하는 것을 확인했다.</p>
 
 <h4 id="-electra-module"><strong><code class="language-plaintext highlighter-rouge">🌆 ELECTRA Module</code></strong></h4>
-<p>🌟 Architecture</p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
 <span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
 <span class="kn">from</span> <span class="nn">experiment.models.abstract_model</span> <span class="kn">import</span> <span class="n">AbstractModel</span>
@@ -432,7 +432,364 @@
 
 <p>이렇게 ELECTRA 모델에 대한 구현까지 살펴봤다. 논문을 읽고 구현하면서 가장 의문스러웠던 부분은 임베딩 공유 방법이었다. 수학적으로 엄밀하게 계산하고 따져보지 못했지만, 직관적으로도 생성자의 MLM과 판별자의 RTD는 서로 성격이 상당히 다른 사전 학습 방법론이라는 것을 알 수 있다. 그렇다면 단순히 단어, 포지션 임베딩을 공유하는 경우 학습 방향성이 달라서 간섭이 발생하고 모델이 수렴하지 못할 여지가 생긴다. 이러한 <code class="language-plaintext highlighter-rouge">줄다리기 현상(tag-of-war)</code>을 어떻게 해결할 수 있을까에 대한 고민이 더 필요하다고 생각한다.</p>
 
-<p>그래서 다음 포스팅에서는 이러한 줄다리기 현상을 해결하고자한 논문인 <strong><a href="https://arxiv.org/abs/2111.09543">&lt;DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing&gt;</a></strong>을 리뷰해보고자 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="ELECTRA" /><category term="BERT" /><category term="GAN" /><category term="Transformer" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[ELECTRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👩‍💻🎄 [baekjoon] 1987번: 알파벳</title><link href="http://localhost:4000/ps/baekjoon-1987" rel="alternate" type="text/html" title="👩‍💻🎄 [baekjoon] 1987번: 알파벳" /><published>2024-01-30T00:00:00+09:00</published><updated>2024-01-31T02:00:00+09:00</updated><id>http://localhost:4000/ps/baekjoon_1987</id><content type="html" xml:base="http://localhost:4000/ps/baekjoon-1987"><![CDATA[<h3 id="️solution"><strong><code class="language-plaintext highlighter-rouge">🖍️ solution</code></strong></h3>
+<p>그래서 다음 포스팅에서는 이러한 줄다리기 현상을 해결하고자한 논문인 <strong><a href="https://arxiv.org/abs/2111.09543">&lt;DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing&gt;</a></strong>을 리뷰해보고자 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="ELECTRA" /><category term="BERT" /><category term="GAN" /><category term="Transformer" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[ELECTRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🌆 [SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans</title><link href="http://localhost:4000/nlp/spanbert" rel="alternate" type="text/html" title="🌆 [SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/spanbert</id><content type="html" xml:base="http://localhost:4000/nlp/spanbert"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">SpanBERT</code>는 2020년 페이스북에서 발표한 BERT 계열 모델로, 새로운 방법론인 <code class="language-plaintext highlighter-rouge">SBO(Span Boundary Objective)</code>를 고안해 사전학습을 하여 기존 대비 높은 성능을 기록했다. 기존 <code class="language-plaintext highlighter-rouge">MLM</code>, <code class="language-plaintext highlighter-rouge">CLM</code>은 단일 토큰을 예측하는 방식을 사용하기 때문에 Word-Level Task에 아주 적합하지만 상대적으로 QA, Sentence-Similarity 같은 문장 단위 테스크에 그대로 활용하기에는 부족한 점이 있었다. 이러한 문제를 해결하기 위해 고안된 방법론이 바로 <code class="language-plaintext highlighter-rouge">SBO</code>다. <code class="language-plaintext highlighter-rouge">SBO</code>란, MLM과 비슷하지만, Span(절•구문) 단위로 마스킹하고 다시 Denoising을 하기 때문에, Sentence-Level Task에 속하는 Down-Stream Task를 위한 모델의 사전 훈련으로 적합하다.</p>
+
+<p>정리하자면, <code class="language-plaintext highlighter-rouge">SpanBERT</code> 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법에 대한 개선 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 <code class="language-plaintext highlighter-rouge">SpanBERT</code> 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 그래서 본 포스팅에서도 BERT에 대한 설명 없이 SBO에 대해서만 다루려고 한다.</p>
+
+<h3 id="sbo-span-boundary-objective"><code class="language-plaintext highlighter-rouge">🌆 SBO: Span Boundary Objective</code></h3>
+
+<p align="center">
+<img src="/assets/images/spanbert/sbo.png" alt="SBO Task" class="align-center image-caption" width="100%&quot;, height=&quot;100%" />
+<strong><em><a href="https://arxiv.org/abs/1907.10529">SBO Task</a></em></strong>
+</p>
+
+<p><strong>[SBO Algorithm Summary]</strong></p>
+<ul>
+  <li><strong>1) 연속된 범위의 Span 생성</strong>
+    <ul>
+      <li><strong>무작위로 Span의 양쪽 끝 토큰 지정 ($x_{4}, x_{9}$)</strong>
+        <ul>
+          <li><strong>$x_{5}$ to $x_{8}$ 은 스팬 내부 토큰</strong></li>
+        </ul>
+      </li>
+      <li><strong>마스킹 예산 계산</strong>
+        <ul>
+          <li><strong>문장 당 마스킹 예산(합산 Span 길이)은 문장 길이의 15%</strong></li>
+          <li><strong>예시 시퀀스 길이: 512</strong></li>
+          <li><strong>마스킹 예산: 대략 75 = 512*0.15</strong></li>
+        </ul>
+      </li>
+      <li><strong>기하 분포 사용해서 개별 스팬 길이 지정</strong>
+        <ul>
+          <li><strong>개별 스팬당 최대 길이 지정, 최대 10이 넘지 않도록 설정</strong></li>
+          <li><strong>최대 스팬 합산 길이 도달까지 마스킹 반복</strong>
+            <ul>
+              <li><strong>남은 마스킹 예산 &lt; 현재 스팬 길이</strong>
+                <ul>
+                  <li><strong>남은 마스킹 예산을 현재 스팬 길이로 설정</strong></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li><strong>따라서 Subword Tokenizing이 아니라 Whole Word Masking 단위 작업이 필요</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) 시작 토큰 기준, 상대 위치 계산</strong>
+    <ul>
+      <li><strong>스팬 내부 토큰의 상대 위치 임베딩 생성 및 계산</strong></li>
+      <li><strong>시작토큰, 마지막토큰, 스팬 내부 토큰의 상대 위치 임베딩을 concat, 은닉 벡터 생성</strong></li>
+      <li><strong>SpanHead에 은닉 벡터 통과시키기</strong></li>
+    </ul>
+  </li>
+  <li><strong>3) SpanHead 출력값을 마스킹에 대한 예측 표현으로 사용</strong></li>
+</ul>
+
+<p>SBO의 아이디어 자체는 상당히 간단하다. 기존 MLM처럼 무작위로 시퀀스에서 아무 토큰이나 선택하는게 아니라, 주어진 문장에서 일정 길이의 연속된 토큰들을 한번에 선택해 마스킹 처리하여 학습하겠다는 것이다. 논문에서 제시한 SBO 알고리즘을 정리하면 아래와 같다.</p>
+
+\[\begin{align*}
+h_0 &amp;= [x_{s-1}; x_{e+1}; p_{i-s+1}] \\
+h_1 &amp;= \text{LayerNorm}(\text{GeLU}(W_1 h_0)) \\
+y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
+\end{align*}\]
+
+<p>위 그림을 예시로 알고리즘을 살펴보자. 먼저 주어진 스팬 길이에 맞게, 스팬의 시작과 끝 지점이 되는 토큰을 무작위로 선택한다. 그다음 시작 위치를 기준으로, 스팬 내부에 속하는 토큰들의 상대 위치 인덱스를 계산해준다. 그림 속 $x_{7}$ 토큰의 상대 위치 번호는 3이 된다. 미리 정의한 상대 위치 임베딩에서 행 인덱스가 3인 행벡터를 가져온다. 그 다음 양쪽 끝 벡터와 concat을 수행하여 $h_{0}$ 을 만든다. 그리고 미리 정의된 <code class="language-plaintext highlighter-rouge">SBOHead</code>에 통과시킨다. <code class="language-plaintext highlighter-rouge">SBOHead</code>에게 반환 받은 은닉 벡터값은 해당 위치의 마스킹에 대한 예측값($y_{i}$)으로 사용하고 이를 이용해 SBO 손실을 구한다. 지금까지 내용을 정리해 수식으로 표현하면 위와 같다.</p>
+
+\[L(x_i) = L_{MLM}(x_i) + L_{SBO}(x_i)\]
+
+<p><code class="language-plaintext highlighter-rouge">SpanBERT</code>의 목적함수는 SBO 손실 뿐만 아니라 기존 MLM 손실도 함꼐 포함되어 있다. 다만 MLM 손실을 구하기 위해 주어진 시퀀스에 대해 따로 마스킹을 하는 것은 아니고, SBO를 위해 적용했던 Span Masking을 그대로 활용한다. 대신 위의 SBO 수식의 $h_{0}$ 이 아니라, $x_{i-s+1}$ ($i-s+1$ 번째 토큰의 인코더 출력값)을 그대로 MLM 손실을 구하는데 사용한다. 정리하면, <code class="language-plaintext highlighter-rouge">SpanBERT</code>의 최종 손실은 위 수식과 같다. 한편, <code class="language-plaintext highlighter-rouge">ELECTRA</code> 때와는 다르게 두 손실의 스케일 차이가 거의 없어 따로 스케일 상수를 곱해주지는 않는 것 같다.</p>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+
+<p>논문의 내용 종합하여 파이토치로 <code class="language-plaintext highlighter-rouge">SpanBERT</code>를 구현해봤다. 논문에 포함된 아이디어를 이해하는데는 어렵지 않았지만, 제한된 조건에 맞는 스팬을 찾고, 마스킹하는 과정을 실제 구현하는 것은 매우 까다로운 편이었다.
+본 포스팅에서는 <code class="language-plaintext highlighter-rouge">SpanBERT</code>의 SBO 학습을 위한 입력 만들기, SBOHead에 대해서만 설명하려고 한다. <code class="language-plaintext highlighter-rouge">BERT</code>, <code class="language-plaintext highlighter-rouge">Whole World Masking</code>에 대해 궁금하다면 이전 포스팅을, 전체 모델 구조 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고바란다.</p>
+
+<p>공개할 코드는 아직 완벽하게 벡터화를 적용하지 못해, GPU 병렬 연산에 최적화 되지 못한 점 양해 부탁한다. 빠른 시일 이내에 벡터화를 적용해서 다시 수정된 코드를 올리겠다.</p>
+
+<h4 id="span-masking-algoritm"><code class="language-plaintext highlighter-rouge">👩‍💻 Span Masking Algoritm</code></h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch.nn.utils.rnn</span> <span class="kn">import</span> <span class="n">pad_sequence</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">..tuner.mlm</span> <span class="kn">import</span> <span class="n">WholeWordMaskingCollator</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="n">BPE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'RobertaTokenizerFast'</span><span class="p">,</span>
+    <span class="s">'GPT2TokenizerFast'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">SPM</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'DebertaV2TokenizerFast'</span><span class="p">,</span>
+    <span class="s">'DebertaTokenizerFast'</span><span class="p">,</span>
+    <span class="s">'XLMRobertaTokenizerFast'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">WORDPIECE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s">'BertTokenizerFast'</span><span class="p">,</span>
+    <span class="s">'ElectraTokenizerFast'</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">random_non_negative_integer</span><span class="p">(</span><span class="n">max_value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_value</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">SpanCollator</span><span class="p">(</span><span class="n">WholeWordMaskingCollator</span><span class="p">):</span>
+    <span class="s">""" Custom Collator for Span Boundary Objective Task, which is used for span masking algorithm
+    Span Masking is similar to Whole Word Masking, but it has some differences:
+        1) Span Masking does not use 10% of selected token left &amp; 10% of selected token replaced other vocab token
+            - just replace all selected token to [MASK] token
+    Algorithm:
+    1) Select 2 random tokens from input tokens for spanning
+    2) Calculate relative position embedding for each token with 2 random tokens froms step 1.
+    3) Calculate span boundary objective with 2 random tokens from step 1 &amp; pos embedding from step 2.
+    Args:
+        cfg: configuration.CFG
+        masking_budget: masking budget for Span Masking
+                        (default: 0.15 =&gt; Recommended by original paper)
+        span_probability: probability of span length for Geometric Distribution
+                         (default: 0.2 =&gt; Recommended by original paper)
+        max_span_length: maximum span length of each span in one batch sequence
+                         (default: 10 =&gt; Recommended by original paper)
+    References:
+        https://arxiv.org/pdf/1907.10529.pdf
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span>
+        <span class="n">masking_budget</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.15</span><span class="p">,</span>
+        <span class="n">span_probability</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">max_span_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SpanCollator</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">masking_budget</span> <span class="o">=</span> <span class="n">masking_budget</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">span_probability</span> <span class="o">=</span> <span class="n">span_probability</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">max_span_length</span> <span class="o">=</span> <span class="n">max_span_length</span>
+
+    <span class="k">def</span> <span class="nf">_whole_word_mask</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">input_tokens</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+        <span class="n">max_predictions</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">CFG</span><span class="p">.</span><span class="n">max_seq</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="s">"""
+        0) apply Whole Word Masking Algorithm for make gathering original token index in natural language
+        1) calculate number of convert into masking tokens with masking budget*len(input_tokens)
+        2) define span length of this iteration
+            - span length follow geometric distribution
+            - span length is limited by max_span_length
+        """</span>
+        <span class="n">cand_indexes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">token</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">token</span> <span class="o">==</span> <span class="s">"[CLS]"</span> <span class="ow">or</span> <span class="n">token</span> <span class="o">==</span> <span class="s">"[SEP]"</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cand_indexes</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">.</span><span class="n">select_post_string</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>  <span class="c1"># method from WholeWordMaskingCollator
+</span>                <span class="n">cand_indexes</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">select_src_string</span><span class="p">(</span><span class="n">token</span><span class="p">):</span>  <span class="c1"># method from WholeWordMaskingCollator
+</span>                <span class="n">cand_indexes</span><span class="p">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">])</span>
+
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">)</span>
+        <span class="n">src_l</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">cand_indexes</span><span class="p">)</span>
+        <span class="n">num_convert_tokens</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">masking_budget</span> <span class="o">*</span> <span class="n">l</span><span class="p">)</span>
+        <span class="n">budget</span> <span class="o">=</span> <span class="n">num_convert_tokens</span>  <span class="c1"># int is immutable object, so do not copy manually
+</span>        <span class="n">masked_lms</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">covered_indexes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">while</span> <span class="n">budget</span><span class="p">:</span>
+            <span class="n">span_length</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">distributions</span><span class="p">.</span><span class="n">Geometric</span><span class="p">(</span><span class="n">probs</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">span_probability</span><span class="p">).</span><span class="n">sample</span><span class="p">())))</span>
+            <span class="n">src_index</span> <span class="o">=</span> <span class="n">random_non_negative_integer</span><span class="p">(</span><span class="n">src_l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">span_length</span> <span class="o">&gt;</span> <span class="n">budget</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">budget</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">:</span>  <span class="c1"># Set the span length to budget to avoid a large number of iter if the remaining budget is too small
+</span>                    <span class="n">span_length</span> <span class="o">=</span> <span class="n">budget</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">cand_indexes</span><span class="p">[</span><span class="n">src_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">span_length</span> <span class="o">&gt;</span> <span class="n">l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># If the index of the last token in the span is outside the full sequence range
+</span>                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">cand_indexes</span><span class="p">[</span><span class="n">src_index</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">span_length</span><span class="p">:</span>  <span class="c1"># handling bad case: violating WWM algorithm at start
+</span>                <span class="k">continue</span>
+            <span class="n">span_token_index</span> <span class="o">=</span> <span class="n">cand_indexes</span><span class="p">[</span><span class="n">src_index</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># init span token index: src token
+</span>            <span class="k">while</span> <span class="n">span_length</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">span_length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">span_token_index</span> <span class="ow">in</span> <span class="n">covered_indexes</span><span class="p">:</span> <span class="c1"># If it encounters an index that is already masked, it ends, and starts the next iteration
+</span>                    <span class="k">break</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">covered_indexes</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">span_token_index</span><span class="p">)</span>
+                    <span class="n">masked_lms</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">span_token_index</span><span class="p">)</span>
+                    <span class="n">span_length</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">budget</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">span_token_index</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">covered_indexes</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">masked_lms</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="nb">ValueError</span><span class="p">(</span><span class="s">"Length of covered_indexes is not equal to length of masked_lms."</span><span class="p">)</span>
+        <span class="n">mask_labels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">covered_indexes</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">input_tokens</span><span class="p">))]</span>
+        <span class="k">return</span> <span class="n">mask_labels</span>
+
+    <span class="k">def</span> <span class="nf">get_mask_tokens</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">mask_labels</span><span class="p">:</span> <span class="n">Tensor</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">""" Prepare masked tokens inputs/labels for Span Boundary Objective with MLM (15%),
+        All of masked tokens (15%) are replaced by [MASK] token,
+        Unlike BERT MLM which is replaced by random token or stay original token left
+        """</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+        <span class="n">probability_matrix</span> <span class="o">=</span> <span class="n">mask_labels</span>
+
+        <span class="n">special_tokens_mask</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">get_special_tokens_mask</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">already_has_special_tokens</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="p">]</span>
+        <span class="n">probability_matrix</span><span class="p">.</span><span class="n">masked_fill_</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">special_tokens_mask</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">bool</span><span class="p">),</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">labels</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">pad_token_id</span><span class="p">)</span>
+            <span class="n">probability_matrix</span><span class="p">.</span><span class="n">masked_fill_</span><span class="p">(</span><span class="n">padding_mask</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+
+        <span class="n">masked_indices</span> <span class="o">=</span> <span class="n">probability_matrix</span><span class="p">.</span><span class="nb">bool</span><span class="p">()</span>
+        <span class="n">labels</span><span class="p">[</span><span class="o">~</span><span class="n">masked_indices</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>  <span class="c1"># We only compute loss on masked tokens
+</span>        <span class="n">inputs</span><span class="p">[</span><span class="n">masked_indices</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">convert_tokens_to_ids</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">mask_token</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batched</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+        <span class="s">""" Abstract Method for Collator, you must implement this method in child class """</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s">"input_ids"</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batched</span><span class="p">]</span>
+        <span class="n">padding_mask</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">get_padding_mask</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">input_ids</span><span class="p">]</span>
+
+        <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">pad_sequence</span><span class="p">(</span><span class="n">padding_mask</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">padding_value</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">input_ids</span> <span class="o">=</span> <span class="n">pad_sequence</span><span class="p">(</span><span class="n">input_ids</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">padding_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">mask_labels</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">batched</span><span class="p">:</span>
+            <span class="n">ref_tokens</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">input_id</span> <span class="ow">in</span> <span class="n">x</span><span class="p">[</span><span class="s">"input_ids"</span><span class="p">]:</span>
+                <span class="n">token</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">_convert_id_to_token</span><span class="p">(</span><span class="n">input_id</span><span class="p">)</span>
+                <span class="n">ref_tokens</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+            <span class="n">mask_labels</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">_whole_word_mask</span><span class="p">(</span><span class="n">ref_tokens</span><span class="p">))</span>
+
+        <span class="n">mask_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">torch</span><span class="p">.</span><span class="n">as_tensor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">mask_labels</span><span class="p">]</span>
+        <span class="n">mask_labels</span> <span class="o">=</span> <span class="n">pad_sequence</span><span class="p">(</span><span class="n">mask_labels</span><span class="p">,</span> <span class="n">batch_first</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">padding_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">input_ids</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">get_mask_tokens</span><span class="p">(</span>
+            <span class="n">input_ids</span><span class="p">,</span>
+            <span class="n">mask_labels</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">"input_ids"</span><span class="p">:</span> <span class="n">input_ids</span><span class="p">,</span>
+            <span class="s">"labels"</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+            <span class="s">"padding_mask"</span><span class="p">:</span> <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="s">"mask_labels"</span><span class="p">:</span> <span class="n">mask_labels</span>
+        <span class="p">}</span>
+</code></pre></div></div>
+
+<h4 id="sbo-head"><code class="language-plaintext highlighter-rouge">👩‍💻 SBO Head</code></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SBOHead</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">""" Custom Head for Span Boundary Objective Task, this module return logit value for each token
+    we use z for class logit, each Fully Connected Layer doesn't have bias term in original paper
+    so we don't use bias term in this module =&gt; nn.Linear(bias=False)
+
+    You must select option for matrix sum or concatenate with x_s-1, x_e+1, p_i-s+1
+    If you select concatenate option, you must pass is_concatenate=True to cfg.is_concatenate, default is True
+    
+    Math:
+        h_0 = [x_s-1;x_e+1;p_i-s+1]
+        h_t = LayerNorm(GELU(W_0•h_0))
+        z = LayerNorm(GELU(W_1•h_t))
+
+    Args:
+        cfg: configuration.CFG
+        is_concatenate: option for matrix sum or concatenate with x_s-1, x_e+1, p_i-s+1, default True
+        max_span_length: maximum span length of each span in one batch sequence
+                         (default: 10 =&gt; Recommended by original paper)
+    References:
+        https://arxiv.org/pdf/1907.10529.pdf
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span>
+        <span class="n">is_concatenate</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+        <span class="n">max_span_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">SBOHead</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">is_concatenate</span> <span class="o">=</span> <span class="n">is_concatenate</span>  <span class="c1"># for matrix sum or concatenate with x_s-1, x_e+1, p_i-s+1
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">projector</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>  <span class="c1"># for concatenate x_s-1, x_e+1, p_i-s+1
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">span_pos_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_span_length</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># size of dim_model is research topic
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">head</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_ffn</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">GELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_ffn</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_ffn</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">False</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">GELU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">classifier</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">bias</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">))</span>  <span class="c1"># for matching vocab size
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">classifier</span><span class="p">.</span><span class="n">bias</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">bias</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">find_consecutive_groups</span><span class="p">(</span><span class="n">mask_labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">target_value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]]:</span>
+        <span class="s">""" Get the start and end positions of consecutive groups in tensor for the target value
+        This method is used for SBO Objective Function, this version is not best performance to make span groups
+
+        Args:
+            mask_labels: masking tensor for span
+            target_value: target value for finding consecutive groups
+        """</span>
+        <span class="n">all_consecutive_groups</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">mask_label</span> <span class="ow">in</span> <span class="n">mask_labels</span><span class="p">:</span>
+            <span class="n">consecutive_groups</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">current_group</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">mask_label</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="n">target_value</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">current_group</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">current_group</span> <span class="o">=</span> <span class="p">{</span><span class="s">"start"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s">"end"</span><span class="p">:</span> <span class="n">i</span><span class="p">}</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">current_group</span><span class="p">[</span><span class="s">"end"</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">current_group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">consecutive_groups</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_group</span><span class="p">)</span>
+                        <span class="n">current_group</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">if</span> <span class="n">current_group</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                <span class="n">consecutive_groups</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_group</span><span class="p">)</span>
+            <span class="n">all_consecutive_groups</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">consecutive_groups</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">all_consecutive_groups</span>
+
+    <span class="k">def</span> <span class="nf">cal_span_emb</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">consecutive_groups</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Dict</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="s">""" Calculate span embedding for each span in one batch sequence
+
+        Args:
+            h: hidden states, already passed through projection layer (dim*3)
+            hidden_states: hidden states from encoder
+            consecutive_groups: consecutive groups for each batch sequence
+        """</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">consecutive_groups</span><span class="p">):</span>  <span class="c1"># batch level
+</span>            <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">span</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batch</span><span class="p">):</span>  <span class="c1"># span level
+</span>                <span class="n">start</span><span class="p">,</span> <span class="n">end</span> <span class="o">=</span> <span class="n">span</span><span class="p">[</span><span class="s">"start"</span><span class="p">],</span> <span class="n">span</span><span class="p">[</span><span class="s">"end"</span><span class="p">]</span>
+                <span class="n">length</span> <span class="o">=</span> <span class="n">end</span> <span class="o">-</span> <span class="n">start</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">idx</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>   <span class="c1"># .to(self.cfg.device)
+</span>                <span class="n">context_s</span><span class="p">,</span> <span class="n">context_e</span> <span class="o">=</span> <span class="n">hidden_states</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:],</span> <span class="n">hidden_states</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">span_pos_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">span_pos_emb</span><span class="p">(</span><span class="n">idx</span><span class="p">).</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">length</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">p_h</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">span_pos_emb</span><span class="p">):</span>  <span class="c1"># length of span_pos_emb == length of span of this iterations
+</span>                        <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">start</span><span class="o">+</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">context_s</span><span class="p">,</span> <span class="n">p_h</span><span class="p">,</span> <span class="n">context_e</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">h</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">context_s</span><span class="p">,</span> <span class="n">span_pos_emb</span><span class="p">,</span> <span class="n">context_e</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask_labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">consecutive_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">find_consecutive_groups</span><span class="p">(</span><span class="n">mask_labels</span><span class="p">)</span>  <span class="c1"># [batch, num_consecutive_groups]
+</span>        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">projector</span><span class="p">(</span><span class="n">hidden_states</span><span class="p">)</span>  <span class="c1"># [batch, seq, dim_model*3]
+</span>        <span class="n">h_t</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cal_span_emb</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">,</span> <span class="n">consecutive_groups</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">head</span><span class="p">(</span><span class="n">h_t</span><span class="p">)</span>
+        <span class="n">logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">logit</span>
+
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="SpanBERT" /><category term="BERT" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[SpanBERT Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👩‍💻🎄 [baekjoon] 1987번: 알파벳</title><link href="http://localhost:4000/ps/baekjoon-1987" rel="alternate" type="text/html" title="👩‍💻🎄 [baekjoon] 1987번: 알파벳" /><published>2024-01-30T00:00:00+09:00</published><updated>2024-01-31T02:00:00+09:00</updated><id>http://localhost:4000/ps/baekjoon_1987</id><content type="html" xml:base="http://localhost:4000/ps/baekjoon-1987"><![CDATA[<h3 id="️solution"><strong><code class="language-plaintext highlighter-rouge">🖍️ solution</code></strong></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -1187,67 +1544,4 @@ dL = [dx_1, dx_2]\ •\ \begin{vmatrix}
 
 <p>이제 까먹고 있었던 내적의 개념을 다시 한 번 상기시켜보자. 내적은 다양하게 해석되지만, 본디 서로 다른 두 벡터의 <code class="language-plaintext highlighter-rouge">닮은 정도</code>를 나타낸다. 극소 변화량 $dL$이 최대가 되려면 우변의 내적 결과가 최대가 되어야 한다. 내적의 최대값은 서로 다른 두 벡터 사이의 끼인각도가 0˚일 때 즉, 두 벡터가 동일한 방향을 나타낼 때 정의된다. <strong><u>따라서 방향 벡터가 그라디언트(편미분의 행벡터) 방향일 때</u></strong> <code class="language-plaintext highlighter-rouge">내적 결과</code>(극소 변화량 $dL$)<strong><u>가 최대가 된다.</u></strong></p>
 
-<p><strong><u>한편, 실제 기계학습에서는 손실함수의 최적화를 목적 함수로 사용하기 때문에 그라디언트(손실함수의 전미분) 방향에 음수를 취해준 값을 사용하게 된다.</u></strong></p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Calculus" /><category term="Partial Derivative" /><category term="Total Derivative" /><category term="loss function" /><category term="Gradient" /><category term="Gradient Descent" /><category term="Machine Learning" /><summary type="html"><![CDATA[Proof of gradient direction with Total Derivative]]></summary></entry><entry><title type="html">🍎 Newton-Raphson Method for Optimization</title><link href="http://localhost:4000/optimization-theory/newton-raphson" rel="alternate" type="text/html" title="🍎 Newton-Raphson Method for Optimization" /><published>2023-11-15T00:00:00+09:00</published><updated>2023-11-16T02:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/newton_raphson</id><content type="html" xml:base="http://localhost:4000/optimization-theory/newton-raphson"><![CDATA[<h3 id="zero-find-ver"><code class="language-plaintext highlighter-rouge">🤔 Zero-Find Ver</code></h3>
-
-<p>비선형 방정식의 근사해를 찾거나 최적화 문제를 해결하는 방식으로, 같은 과정을 반복해 최적값에 수렴한다는 점에서 경사하강법이랑 근본이 같다. 반면, 경사하강에 비해 빠른 수렴 속도를 자랑하고 풀이 방식이 매우 간단하다는 장점이 있다. 하지만 여러 제약 조건과 더불어 해당 알고리즘이 잘 작동하는 상황이 비현실적인 부분이 많아 경사하강에 비해 자주 사용되지는 않고 있다. 뉴턴-랩슨 방식은 근사해를 찾거나, 최적화 문제를 푸는 두 가지 버젼이 있는데 먼저 해를 찾는 버전부터 살펴보자. 알고리즘의 수식은 다음과 같다.ㅂ</p>
-
-\[x_{n+1}:= x_n - \frac{f(x_n)}{f'(x_n)}\]
-
-<p>반복법을 사용하기 때문에 수식의 생김새가 상당히 경사하강법과 비슷하다. 왜 이런 수식이 등장하게 되었을까?? 일단 뉴턴-랩슨 방식의 풀이 과정을 살펴보자. 먼저 초기값을 설정한다. 그 다음 해당 점을 지나는 접선의 방정식을 세운다. 이제 접선의 방정식의 $x$절편을 구하고 이것을 다음 초기값으로 사용한다. 이제 $f(x_n) \approx 0$이 될 때까지 위 과정을 지속적으로 반복하면 된다. 아래 그래프와 함께 다시 살펴보자.</p>
-
-<p align="center">
-<img src="/assets/images/optimization/zero_find.png" alt="Newton-Raphson for Zero Find" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
-<strong><em><a href="">Newton-Raphson for Zero Find</a></em></strong>
-</p>
-
-<p>초기값은 $x_0=3$이다. 시작점 $(x_0, f(x_0))$을 지나는 접선의 방정식을 세우고 해당 방정식의 $x$절편을 구하는 수식을 작성하면 아래와 같다.</p>
-
-\[f'(x_0)(x-x_n) + f(x_0) = 0\]
-
-<p>이제 이것을 예쁘게 잘 정리해서 다음 초기값 $x_1$을 구해보자.</p>
-
-\[x = x_0 - \frac{f(x_0)}{f'(x_0)}\]
-
-<p>이번 포스트 맨 처음에 봤던 뉴턴-랩슨 방법의 수식과 똑같다는 것을 알 수 있다. 다시 말해 뉴턴-랩슨의 Zero-Find 버전은 접선의 방정식의 $x$절편을 활용해 목적 함수의 해를 찾아가는 방식인 것이다.</p>
-
-<p>지금까지 근사해를 찾아주는 뉴턴-랩슨 메서드를 살펴보았다. 하지만 머신러닝처럼 현실의 최적화 문제를 풀어야 하는 우리 입장에서는 단순 목적 함수의 근을 찾는 것만으로는 주어진 문제를 해결할 수 없다. 머신러닝의 최적화 대상인 비용 함수는 거의 모든 경우에 근이 없기(베이지안 오차까지 고려하면 사실상 불가능) 때문에 일단 알고리즘의 가정 자체가 성립하지 않는다. 이러한 한계점을 극복하고자 최적화 버전의 뉴턴-랩슨 메서드가 등장하게 된다.</p>
-
-<h3 id="optimization-ver"><code class="language-plaintext highlighter-rouge">📉 Optimization Ver</code></h3>
-
-\[x_{n+1}:= x_n - \frac{f'(x_n)}{f''(x_n)}\]
-
-<p>최적화 버전의 뉴턴 랩슨 메서드는 이계도함수를 사용한다. 원함수(비용함수)가 근이 없을지라도, 함수의 극점이 존재하는한 도함수의 근은 항상 존재한다는 가정에서 출발한다. 근을 찾는 행위는 동일하게 하되, 이번에는 원함수의 근이 아니라 도함수의 근을 찾는다. 도함수의 근사해를 찾으면, 해당 위치는 국소/전역 최적값에 근접한 수치일 것이라고 기대해볼 수 있다.</p>
-
-<p>하지만 최적화 버전의 뉴턴 랩슨 메서드 역시 여전히 많은 단점을 갖고 있다. 일단 먼저 계산량이 지나치게 많아진다. 예시를 모두 스칼라 형태로 들어서 간단해 보이지만, 다변수함수에 적용하면 과정이 매우 매우 복잡해진다. 모든 <code class="language-plaintext highlighter-rouge">iteration</code> 마다 자코비안, 헤시안 행렬을 구해줘야 한다. 도함수만 이용하는 경사 하강에 비해 연산 부담이 상당히 커질 수 밖에 없는 것이다. 그리고 결정적으로 헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 해야한다. 이게 개인적으로 <code class="language-plaintext highlighter-rouge">뉴턴-랩슨</code> 방식의 가장 큰 단점이라고 생각한다. 헤시안 행렬의 역행렬이 존재하려면 반드시 원함수는 <code class="language-plaintext highlighter-rouge">Convex Function</code>이어야 하기 때문이다. 따라서 상당히 비현실적인 풀이 방식이라고 볼 수 있다.</p>
-
-<p>한편, 위 모든 제약 조건을 만족한다면 최적화 버전의 뉴턴-랩슨 방식은 경사하강에 비해 상당히 빠른 수렴 속도를 갖는데 그 이유를 간단히 살펴보자. 결과부터 설명하면 뉴턴-랩슨 방식이 사실상 <code class="language-plaintext highlighter-rouge">Least Square Method(최소 자승법)</code> 와 동치라서 그렇다. 목적함수 $f(x)$를 <code class="language-plaintext highlighter-rouge">MSE</code> 로 두고 선형 회귀 문제를 푸는 상황을 가정해보자.</p>
-
-\[Z = Ax+n \\
-f(x) = (Z-Ax)^T(Z-Ax)\]
-
-<p>목적함수를 정의했기 때문에 우리는 이제 목적함수의 도함수와 이계도함수를 구할 수 있다.</p>
-
-\[f'(x) = -2A^T(Z-Ax)\\
-f''(x) = 2A^tA\]
-
-<p>도함수와 이계도 함수를 뉴턴—랩슨 수식에 대입하면 다음과 같다.</p>
-
-\[x_{n+1} := x_n + \frac{A^T(Z-Ax)} {A^TA} = x_n + (A^TA)^{-1}A^T(Z-Ax)\]
-
-<p>분모는 헤시안 행렬과 동치다. 행렬로 어떤 수를 나눌 수는 없기 때문에 나눗셈 표현 대신 역행렬로 표기했다. 그리고 수식이 상당히 더럽기 때문에 정리를 위해 전개를 해보려 한다. 전개 결과는 다음과 같다.</p>
-
-\[x_{n+1} := x_n + (A^TA)^{-1}A^TZ - (A^TA)^{-1}A^TAx_n = (A^TA)^{-1}A^TZ\]
-
-<p>헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 해야한다라는 제약 조건이 여기서 등장한다. 만약 헤시안 행렬이 <code class="language-plaintext highlighter-rouge">invertible</code> 이라면, 다 날라가고 우변의 항만 남게 된다. 우변의 항을 자세히 살펴보면, <code class="language-plaintext highlighter-rouge">Least Square Method(최소 자승법)</code> 의 수식과 동일하다는 것을 알 수 있다. 경사하강과는 다르게 $x_n$과 관련된 항이 수식에 전혀 남아있지 않기 때문에, 최소 자승법 수식을 한 번 풀어내는 것만으로 극점에 도달하여 수렴속도가 훨씬 빠르게 되는 것이다.</p>
-
-<p align="center">
-<img src="/assets/images/optimization/gd_nr_1.png" alt="Newton-Raphson for Optimization" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
-<strong><em><a href="">Newton-Raphson for Optimization</a></em></strong>
-</p>
-
-<p>두 방식이 최적화 문제를 풀어나가는 과정을 비교하기 위해 시각화를 시도해봤다. 필자의 시각화 실력이 매우 좋지 못해 그 차이가 직관적으로 잘 안보인다… 빨간 직선은 뉴턴-랩슨 방식이고 파란 직선은 경사 하강 방법이다. 전자는 위에서 살펴본 것처럼 한번에 극소점으로 이동하는 것을 볼 수 있다. 한편 후자는 수많은 <code class="language-plaintext highlighter-rouge">Iteration</code> 을 거쳐 극소점에 도달한다. 필자의 시각화 자료가 상당히 좋지 못하다고 생각해 하단에 <a href="https://www.youtube.com/watch?v=MlZoafOnMS0&amp;list=PL_iJu012NOxeMJ5TPPW1JZKec7rhjKXUy&amp;index=6&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98">혁펜하임</a>님의 자료도 함께 첨부했으니 참고하자. 훨씬 직관적으로 잘 보인다.</p>
-
-<p align="center">
-<img src="/assets/images/optimization/gradient_vs_newton.png" alt="Newton-Raphson vs Gradient-Descent" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
-<strong><em><a href="https://ibb.co/VjvkYL7">Newton-Raphson vs Gradient-Descent</a></em></strong>
-</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Newton-Raphson" /><summary type="html"><![CDATA[최적화 문제를 위한 뉴턴-랩슨 메서드 설명]]></summary></entry></feed>
+<p><strong><u>한편, 실제 기계학습에서는 손실함수의 최적화를 목적 함수로 사용하기 때문에 그라디언트(손실함수의 전미분) 방향에 음수를 취해준 값을 사용하게 된다.</u></strong></p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Calculus" /><category term="Partial Derivative" /><category term="Total Derivative" /><category term="loss function" /><category term="Gradient" /><category term="Gradient Descent" /><category term="Machine Learning" /><summary type="html"><![CDATA[Proof of gradient direction with Total Derivative]]></summary></entry></feed>
