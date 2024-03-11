@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-11T11:29:36+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators</title><link href="http://localhost:4000/nlp/electra" rel="alternate" type="text/html" title="🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/electra</id><content type="html" xml:base="http://localhost:4000/nlp/electra"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-11T11:32:44+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing</title><link href="http://localhost:4000/nlp/deberta_v3" rel="alternate" type="text/html" title="🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/deberta-v3</id><content type="html" xml:base="http://localhost:4000/nlp/deberta_v3"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">ELECTRA</code>는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 <code class="language-plaintext highlighter-rouge">RTD(Replace Token Dection)</code> Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다.</p>
 
@@ -235,6 +235,261 @@
 <p>이제 마지막으로 판별자의 입력을 만드는 알고리즘에 대한 코드를 보자. 알고리즘은 다음과 같다.</p>
 <ul>
   <li>1) 개별 마스킹 토큰에 대한 예측 토큰 구하기</li>
+  <li>2) 모든 마스킹 부분에 예측 토큰들로 대체</li>
+  <li>3) 기존 입력과 2번으로 만들어진 시퀀스 비교해 라벨 생성
+    <ul>
+      <li>서로 같으면 0</li>
+      <li>서로 다르면 1
+이렇게 만들어진 새로운 입력 시퀀스와 라벨을 ELECTRA 모델 인스턴스의 판별자 포워드 메서드에 인자로 전달하면 된다.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="-future-work-읽고-구현하면서-느낀점--개선방향"><code class="language-plaintext highlighter-rouge">🌟 Future Work (읽고 구현하면서 느낀점 &amp; 개선방향)</code></h3>
+
+<p>이렇게 ELECTRA 모델에 대한 구현까지 살펴봤다. 논문을 읽고 구현하면서 가장 의문스러웠던 부분은 임베딩 공유 방법이었다. 수학적으로 엄밀하게 계산하고 따져보지 못했지만, 직관적으로도 생성자의 MLM과 판별자의 RTD는 서로 성격이 상당히 다른 사전 학습 방법론이라는 것을 알 수 있다. 그렇다면 단순히 단어, 포지션 임베딩을 공유하는 경우 학습 방향성이 달라서 간섭이 발생하고 모델이 수렴하지 못할 여지가 생긴다. 이러한 <code class="language-plaintext highlighter-rouge">줄다리기 현상(tag-of-war)</code>을 어떻게 해결할 수 있을까에 대한 고민이 더 필요하다고 생각한다.</p>
+
+<p>그래서 다음 포스팅에서는 이러한 줄다리기 현상을 해결하고자한 논문인 <strong><a href="https://arxiv.org/abs/2111.09543">&lt;DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing&gt;</a></strong>을 리뷰해보고자 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="DeBERTa-V3" /><category term="DeBERTa" /><category term="ELECTRA" /><category term="Weight Sharing" /><category term="BERT" /><category term="Transformer" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[DeBERTa-V3 Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators</title><link href="http://localhost:4000/nlp/electra" rel="alternate" type="text/html" title="🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/electra</id><content type="html" xml:base="http://localhost:4000/nlp/electra"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">ELECTRA</code>는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 <code class="language-plaintext highlighter-rouge">RTD(Replace Token Dection)</code> Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다.</p>
+
+<p><strong>[MLM 단점]</strong></p>
+<ul>
+  <li>1) 사전학습과 파인튜닝 사이 불일치
+    <ul>
+      <li>파인튜닝 때 Masking Task가 없음</li>
+    </ul>
+  </li>
+  <li>2) 연산량 대비 학습량은 적은편
+    <ul>
+      <li>전체 시퀀스의 15%만 마스킹 활용(15%만 학습)</li>
+      <li>전역 어텐션의 시공간 복잡도 고려하면 상당히 비효율적인 수치
+        <ul>
+          <li>시퀀스길이 ** 2의 복잡도</li>
+          <li>Vocab Size만큼의 차원을 갖는 소프트맥스 계산 반복</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>그래서 MLM은 활용하되, 파인튜닝과 괴리는 크지 않은 목적함수를 설계함으로서 입력된 전체 시퀀스에 대해서 모델이 학습하여 연산량 대비 학습량을 늘리고자 했던게 바로 ELECTRA 모델이다.</p>
+
+<p>정리하자면, ELECTRA 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법에 대한 개선 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 ELECTRA 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 그래서 본 포스팅에서도 BERT에 대한 설명 없이 RTD에 대해서만 다루려고 한다.</p>
+
+<h3 id="rtd-new-pre-train-task"><code class="language-plaintext highlighter-rouge">🌆 RTD: New Pre-train Task</code></h3>
+
+<p align="center">
+<img src="/assets/images/electra/electra.png" alt="RTD Task" class="align-center image-caption" width="100%&quot;, height=&quot;100%" />
+<strong><em><a href="https://arxiv.org/abs/2003.10555">RTD Task</a></em></strong>
+</p>
+
+<p>RTD의 아이디어는 간단하다. 생성자(Generator)가 출력으로 내놓은 토큰 시퀀스에 대해서 판별자(Discriminator)가 개별 토큰들이 원본인지 아닌지를 판정(이진 분류)하도록 만든다. 생성자는 기존의 MLM을 그대로 수행하고, 판별자는 생성자의 예측에 대해 진짜인지 가짜인지 분류하는 식이다.</p>
+
+<p>위 그림을 예시로 살펴보자. 모델에 입력으로 <code class="language-plaintext highlighter-rouge">the chef cooked the meal</code>라는 시퀀스 준다. 그러면 MLM 규칙에 따라서 15%의 토큰이 무작위로 선택된다. 그래서 <code class="language-plaintext highlighter-rouge">the</code>, <code class="language-plaintext highlighter-rouge">cooked</code>가 마스킹 되었다. 이제 생성자는 마스킹 토큰에 대해 <code class="language-plaintext highlighter-rouge">the</code>, <code class="language-plaintext highlighter-rouge">ate</code>라는 결과를 내놓는다. 그래서 최종적으로 생성자가 반환하는 시퀀스는 <code class="language-plaintext highlighter-rouge">the chef ate the meal</code>이 된다. 이제 생성자가 반환한 시퀀스를 판별자에 입력으로 대입한다. 판별자는 개별 토큰들이 원본인지 아닌지를 판정해 결과를 출력한다.</p>
+
+<p>이러한 구조 및 사전학습 방식의 장점은 판별자가 MLM 학습에 따른 지식을 생성자로부터 전수 받는 동시에 전체 시퀀스에 대해서 학습할 기회가 생긴다는 것이다. 시퀀스 내부 모든 토큰에 대해서 예측을 수행하고 손실을 계산할 수 있기 때문에 같은 크기의 시퀀스를 사용해도 기존 MLM 대비 더 풍부한 문맥 정보를 모델이 포착할 수 있게 된다. 또한 판별자를 파인튜닝의 BackBone으로 사용하면, 판별자의 사전학습은 결국 마스킹 없이 모든 시퀀스를 활용한 이진 분류라고 볼 수 있기 때문에, 사전학습과 파인튜닝 사이의 괴리도 상당히 많이 줄어들게 된다.</p>
+
+<h3 id="architecture"><code class="language-plaintext highlighter-rouge">🌟 Architecture</code></h3>
+
+<p align="center">
+<img src="/assets/images/electra/electra_experiment.png" alt="Model Architecture" class="align-center image-caption" width="100%&quot;, height=&quot;100%" />
+<strong><em><a href="https://arxiv.org/abs/2003.10555">Model Architecture</a></em></strong>
+</p>
+
+<p>저자는 위와 같은 실험 결과를 바탕으로, 생성자의 width (은닉층) 크기가 판별자보다 작도록 모델 크기를 세팅하는게 가장 효율적이라고 주장한다. 제시된 그래프는 생성자와 판별자의 크기 변화 대비 파인튜닝 성능의 추이를 나타낸다. 생성자의 width 크기가 256, 판별자의 width 크기가 768일 때 가장 점수가 높다. depth(레이어 개수)에 대한 언급은 따로 없지만, 저자에 의해 공개된 Hyper-Param 테이블을 보면 은닉층의 크기만 줄이고, 레이어 개수는 생성자와 판별자가 같은 것으로 추정된다.</p>
+
+<p>추가로, 생성자와 판별자가 임베딩 층을 서로 공유하는게 가장 높은 성능을 낸다고 주장한다. 오른쪽 그래프 추이를 보면 같은 연산량이라면, 임베딩 공유(파란색 실선) 방식이 가장 높은 파인튜닝 성능을 보여준다는 것을 알 수 있다. 따라서 단어 임베딩, 절대 위치 임베딩을 서로 공유하도록 설계한다. 대신 생성자 은닉층의 크기가 더 작은게 유리하다고 언급했기 때문에, 이것을 실제로 구현하려면 임베딩 층으로부터 나온 결과값을 생성자의 은닉층 차원으로 선형 투영해줘야 한다. 그래서 생성자의 임베딩 층과 인코더 사이에 linear layer가 추가되어야 한다.</p>
+
+\[\min_{\theta_G, \theta_D}\sum_{x \in X} \mathcal{L}_{\text{MLM}}(x, \theta_G) + \lambda \mathcal{L}_{\text{Disc}}(x, \theta_D)\]
+
+<p>따라서, 지금까지 살펴본 모든 내용을 종합해보면 ELECTRA의 목적함수는 다음 수식과 같다. 생성자의 MLM 손실과 판별자의 이진 분류 손실을 더해서 모델에 오차 역전해주면 되는데, 특이한 점은 판별자의 손실에 상수값인 람다가 곱해진다는 것이다. 실제 모델을 구현하고 사전학습을 해보면, 데이터의 양이나 모델 크기 혹은 종류에 따라 달라지겠지만 두 손실 사이의 스케일의 차이가 10배정도 차이 나게 된다. 두 손실의 스케일을 맞춰주는 동시에, 임베딩층의 학습이 판별자의 손실을 줄이는데 더 집중하도록 만들기 위해 도입한 것으로 추정된다. 논문과 코드를 보면 저자는 $\lambda=50$ 으로 두고 학습하고 있다.</p>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+
+<p>논문의 내용과 저자가 직접 공개한 코드를 종합하여 파이토치로 ELECTRA를 구현해봤다. 두 개의 서로 다른 모델을 같은 스탭에서 학습시켜야 하기 때문에, 제시된 내용에 비해 실제 구현은 매우 까다로운 편이었다. 본 포스팅에서는 ELECTRA 모델 구조를 비롯해 RTD 학습 파이프라인 구성에 필수적인 요소 몇 가지에 대해서만 설명하려 한다. 전체 구조에 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고 부탁드린다.</p>
+
+<p>ELECTRA의 사전 학습인 RTD의 학습 파이프라인을 구현한 코드를 본 뒤, 세부 구성 요소들에 대해서 살펴보자.</p>
+
+<h4 id="-rtd-trainer-method"><strong><code class="language-plaintext highlighter-rouge">🌆 RTD trainer method</code></strong></h4>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_val_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader_train</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">criterion</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+  <span class="n">scaler</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">GradScaler</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">)</span>
+  <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">loader_train</span><span class="p">)):</span>
+      <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="n">inputs</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'input_ids'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+      <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'labels'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  
+      <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'padding_mask'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>  
+
+      <span class="n">mask_labels</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+          <span class="n">mask_labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'mask_labels'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+      <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">):</span>
+          <span class="n">g_logit</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">generator_fw</span><span class="p">(</span>
+              <span class="n">inputs</span><span class="p">,</span>
+              <span class="n">labels</span><span class="p">,</span>
+              <span class="n">padding_mask</span><span class="p">,</span>
+              <span class="n">mask_labels</span>
+          <span class="p">)</span>
+          <span class="n">d_logit</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">discriminator_fw</span><span class="p">(</span>
+              <span class="n">d_inputs</span><span class="p">,</span>
+              <span class="n">padding_mask</span>
+          <span class="p">)</span>
+          <span class="n">g_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">g_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+          <span class="n">d_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">d_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">d_labels</span><span class="p">)</span>
+          <span class="n">loss</span> <span class="o">=</span> <span class="n">g_loss</span> <span class="o">+</span> <span class="n">d_loss</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">discriminator_lambda</span>
+
+      <span class="n">scaler</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">).</span><span class="n">backward</span><span class="p">()</span>
+      <span class="n">scaler</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+      <span class="n">scaler</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+      <span class="n">scheduler</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+<p>데이터로더로부터 받은 입력들을 생성자에 넣고 MLM 예측 결과, RTD 수행을 위해 필요한 새로운 라벨값을 반환 받는다. 그리고 이것을 다시 판별자의 입력으로 사용하고, 판별자의 예측 결과를 반환받아 서로 다른 두 모델에 대한 가중 손실합산을 구한 뒤, 옵티마이저에 보내고 최적화를 수행한다. 이 때, 처음에 데이터로더가 반환하는 입력 시퀀스와 라벨은 MLM의 그것과 동일하다,</p>
+
+<p>구현하면서 가장 어려웠던게, 옵티마이저 및 스케줄러의 구성이었다. 두 개의 모델을 같은 스탭에서 학습시키는 경험이 처음이라서 처음에 모델 개수만큼 옵티마이저와 스케줄러 객체를 만들어줘야 한다고 생각했다. 특히 두 모델의 스케일이 다르기 때문에 서로 다른 옵티마이저, 스케줄러 도입으로 각기 다른 학습률을 적용하는게 정확할 것이라 생각했다.</p>
+
+<p>하지만, 옵티마이저를 두 개 사용하는 것은 매우 많은 메모리를 차지할 뿐더러 논문에서 공개한 하이퍼파라미터 테이블을 보면 두 모델에 같은 학습률을 적용하고 있는 것을 알 수 있었다. 따라서 그에 맞게 같은 옵티마이저, 스케줄러를 사용해 동시에 두 모델이 학습되도록 파이프라인을 만들게 되었다.</p>
+
+<p>추가로, 공개된 오피셜 코드 역시 단일 옵티마이저 및 스케줄러를 사용하는 것을 확인했다.</p>
+
+<h4 id="-electra-module"><strong><code class="language-plaintext highlighter-rouge">🌆 ELECTRA Module</code></strong></h4>
+<p>🌟 Architecture</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">experiment.models.abstract_model</span> <span class="kn">import</span> <span class="n">AbstractModel</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">einops.layers.torch</span> <span class="kn">import</span> <span class="n">Rearrange</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.mlm</span> <span class="kn">import</span> <span class="n">MLMHead</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.sbo</span> <span class="kn">import</span> <span class="n">SBOHead</span>
+<span class="kn">from</span> <span class="nn">experiment.tuner.rtd</span> <span class="kn">import</span> <span class="n">get_discriminator_input</span><span class="p">,</span> <span class="n">RTDHead</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="k">class</span> <span class="nc">ELECTRA</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span> <span class="n">model_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ELECTRA</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">generator</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">generator_num_layers</span><span class="p">)</span>  <span class="c1"># init generator
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span> <span class="o">=</span> <span class="n">MLMHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span> <span class="o">=</span> <span class="n">SBOHead</span><span class="p">(</span>
+                <span class="n">cfg</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">,</span>
+                <span class="n">is_concatenate</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_concatenate</span><span class="p">,</span>
+                <span class="n">max_span_length</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">max_span_length</span>
+            <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">discriminator_num_layers</span><span class="p">)</span>  <span class="c1"># init generator
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">rtd_head</span> <span class="o">=</span> <span class="n">RTDHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">share_embed_method</span>  <span class="c1"># instance, es, gdes
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">share_embedding</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">share_embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">def</span> <span class="nf">discriminator_hook</span><span class="p">(</span><span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="o">*</span><span class="n">inputs</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">==</span> <span class="s">'instance'</span><span class="p">:</span>  <span class="c1"># Instance Sharing
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span>
+
+            <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">share_embed_method</span> <span class="o">==</span> <span class="s">'ES'</span><span class="p">:</span>  <span class="c1"># ES (Embedding Sharing)
+</span>                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">.</span><span class="n">weight</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">abs_pos_emb</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">.</span><span class="n">embeddings</span><span class="p">.</span><span class="n">abs_pos_emb</span><span class="p">.</span><span class="n">weight</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">.</span><span class="n">register_forward_pre_hook</span><span class="p">(</span><span class="n">discriminator_hook</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">generator_fw</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">mask_labels</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="n">g_last_hidden_states</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">generator</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'MaskedLanguageModel'</span><span class="p">:</span>
+            <span class="n">g_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">(</span>
+                <span class="n">g_last_hidden_states</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">rtd_masking</span> <span class="o">==</span> <span class="s">'SpanBoundaryObjective'</span><span class="p">:</span>
+            <span class="n">g_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">(</span>
+                <span class="n">g_last_hidden_states</span><span class="p">,</span>
+                <span class="n">mask_labels</span>
+            <span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">g_logit</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">()</span>
+        <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">get_discriminator_input</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">labels</span><span class="p">,</span>
+            <span class="n">pred</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">g_logit</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span>
+
+    <span class="k">def</span> <span class="nf">discriminator_fw</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+            <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">d_last_hidden_states</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">discriminator</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">d_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rtd_head</span><span class="p">(</span>
+            <span class="n">d_last_hidden_states</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">d_logit</span>
+
+</code></pre></div></div>
+<p>ELECTRA 모델 객체는 크게 임배딩 레이어 공유, 생성자 포워드, 판별자 포워드 파트로 나뉜다. 먼저 임베딩 레이어 공유는 크게 두 가지 방식으로 구현 가능하다. 하나는 임베딩 레이어 인스턴스 자체를 공유하는 방식으로, 생성자와 판별자의 스케일이 동일할 때 사용할 수 있다. 나머지는 단어 임베딩, 포지션 임베딩의 가중치 행렬만 공유하는 방식으로, 서로 스케일이 달라도 사용할 수 있다. 논문에서 제시하는 가장 효율적인 방법은 후자이며, 판별자의 임베딩 행렬이 생성자의 임베딩 행렬의 주소를 가리키도록 함으로서 구현 가능하다.</p>
+
+<h4 id="-rtd-input-making"><strong><code class="language-plaintext highlighter-rouge">🌆 RTD Input Making</code></strong></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">configuration</span> <span class="kn">import</span> <span class="n">CFG</span>
+
+<span class="k">def</span> <span class="nf">get_discriminator_input</span><span class="p">(</span><span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pred</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+    <span class="s">""" Post Processing for Replaced Token Detection Task
+    1) get index of the highest probability of [MASK] token in pred tensor
+    2) convert [MASK] token to prediction token
+    3) make label for Discriminator
+
+    Args:
+        inputs: pure inputs from tokenizing by tokenizer
+        labels: labels for masked language modeling
+        pred: prediction tensor from Generator
+
+    returns:
+        d_inputs: torch.Tensor, shape of [Batch, Sequence], for Discriminator inputs
+        d_labels: torch.Tensor, shape of [Sequence], for Discriminator labels
+    """</span>
+    <span class="c1"># 1) flatten pred to 2D Tensor
+</span>    <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="bp">None</span>  <span class="c1"># detach to prevent back-propagation
+</span>    <span class="n">flat_pred</span><span class="p">,</span> <span class="n">flat_label</span> <span class="o">=</span> <span class="n">pred</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">pred</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">labels</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># (batch * sequence, vocab_size)
+</span>
+    <span class="c1"># 2) get index of the highest probability of [MASK] token
+</span>    <span class="n">pred_token_idx</span><span class="p">,</span> <span class="n">mlm_mask_idx</span> <span class="o">=</span> <span class="n">flat_pred</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">flat_label</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">pred_tokens</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">index_select</span><span class="p">(</span><span class="n">pred_token_idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># 3) convert [MASK] token to prediction token
+</span>    <span class="n">d_inputs</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">pred_tokens</span>
+
+    <span class="c1"># 4) make label for Discriminator
+</span>    <span class="n">original_tokens</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">clone</span><span class="p">().</span><span class="n">detach</span><span class="p">().</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">original_tokens</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">flat_label</span><span class="p">[</span><span class="n">mlm_mask_idx</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+    <span class="n">d_labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">original_tokens</span><span class="p">,</span> <span class="n">d_inputs</span><span class="p">).</span><span class="nb">long</span><span class="p">()</span>
+    <span class="n">d_inputs</span> <span class="o">=</span> <span class="n">d_inputs</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">pred</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># covert to [batch, sequence]
+</span>    <span class="k">return</span> <span class="n">d_inputs</span><span class="p">,</span> <span class="n">d_labels</span>
+</code></pre></div></div>
+<p>이제 마지막으로 판별자의 입력을 만드는 알고리즘에 대한 코드를 보자. 알고리즘은 다음과 같다.</p>
+<ul>
+  <li>1) 개별 마스킹 토큰에 대한 예측 토큰 구하기
+    <ul>
+      <li>로짓을 실제 토큰 인덱스로 변환</li>
+    </ul>
+  </li>
   <li>2) 모든 마스킹 부분에 예측 토큰들로 대체</li>
   <li>3) 기존 입력과 2번으로 만들어진 시퀀스 비교해 라벨 생성
     <ul>
@@ -1067,53 +1322,4 @@ f''(x) = 2A^tA\]
 <p align="center">
 <img src="/assets/images/optimization/gradient_vs_newton.png" alt="Newton-Raphson vs Gradient-Descent" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
 <strong><em><a href="https://ibb.co/VjvkYL7">Newton-Raphson vs Gradient-Descent</a></em></strong>
-</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Newton-Raphson" /><summary type="html"><![CDATA[최적화 문제를 위한 뉴턴-랩슨 메서드 설명]]></summary></entry><entry><title type="html">🗂️ Convex Optimization Problem</title><link href="http://localhost:4000/optimization-theory/convex" rel="alternate" type="text/html" title="🗂️ Convex Optimization Problem" /><published>2023-11-13T00:00:00+09:00</published><updated>2023-11-14T02:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/convex_problem</id><content type="html" xml:base="http://localhost:4000/optimization-theory/convex"><![CDATA[<h3 id="convex-optimization-problem"><code class="language-plaintext highlighter-rouge">❓ Convex Optimization Problem</code></h3>
-
-\[f(wx_1 + (1-w)x_2)≤ wf(x_1) + (1-w)f(x_2),\ \ w \in [0,1] \\
-f''(x) ≥ 0\]
-
-<p><code class="language-plaintext highlighter-rouge">Convex Problem</code> 이란, 목적 함수 $f(x)$가 <code class="language-plaintext highlighter-rouge">Convex Function</code> 이면서 <code class="language-plaintext highlighter-rouge">Feasible Set</code> 역시 <code class="language-plaintext highlighter-rouge">Convex Set</code> 이 되는 문제 상황을 일컫는다. <code class="language-plaintext highlighter-rouge">Convex Problem</code> 는 수학적 최적화에서 매우 중요한 개념인데, 그 이유는 해당 조건을 만족하면 <code class="language-plaintext highlighter-rouge">국소 최적해</code>가 <code class="language-plaintext highlighter-rouge">전역 최적해</code>와 동치가 되어 최적화 난이도가 급격히 낮아지기 때문이다. 또한 <code class="language-plaintext highlighter-rouge">Convex Problem</code>을 해결해 국소 최적해를 구하는 알고리즘은 이미 많이 개발 되어 있기 때문에 주어진 최적화 문제를 <code class="language-plaintext highlighter-rouge">Convex Problem</code>으로 치환해 해결하는게 가장 효율적이다. 한편, 여기서 <code class="language-plaintext highlighter-rouge">Feasible Set</code> 이란, 함수의 <code class="language-plaintext highlighter-rouge">실행 가능 영역•정의역</code>이라고 생각하면 된다. 아래 그림, 빨간 직선의 영역에 해당한다. 세트라는 명칭은 무한한 직선이 아닌 유한한 선분을 표현하는 용어라고 생각하면 된다.</p>
-
-<p>위에 서술한 두개의 수식은 어떤 문제 상황이 <code class="language-plaintext highlighter-rouge">Convex Problem</code> 인지 아닌지 구분해주는 판별식의 역할을 한다. 왜 두 수식을 만족하면 <code class="language-plaintext highlighter-rouge">Convex Problem</code>이 되는지 살펴보고 마지막에는 <code class="language-plaintext highlighter-rouge">Convex Problem</code> 에서 왜 <code class="language-plaintext highlighter-rouge">국소 최적해</code>가 <code class="language-plaintext highlighter-rouge">전역 최적해</code>와 동치가 되는지 그 증명을 해보려 한다.</p>
-
-<p align="center">
-<img src="/assets/images/optimization/convex_function.png" alt="Convex Function" class="align-center image-caption" width="60%&quot;, height=&quot;50%" />
-<strong><em><a href="">Convex Function</a></em></strong>
-</p>
-
-<h3 id="-jensens-inequality"><code class="language-plaintext highlighter-rouge">﹤ Jensen’s Inequality</code></h3>
-
-<p>첫번째 수식을 보자. 우리는 이것을 <code class="language-plaintext highlighter-rouge">얀센 부등식</code>이라고 부른다. <code class="language-plaintext highlighter-rouge">얀센 부등식</code> 은 어떤 함수 $f(x)$의 <code class="language-plaintext highlighter-rouge">Convex Function</code> 여부를 판정 하는데 사용된다. 좌변은 <code class="language-plaintext highlighter-rouge">Feasible Set</code> 에 해당되는 데이터 포인트의 함수값을 의미하며 그림 상에서 초록색 곡선으로 표현된다. 한편, 우변은 <code class="language-plaintext highlighter-rouge">Feasible Set</code>의 평균변화율을 기울기로 하면서 구간 양쪽 끝을 지나는 선분을 일컫는다. 그림에서 파란색 직선이 바로 부등식의 우변이다.</p>
-
-<p>그렇다면 위 부등식을 항상 만족하려면 함수 $f(x)$는 어떤 형태를 가져야 할까?? 먼저 오목 함수인 <code class="language-plaintext highlighter-rouge">Concave Function</code>부터 생각해보자. 위 그림을 뒤집어서 생각해보면 되는데, 함수가 정의되는 전체 정의역에서 위 부등식을 만족하는 구간(파란색 직선이 초록색 곡선보다 위에 있는)을 전혀 찾아볼 수 없다. 따라서 얀센 부등식을 만족하려면 <code class="language-plaintext highlighter-rouge">Feasible Set</code> 의 구간이 반드시 <code class="language-plaintext highlighter-rouge">Convex Set</code> 이어야 하고, 해당 구간에서 목적함수는 반드시 <code class="language-plaintext highlighter-rouge">Convex Function</code>의 형태를 띄고 있어야 한다.</p>
-
-<p>그렇다면 목적함수가 <code class="language-plaintext highlighter-rouge">Convex</code>인지는 어떻게 판별할 수 있을까?? 주어진 모든 상황에서 위 그림처럼 쉽게 함수의 그래프를 그릴 수는 없을 것이다. 그래서 수식으로 어떤 목적함수가 <code class="language-plaintext highlighter-rouge">Convex</code>인지 판별할 수 있어야 한다. 드디어 제시된 두번째 수식을 활용할 차례다.</p>
-
-<h3 id="second-derivative"><code class="language-plaintext highlighter-rouge">📈 Second Derivative</code></h3>
-
-<p>두번째 수식을 흔히 이계도함수라고 부른다. 아마 수능 수학에서 21, 30번과 같은 킬러 문제를 풀 때 가끔씩 사용하던 기억이 날 것이다. 이계도함수는 도함수를 한 번 더 미분한 것으로 원함수의 곡선이 얼마나 빠르게 변하는지 혹은 곡선의 곡률에 대한 정보를 알려준다. 이를 통해 원함수의 극대, 극소는 물론 변곡점의 위치를 알아낼 수 있다. 그래서 어떤 이차함수를 예시로 들어보자. 2차항의 부호가 양수라면 이계도함수의 값은 항상 양수가 될 것이고, 음수라면 항상 음수가 될 것이다. 그런데 우리는 이미 직관적으로 2차함수에서 최고차항의 부호가 양수면 아래로 볼록한 함수, 반대의 경우 위로 오목한 오목함수가 된다는 것을 알고 있다. 따라서 이계도 함수의 값이 항상 양수라면 해당 함수는 <code class="language-plaintext highlighter-rouge">Convex Function</code>이 된다.</p>
-
-<p>지금까지는 단변수 함수에 대한 케이스만 살펴보았다. 그렇다면 이것을 다변수로 확장할 수는 없을까?? 물론 가능하다. 어떤 다변수 함수가 <code class="language-plaintext highlighter-rouge">Convex</code>인지 판정하는 것도 위와 동일한 조건을 통해 판별한다. 이 때 등장하는게 바로 헤시안 행렬이다. 헤시안 행렬이란, 어떤 다변수 함수의 이계도함수값을 행렬로 나타낸 것이다. 단변수 함수의 이계도함수 역할과 동일하다. 그래서 어떤 다변수 함수가 컨백스 함수이려면, 헤시안 행렬이 <code class="language-plaintext highlighter-rouge">Positive Semi-Define</code> 조건을 만족해야 한다. 헤시안 행렬과 <code class="language-plaintext highlighter-rouge">Positive Semi-Define</code>에 대해서는 다른 포스트에서 자세히 다루도록 하겠다.</p>
-
-<h3 id="-proof-local-minimum-same-as-global-minimum-in-convex"><code class="language-plaintext highlighter-rouge">🪪 Proof: local minimum same as global minimum in Convex</code></h3>
-
-<p>이제 드디어 목적함수가 컨백스 함수일 때, 국소 최적해가 전역 최적해와 동치가 되는지를 증명해보려 한다. 먼저 증명은 귀류법을 사용한다. 귀류법이란, 수학, 논리학, 철학 등에서 주장이 부정됨을 보이기 위해 모순 또는 부정된 가정을 유도하는 논증 기법으로, 특정 주장이 참임을 증명하기보다는 그 반대인 부정된 주장이 거짓임을 보이는 데 사용한다. 그래서 귀류법을 활용해 다음과 같은 명제가 거짓임을 증명해보려 한다.</p>
-
-<p>어떤 함수 $f(x)$는 Convex면서 Feasible Set이 Convex Set임을 만족하는 동시에 아래 수식을 만족한다고 한다.</p>
-
-\[f(x^@) &lt; f(x^!)\]
-
-<p>부등식의 우변은 국소 최적해를 의미하고, 좌변은 국소 최적해보다 작은 함수값이 존재한다고 가정한 것이다. 이제 이 명제가 틀림을 증명하면 우리는 자연스럽게 국소 최적해가 전역 최적해와 동치가 된다는 것을 확인할 수 있게 된다.</p>
-
-<p>우리는 함수 $f(x)$가 <code class="language-plaintext highlighter-rouge">Convex</code>면서 <code class="language-plaintext highlighter-rouge">Feasible Set</code>이 <code class="language-plaintext highlighter-rouge">Convex Set</code>이라고 가정했기 때문에, $\alpha x^! + (1-\alpha)x^@$ 역시 <code class="language-plaintext highlighter-rouge">Feasible Set</code>이 될 것이다. 이러한 사실을 활용해 두 점($x^!, x^@$)을 얀센 부등식에 넣어보자.</p>
-
-\[f(wx^! + (1-w)x^@)≤ wf(x^!) + f(x^!) - f(x^!) + (1-w)f(x^@) \\
-f(wx^! + (1-w)x^@)≤ f(x^!) +(1-w)(f(x^@) -f(x^!))\]
-
-<p>우변부터 함께 살펴보자. $(1-w)$는 반드시 양수가 된다. 얀센 부등식 정의상 $w \in [0,1]$을 만족하기 때문이다. 한편, $f(x^@) -f(x^!)$는 음수가 된다. 증명을 시작하면서 $f(x^@)$가 $f(x^!)$보다 작다고 가정했기 때문이다. 따라서 우변은 $f(x^!)$보다 아주 조금 작은 값(w→1)이 될 것이다. 이제 좌변을 살펴보자. 마찬가지로 w→1을 해주면 좌변은 $f(x^!)$의 매우 근접한 위치의 함수값을 보자는 의미가 된다. 좌변을 $\alpha$, 우변을 $\beta$로 치환해 지금까지 증명 과정을 다시 부등식으로 표현하면 다음과 같다.</p>
-
-\[\alpha ≤ \beta &lt; f(x^!)\]
-
-<p>우리는 $f(x^!)$가 지역 최소값이라고 정의한 바 있다. 지역 최소값이라는 것은 그 주변에서 가장 작은값이라는 의미를 갖는다. 그런데 $f(x^!)$의 주변값인 $\alpha$가 지역 최소값보다 작다고 부등식은 말하고 있기 때문에, 지역 최소값 정의에 위배되어 위 명제는 거짓이 된다.</p>
-
-<p>정리하자면, 어떤 함수 $f(x)$가 컨백스 성질을 만족하면서, Feasible Set 역시 Convex Set인 경우에 국소 최소값이 전역 최소값이 아닐 경우, 국소 최적이 국소 최적이 아닌 경우가 발생하기 떄문에 반드시 위 조건에서 국소 최적값은 전역 최적값이 되어야 한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Convex Optimization" /><summary type="html"><![CDATA[컨백스 최적화 문제 증명]]></summary></entry></feed>
+</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Optimization Theory" /><category term="Newton-Raphson" /><summary type="html"><![CDATA[최적화 문제를 위한 뉴턴-랩슨 메서드 설명]]></summary></entry></feed>
