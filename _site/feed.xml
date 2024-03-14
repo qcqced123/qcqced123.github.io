@@ -1,4 +1,274 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-11T19:41:44+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing</title><link href="http://localhost:4000/nlp/deberta_v3" rel="alternate" type="text/html" title="🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/deberta-v3</id><content type="html" xml:base="http://localhost:4000/nlp/deberta_v3"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-15T00:08:50+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 <code class="language-plaintext highlighter-rouge">BERT-base-uncased</code> 만 해도 파라미터가 1억 1천만개 수준에 달한다.</p>
+
+<p>이를 다양한 비즈니스 요구 상황에 적용할 수 있으려면 최소한 8GB 이상의 가속기 전용 RAM 공간을 요구로 한다. 오늘날 개인용 PC 혹은 서버 컴퓨터의 경우, 8GB 이상의 VRAM이 달린 GPU가 일반적으로 탑재되기 때문에 크게 문제 될 것 없는 요구사항이지만, On-Device 환경에서는 이야기가 달라진다. 최신 하이엔드 스마트폰인 Galaxy S24 Ultra, iPhone 15 Pro의 경우 12GB, 8GB의 램 용량을 보유하고 있다. 그마저도 대부분의 온디바이스 환경은 SoC 구조를 채택하고 있기 때문에 전용 가속기가 온전히 저 모든 램 공간을 활용할 수 없다.</p>
+
+<p>따라서 온디바이스에 Ai를 적용하기 위해서는 획기적인 모델 경량화가 필요한 상황이고 그 출발점이 된 연구가 바로 <code class="language-plaintext highlighter-rouge">DistilBERT</code>다. 로컬 디바이스 환경에서도 언어 모델을 활용하기 위해 허깅 페이스 연구진은 지식 증류 기법을 활용해 인코더 기반 언어 모델의 파라미터를 획기적으로 줄이는데 성공한다.</p>
+
+<p>정리하자면, <code class="language-plaintext highlighter-rouge">DistilBERT</code> 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법 특히 경량화에 초점을 맞춘 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 <code class="language-plaintext highlighter-rouge">DistilBERT</code> 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 이번 포스팅에서도 BERT 구조에 대한 설명 대신, <code class="language-plaintext highlighter-rouge">DistilBERT</code>의 사전 학습 방법론인 <code class="language-plaintext highlighter-rouge">Knowledge Distillation</code>에 대해서만 다루려고 한다.</p>
+
+<h3 id="knowledge-distillations"><code class="language-plaintext highlighter-rouge">🌆 Knowledge Distillations</code></h3>
+
+\[\min_{\theta}\sum_{x \in X} \alpha \mathcal{L}_{\text{KL}}(x, \theta) + \beta \mathcal{L}_{\text{MLM}}(x, \theta) + \gamma \mathcal{L}_{\text{Cos}}(x, \theta)\]
+
+<p><code class="language-plaintext highlighter-rouge">DistilBERT</code>는 Teacher-Student Architecture를 차용해 상대적으로 작은 파라미터 사이즈를 갖는 <code class="language-plaintext highlighter-rouge">Student</code> 모델에게 <code class="language-plaintext highlighter-rouge">Teacher</code>의 지식을 전수하는 것을 목표로 한다. 따라서 <code class="language-plaintext highlighter-rouge">Teacher</code> 모델은 이미 사전 학습을 마치고 수렴된 상태의 가중치를 갖고 있는 모델을 사용해야 한다. 더불어 Teacher 모델은 구조만 기존 BERT를 따르되, 사전 학습 방식은 RoBERTa의 방식과 동일(NSP 제거, Dynamic Masking 적용)하게 훈련되어야 한다.</p>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">Student</code> 모델은 <code class="language-plaintext highlighter-rouge">Teacher</code>의 60%정도 파라미터 사이즈를 갖도록 축소하여 사용한다. 이 때 축소는 모델의 <code class="language-plaintext highlighter-rouge">depth</code>(레이어 개수)에만 적용하는데, 연구진에 따르면 <code class="language-plaintext highlighter-rouge">width</code>(은닉층 크기)는 축소를 적용해도 연산 효율이 증가하지 않는다고 한다. 정리하면 <code class="language-plaintext highlighter-rouge">Teacher</code> 모델의 <code class="language-plaintext highlighter-rouge">레이어 개수*0.6</code>의 개수만큼 인코더를 쌓으면 된다는 것이다.</p>
+
+<p>그리고 최대한 <code class="language-plaintext highlighter-rouge">Teacher</code>의 지식을 전수해야 하기 때문에, 데이터는 <code class="language-plaintext highlighter-rouge">Teacher</code> 를 수렴시킨 것과 동일한 세트를 이용해야 한다. 이 때, Teacher 모델은 이미 MLE 방식으로 훈련이 된 상태라서 로짓이 단일 토큰 하나 쪽으로 쏠려 있을 가능성이 매우 높다. 이는 <code class="language-plaintext highlighter-rouge">Student</code> 모델의 일반화 능력에 악영향을 미칠 가능성이 높다. 따라서 Temperature 변수 $T$ 도입해 소프트 맥스(로짓)의 분포를 평탄화 한다. 이렇게 하면, <code class="language-plaintext highlighter-rouge">argmax()</code> 가 아닌 다른 토큰 표현에 대해서도 <code class="language-plaintext highlighter-rouge">Student</code> 모델이 지식을 습득할 수 있어서 풍부한 문맥을 학습하고 일반화 능력을 높이는데 도움이 된다. 이를 <code class="language-plaintext highlighter-rouge">암흑 지식(Dark Knowledge)</code> 을 활용한다고 표현한다. Temperature 변수 $T$ 도입한 소프트맥스 함수 수식은 아래와 같다.</p>
+
+\[\text{softmax}(x_i) = \frac{e^{\frac{x_i}{\tau}}}{\sum_{j} e^{\frac{x_j}{\tau}}}\]
+
+<p>수식상 변수 $T$의 값을 1이상으로 세팅해야 평탄화를 할 수 있다. 따라서 연구진은 $T =2$ 로 두고 사전 학습을 진행했다(논문에 공개안됨, GitHub에 있음). 이번 파트 맨 처음에 등장한 수식을 다시 보자. 결국 <code class="language-plaintext highlighter-rouge">DisilBERT</code>의 목적함수는 3가지 손실의 가중합으로 구성된다. 이제부터는 개별 손실에 대해서 자세히 살펴보자.</p>
+
+<h4 id="distillation-loss-kl-divergence-loss"><code class="language-plaintext highlighter-rouge">🌆 Distillation Loss: KL-Divergence Loss</code></h4>
+
+\[\text{KL-Divergence}(P || Q) = \sum_{i} P(i) \log \frac{P(i)}{Q(i)}\]
+
+<p>증류 손실로 사용되는 <code class="language-plaintext highlighter-rouge">KL-Divergence Loss</code>는 두 확률 분포 간의 차이를 측정하는 지표 중 하나다. 주로 확률 분포 P와 Q 사이의 차이를 나타내는데, 개별 요소의 확률값 차이가 클수록 합산값은 커져 손실이 커지게 된다. 반대로 두 분포의 개별 요소 확률값 차이가 작다면 당연히, 두 분포가 유사하다는 의미이므로 손실 역시 작아지게 된다. 일반적으로 <code class="language-plaintext highlighter-rouge">KL-Divergence Loss</code> 에서 확률분포 $P$ 가 이상적인 확률 분포를, $Q$ 가 모델이 예측한 확률분포를 의미한다. 따라서 <code class="language-plaintext highlighter-rouge">DistilBERT</code>의 경우 확률분포 $P$ 자리에는 <code class="language-plaintext highlighter-rouge">Teacher</code> 모델의 소프트맥스 분포가, $Q$ 에는 <code class="language-plaintext highlighter-rouge">Student</code> 모델의 소프트맥스 분포가 대입되면 된다. 이 때 두 확률분포 모두, 암흑 지식 획득을 위해 소프트맥스 평탄화를 적용한 결과를 사용한다. 논문에서, 선생 모델 예측에 평탄화를 적용한 것을 <code class="language-plaintext highlighter-rouge">소프트 라벨</code>, 학생 모델의 것에 적용한 결과는 <code class="language-plaintext highlighter-rouge">소프트 예측</code>이라고 부른다.</p>
+
+<h4 id="student-loss-mlm-loss"><code class="language-plaintext highlighter-rouge">🌆 Student Loss: MLM Loss</code></h4>
+
+\[\mathcal{L}_{\text{MLM}} = - \sum_{i=1}^{N} \sum_{j=1}^{L} \mathbb{1}_{m_{ij}} \log \text{softmax}(x_{ij})\]
+
+<p>학생 손실은 말그대로 기본적인 MLM 손실을 말한다. 정확한 손실값 계산을 위해서 학생의 소프트맥스 분포에 평탄화를 적용하지 않는다. 이를 논문에서는 <code class="language-plaintext highlighter-rouge">하드 예측</code>이라고 부른다. 라벨 역시 <code class="language-plaintext highlighter-rouge">Teacher</code>로부터 나온 것이 아닌 원래 MLM 수행에 사용되는 마스킹 라벨을 사용한다.</p>
+
+<h4 id="cosine-embedding-loss-contrastive-loss-by-cosine-similarity"><code class="language-plaintext highlighter-rouge">🌆 Cosine Embedding Loss: Contrastive Loss by cosine similarity</code></h4>
+
+\[\mathcal{L}_{\text{COS}}(x,y) = \begin{cases} 1 - \cos(x_1, x_2), &amp; \text{if } y = 1 \\ \max(0, \cos(x_1, x_2) - \text{margin}), &amp; \text{if } y = -1 \end{cases}\]
+
+<p><code class="language-plaintext highlighter-rouge">Teacher</code> 모델과 <code class="language-plaintext highlighter-rouge">Student</code> 모델의 마지막 인코더 모델이 출력하는 은닉값에 대한 <code class="language-plaintext highlighter-rouge">Contrastive Loss</code>를 의미한다. 이 때 <code class="language-plaintext highlighter-rouge">Distance Metric</code>은 코사인 유사도를 사용한다. 그래서 코사인 임베딩 손실이라고 논문에서 정의하는 것으로 추정된다. 위 수식을 최적화하는 것을 목적으로 한다. 이 때 라벨은 <code class="language-plaintext highlighter-rouge">[BS, Seq_len]</code>의 크기를 갖되, 모든 원소는 1이 되도록 만든다. 이유는 간단하다. <code class="language-plaintext highlighter-rouge">Student</code> 모델의 은닉값이 <code class="language-plaintext highlighter-rouge">Teacher</code> 모델의 것과 최대한 비슷해지도록 만드는게 우리 목적이기 때문이다.</p>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+<p>논문의 내용과 오피셜로 공개된 코드를 종합하여 파이토치로 <code class="language-plaintext highlighter-rouge">DistilBERT</code>를 구현해봤다. 논문에 포함된 아이디어를 이해하는데는 역시 어렵지 않았지만, 페이퍼에 hyper-param 테이블이 따로 제시되어 있지 않아 공개된 코드를 안 볼수가 없었다.</p>
+
+<p>전체 모델 구조 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고바란다.</p>
+
+<h4 id="knowledge-distillation-pipeline"><code class="language-plaintext highlighter-rouge">👩‍💻 Knowledge Distillation Pipeline</code></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train_val_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loader_train</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">criterion</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">],</span> <span class="n">optimizer</span><span class="p">,</span><span class="n">scheduler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+    <span class="s">""" Function for train loop with validation for each batch*N Steps
+    DistillBERT has three loss:
+
+        1) distillation loss, calculated by soft targets &amp; soft predictions
+            (nn.KLDIVLoss(reduction='batchmean'))
+
+        2) student loss, calculated by hard targets &amp; hard predictions
+            (nn.CrossEntropyLoss(reduction='mean')), same as pure MLM Loss
+
+        3) cosine similarity loss, calculated by student &amp; teacher logit similarity
+            (nn.CosineEmbeddingLoss(reduction='mean')), similar as contrastive loss
+
+    Those 3 losses are summed jointly and then backward to student model
+    """</span>
+    <span class="n">scaler</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">GradScaler</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">step</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tqdm</span><span class="p">(</span><span class="n">loader_train</span><span class="p">)):</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'input_ids'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'labels'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s">'padding_mask'</span><span class="p">].</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">padding_mask</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="n">expand</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># for hidden states dim
+</span>        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="n">t_hidden_state</span><span class="p">,</span> <span class="n">soft_target</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">teacher_fw</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="n">padding_mask</span><span class="o">=</span><span class="n">padding_mask</span><span class="p">,</span>
+                <span class="n">mask</span><span class="o">=</span><span class="n">mask</span>
+            <span class="p">)</span>  <span class="c1"># teacher model's pred =&gt; hard logit
+</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">amp</span><span class="p">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">enabled</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">amp_scaler</span><span class="p">):</span>
+            <span class="n">s_hidden_state</span><span class="p">,</span> <span class="n">s_logit</span><span class="p">,</span> <span class="n">soft_pred</span><span class="p">,</span> <span class="n">c_labels</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">student_fw</span><span class="p">(</span>
+                <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                <span class="n">padding_mask</span><span class="o">=</span><span class="n">padding_mask</span><span class="p">,</span>
+                <span class="n">mask</span><span class="o">=</span><span class="n">mask</span>
+            <span class="p">)</span>
+            <span class="n">d_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">[</span><span class="s">"KLDivLoss"</span><span class="p">](</span><span class="n">soft_pred</span><span class="p">.</span><span class="n">log</span><span class="p">(),</span> <span class="n">soft_target</span><span class="p">)</span>  <span class="c1"># nn.KLDIVLoss
+</span>            <span class="n">s_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">[</span><span class="s">"CrossEntropyLoss"</span><span class="p">](</span><span class="n">s_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">),</span> <span class="n">labels</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>  <span class="c1"># nn.CrossEntropyLoss
+</span>            <span class="n">c_loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">[</span><span class="s">"CosineEmbeddingLoss"</span><span class="p">](</span><span class="n">s_hidden_state</span><span class="p">,</span> <span class="n">t_hidden_state</span><span class="p">,</span> <span class="n">c_labels</span><span class="p">)</span>  <span class="c1"># nn.CosineEmbeddingLoss
+</span>            <span class="n">loss</span> <span class="o">=</span> <span class="n">d_loss</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">alpha_distillation</span> <span class="o">+</span> <span class="n">s_loss</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">alpha_student</span> <span class="o">+</span> <span class="n">c_loss</span><span class="o">*</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">alpha_cosine</span>  <span class="c1"># linear combination loss
+</span>
+        <span class="n">scaler</span><span class="p">.</span><span class="n">scale</span><span class="p">(</span><span class="n">loss</span><span class="p">).</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">scaler</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">optimizer</span><span class="p">)</span>
+        <span class="n">scaler</span><span class="p">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="n">scheduler</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h4 id="knowledge-distillation-model"><code class="language-plaintext highlighter-rouge">👩‍💻 Knowledge Distillation Model</code></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DistillationKnowledge</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractTask</span><span class="p">):</span>
+    <span class="s">""" Custom Task Module for Knowledge Distillation by DistilBERT Style Architecture
+    DistilBERT Style Architecture is Teacher-Student Framework for Knowledge Distillation,
+
+    And then they have 3 objective functions:
+        1) distillation loss, calculated by soft targets &amp; soft predictions
+            (nn.KLDIVLoss(reduction='batchmean'))
+        2) student loss, calculated by hard targets &amp; hard predictions
+            (nn.CrossEntropyLoss(reduction='mean')), same as pure MLM Loss
+        3) cosine similarity loss, calculated by student &amp; teacher logit similarity
+            (nn.CosineEmbeddingLoss(reduction='mean')), similar as contrastive loss
+
+    References:
+        https://arxiv.org/pdf/1910.01108.pdf
+        https://github.com/huggingface/transformers/blob/main/examples/research_projects/distillation/distiller.py
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DistillationKnowledge</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">CFG</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">DistilBERT</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">select_model</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_init_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">teacher_load_pretrained</span><span class="p">:</span>  <span class="c1"># for teacher model
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">teacher</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
+                <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">checkpoint_dir</span> <span class="o">+</span> <span class="n">cfg</span><span class="p">.</span><span class="n">teacher_state_dict</span><span class="p">),</span>
+                <span class="n">strict</span><span class="o">=</span><span class="bp">False</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">student_load_pretrained</span><span class="p">:</span>  <span class="c1"># for student model
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">student</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span>
+                <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">checkpoint_dir</span> <span class="o">+</span> <span class="n">cfg</span><span class="p">.</span><span class="n">student_state_dict</span><span class="p">),</span>
+                <span class="n">strict</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">freeze</span><span class="p">:</span>
+            <span class="n">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">teacher</span><span class="p">)</span>
+            <span class="n">freeze</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">gradient_checkpoint</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">gradient_checkpointing_enable</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">teacher_fw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">is_valid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">""" teacher forward pass to make soft target, last_hidden_state for distillation loss """</span>
+        <span class="c1"># 1) make soft target
+</span>        <span class="n">temperature</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">is_valid</span> <span class="k">else</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">temperature</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">t_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">teacher_fw</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">,</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># for inverse select
+</span>        <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="n">last_hidden_state</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># flatten last_hidden_state
+</span>        <span class="n">soft_target</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span>
+            <span class="n">t_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># flatten softmax distribution
+</span>            <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="p">)</span>  <span class="c1"># [bs* seq, vocab_size]
+</span>        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">soft_target</span>
+
+    <span class="k">def</span> <span class="nf">student_fw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">is_valid</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">""" student forward pass to make soft prediction, hard prediction for student loss """</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="k">if</span> <span class="n">is_valid</span> <span class="k">else</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">temperature</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">s_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">model</span><span class="p">.</span><span class="n">teacher_fw</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">,</span> <span class="o">~</span><span class="n">mask</span><span class="p">)</span>  <span class="c1"># for inverse select
+</span>        <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="n">last_hidden_state</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># flatten last_hidden_state
+</span>        <span class="n">c_labels</span> <span class="o">=</span> <span class="n">last_hidden_state</span><span class="p">.</span><span class="n">new</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)).</span><span class="n">fill_</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">soft_pred</span> <span class="o">=</span> <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span>
+            <span class="n">s_logit</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span>  <span class="c1"># flatten softmax distribution
+</span>            <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">s_logit</span><span class="p">,</span> <span class="n">soft_pred</span><span class="p">,</span> <span class="n">c_labels</span>
+</code></pre></div></div>
+
+<h4 id="distilbert-model"><code class="language-plaintext highlighter-rouge">👩‍💻 DistilBERT Model</code></h4>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">DistilBERT</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="s">""" Main class for DistilBERT Style Model, Teacher-Student Framework
+    for Knowledge Distillation aim to lighter Large Scale LLM model. This model have 3 objective functions:
+
+        1) distillation loss, calculated by soft targets &amp; soft predictions
+            (nn.KLDIVLoss(reduction='batchmean'))
+
+        2) student loss, calculated by hard targets &amp; hard predictions
+            (nn.CrossEntropyLoss(reduction='mean')), same as pure MLM Loss
+
+        3) cosine similarity loss, calculated by student &amp; teacher logit similarity
+            (nn.CosineEmbeddingLoss(reduction='mean')), similar as contrastive loss
+
+    soft targets &amp; soft predictions are meaning that logit are passed through softmax function applied with temperature T
+    temperature T aim to flatten softmax layer distribution for making "Dark Knowledge" from teacher model
+
+    hard targets &amp; hard predictions are meaning that logit are passed through softmax function without temperature T
+    hard targets are same as just simple labels from MLM Collator returns for calculating cross entropy loss
+
+    cosine similarity loss is calculated by cosine similarity between student &amp; teacher
+    in official repo, they mask padding tokens for calculating cosine similarity, target for this task is 1
+    cosine similarity is calculated by nn.CosineSimilarity() function, values are range to [-1, 1]
+
+    you can select any other backbone model architecture for Teacher &amp; Student Model for knowledge distillation
+    but, in original paper, BERT is used for Teacher Model &amp; Student
+    and you must select pretrained model for Teacher Model, because Teacher Model is used for knowledge distillation,
+    which is containing pretrained mlm head
+
+    Do not pass gradient backward to teacher model!!
+    (teacher model must be frozen or register_buffer to model or use no_grad() context manager)
+
+    Args:
+        cfg: configuration.CFG
+        model_func: make model instance in runtime from config.json
+
+    References:
+        https://arxiv.org/pdf/1910.01108.pdf
+        https://github.com/huggingface/transformers/blob/main/examples/research_projects/distillation/distiller.py
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span> <span class="n">model_func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">DistilBERT</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">teacher</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">teacher_num_layers</span><span class="p">)</span>  <span class="c1"># must be loading pretrained model containing mlm head
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span> <span class="o">=</span> <span class="n">MLMHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>  <span class="c1"># must be loading pretrained model's mlm head
+</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">student</span> <span class="o">=</span> <span class="n">model_func</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">student_num_layers</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">s_mlm_head</span> <span class="o">=</span> <span class="n">MLMHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">teacher_fw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">""" forward pass for teacher model
+        """</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">teacher</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">t_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">mlm_head</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">)</span>  <span class="c1"># hard logit =&gt; to make soft logit
+</span>        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">t_logit</span>
+
+    <span class="k">def</span> <span class="nf">student_fw</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">""" forward pass for student model
+        """</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">student</span><span class="p">(</span>
+            <span class="n">inputs</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">s_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">s_mlm_head</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">)</span>  <span class="c1"># hard logit =&gt; to make soft logit
+</span>        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">s_logit</span>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="Linear-Attention" /><category term="Transformer" /><category term="BERT" /><category term="Kernel Trick" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[Linear Attention Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing</title><link href="http://localhost:4000/nlp/deberta_v3" rel="alternate" type="text/html" title="🪢 [DeBERTa-V3] DeBERTaV3: Improving DeBERTa using ELECTRA-Style Pre-Training with Gradient-Disentangled Embedding Sharing" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/deberta-v3</id><content type="html" xml:base="http://localhost:4000/nlp/deberta_v3"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p>2021년 Microsoft에서 공개한 <code class="language-plaintext highlighter-rouge">DeBERTa-V3</code>은 기존 DeBERTa의 모델 구조는 그대로 유지하되, ELECTRA의 Generator-Discriminator 구조를 차용하여 전작 대비 성능을 향상 시킨 모델이다. ELECTRA에서 BackBone 모델로 BERT 대신 <code class="language-plaintext highlighter-rouge">DeBERTa을</code> 사용했다고 생각하면 된다. 거기에 더해 ELECTRA의 <code class="language-plaintext highlighter-rouge">Tug-of-War</code> 현상을 방지하기 위해 새로운 임베딩 공유 기법인 <code class="language-plaintext highlighter-rouge">GDES(Gradient Disentagnled Embedding Sharing)</code>방법을 제시했다.</p>
 
@@ -1848,81 +2118,4 @@ u' = f'(x) = \frac{du}{dx} \\\]
 \[q'(x) = \frac{1}{g(x)}(\frac{f'(x)g(x)-f(x)g'(x)}{g(x)})\ \ \ (4) \\
 q'(x) = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}\ \ \ (5)\]
 
-<p>이렇게 곱의 미분법, 몫의 미분법의 공식이 유도되는 과정을 모두 살펴보았다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Calculus" /><category term="Product Rule" /><category term="Quotient Rule" /><summary type="html"><![CDATA[곱의 미분, 몫의 미분 공식 유도]]></summary></entry><entry><title type="html">🗄️ SVD: Singular Value Decomposition</title><link href="http://localhost:4000/linear-algebra/svd" rel="alternate" type="text/html" title="🗄️ SVD: Singular Value Decomposition" /><published>2023-11-26T00:00:00+09:00</published><updated>2023-11-27T13:00:00+09:00</updated><id>http://localhost:4000/linear-algebra/svd</id><content type="html" xml:base="http://localhost:4000/linear-algebra/svd"><![CDATA[<p>특이값 분해는 고유값 분해를 일반적인 상황으로 확장시킨 개념으로 LSA(Latent Semantic Anaylsis), Collaborative Filtering과 같은 머신러닝 기법에 사용되기 때문에 자연어처리, 추천시스템에 관심이 있다면 반드시 이해하고 넘어가야 하는 중요한 방법론이다. <a href="https://www.youtube.com/watch?v=PP9VQXKvSCY&amp;t=108s&amp;ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84%7CAI%26%EB%94%A5%EB%9F%AC%EB%8B%9D%EA%B0%95%EC%9D%98"><strong><u>혁펜하임님의 선형대수학 강의</u></strong></a>와 <a href="https://www.youtube.com/watch?v=7dmV3p3Iy90&amp;ab_channel=%EA%B3%B5%EB%8F%8C%EC%9D%B4%EC%9D%98%EC%88%98%ED%95%99%EC%A0%95%EB%A6%AC%EB%85%B8%ED%8A%B8"><strong><u>공돌이의 수학정리님의 강의 및 포스트</u></strong></a> 그리고 <a href="https://product.kyobobook.co.kr/detail/S000001743773"><strong><u>딥러닝을 위한 선형대수학 교재</u></strong></a>을 참고하고 개인적인 해석을 더해 정리했다.</p>
-
-<h3 id="concept-of-svd"><code class="language-plaintext highlighter-rouge">🌟 Concept of SVD</code></h3>
-
-\[A = UΣV^T\]
-
-<p>크기가 <code class="language-plaintext highlighter-rouge">mxn</code>인 임의의 행렬 $A$를 위 수식의 우변처럼 여러 다른 행렬로 분해하는 방법을 말한다. 행렬 분해 기법이라는 점에서 고유값 분해와 궤를 같이하지만 좀 더 실용적인 형태로 변화했다. 고유값 분해는 행렬 $A$가 정사각행렬 일 때만 적용할 수 있다는 한계를 가지고 있다. 실생활에서 다루는 행렬 모형의 테이블 데이터는 99.9999999%의 확률로 직사각행렬이다. 필자는 살면서 한 번도 정사각행렬 형태의 테이블 데이터를 본적이 없다. 즉 실생활의 데이터에 고유값 분해를 적용하기 위해 직사각행렬 형태로 확장한 것이 바로 특이값 분해다.</p>
-
-<p>선형변환 $A$
-가 다음과 같다고 가정하고 구체적인 예시와 함께 우변의 항들에 대해 자세히 살펴보자.</p>
-
-\[A = \begin{pmatrix}
-1 &amp; 2 \\
-3 &amp; 4 \\
-5 &amp; 6
-\end{pmatrix}\]
-
-<p>먼저 행렬 $U$는 크기가 <code class="language-plaintext highlighter-rouge">mxm</code>인 정사각행렬이다.</p>
-
-\[U = \begin{pmatrix}-0.2298 &amp; 0.8835 &amp; 0.4082 \\-0.5247 &amp; 0.2408 &amp; -0.8165 \\-0.8196 &amp; -0.4019 &amp; 0.4082\end{pmatrix}\]
-
-<p>고유값 분해에서 고유벡터를 쌓아 만든 행렬 $V$와 비슷한 역할을 하면서 특이값 행렬의 왼족에 있다는 의미에서 <code class="language-plaintext highlighter-rouge">Left Singular Vector</code>라고도 부른다. 행렬의 개별 열차원의 벡터는 고유한 특이벡터가 된다. 따라서 개별 고유벡터는 서로에게 독립이며 직교한다. 따라서 전체 행렬 $U$는 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code>가 된다.</p>
-
-<p>한편,  $Σ$는 개별 특이벡터에 해당되는 특이값들을 저장한 행렬로 크기는 <code class="language-plaintext highlighter-rouge">mxn</code>이다.</p>
-
-\[\Sigma = \begin{pmatrix}
-\sigma_1 &amp; 0 \\
-0 &amp; \sigma_2 \\
-0 &amp; 0
-\end{pmatrix}\]
-
-<p>현재 제시된 예시 행렬의 크기가 <code class="language-plaintext highlighter-rouge">m&gt;n</code>이기 때문에 $Σ$의 모양 역시 행 방향으로 더 길게 놓인 직사각행렬이 된다. 반대의 상황이라면 열방향으로 길게 누적된 직사각행렬이 될 것이다. 또한 $Σ$은 직사각행렬이지만 대각행렬이라서, 주대각성분 원소를 제외한 나머지 원소는 모두 반드시 0이 된다.</p>
-
-<p>마지막으로 행렬 $V^T$는 크기가 <code class="language-plaintext highlighter-rouge">nxn</code>인 정사각행렬이다.</p>
-
-\[V^T = \begin{pmatrix}-0.6196 &amp; -0.7849 \\-0.7849 &amp; 0.6196\end{pmatrix}\]
-
-<p>행렬 $U$때와 같은 논리와 더불어 특이값 행렬의 오른족에 배치되어 있기 때문에 <code class="language-plaintext highlighter-rouge">Right singular Vector</code> 라고 부른다. 마찬가지로 개별 고유벡터는 서로에게 독립이며 직교한다. 따라서 전체 행렬 $V^T$역시 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code>가 된다.</p>
-
-<p>그렇다면 특이값 분해는 어떻게 고유값 분해의 제약조건을 탈피했는지 살펴보자. 바로 크기가 <code class="language-plaintext highlighter-rouge">mxn</code>인 행렬 $A$와 그것의 전치 행렬 $A^T$ 사이의 곱은 항상 대칭 행렬이 되고, 대칭행렬은 대각화-가능 행렬이라는 점을 이용한다.</p>
-
-\[A•A^T = UΣV^T•VΣ^TU^T = UΣΣ^TU^T \\
-A^T•A = VΣ^TU^T•UΣV^T = VΣ^TΣV^T\]
-
-<p>새롭게 정의된 행렬 $A•A^T$은 크기가 mxm인 정사각•대칭행렬이 되고, 행렬 $A^T•A$은 크기가 nxn인 정사각•대칭행렬이 된다. 행렬 $U,V$ 모두 <code class="language-plaintext highlighter-rouge">Orthogonal Matrix</code> 라는 점을 이용하면 우리는 새롭게 정의된 두 행렬을 고유값분해 결과와 유사하게 나타낼 수 있다.</p>
-
-\[A•A^T = Q_m \Lambda_m Q^T_m \\
-A^T•A = Q_n \Lambda_n Q^T_n\]
-
-<p>수식 우변에 놓인 $\Lambda_m, \Lambda_n$ 의 구체적인 예시는 다음과 같다.</p>
-
-\[\Lambda_m = \Sigma\Sigma^T = \begin{pmatrix}
-\sigma_1^2 &amp; 0 &amp; 0 \\
-0 &amp; \sigma_2^2 &amp; 0 \\
-0 &amp; 0 &amp; 0 \\
-\end{pmatrix} \\
-
-\Lambda_n = \Sigma^T\Sigma = \begin{pmatrix}
-\sigma_1^2 &amp; 0 \\
-0 &amp; \sigma_2^2 \\
-\end{pmatrix}\]
-
-<p>이제 두 행렬에 각각 양의 제곱근을 사용해 $\sigma_1, \sigma_2$(특이값)를 구하고 원래 수식($A = UΣV^T$)의 $Σ$에 대입한다. 이렇게 하면 선형변환 $A$에 대한 특이값 분해를 모두 끝마친 셈이다. 지금까지 살펴본 내용을 요약 정리하면 다음과 같다.</p>
-
-<ul>
-  <li>1) $AA^T, A^TA$ 계산</li>
-  <li>2) $AA^T, A^TA$의 고유값, 고유벡터 계산</li>
-  <li>3) $A^TA$로 Right Singular Vector $V$를,  $AA^T$로 Left Singular Vector $U$를 도출</li>
-  <li>4) 고유값($\Sigma\Sigma^T$)의 제곱근에서 나온 값들을 $\Sigma$의 대각선에 배치합니다. 이 값들이 특이값에 해당</li>
-</ul>
-
-<h3 id="insight-of-svd"><code class="language-plaintext highlighter-rouge">💡 Insight of SVD</code></h3>
-
-\[A\vec x = \sigma_1u_1v_1^T\vec x + \sigma_2u_2v_2^T\vec x + ... +\sigma_n u_nv_n^T\vec x\]
-
-<p>고유값 분해의 활용과 사실상 다른게 없다. 역시 데이터 압축•복원 혹은 PCA 같은 차원 축소 기법에 사용된다. 고유값 분해와 다른게 있다면 선형변환 $A$가 반드시 정사각행렬일 필요가 없다는 것이다. 그리고 고유값 분해를 데이터 압축이나 차원 축소에 간편히 사용하려면, 선형변환 $A$가 대칭행렬이여야 한다는 조건도 붙고 상당히 사용하게 까다로웠는데 특이값 분해에서는 그런 번거로운 제약 조건이 모두 사라진다는 장점이 있다.</p>
-
-<p>특히 특이값 분해는 분해되는 과정 자체보다 분해되는 행렬을 개별 특이벡터에 대한 특이값의 가중합 방식으로 조합하는 과정에서 그 빛을 발한다. 특이값에 $argmax$를 적용해 상위 p개의 특이벡터만 반영한 부분 행렬 $A$를 이용할 수도 있고, 필요에 따라서 다시 p개의 개수를 늘려 원본으로 복원하는 것도 가능해진다. 이러한 기능이 가장 빛을 발하는 분야가 이미지 해상도 압축•복원 분야다. 현재 내가 사용하려면 이미지의 해상도가 너무 높아서 용량이 커져 사용하기 어렵다면 SVD를 이용해 필수적인 특이벡터 몇개만 남겨놓는 방식으로 해상도 압축을 수행해 용량을 줄일 수 도 있다. <a href="https://angeloyeo.github.io/2019/08/01/SVD.html#%ED%8A%B9%EC%9D%B4%EA%B0%92-%EB%B6%84%ED%95%B4%EC%9D%98-%ED%99%9C%EC%9A%A9"><strong><u>공돌이의 수학정리님의 포스트 하단부에</u></strong></a> 정말 직관적으로 잘 만들어진 사례가 있으니 꼭 한 번씩 보고 오시길 권장한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Linear Algebra" /><category term="Linear Algebra" /><category term="Singular Value Decomposition" /><category term="Singular Vector" /><category term="Singular Value" /><category term="SVD" /><category term="PCA" /><summary type="html"><![CDATA[💡 Concept of Singular Value Decomposition]]></summary></entry></feed>
+<p>이렇게 곱의 미분법, 몫의 미분법의 공식이 유도되는 과정을 모두 살펴보았다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Calculus" /><category term="Product Rule" /><category term="Quotient Rule" /><summary type="html"><![CDATA[곱의 미분, 몫의 미분 공식 유도]]></summary></entry></feed>

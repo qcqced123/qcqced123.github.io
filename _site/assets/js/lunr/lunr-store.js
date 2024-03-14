@@ -304,4 +304,10 @@ var store = [{
         "tags": ["Natural Language Process","SpanBERT","BERT","Self-Attention","Pytorch"],
         "url": "/nlp/spanbert",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention",
+        "excerpt":"🔭 Overview DistilBERT 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 BERT-base-uncased...","categories": ["NLP"],
+        "tags": ["Natural Language Process","Linear-Attention","Transformer","BERT","Kernel Trick","Self-Attention","Pytorch"],
+        "url": "/nlp/linear_attention",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
