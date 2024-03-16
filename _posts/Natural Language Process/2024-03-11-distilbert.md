@@ -1,5 +1,5 @@
 ---
-title: "🌆 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter"
+title: "🧑‍🏫 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter"
 excerpt: "DistilBERT Official Paper Review with Pytorch Implementation"
 permalink: "/nlp/distilbert"
 toc: true  # option for table of contents
@@ -26,7 +26,7 @@ last_modified_at: 2024-03-11T12:00:00-05:00
 
 정리하자면, `DistilBERT` 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법 특히 경량화에 초점을 맞춘 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 `DistilBERT` 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 이번 포스팅에서도 BERT 구조에 대한 설명 대신, `DistilBERT`의 사전 학습 방법론인 `Knowledge Distillation`에 대해서만 다루려고 한다.  
 
-### `🌆 Knowledge Distillations`
+### `📲 Knowledge Distillations`
 
 $$
 \min_{\theta}\sum_{x \in X} \alpha \mathcal{L}_{\text{KL}}(x, \theta) + \beta \mathcal{L}_{\text{MLM}}(x, \theta) + \gamma \mathcal{L}_{\text{Cos}}(x, \theta)
@@ -44,7 +44,7 @@ $$
 
 수식상 변수 $T$의 값을 1이상으로 세팅해야 평탄화를 할 수 있다. 따라서 연구진은 $T =2$ 로 두고 사전 학습을 진행했다(논문에 공개안됨, GitHub에 있음). 이번 파트 맨 처음에 등장한 수식을 다시 보자. 결국 `DisilBERT`의 목적함수는 3가지 손실의 가중합으로 구성된다. 이제부터는 개별 손실에 대해서 자세히 살펴보자.
 
-#### `🌆 Distillation Loss: KL-Divergence Loss`
+#### `🪢 Distillation Loss: KL-Divergence Loss`
 
 $$
 \text{KL-Divergence}(P || Q) = \sum_{i} P(i) \log \frac{P(i)}{Q(i)}
@@ -52,7 +52,7 @@ $$
 
 증류 손실로 사용되는 `KL-Divergence Loss`는 두 확률 분포 간의 차이를 측정하는 지표 중 하나다. 주로 확률 분포 P와 Q 사이의 차이를 나타내는데, 개별 요소의 확률값 차이가 클수록 합산값은 커져 손실이 커지게 된다. 반대로 두 분포의 개별 요소 확률값 차이가 작다면 당연히, 두 분포가 유사하다는 의미이므로 손실 역시 작아지게 된다. 일반적으로 `KL-Divergence Loss` 에서 확률분포 $P$ 가 이상적인 확률 분포를, $Q$ 가 모델이 예측한 확률분포를 의미한다. 따라서 `DistilBERT`의 경우 확률분포 $P$ 자리에는 `Teacher` 모델의 소프트맥스 분포가, $Q$ 에는 `Student` 모델의 소프트맥스 분포가 대입되면 된다. 이 때 두 확률분포 모두, 암흑 지식 획득을 위해 소프트맥스 평탄화를 적용한 결과를 사용한다. 논문에서, 선생 모델 예측에 평탄화를 적용한 것을 `소프트 라벨`, 학생 모델의 것에 적용한 결과는 `소프트 예측`이라고 부른다.
 
-#### `🌆 Student Loss: MLM Loss`
+#### `🧑‍🎓 Student Loss: MLM Loss`
 
 $$
 \mathcal{L}_{\text{MLM}} = - \sum_{i=1}^{N} \sum_{j=1}^{L} \mathbb{1}_{m_{ij}} \log \text{softmax}(x_{ij})

@@ -9,7 +9,7 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>🌆 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter - AI/Business Study Log</title>
+<!-- begin _includes/seo.html --><title>🧑‍🏫 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter - AI/Business Study Log</title>
 <meta name="description" content="DistilBERT Official Paper Review with Pytorch Implementation">
 
 
@@ -22,7 +22,7 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="🌆 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter">
+<meta property="og:title" content="🧑‍🏫 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter">
 <meta property="og:url" content="http://localhost:4000/nlp/distilbert">
 
 
@@ -380,7 +380,7 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="🌆 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter">
+    <meta itemprop="headline" content="🧑‍🏫 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter">
     <meta itemprop="description" content="DistilBERT Official Paper Review with Pytorch Implementation">
     <meta itemprop="datePublished" content="2024-03-11T00:00:00+09:00">
     <meta itemprop="dateModified" content="2024-03-12T02:00:00+09:00">
@@ -389,7 +389,7 @@
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/nlp/distilbert" class="u-url" itemprop="url">🌆 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter
+            <a href="http://localhost:4000/nlp/distilbert" class="u-url" itemprop="url">🧑‍🏫 [DistilBERT] DistilBERT, a distilled version of BERT: smaller, faster, cheaper and lighter
 </a>
           </h1>
           <p class="page__date">
@@ -410,7 +410,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#knowledge-distillations">🌆 Knowledge Distillations</a><ul><li><a href="#distillation-loss-kl-divergence-loss">🌆 Distillation Loss: KL-Divergence Loss</a></li><li><a href="#student-loss-mlm-loss">🌆 Student Loss: MLM Loss</a></li><li><a href="#cosine-embedding-loss-contrastive-loss-by-cosine-similarity">🌆 Cosine Embedding Loss: Contrastive Loss by cosine similarity</a></li></ul></li><li><a href="#implementation-by-pytorch">👩‍💻 Implementation by Pytorch</a><ul><li><a href="#knowledge-distillation-pipeline">👩‍💻 Knowledge Distillation Pipeline</a></li><li><a href="#knowledge-distillation-model">👩‍💻 Knowledge Distillation Model</a></li><li><a href="#distilbert-model">👩‍💻 DistilBERT Model</a></li></ul></li></ul>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#knowledge-distillations">📲 Knowledge Distillations</a><ul><li><a href="#distillation-loss-kl-divergence-loss">🪢 Distillation Loss: KL-Divergence Loss</a></li><li><a href="#student-loss-mlm-loss">🧑‍🎓 Student Loss: MLM Loss</a></li><li><a href="#cosine-embedding-loss-contrastive-loss-by-cosine-similarity">🌆 Cosine Embedding Loss: Contrastive Loss by cosine similarity</a></li></ul></li><li><a href="#implementation-by-pytorch">👩‍💻 Implementation by Pytorch</a><ul><li><a href="#knowledge-distillation-pipeline">👩‍💻 Knowledge Distillation Pipeline</a></li><li><a href="#knowledge-distillation-model">👩‍💻 Knowledge Distillation Model</a></li><li><a href="#distilbert-model">👩‍💻 DistilBERT Model</a></li></ul></li></ul>
 
             </nav>
           </aside>
@@ -425,7 +425,7 @@
 
 <p>정리하자면, <code class="language-plaintext highlighter-rouge">DistilBERT</code> 모델은 기존 BERT의 구조적 측면 개선이 아닌, 사전학습 방법 특히 경량화에 초점을 맞춘 시도라고 볼 수 있다. 따라서 어떤 모델이더라도, 인코더 언어 모델이라면 모두 <code class="language-plaintext highlighter-rouge">DistilBERT</code> 구조를 사용할 수 있으며, 기존 논문에서는 원본 BERT 구조를 사용했다. 이번 포스팅에서도 BERT 구조에 대한 설명 대신, <code class="language-plaintext highlighter-rouge">DistilBERT</code>의 사전 학습 방법론인 <code class="language-plaintext highlighter-rouge">Knowledge Distillation</code>에 대해서만 다루려고 한다.</p>
 
-<h3 id="knowledge-distillations"><code class="language-plaintext highlighter-rouge">🌆 Knowledge Distillations</code></h3>
+<h3 id="knowledge-distillations"><code class="language-plaintext highlighter-rouge">📲 Knowledge Distillations</code></h3>
 
 \[\min_{\theta}\sum_{x \in X} \alpha \mathcal{L}_{\text{KL}}(x, \theta) + \beta \mathcal{L}_{\text{MLM}}(x, \theta) + \gamma \mathcal{L}_{\text{Cos}}(x, \theta)\]
 
@@ -439,13 +439,13 @@
 
 <p>수식상 변수 $T$의 값을 1이상으로 세팅해야 평탄화를 할 수 있다. 따라서 연구진은 $T =2$ 로 두고 사전 학습을 진행했다(논문에 공개안됨, GitHub에 있음). 이번 파트 맨 처음에 등장한 수식을 다시 보자. 결국 <code class="language-plaintext highlighter-rouge">DisilBERT</code>의 목적함수는 3가지 손실의 가중합으로 구성된다. 이제부터는 개별 손실에 대해서 자세히 살펴보자.</p>
 
-<h4 id="distillation-loss-kl-divergence-loss"><code class="language-plaintext highlighter-rouge">🌆 Distillation Loss: KL-Divergence Loss</code></h4>
+<h4 id="distillation-loss-kl-divergence-loss"><code class="language-plaintext highlighter-rouge">🪢 Distillation Loss: KL-Divergence Loss</code></h4>
 
 \[\text{KL-Divergence}(P || Q) = \sum_{i} P(i) \log \frac{P(i)}{Q(i)}\]
 
 <p>증류 손실로 사용되는 <code class="language-plaintext highlighter-rouge">KL-Divergence Loss</code>는 두 확률 분포 간의 차이를 측정하는 지표 중 하나다. 주로 확률 분포 P와 Q 사이의 차이를 나타내는데, 개별 요소의 확률값 차이가 클수록 합산값은 커져 손실이 커지게 된다. 반대로 두 분포의 개별 요소 확률값 차이가 작다면 당연히, 두 분포가 유사하다는 의미이므로 손실 역시 작아지게 된다. 일반적으로 <code class="language-plaintext highlighter-rouge">KL-Divergence Loss</code> 에서 확률분포 $P$ 가 이상적인 확률 분포를, $Q$ 가 모델이 예측한 확률분포를 의미한다. 따라서 <code class="language-plaintext highlighter-rouge">DistilBERT</code>의 경우 확률분포 $P$ 자리에는 <code class="language-plaintext highlighter-rouge">Teacher</code> 모델의 소프트맥스 분포가, $Q$ 에는 <code class="language-plaintext highlighter-rouge">Student</code> 모델의 소프트맥스 분포가 대입되면 된다. 이 때 두 확률분포 모두, 암흑 지식 획득을 위해 소프트맥스 평탄화를 적용한 결과를 사용한다. 논문에서, 선생 모델 예측에 평탄화를 적용한 것을 <code class="language-plaintext highlighter-rouge">소프트 라벨</code>, 학생 모델의 것에 적용한 결과는 <code class="language-plaintext highlighter-rouge">소프트 예측</code>이라고 부른다.</p>
 
-<h4 id="student-loss-mlm-loss"><code class="language-plaintext highlighter-rouge">🌆 Student Loss: MLM Loss</code></h4>
+<h4 id="student-loss-mlm-loss"><code class="language-plaintext highlighter-rouge">🧑‍🎓 Student Loss: MLM Loss</code></h4>
 
 \[\mathcal{L}_{\text{MLM}} = - \sum_{i=1}^{N} \sum_{j=1}^{L} \mathbb{1}_{m_{ij}} \log \text{softmax}(x_{ij})\]
 
@@ -744,7 +744,7 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%8C%86+%5BDistilBERT%5D+DistilBERT%2C+a+distilled+version+of+BERT%3A+smaller%2C+faster%2C+cheaper+and+lighter%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdistilbert" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%A7%91%E2%80%8D%F0%9F%8F%AB+%5BDistilBERT%5D+DistilBERT%2C+a+distilled+version+of+BERT%3A+smaller%2C+faster%2C+cheaper+and+lighter%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdistilbert" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
   <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Fdistilbert" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
@@ -759,7 +759,7 @@
 ">Previous</a>
     
     
-      <a href="/nlp/electra" class="pagination--pager" title="🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
+      <a href="/nlp/electra" class="pagination--pager" title="👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
 ">Next</a>
     
   </nav>
@@ -835,7 +835,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/nlp/spanbert" rel="permalink">🌆 [SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans
+        <a href="/nlp/spanbert" rel="permalink">🗂️[SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans
 </a>
       
     </h2>
@@ -882,7 +882,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/nlp/roformer" rel="permalink">🌆 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding
+        <a href="/nlp/roformer" rel="permalink">🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding
 </a>
       
     </h2>
@@ -929,7 +929,7 @@
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/nlp/electra" rel="permalink">🌆 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
+        <a href="/nlp/electra" rel="permalink">👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators
 </a>
       
     </h2>
