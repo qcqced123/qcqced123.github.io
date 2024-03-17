@@ -294,7 +294,7 @@ var store = [{
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
         "title": "🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding",
-        "excerpt":"🔭 Overview DistilBERT 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 BERT-base-uncased...","categories": ["NLP"],
+        "excerpt":"🔭 Overview Roformer는 2021년에 발표된 트랜스포머 모델의 변형으로, RoPE(Rotary Position Embedding)이라는 새로운 위치 정보 포착 방식을 제안했다. 근래 유명한 오픈소스 LLM 모델들(GPT-Neo, LLaMA)의 위치 정보 포착 방식으로 채택 되어 주목을 받고 있다. RoPE 기법에 대해 살펴보기 전에 일단, 관련 분야의 연구 동향 및 위치 정보의 개념에 대해 간단하게 살펴보고 넘어가려 한다....","categories": ["NLP"],
         "tags": ["Natural Language Process","Roformer","Linear-Attention","Self-Attention","Pytorch","Transformation Matrix","Complex Space"],
         "url": "/nlp/roformer",
         "teaser": "/assets/images/huggingface_emoji.png"
