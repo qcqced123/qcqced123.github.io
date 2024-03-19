@@ -737,70 +737,90 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of DeBERTa Disentangled Self-Attention
 </span>
 <span class="k">def</span> <span class="nf">build_relative_position</span><span class="p">(</span><span class="n">x_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="s">"""
-    Build Relative Position Matrix for Disentangled Self-Attention in DeBERTa
+    <span class="s">""" Build Relative Position Matrix for Disentangled Self-attention in DeBERTa
+
     Args:
         x_size: sequence length of query matrix
+
     Reference:
-        https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/da_utils.py#L29
         https://arxiv.org/abs/2006.03654
+        https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/da_utils.py#L29
     """</span>
-    <span class="n">x_index</span><span class="p">,</span> <span class="n">y_index</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_size</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_size</span><span class="p">)</span>  <span class="c1"># same as rel_pos in official repo
+    <span class="n">x_index</span><span class="p">,</span> <span class="n">y_index</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s">"cuda"</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">x_size</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s">"cuda"</span><span class="p">)</span>  <span class="c1"># same as rel_pos in official repo
 </span>    <span class="n">rel_pos</span> <span class="o">=</span> <span class="n">x_index</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">y_index</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rel_pos</span>
 
-<span class="k">def</span> <span class="nf">disentangled_attention</span><span class="p">(</span><span class="n">q</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">qr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">kr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">dropout</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="s">"""
-    Disentangled Self-Attention for DeBERTa, same role as Module "DisentangledSelfAttention" in official Repo
+
+<span class="k">def</span> <span class="nf">disentangled_attention</span><span class="p">(</span>
+        <span class="n">q</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">v</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">qr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">kr</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">attention_dropout</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">,</span>
+        <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+        <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="s">""" Disentangled Self-attention for DeBERTa, same role as Module "DisentangledSelfAttention" in official Repo
+
     Args:
         q: content query matrix, shape (batch_size, seq_len, dim_head)
         k: content key matrix, shape (batch_size, seq_len, dim_head)
         v: content value matrix, shape (batch_size, seq_len, dim_head)
         qr: position query matrix, shape (batch_size, 2*max_relative_position, dim_head), r means relative position
         kr: position key matrix, shape (batch_size, 2*max_relative_position, dim_head), r means relative position
-        dropout: dropout for attention matrix, default rate is 0.1 from official paper
-        mask: mask for attention matrix, shape (batch_size, seq_len, seq_len), apply before softmax layer
+        attention_dropout: dropout for attention matrix, default rate is 0.1 from official paper
+        padding_mask: mask for attention matrix for MLM
+        attention_mask: mask for attention matrix for CLM
+
     Math:
         c2c = torch.matmul(q, k.transpose(-1, -2))  # A_c2c
-        c2p = torch.gather(torch.matmul(q, kr.transpose(-1, -2)), dim=-1, index=c2p_pos)
+        c2p = torch.gather(torch.matmul(q, kr.transpose(-1 z, -2)), dim=-1, index=c2p_pos)
         p2c = torch.gather(torch.matmul(qr, k.transpose(-1, -2)), dim=-2, index=c2p_pos)
-        Attention Matrix = c2c + c2p + p2c
-        A = softmax(Attention Matrix/sqrt(3*D_h)), SA(z) = Av
+        attention Matrix = c2c + c2p + p2c
+        A = softmax(attention Matrix/sqrt(3*D_h)), SA(z) = Av
+
     Notes:
         dot_scale(range 1 ~ 3): scale factor for Q•K^T result, sqrt(3*dim_head) from official paper by microsoft,
         3 means that use full attention matrix(c2c, c2p, p2c), same as number of using what kind of matrix
         default 1, c2c is always used and c2p &amp; p2c is optional
+
     References:
-        https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/disentangled_attention.py
-        https://arxiv.org/pdf/1803.02155.pdf
+        https://arxiv.org/pdf/1803.02155
         https://arxiv.org/abs/2006.03654
         https://arxiv.org/abs/2111.09543
         https://arxiv.org/abs/1901.02860
         https://arxiv.org/abs/1906.08237
+        https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/disentangled_attention.py
     """</span>
+    <span class="n">BS</span><span class="p">,</span> <span class="n">NUM_HEADS</span><span class="p">,</span> <span class="n">SEQ_LEN</span><span class="p">,</span> <span class="n">DIM_HEADS</span> <span class="o">=</span> <span class="n">q</span><span class="p">.</span><span class="n">shape</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">MAX_REL_POS</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">kr</span><span class="p">.</span><span class="n">shape</span>
+
     <span class="n">scale_factor</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">c2c</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>  <span class="c1"># A_c2c
-</span>
-    <span class="n">c2p_att</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">kr</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">c2p_pos</span> <span class="o">=</span> <span class="n">build_relative_position</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">kr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># same as rel_pos in official repo
-</span>    <span class="n">c2p_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">c2p_pos</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">kr</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">c2c</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># A_c2c, q: (BS, NUM_HEADS, SEQ_LEN, DIM_HEADS), k: (BS, NUM_HEADS, DIM_HEADS, SEQ_LEN)
+</span>    <span class="n">c2p_att</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">kr</span><span class="p">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">contiguous</span><span class="p">())</span>
+
+    <span class="n">c2p_pos</span> <span class="o">=</span> <span class="n">build_relative_position</span><span class="p">(</span><span class="n">SEQ_LEN</span><span class="p">)</span> <span class="o">+</span> <span class="n">MAX_REL_POS</span> <span class="o">/</span> <span class="mi">2</span>  <span class="c1"># same as rel_pos in official repo
+</span>    <span class="n">c2p_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">c2p_pos</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">MAX_REL_POS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">BS</span><span class="p">,</span> <span class="n">NUM_HEADS</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="nb">long</span><span class="p">()</span>
     <span class="n">c2p</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="n">c2p_att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">c2p_pos</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">c2p</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">scale_factor</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="n">p2c_att</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">qr</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">p2c</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="n">p2c_att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">c2p_pos</span><span class="p">)</span>  <span class="c1"># same as torch.gather(k•qr^t, dim=-1, index=c2p_pos)
+    <span class="n">p2c_att</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">qr</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>  <span class="c1"># qr: (BS, NUM_HEADS, SEQ_LEN, DIM_HEADS), k: (BS, NUM_HEADS, DIM_HEADS, SEQ_LEN)
+</span>    <span class="n">p2c</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="n">p2c_att</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">c2p_pos</span><span class="p">)</span>  <span class="c1"># same as torch.gather(k•qr^t, dim=-1, index=c2p_pos)
 </span>    <span class="k">if</span> <span class="n">p2c</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
         <span class="n">scale_factor</span> <span class="o">+=</span> <span class="mi">1</span>
 
-    <span class="n">dot_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">scale_factor</span> <span class="o">*</span> <span class="n">q</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>  <span class="c1"># from official paper by microsoft
-</span>    <span class="n">attention_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">c2c</span> <span class="o">+</span> <span class="n">c2p</span> <span class="o">+</span> <span class="n">p2c</span><span class="p">)</span> <span class="o">/</span> <span class="n">dot_scale</span>  <span class="c1"># Attention Matrix = A_c2c + A_c2r + A_r2c
-</span>    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">attention_matrix</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span>  <span class="c1"># Padding Token Masking
-</span>    <span class="n">attention_dist</span> <span class="o">=</span> <span class="n">dropout</span><span class="p">(</span>
+    <span class="n">dot_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">scale_factor</span> <span class="o">*</span> <span class="n">DIM_HEADS</span><span class="p">))</span>  <span class="c1"># from official paper by microsoft
+</span>    <span class="n">attention_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">c2c</span> <span class="o">+</span> <span class="n">c2p</span> <span class="o">+</span> <span class="n">p2c</span><span class="p">)</span> <span class="o">/</span> <span class="n">dot_scale</span>  <span class="c1"># attention Matrix = A_c2c + A_c2r + A_r2c
+</span>    <span class="k">if</span> <span class="n">padding_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">padding_mask</span> <span class="o">=</span> <span class="n">padding_mask</span><span class="p">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">).</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># for broadcasting: shape (BS, 1, 1, SEQ_LEN)
+</span>        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">attention_matrix</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">padding_mask</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span>  <span class="c1"># Padding Token Masking
+</span>
+    <span class="n">attention_dist</span> <span class="o">=</span> <span class="n">attention_dropout</span><span class="p">(</span>
         <span class="n">F</span><span class="p">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
-    <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attention_dist</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">attention_dist</span><span class="p">,</span> <span class="n">v</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">SEQ_LEN</span><span class="p">,</span> <span class="n">NUM_HEADS</span><span class="o">*</span><span class="n">DIM_HEADS</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">attention_matrix</span>
 </code></pre></div></div>
 
@@ -941,81 +961,70 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of Single Attention Head
 </span>
-<span class="k">class</span> <span class="nc">AttentionHead</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    In this class, we implement workflow of single attention head in DeBERTa-Large
+<span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">""" In this class, we implement workflow of Multi-Head Self-attention for DeBERTa-Large
     This class has same role as Module "BertAttention" in official Repo (bert.py)
+    In official repo, they use post-layer norm, but we use pre-layer norm which is more stable &amp; efficient for training
+
     Args:
         dim_model: dimension of model's latent vector space, default 1024 from official paper
+        num_attention_heads: number of heads in MHSA, default 16 from official paper for Transformer
         dim_head: dimension of each attention head, default 64 from official paper (1024 / 16)
-        dropout: dropout rate for attention matrix, default 0.1 from official paper
+        attention_dropout_prob: dropout rate, default 0.1
+
     Math:
-        Attention Matrix = c2c + c2p + p2c
-        A = softmax(Attention Matrix/sqrt(3*D_h)), SA(z) = Av
+        attention Matrix = c2c + c2p + p2c
+        A = softmax(attention Matrix/sqrt(3*D_h)), SA(z) = Av
+
     Reference:
         https://arxiv.org/abs/1706.03762
         https://arxiv.org/abs/2006.03654
     """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">AttentionHead</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">num_attention_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+                 <span class="n">attention_dropout_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MultiHeadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>  <span class="c1"># 1024 / 16 = 64
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">dot_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">))</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_qr</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>  <span class="c1"># projector for Relative Position Query matrix
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc_kr</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>  <span class="c1"># projector for Relative Position Key matrix
-</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">pos_x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">emd</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">qr</span><span class="p">,</span> <span class="n">kr</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_qr</span><span class="p">(</span><span class="n">pos_x</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_kr</span><span class="p">(</span><span class="n">pos_x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span> <span class="o">=</span> <span class="n">num_attention_heads</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_qr</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># projector for Relative Position Query matrix
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc_kr</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># projector for Relative Position Key matrix
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">disentangled_attention</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">attention_dropout_prob</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                <span class="n">emd</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="s">""" x is already passed nn.Layernorm """</span>
+        <span class="k">assert</span> <span class="n">x</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, seq, hidden) got </span><span class="si">{</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
+
+        <span class="c1"># size: bs, seq, nums head, dim head, linear projection
+</span>        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">qr</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_qr</span><span class="p">(</span><span class="n">rel_pos_emb</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">kr</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_kr</span><span class="p">(</span><span class="n">rel_pos_emb</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">emd</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">emd</span><span class="p">)</span>
-        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">disentangled_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">qr</span><span class="p">,</span> <span class="n">kr</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">attention_matrix</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">emd</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span>
+            <span class="n">q</span><span class="p">,</span>
+            <span class="n">k</span><span class="p">,</span>
+            <span class="n">v</span><span class="p">,</span>
+            <span class="n">qr</span><span class="p">,</span>
+            <span class="n">kr</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span><span class="p">,</span>
+            <span class="n">padding_mask</span><span class="p">,</span>
+            <span class="n">attention_mask</span>
+        <span class="p">)</span>
+        <span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attention_output</span>
 </code></pre></div></div>
 
 <p>동작 자체는 동일하지만, 상대 위치 정보에 대한 <code class="language-plaintext highlighter-rouge">linear projection</code> 레이어가 추가 되었다. 그리고 <code class="language-plaintext highlighter-rouge">Enhanced Mask Decoder</code> 를 위해 <code class="language-plaintext highlighter-rouge">forward</code> 메서드에 조건문을 활용하여 <code class="language-plaintext highlighter-rouge">Decoding</code>하는 시점에는 <code class="language-plaintext highlighter-rouge">hidden_states + absolute position embedding</code> 으로 행렬 $Q^c$를 표현하게 구현했다. 이렇게 구현하면 <code class="language-plaintext highlighter-rouge">EMD</code> 를 위해 따로 <code class="language-plaintext highlighter-rouge">AttentionHead</code>를 구현할 필요가 없어서 코드 간소화가 된다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of Multi-Head Attention
-</span>
-<span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    In this class, we implement workflow of Multi-Head Self-Attention for DeBERTa-Large
-    This class has same role as Module "BertAttention" in official Repo (bert.py)
-    In official repo, they use post-layer norm, but we use pre-layer norm which is more stable &amp; efficient for training
-    Args:
-        dim_model: dimension of model's latent vector space, default 1024 from official paper
-        num_heads: number of heads in MHSA, default 16 from official paper for Transformer
-        dim_head: dimension of each attention head, default 64 from official paper (1024 / 16)
-        dropout: dropout rate, default 0.1
-    Math:
-        Attention Matrix = c2c + c2p + p2c
-        A = softmax(Attention Matrix/sqrt(3*D_h)), SA(z) = Av
-    Reference:
-        https://arxiv.org/abs/1706.03762
-        https://arxiv.org/abs/2006.03654
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MultiHeadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">dropout</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">attention_heads</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">AttentionHead</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span><span class="p">)]</span>
-        <span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">emd</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="s">""" x is already passed nn.Layernorm """</span>
-        <span class="k">assert</span> <span class="n">x</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, seq, hidden) got </span><span class="si">{</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
-        <span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span>
-            <span class="n">torch</span><span class="p">.</span><span class="n">cat</span><span class="p">([</span><span class="n">head</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">,</span> <span class="n">emd</span><span class="p">)</span> <span class="k">for</span> <span class="n">head</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention_heads</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">attention_output</span>
-</code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">MultiHeadAttention</code> 객체는 단일 <code class="language-plaintext highlighter-rouge">AttentionHead</code> 객체를 호출할 때 <code class="language-plaintext highlighter-rouge">rel_pos_emb</code> 를 매개변수로 전달해야 한다는 점만 기억하면 된다.</p>
 
@@ -1097,50 +1106,83 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of DeBERTaEncoderr(N stacked DeBERTaEncoderLayer)
 </span>
-<span class="k">class</span> <span class="nc">DeBERTaEncoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    In this class, 1) encode input sequence, 2) make relative position embedding, 3) stack N DeBERTaEncoderLayer
+<span class="k">class</span> <span class="nc">DeBERTaEncoder</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="s">""" In this class, 1) encode input sequence, 2) make relative position embedding, 3) stack num_layers DeBERTaEncoderLayer
     This class's forward output is not integrated with EMD Layer's output
+
     Output have ONLY result of disentangled self-attention
-    All of ops order is from official paper &amp; repo by microsoft, but ops operating is slightly different,
+
+    All ops order is from official paper &amp; repo by microsoft, but ops operating is slightly different,
     Because they use custom ops, e.g. XDropout, XSoftmax, ..., we just apply pure pytorch ops
+
     Args:
-        max_seq: maximum sequence length, named "max_position_embedding" in official repo, default 512
-                 in official paper, this value is called 'k'
-        N: number of EncoderLayer, default 24 for large model
+        max_seq: maximum sequence length, named "max_position_embedding" in official repo, default 512, in official paper, this value is called 'k'
+        num_layers: number of EncoderLayer, default 24 for large model
+
     Notes:
-        self.rel_pos_emb: P in paper, this matrix is fixed during forward pass in same time,
-                          all layer &amp; all module must share this layer from official paper
+        self.rel_pos_emb: P in paper, this matrix is fixed during forward pass in same time, all layer &amp; all module must share this layer from official paper
+
     References:
         https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/ops.py
     """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_seq</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span> <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span> <span class="n">dim_ffn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">,</span> <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span>
+            <span class="n">max_seq</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">512</span><span class="p">,</span>
+            <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span>
+            <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
+            <span class="n">num_attention_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+            <span class="n">dim_ffn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">,</span>
+            <span class="n">layer_norm_eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.02</span><span class="p">,</span>
+            <span class="n">attention_dropout_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">hidden_dropout_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">gradient_checkpointing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DeBERTaEncoder</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">max_seq</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">N</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span> <span class="o">=</span> <span class="n">num_attention_heads</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">dim_ffn</span> <span class="o">=</span> <span class="n">dim_ffn</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">dropout</span><span class="p">)</span>  <span class="c1"># dropout is not learnable
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">encoder_layers</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">DeBERTaEncoderLayer</span><span class="p">(</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">,</span> <span class="n">dim_ffn</span><span class="p">,</span> <span class="n">dropout</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">hidden_dropout_prob</span><span class="p">)</span>  <span class="c1"># dropout is not learnable
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">layer</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">ModuleList</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">DeBERTaEncoderLayer</span><span class="p">(</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">num_attention_heads</span><span class="p">,</span> <span class="n">dim_ffn</span><span class="p">,</span> <span class="n">layer_norm_eps</span><span class="p">,</span> <span class="n">attention_dropout_prob</span><span class="p">,</span> <span class="n">hidden_dropout_prob</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">)]</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># for final-Encoder output
-</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">layer_norm_eps</span><span class="p">)</span>  <span class="c1"># for final-Encoder output
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">gradient_checkpointing</span> <span class="o">=</span> <span class="n">gradient_checkpointing</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
         <span class="s">"""
-        inputs: embedding from input sequence
-        rel_pos_emb: relative position embedding
-        mask: mask for Encoder padded token for speeding up to calculate attention score
+        Args:
+            inputs: embedding from input sequence
+            rel_pos_emb: relative position embedding
+            padding_mask: mask for Encoder padded token for speeding up to calculate attention score or MLM
+            attention_mask: mask for CLM
         """</span>
         <span class="n">layer_output</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">x</span><span class="p">,</span> <span class="n">pos_x</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">rel_pos_emb</span>  <span class="c1"># x is same as word_embeddings or embeddings in official repo
-</span>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder_layers</span><span class="p">:</span>
-            <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pos_x</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+</span>        <span class="k">for</span> <span class="n">layer</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">layer</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">gradient_checkpointing</span> <span class="ow">and</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">train</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_gradient_checkpointing_func</span><span class="p">(</span>
+                    <span class="n">layer</span><span class="p">.</span><span class="n">__call__</span><span class="p">,</span>  <span class="c1"># same as __forward__ call, torch reference recommend to use __call__ instead of forward
+</span>                    <span class="n">x</span><span class="p">,</span>
+                    <span class="n">pos_x</span><span class="p">,</span>
+                    <span class="n">padding_mask</span><span class="p">,</span>
+                    <span class="n">attention_mask</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">layer</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span>
+                    <span class="n">pos_x</span><span class="p">,</span>
+                    <span class="n">padding_mask</span><span class="p">,</span>
+                    <span class="n">attention_mask</span>
+                <span class="p">)</span>
             <span class="n">layer_output</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">last_hidden_state</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># because of applying pre-layer norm
-</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">layer_output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># shape: [N, BS, SEQ_LEN, DIM_Model]
+</span>        <span class="n">hidden_states</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">layer_output</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">device</span><span class="p">)</span>  <span class="c1"># shape: [num_layers, BS, SEQ_LEN, DIM_Model]
 </span>        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">hidden_states</span>
+
 </code></pre></div></div>
 
 <p><code class="language-plaintext highlighter-rouge">EMD</code>와 마찬가지로 레이어의 위치에 상관없이 같은 시점에는 모두 동일한 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 을 사용해 <code class="language-plaintext highlighter-rouge">linear projection</code> 하도록 구현해주는 것이 중요 포인트다. <code class="language-plaintext highlighter-rouge">forward</code> 메서드를 확인하자!</p>
@@ -1148,22 +1190,30 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
 <h4 id="deberta"><strong><code class="language-plaintext highlighter-rouge">🤖 DeBERTa</code></strong></h4>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Pytorch Implementation of DeBERTa
-</span>
-<span class="k">class</span> <span class="nc">DeBERTa</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    Main class for DeBERTa, having all of sub-blocks &amp; modules such as Disentangled Self-Attention, DeBERTaEncoder, EMD
+</span><span class="k">class</span> <span class="nc">DeBERTa</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">AbstractModel</span><span class="p">):</span>
+    <span class="s">""" Main class for DeBERTa, having all of sub-blocks &amp; modules such as Disentangled Self-attention, DeBERTaEncoder, EMD
     Init Scale of DeBERTa Hyper-Parameters, Embedding Layer, Encoder Blocks, EMD Blocks
     And then make 3-types of Embedding Layer, Word Embedding, Absolute Position Embedding, Relative Position Embedding
+
     Args:
+        cfg: configuration.CFG
+        num_layers: number of EncoderLayer, default 12 for base model
+        this value must be init by user for objective task
+        if you select electra, you should set num_layers twice (generator, discriminator)
+
+    Var:
+        vocab_size: size of vocab in DeBERTa's Native Tokenizer
         max_seq: maximum sequence length
-        N: number of Disentangled-Encoder layers
-        N_EMD: number of EMD layers
+        max_rel_pos: max_seq x2 for build relative position embedding
+        num_layers: number of Disentangled-Encoder layers
+        num_attention_heads: number of attention heads
+        num_emd: number of EMD layers
         dim_model: dimension of model
-        num_heads: number of heads in multi-head attention
+        num_attention_heads: number of heads in multi-head attention
         dim_ffn: dimension of feed-forward network, same as intermediate size in official repo
-        dropout: dropout rate
-    Notes:
-        MLM Task is not implemented yet, will be implemented ASAP, but you can get token encode output (embedding)
+        hidden_dropout_prob: dropout rate for embedding, hidden layer
+        attention_probs_dropout_prob: dropout rate for attention
+
     References:
         https://arxiv.org/abs/2006.03654
         https://arxiv.org/abs/2111.09543
@@ -1174,66 +1224,63 @@ Attention(Q_c,K_c,V_c,Q_r,K_r) = softmax(\frac{\tilde{A}}{\sqrt{3d_h}})*V_c\]
         https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/deberta/disentangled_attention.py
         https://github.com/microsoft/DeBERTa/blob/master/DeBERTa/apps/models/masked_language_model.py
     """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span>
-            <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-            <span class="n">max_seq</span><span class="p">:</span> <span class="mi">512</span><span class="p">,</span>
-            <span class="n">N</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">24</span><span class="p">,</span>
-            <span class="n">N_EMD</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
-            <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
-            <span class="n">dim_ffn</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4096</span><span class="p">,</span>
-            <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">12</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">DeBERTa</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="c1"># Init Scale of DeBERTa
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">max_seq</span>
+        <span class="c1"># Init Scale of DeBERTa Module
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">vocab_size</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">max_seq</span>
         <span class="bp">self</span><span class="p">.</span><span class="n">max_rel_pos</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">N</span> <span class="o">=</span> <span class="n">N</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">N_EMD</span> <span class="o">=</span> <span class="n">N_EMD</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_ffn</span> <span class="o">=</span> <span class="n">dim_ffn</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dropout_prob</span> <span class="o">=</span> <span class="n">dropout</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span> <span class="o">=</span> <span class="n">num_layers</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">num_attention_heads</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_emd</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">num_emd</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_ffn</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_ffn</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm_eps</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">layer_norm_eps</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout_prob</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">hidden_dropout_prob</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout_prob</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">attention_probs_dropout_prob</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">gradient_checkpointing</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">gradient_checkpoint</span>
 
         <span class="c1"># Init Embedding Layer
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># Word Embedding which is not add Absolute Position
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">rel_pos_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">max_rel_pos</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># Relative Position Embedding
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">abs_pos_emb</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_seq</span><span class="p">,</span> <span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># Absolute Position Embedding for EMD Layer
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># for word embedding
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># for rel_pos_emb
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">dropout_prob</span><span class="p">)</span>
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">embeddings</span> <span class="o">=</span> <span class="n">Embedding</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
 
-        <span class="c1"># Init Sub-Blocks &amp; Modules
+        <span class="c1"># Init Encoder Blocks &amp; Modules
 </span>        <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">DeBERTaEncoder</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">,</span>
             <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span><span class="p">,</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">N</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">num_layers</span><span class="p">,</span>
             <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span>
             <span class="bp">self</span><span class="p">.</span><span class="n">dim_ffn</span><span class="p">,</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">dropout_prob</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm_eps</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout_prob</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout_prob</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">gradient_checkpointing</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">.</span><span class="n">encoder_layers</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">N_EMD</span><span class="p">)]</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">emd_encoder</span> <span class="o">=</span> <span class="n">EnhancedMaskDecoder</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">.</span><span class="n">layer</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_emd</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">emd_encoder</span> <span class="o">=</span> <span class="n">EnhancedMaskDecoder</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">emd_layers</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm_eps</span><span class="p">,</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">gradient_checkpointing</span>
+        <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">):</span>
-        <span class="k">assert</span> <span class="n">inputs</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, sequence, vocab_size) got </span><span class="si">{</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
-        <span class="c1"># Embedding Layer
-</span>        <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
-        <span class="p">)</span>
-        <span class="n">rel_pos_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm2</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">rel_pos_emb</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">max_rel_pos</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">to</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
-        <span class="p">)</span>
-        <span class="n">abs_pos_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">abs_pos_emb</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">to</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>  <span class="c1"># "I" in paper
-</span>
-        <span class="c1"># Disentangled Self-Attention Encoder Layer
-</span>        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">word_embeddings</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="s">"""
+        Args:
+            inputs: input sequence, shape (batch_size, sequence)
+            padding_mask: padding mask for MLM or padding token
+            attention_mask: attention mask for CLM, default None
+        """</span>
+        <span class="k">assert</span> <span class="n">inputs</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, sequence) got </span><span class="si">{</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
 
-        <span class="c1"># Enhanced Mask Decoder Layer
-</span>        <span class="n">emd_hidden_states</span> <span class="o">=</span> <span class="n">hidden_states</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
-        <span class="n">emd_last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">emd_encoder</span><span class="p">(</span><span class="n">emd_hidden_states</span><span class="p">,</span> <span class="n">abs_pos_emb</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">hidden_states</span><span class="p">,</span> <span class="n">emd_last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span>
+        <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">abs_pos_emb</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">embeddings</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">encoder</span><span class="p">(</span><span class="n">word_embeddings</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">)</span>
+
+        <span class="n">emd_hidden_states</span> <span class="o">=</span> <span class="n">hidden_states</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">num_emd</span><span class="p">]</span>
+        <span class="n">emd_last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">emd_encoder</span><span class="p">(</span><span class="n">emd_hidden_states</span><span class="p">,</span> <span class="n">abs_pos_emb</span><span class="p">,</span> <span class="n">rel_pos_emb</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">emd_last_hidden_state</span><span class="p">,</span> <span class="n">emd_hidden_states</span>
 </code></pre></div></div>
 
         
