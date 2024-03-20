@@ -295,7 +295,7 @@ var store = [{
       },{
         "title": "🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding",
         "excerpt":"🔭 Overview Roformer는 2021년에 발표된 트랜스포머 모델의 변형으로, RoPE(Rotary Position Embedding)이라는 새로운 위치 정보 포착 방식을 제안했다. 근래 유명한 오픈소스 LLM 모델들(GPT-Neo, LLaMA)의 위치 정보 포착 방식으로 채택 되어 주목을 받고 있다. RoPE 기법에 대해 살펴보기 전에 일단, 관련 분야의 연구 동향 및 위치 정보의 개념에 대해 간단하게 살펴보고 넘어가려 한다....","categories": ["NLP"],
-        "tags": ["Natural Language Process","Roformer","Linear-Attention","Self-Attention","Pytorch","Transformation Matrix","Complex Space"],
+        "tags": ["Natural Language Process","Roformer","Transformation Matrix","Complex Space","Self-Attention","Linear-Attention","Pytorch"],
         "url": "/nlp/roformer",
         "teaser": "/assets/images/huggingface_emoji.png"
       },{
