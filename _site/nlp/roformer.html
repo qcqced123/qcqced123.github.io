@@ -410,7 +410,7 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#-absolute-position-vs-relative-position">🤔 Absolute Position vs Relative Position</a></li><li><a href="#-word-context-vs-relative-position-vs-absolute-position">🤔 Word Context vs Relative Position vs Absolute Position</a></li><li><a href="#️-previous-work-relative-position-embedding">🗂️ Previous Work: Relative Position Embedding</a></li><li><a href="#rope">🎡 RoPE</a></li></ul>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#-absolute-position-vs-relative-position">🤔 Absolute Position vs Relative Position</a></li><li><a href="#-word-context-vs-relative-position-vs-absolute-position">🤔 Word Context vs Relative Position vs Absolute Position</a></li><li><a href="#️-previous-work-relative-position-embedding">🗂️ Previous Work: Relative Position Embedding</a></li><li><a href="#rope">🎡 RoPE</a></li><li><a href="#-rope-with-linear-attention">📏 RoPE with linear attention</a></li></ul>
 
             </nav>
           </aside>
@@ -496,6 +496,37 @@
 <p>토큰의 인덱스와 모델의 은닉차원 인덱스에 따라서 행렬의 원소값이 결정됨을 알 수 있다. 이제 다시 (3)번 수식의 의미를 생각해보자. 단어 임베딩을 쿼리, 키 행렬로 선형 투영한 뒤 (4)번 수식을 곱한다. 순수한 회전행렬을 쿼리, 키 벡터에 곱하기 때문에 벡터의 크기를 유지한채, 방향만 바꿔줄 수 있다는 장점이 있다.</p>
 
 <p>이전의 연구들은 포지션 정보를 가지고 있는 행렬을 단어 벡터에 더하기 때문에 벡터의 방향은 물론 크기 역시 왜곡된다. 물론 단어 벡터와 포지션 벡터가 서로 성격이 다른 정보라는 점을 고려하면 모델의 은닉층처럼 고차원 공간에서 서로 직교할 확률이 매우 높기 때문에, 서로 학습에 영향을 미칠 가능성은 낮다. 하지만 확률적인 접근일 뿐더러, 단어 벡터의 크기가 왜곡된다는 점이 층을 거듭할수록 영향을 미칠지 알 수 없다.</p>
+
+<p>RoPE 방식의 또다른 장점은 곱하는 것만으로도, 상대 위치 정보를 인코딩 해줄 수 있다는 점이다. 이전 연구들은 대부분 절대 위치 혹은 상대 위치 하나만을 선택해 단어 임베딩에 정보를 추가해주는 경우가 대다수 였다. DeBERTa의 경우에만, Task 레이어 근처(레이어 후반부)에 가서 절대 위치를 더해 상대 위치가 갖는 단점을 보완하려는 시도를 했다. DeBERTa가 여러 방면에서 상당히 좋은 성능을 거둬서 그렇지, 마지막 레이어 근처에 가서 절대 위치를 더해주는게 사실 자연스럽다고 생각되지는 않는다. 그런데 RoPE는 회전 행렬을 곱하는 것만으로도 절대 위치와 상대 위치 모두 인코딩이 가능하다. 어떻게 그럴까??</p>
+
+<p>일단 RoPE 선형 투영된 쿼리, 키 행렬에 각각 회전행렬을 곱한다. 곱하는 과정에서 이미 토큰의 인덱스 값에 따라서 서로 다른 포지션 값이 단어 임베딩에 곱해지게 된다. 이것으로 일단 절대 위치 정보를 추가해줄 수 있다. 그리고 잘 알다시피, 쿼리와 키의 내적을 수행한다. 쿼리와 키의 내적을 각각 단어 임베딩, 선형 투영, 회전행렬 항으로 나눠서 식을 풀어 쓰면 아래와 같다.</p>
+
+\[q^T_mk_n=(R^d_{Θ,m}W_{q}x_m)^T(R^d_{Θ,n}W_{k}x_n) \ \ \ (5)\]
+
+<p>수식을 전개하면 자연스레,</p>
+
+\[x^TW_qR^d_{Θ,n-m}W_kx_n \ \ \ (6)\]
+
+<p>(6)번 수식처럼 된다. 행렬 $R^d_{Θ,n-m}$의 원소는 아래처럼,</p>
+
+\[\cos(m\theta_1)*\cos(n\theta_1) - \sin(m\theta_1)*\sin(n\theta_1) \\\]
+
+<p>토큰 인덱스를 의미하는 $m,n$에 대한 수식으로 표현된다. 따라서 자연스럽게 상대 위치를 포착할 수 있게 된다. 상당히 자연스럽게 서로 다른 두 위치 정보를 인코딩하는게 가능하며, 추가적으로 다른 항을 만들어 어텐션 행렬을 계산하지 않기 때문에 메모리를 좀 더 효율적으로 사용 가능하다.</p>
+
+<p>한편, 토큰의 상대 위치를 포착하는 방식은 자신과 상대적 거리가 멀어질수록 의미적 연관성이나 관계성이 떨어진다는 점을 전제로 한다. 즉, 서로 거리가 먼 토큰일수록 쿼리와 키벡터의 내적값이 0에 가까워져야 한다는 것이다. 저자 역시 이점을 언급하며 <code class="language-plaintext highlighter-rouge">RoPE</code> 방식이 <code class="language-plaintext highlighter-rouge">Long-Term Decay</code> 속성을 갖고 있다고 주장한다.</p>
+
+<p align="center">
+<img src="/assets/images/roformer/roformer_long_term.png" alt="Long-Term Decay" class="align-center image-caption" width="70%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2104.09864">Long-Term Decay</a></em></strong>
+</p>
+
+<p><code class="language-plaintext highlighter-rouge">Appendix</code>에서 수학적으로 증명까지 제시하고 있으나, 필자의 수학 실력이 얕아서 제시된 과정이 이해가 가질 않는다. 추후에 관련 내용은 추가하도록 하겠다. 일단 Relative Upper Bound가 정확히 무엇을 말하는지 모르겠지만(논문에 제대로 언급 x, 추측하건데, 의미적 연관성을 나타내는 지표 같음), 제시된 그래프를 보면 서로 상대적 거리가 멀어질수록 해당 지표가 확연히 감소하는 추세를 보인다.</p>
+
+<h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
+<p>저자는 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code> 대신 <strong><a href="https://arxiv.org/abs/2006.16236">&lt;Transformers are RNNs: Fast Autoregressive Transformers with linear attention&gt;</a></strong> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 사용했다고 밝히고 있다.</p>
+
+<p>하지만, <code class="language-plaintext highlighter-rouge">linear attention</code> 의 경우 디코더의 <code class="language-plaintext highlighter-rouge">CLM</code> 수행에 어울리는 방식으로, <code class="language-plaintext highlighter-rouge">NLU</code>를 위한 인코더에는 적합하지 않다. 해당 논문에서도 모델의 벤치마크 결과를 모두 <code class="language-plaintext highlighter-rouge">NLG</code>에 대해서만 제시한다. 그리고 필자가 직접 구현해 <code class="language-plaintext highlighter-rouge">MLM</code>을 수행해본 결과<strong>(<a href="https://wandb.ai/qcqced/MaskedLanguageModel/runs/63ogmndi?nw=nwuserqcqced">실험 결과 링크</a>)</strong> 정확도가 상당히 낮게 나오는 것을 알 수 있다. 물론 애초에 해당 방식은 트랜스포머를 <code class="language-plaintext highlighter-rouge">RNN</code>처럼 시간 차원에 대해서 학습하는 경우를 상정하고 만들었기 떄문에 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 BERT 같은 인코더 모델에 그대로 사용하는게 애초에 안 맞을 수 있다. 하지만 허깅 페이스의 <code class="language-plaintext highlighter-rouge">roformer</code> 코드를 보면 역시, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>에 <code class="language-plaintext highlighter-rouge">RoPE</code>를 통합하는 방식으로 구현했다. 따라서 필자 역시 <code class="language-plaintext highlighter-rouge">full attention</code>을 기준으로 모델을 구현했음을 밝힌다.</p>
+
 
         
       </section>
