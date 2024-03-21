@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-21T11:00:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-21T11:05:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 <code class="language-plaintext highlighter-rouge">BERT-base-uncased</code> 만 해도 파라미터가 1억 1천만개 수준에 달한다.</p>
 
@@ -1483,14 +1483,14 @@ x_d \\
 <strong><em>[body ver result]</em></strong>
 </p>
 
-<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론 이 때, 이것 말고도 다른 부분에서 최적화가 덜 되어 시간이 더 오래 걸리는 것으로 나왔다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
+<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론, 이러한 결과가 나온 이유는 \(R^d_{Θ,m}x\)이 차지하는 메모리 크기가 커지면서, GPU 상에 한 번에 올릴 수가 없어져 배치마다 루프를 돌려서 RoPE를 개별 쿼리, 키에 곱해주는 방식을 선택했기 때문이다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
 
 <p align="center">
 <img src="/assets/images/roformer/appendix_ver.png" alt="appendix ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
 <strong><em>[appendix ver result]</em></strong>
 </p>
 
-<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에 , 이전 방식보다 훨씬 메모리도 덜 차지한다.</p>
+<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에, 이전 방식보다 훨씬 메모리도 덜 차지한다. 이 방식은 배치 차원으로 루프를 돌릴 필요가 없어져 훈련시간도 대폭 단축되는 것이다.</p>
 
 <h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
 

@@ -567,14 +567,14 @@ x_d \\
 <strong><em>[body ver result]</em></strong>
 </p>
 
-<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론 이 때, 이것 말고도 다른 부분에서 최적화가 덜 되어 시간이 더 오래 걸리는 것으로 나왔다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
+<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론, 이러한 결과가 나온 이유는 \(R^d_{Θ,m}x\)이 차지하는 메모리 크기가 커지면서, GPU 상에 한 번에 올릴 수가 없어져 배치마다 루프를 돌려서 RoPE를 개별 쿼리, 키에 곱해주는 방식을 선택했기 때문이다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
 
 <p align="center">
 <img src="/assets/images/roformer/appendix_ver.png" alt="appendix ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
 <strong><em>[appendix ver result]</em></strong>
 </p>
 
-<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에 , 이전 방식보다 훨씬 메모리도 덜 차지한다.</p>
+<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에, 이전 방식보다 훨씬 메모리도 덜 차지한다. 이 방식은 배치 차원으로 루프를 돌릴 필요가 없어져 훈련시간도 대폭 단축되는 것이다.</p>
 
 <h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
 
