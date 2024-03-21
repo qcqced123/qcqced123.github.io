@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-20T14:58:32+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-21T11:00:06+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 <code class="language-plaintext highlighter-rouge">BERT-base-uncased</code> 만 해도 파라미터가 1억 1천만개 수준에 달한다.</p>
 
@@ -1438,7 +1438,62 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
 
 <p><code class="language-plaintext highlighter-rouge">Appendix</code>에서 수학적으로 증명까지 제시하고 있으나, 필자의 수학 실력이 얕아서 제시된 과정이 이해가 가질 않는다. 추후에 관련 내용은 추가하도록 하겠다. 일단 Relative Upper Bound가 정확히 무엇을 말하는지 모르겠지만(논문에 제대로 언급 x, 추측하건데, 의미적 연관성을 나타내는 지표 같음, 아마 내적값으로 추정), 제시된 그래프를 보면 서로 상대적 거리가 멀어질수록 해당 지표가 확연히 감소하는 추세를 보인다.</p>
 
+<p>마지막으로 논문에서 밝히길 (4), (5)번 수식의 형태로 RoPE를 만드는 것은 연산 효율이 떨어진다고 한다. 그래서 <code class="language-plaintext highlighter-rouge">Appendix</code>에서 효율적으로 연산하는 수식을 다시 제시하고 있다.</p>
+
+\[R^d_{Θ,m}x = \begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+x_4 \\
+... \\
+x_{d-1} \\
+x_{d} \\
+\end{bmatrix} \otimes \begin{bmatrix} 
+cos (m\theta_1) \\
+cos (m\theta_1) \\
+cos (m\theta_2) \\
+cos (m\theta_2) \\
+... \\
+cos (m\theta_{d/2}) \\
+cos (m\theta_{d/2}) \\
+\end{bmatrix} + 
+\begin{bmatrix}
+-x_2 \\
+x_1 \\
+-x_4 \\
+x_3 \\
+... \\
+-x_{d-1} \\
+x_d \\
+\end{bmatrix} \otimes  \begin{bmatrix}
+\sin(m\theta_1) \\
+\sin(m\theta_1) \\
+\sin(m\theta_2) \\
+\sin(m\theta_2) \\
+\vdots \\
+\sin(m\theta_{d/2}) \\
+\sin(m\theta_{d/2})
+
+\end{bmatrix}\]
+
+<p>수식 (4), (5)번 형태 그대로 구현하려면, 크기가 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head, dim_head]</code>인 텐서를 계속 가지고 있어야 한다. 이는 상당히 메모리를 낭비하게 된다. 아래 그림은 필자가 (4), (5)번 형태 그대로 구현한 뒤, MLM 학습을 돌리던 모습이다.</p>
+
+<p align="center">
+<img src="/assets/images/roformer/body_ver.png" alt="body ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
+<strong><em>[body ver result]</em></strong>
+</p>
+
+<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론 이 때, 이것 말고도 다른 부분에서 최적화가 덜 되어 시간이 더 오래 걸리는 것으로 나왔다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
+
+<p align="center">
+<img src="/assets/images/roformer/appendix_ver.png" alt="appendix ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
+<strong><em>[appendix ver result]</em></strong>
+</p>
+
+<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에 , 이전 방식보다 훨씬 메모리도 덜 차지한다.</p>
+
 <h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
+
 <p>저자는 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code> 대신 <strong><a href="https://arxiv.org/abs/2006.16236">&lt;Transformers are RNNs: Fast Autoregressive Transformers with linear attention&gt;</a></strong> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 사용했다고 밝히고 있다.</p>
 
 <p>하지만, <code class="language-plaintext highlighter-rouge">linear attention</code> 의 경우 디코더의 <code class="language-plaintext highlighter-rouge">CLM</code> 수행에 어울리는 방식으로, <code class="language-plaintext highlighter-rouge">NLU</code>를 위한 인코더에는 적합하지 않다. 해당 논문에서도 모델의 벤치마크 결과를 모두 <code class="language-plaintext highlighter-rouge">NLG</code>에 대해서만 제시한다. 그리고 필자가 직접 구현해 <code class="language-plaintext highlighter-rouge">MLM</code>을 수행해본 결과<strong>(<a href="https://wandb.ai/qcqced/MaskedLanguageModel/runs/63ogmndi?nw=nwuserqcqced">실험 결과 링크</a>)</strong> 정확도가 상당히 낮게 나오는 것을 알 수 있다. 물론 애초에 해당 방식은 트랜스포머를 <code class="language-plaintext highlighter-rouge">RNN</code>처럼 시간 차원에 대해서 학습하는 경우를 상정하고 만들었기 떄문에 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 BERT 같은 인코더 모델에 그대로 사용하는게 애초에 안 맞을 수 있다. 하지만 허깅 페이스의 <code class="language-plaintext highlighter-rouge">roformer</code> 코드를 보면 역시, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>에 <code class="language-plaintext highlighter-rouge">RoPE</code>를 통합하는 방식으로 구현했다. 따라서 필자 역시 <code class="language-plaintext highlighter-rouge">full attention</code>을 기준으로 모델을 구현했음을 밝힌다.</p>
@@ -1451,6 +1506,8 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
 
 <h4 id="-rotary-position-embedding"><code class="language-plaintext highlighter-rouge">🎡 Rotary Position Embedding</code></h4>
 
+<p><code class="language-plaintext highlighter-rouge">_init_weight()</code>의 <code class="language-plaintext highlighter-rouge">position_enc</code>를 주목해보자. <code class="language-plaintext highlighter-rouge">position_enc</code>는 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>을 인자로 받아 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>에 따라서 <code class="language-plaintext highlighter-rouge">position_enc</code>를 만들어내는데, 이것이 바로 <code class="language-plaintext highlighter-rouge">RoPE</code>의 핵심이다. 해당 코드 라인이 정확하게 $m\theta_d$을 계산하게 된다.</p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RoFormerSinusoidalPositionalEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">):</span>
     <span class="s">""" This module produces sinusoidal positional embeddings of any length
     Original Source code from Huggingface's RoFormer model, which is the most optimized way to create positional embedding
@@ -1458,6 +1515,9 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
     Args:
         max_seq: max sequence length of model
         dim_head: dimension of each attention head's hidden states
+
+    Returns:
+        Tensor -&gt; torch.Size([seq_len, dim_head])
 
     References:
         https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
@@ -1477,8 +1537,8 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
         <span class="n">n_pos</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span>
         <span class="n">position_enc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
             <span class="p">[[</span><span class="n">pos</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pos</span><span class="p">)]</span>
-        <span class="p">)</span>
-        <span class="n">out</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># set early to avoid an error in pytorch-1.8+
+        <span class="p">)</span>  <span class="c1"># m * theta
+</span>        <span class="n">out</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># set early to avoid an error in pytorch-1.8+
 </span>        <span class="n">sentinel</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="n">out</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">sentinel</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
         <span class="n">out</span><span class="p">[:,</span> <span class="n">sentinel</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
