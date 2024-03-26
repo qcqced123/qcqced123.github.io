@@ -310,4 +310,16 @@ var store = [{
         "tags": ["Natural Language Process","Linear-Attention","Transformer","BERT","Kernel Trick","Self-Attention","Pytorch"],
         "url": "/nlp/linear_attention",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👨⏰🐍 [Python] 시간복잡도 1",
+        "excerpt":"Memeory 1) 232 ⇒ 4GB** 2) 216 ⇒ 64MB** Time 구체적인 성능은 플랫폼의 하드웨어에 따라서 달라지겠지만, 일반적으로 1초에 1억번 정도 계산할 수 있다고 가정하고 알고리즘의 시간 복잡도를 계산하면 된다. 즉, 어떤 문제의 시간 제한이 2초라면, 2억번 이하의 계산을 하는 알고리즘의 경우는 통과로 처리된다는 것이다. 시간 복잡도는 원래 데이터 개수에 따라서...","categories": ["Python"],
+        "tags": ["Python","Function","Argument","mutable","CS"],
+        "url": "/python/time_complexity1",
+        "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "👨⏰🐍 [Python] 시간복잡도 2",
+        "excerpt":"Theme 1. 입력 모듈 \"\"\" Compare to Input module \"\"\" import sys N = int(inputs()) K = int(sys.stdin.readline()) 파이썬에서 사용자로부터 입력을 받는 모듈은 보통 inputs(), sys.stdin.readline() 을 사용한다. inputs() 는 입력 받는 데이터의 길이가 길고, 많아질수록 입력 효율이 떨어지는 단점이 있다. 그래서 이를 보완하기 위해 대부분의 코딩테스트 환경에서 입력을 받을...","categories": ["Python"],
+        "tags": ["Python","Time Complexity","CS"],
+        "url": "/python/time_complexity2",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]

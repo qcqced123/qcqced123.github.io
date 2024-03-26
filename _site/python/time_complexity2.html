@@ -1,0 +1,879 @@
+<!doctype html>
+<!--
+  Minimal Mistakes Jekyll Theme 4.24.0 by Michael Rose
+  Copyright 2013-2020 Michael Rose - mademistakes.com | @mmistakes
+  Free for personal and commercial use under the MIT license
+  https://github.com/mmistakes/minimal-mistakes/blob/master/LICENSE
+-->
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+
+<!-- begin _includes/seo.html --><title>👨⏰🐍 [Python] 시간복잡도 2 - AI/Business Study Log</title>
+<meta name="description" content="시간 복잡도 줄이기">
+
+
+  <meta name="author" content="qcqced">
+  
+  <meta property="article:author" content="qcqced">
+  
+
+
+<meta property="og:type" content="article">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="AI/Business Study Log">
+<meta property="og:title" content="👨⏰🐍 [Python] 시간복잡도 2">
+<meta property="og:url" content="http://localhost:4000/python/time_complexity2">
+
+
+  <meta property="og:description" content="시간 복잡도 줄이기">
+
+
+
+
+
+
+
+  <meta property="article:published_time" content="2024-03-26T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2024-03-27T02:00:00+09:00">
+
+
+
+  
+
+  
+
+
+<link rel="canonical" href="http://localhost:4000/python/time_complexity2">
+
+
+
+
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    
+      "@type": "Person",
+      "name": "qcqced",
+      "url": "http://localhost:4000/"
+    
+  }
+</script>
+
+
+
+
+
+
+
+<!-- end _includes/seo.html -->
+
+
+
+  <link href="/feed.xml" type="application/atom+xml" rel="alternate" title="AI/Business Study Log Feed">
+
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script>
+  document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
+</script>
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"></noscript>
+
+
+
+<!-- Latex -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+    <!-- start custom head snippets -->
+
+<!-- insert favicons. use https://realfavicongenerator.net/ -->
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon-16x16.png">
+<link rel="manifest" href="/assets/site.webmanifest">
+<link rel="mask-icon" href="/assets/safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<!-- end custom head snippets -->
+
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      TeX: {
+        equationNumbers: {
+          autoNumber: "AMS"
+        }
+      },
+      tex2jax: {
+      inlineMath: [ ['$', '$'] ],
+      displayMath: [ ['$$', '$$'] ],
+      processEscapes: true
+    }
+  });
+  MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  MathJax.Hub.Register.MessageHook("TeX Jax - parse error",function (message) {
+      alert("Math Processing Error: "+message[1]);
+    });
+  </script>
+  <script type="text/javascript" async
+    src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+  </script>
+  </head>
+
+  <body class="layout--single">
+    <nav class="skip-links">
+  <ul>
+    <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
+    <li><a href="#main" class="screen-reader-shortcut">Skip to content</a></li>
+    <li><a href="#footer" class="screen-reader-shortcut">Skip to footer</a></li>
+  </ul>
+</nav>
+
+    
+
+<div class="masthead">
+  <div class="masthead__inner-wrap">
+    <div class="masthead__menu">
+      <nav id="site-nav" class="greedy-nav">
+        
+        <a class="site-title" href="/">
+          AI/Business Study Log
+          <span class="site-subtitle">NLP, Marketing</span>
+        </a>
+        
+        
+        <ul class="visible-links">
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="https://qcqced123.github.io/">Home</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CS/AI  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/nlp/">    Natural Language Process</a>
+                          
+                              <a class = "dropdown-item" href="/multi-modal/">    Multi Modal</a>
+                          
+                              <a class = "dropdown-item" href="/cv/">    Computer Vision</a>
+                          
+                              <a class = "dropdown-item" href="/ml/">    Machine Learning</a>
+                          
+                              <a class = "dropdown-item" href="/framework-library/">    Framework & Library</a>
+                          
+                              <a class = "dropdown-item" href="/python/">    Python</a>
+                          
+                              <a class = "dropdown-item" href="/algorithm/">    Data Structure & Algorithm</a>
+                          
+                              <a class = "dropdown-item" href="/ps/">    Problem Solving</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Math  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/linear-algebra/">    Linear Algebra</a>
+                          
+                              <a class = "dropdown-item" href="/optimization-theory/">    Optimization Theory/Calculus</a>
+                          
+                              <a class = "dropdown-item" href="/signal-system/">    Signal & System</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="dropdown ">
+                      <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Business/Marketing  <i class="fa fa-caret-down fa-sm" aria-hidden="true"></i><span class="caret"></span></a>
+       
+                      <ul class="dropdown-content" >
+                          
+                              <a class = "dropdown-item" href="/device/">    Device</a>
+                          
+                              <a class = "dropdown-item" href="/semi-conductor/">    Semi-Conductor</a>
+                          
+                              <a class = "dropdown-item" href="/ai/">    AI</a>
+                          
+                      </ul>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/categories/">Category</a>
+                  </li>
+              
+          
+              
+              
+                  <li class="masthead__menu-item">
+                      <a href="/about/">About</a>
+                  </li>
+              
+          
+       </ul>
+       
+        
+        <button class="greedy-nav__toggle hidden" type="button">
+          <span class="visually-hidden">Toggle menu</span>
+          <div class="navicon"></div>
+        </button>
+        <ul class="hidden-links hidden"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+    <div class="initial-content">
+      
+
+
+
+
+
+<div id="main" role="main">
+  
+  <div class="sidebar sticky">
+  
+
+
+<div itemscope itemtype="https://schema.org/Person" class="h-card">
+
+  
+    <div class="author__avatar">
+      <a href="http://localhost:4000/">
+        <img src="/assets/images/huggingface_emoji.png" alt="qcqced" itemprop="image" class="u-photo">
+      </a>
+    </div>
+  
+
+  <div class="author__content">
+    <h3 class="author__name p-name" itemprop="name">
+      <a class="u-url" rel="me" href="http://localhost:4000/" itemprop="url">qcqced</a>
+    </h3>
+    
+      <div class="author__bio p-note" itemprop="description">
+        <p>Interested in NLP, Marketing</p>
+
+      </div>
+    
+  </div>
+
+  <div class="author__urls-wrapper">
+    <button class="btn btn--inverse">Follow</button>
+    <ul class="author__urls social-icons">
+      
+        <li itemprop="homeLocation" itemscope itemtype="https://schema.org/Place">
+          <i class="fas fa-fw fa-map-marker-alt" aria-hidden="true"></i> <span itemprop="name" class="p-locality">Seoul, South Korea</span>
+        </li>
+      
+
+      
+        
+          
+            <li><a href="https://qcqced123.github.io" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fas fa-fw fa-link" aria-hidden="true"></i><span class="label">Website</span></a></li>
+          
+        
+          
+            <li><a href="https://github.com/qcqced123" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-github" aria-hidden="true"></i><span class="label">GitHub</span></a></li>
+          
+        
+          
+            <li><a href="https://www.kaggle.com/qcqced" rel="nofollow noopener noreferrer me" itemprop="sameAs"><i class="fab fa-fw fa-kaggle" aria-hidden="true"></i><span class="label">Kaggle</span></a></li>
+          
+        
+      
+
+      
+
+      
+        <li>
+          <a href="mailto:qcqced123@gmail.com" rel="me" class="u-email">
+            <meta itemprop="email" content="qcqced123@gmail.com" />
+            <i class="fas fa-fw fa-envelope-square" aria-hidden="true"></i><span class="label">Email</span>
+          </a>
+        </li>
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      
+
+      <!--
+  <li>
+    <a href="http://link-to-whatever-social-network.com/user/" itemprop="sameAs" rel="nofollow noopener noreferrer me">
+      <i class="fas fa-fw" aria-hidden="true"></i> Custom Social Profile Link
+    </a>
+  </li>
+-->
+    </ul>
+  </div>
+</div>
+
+  
+  </div>
+
+
+
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="👨⏰🐍 [Python] 시간복잡도 2">
+    <meta itemprop="description" content="시간 복잡도 줄이기">
+    <meta itemprop="datePublished" content="2024-03-26T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-03-27T02:00:00+09:00">
+
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/python/time_complexity2" class="u-url" itemprop="url">👨⏰🐍 [Python] 시간복잡도 2
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/python/time_complexity2"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/python/time_complexity2&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2024-03-26T00:00:00+09:00">March 26, 2024</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
+
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#theme-1-입력-모듈">Theme 1. 입력 모듈</a></li><li><a href="#theme-2-선언할당재구성-횟수-줄이기">Theme 2. 선언/할당/재구성 횟수 줄이기</a></li><li><a href="#theme-3-컴프리헨션제너레이터">Theme 3. 컴프리헨션/제너레이터</a></li></ul>
+
+            </nav>
+          </aside>
+        
+        <h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Compare to Input module """</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="p">())</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>파이썬에서 사용자로부터 입력을 받는 모듈은 보통 <code class="language-plaintext highlighter-rouge">inputs()</code>, <code class="language-plaintext highlighter-rouge">sys.stdin.readline()</code> 을 사용한다. <code class="language-plaintext highlighter-rouge">inputs()</code> 는 입력 받는 데이터의 길이가 길고, 많아질수록 입력 효율이 떨어지는 단점이 있다. 그래서 이를 보완하기 위해 대부분의 코딩테스트 환경에서 입력을 받을 때는 <code class="language-plaintext highlighter-rouge">sys.stdin.readline()</code> 를 사용하는 것이 좋다. 어차피 테스트 케이스가 매우 길고 많기 때문에 일반적으로는 후자가 훨씬 효율적이다.</p>
+
+<p>하지만 만약, 문제 조건에서 주어지는 입력 데이터의 개수와 그 형태가 적고 단순한 편이라면 전자의 사용도 고려해야 한다. 후자는 기본적으로 <code class="language-plaintext highlighter-rouge">sys</code> 모듈 내부에 내장된 메서드라서 <code class="language-plaintext highlighter-rouge">sys</code> 모듈을 불러와야 한다. 모듈을 <code class="language-plaintext highlighter-rouge">import</code> 하는 시간도 꽤나 걸리기 때문에, 데이터가 단순하다면 전자 사용도 고려해보자.</p>
+
+<h3 id="theme-2-선언할당재구성-횟수-줄이기"><code class="language-plaintext highlighter-rouge">Theme 2. 선언/할당/재구성 횟수 줄이기</code></h3>
+
+<p>파이썬은 자료구조 사용을 위해 명시적으로 메모리를 할당하고 해제하는 과정이 생략되어 있어서, 이 부분에 대한 인지를 하지 못하는 경우가 많다. 하지만 C/C++/JAVA 혹은 운영체제 공부를 해봤다면 알 것이다. 메모리 할당을 요구하는 일이 얼마나 시간을 많이 잡아 먹는 일인지 말이다. 프로그래머가 작성한 코드에서 메모리 할당을 요구한다면, 컴파일러/인터프리터는 운영체제 커널에 메모리 할당을 요구해야 한다. 그 다음 커널은 다시 가장 깊숙한 곳까지 내려가 메모리 할당을 하드웨어에 요청한 뒤, 작업 결과를 컴파일러에 전달해야 한다. 따라서 최대한 <code class="language-plaintext highlighter-rouge">할당</code>과 <code class="language-plaintext highlighter-rouge">재구성</code>하는 시간을 줄여야 효율적으로 코드를 작성할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 1. 리스트 곱셈 """</span>
+
+<span class="n">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<p>arr1, arr2는 모두 길이가 100이고 모든 원소값이 0인 같은 배열(리스트)을 가지게 된다. 하지만, 실행 시간은 어느쪽이 더 빠를까?? 후자가 당연히 더 빠르다. 후자는 <code class="language-plaintext highlighter-rouge">재구성(resize)</code>연산 없이 한 번에 할당이 마무리 되기 때문이다. 반면 전자는 <code class="language-plaintext highlighter-rouge">선언</code>과 <code class="language-plaintext highlighter-rouge">할당</code> 및 <code class="language-plaintext highlighter-rouge">재구성</code> 시점이 서로 다르다. 그래서 일정 횟수마다 <code class="language-plaintext highlighter-rouge">재구성</code> 연산이 필요해진다. 앞서도 언급했듯, 커널에 메모리를 요구하는 횟수가 작아지는게 실행 시간에 유리하다. 따라서 명백히 후자의 실행 시간이 더 빠르다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 2. 튜플 사용 """</span>
+
+<span class="n">tdy</span><span class="p">,</span> <span class="n">tdx</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># tuple
+</span><span class="n">ldy</span><span class="p">,</span> <span class="n">ldx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># list
+</span></code></pre></div></div>
+
+<p>지금까지 설명한 내용과 같은 맥락에서, 배열 내부의 구성요소에 변경이 없는게 확실시 되는 경우, 배열을 튜플로 선언하는 것이 좋다. 위에 선언된 배열은 그래프 탐색 문제에서 상하좌우 방향 탐색을 구현할 때 자주 사용하는 방법이다. 상하좌우 방향을 표현하는게 목적이라서, 해당 배열은 미래에 변경될 일이 없다고 보장할 수 있다. 이런 경우에는 습관적으로 리스트를 사용하지말고, 튜플을 쓰자.</p>
+
+<p>튜플이 리스트보다 나은 이유는 <code class="language-plaintext highlighter-rouge">immutable</code> 객체라는 점이다. <code class="language-plaintext highlighter-rouge">immutable</code> 객체는 변경되지 않는다는 것을 전제로 하기 때문에 <code class="language-plaintext highlighter-rouge">resize</code> 메서드가 객체에 없다. 이에 따라서 관련된 메타 정보도 저장하고 있을 필요가 사라진다. 그래서 리스트 보다 가볍고 빠른 계산이 가능하다. 또한 튜플은 20이하의 크기를 갖는 객체는 <code class="language-plaintext highlighter-rouge">래퍼런스 카운트</code>가 0이라도 <code class="language-plaintext highlighter-rouge">Python GC</code>가 메모리를 회수하지 않는다. 대신 메모리 상에 저장하고 있다가, 같은 크기의 튜플이 다시 한 번 선언될 때, 이것을 재활용한다.</p>
+
+<p>리스트와 튜플의 전체 생애주기를 비교해보면, 튜플의 커널&amp;하드웨어 호출횟수가 리스트보다 훨씬 적어진다. 그래서 재구성이 필요없는 경우는 반드시 튜플로 선언하는게 이득이라고 볼 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 문자열 합치기 """</span>
+
+<span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span> <span class="o">=</span> <span class="s">'I am a boy, '</span><span class="p">,</span> <span class="s">'you are a girl'</span>
+
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">arr1</span> <span class="o">+</span> <span class="n">arr2</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">])</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">result2</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.600120544433594e-05</span>
+<span class="n">Result</span><span class="p">:</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">boy</span><span class="p">,</span> <span class="n">you</span> <span class="n">are</span> <span class="n">a</span> <span class="n">girl</span>
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.504753112792969e-05</span>
+<span class="n">Result</span><span class="p">:</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">boy</span><span class="p">,</span> <span class="n">you</span> <span class="n">are</span> <span class="n">a</span> <span class="n">girl</span>
+</code></pre></div></div>
+
+<p>문자열은 파이썬에서 <code class="language-plaintext highlighter-rouge">immutable</code> 객체로 간주한다. 따라서 일반 연산자(+, *)를 사용해 문자열을 수정할 경우, 여타 <code class="language-plaintext highlighter-rouge">immutable</code> 객체처럼 새로운 메모리 할당이 발생한다. 이를 방지하기 위해 파이썬 내부적으로 최적화 되어 있는 <code class="language-plaintext highlighter-rouge">str.join()</code> 을 사용해 문자열을 조작하도록 하자.</p>
+
+<h3 id="theme-3-컴프리헨션제너레이터"><code class="language-plaintext highlighter-rouge">Theme 3. 컴프리헨션/제너레이터</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">)]</span>  <span class="c1"># list comprehension
+</span><span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Memory Size: </span><span class="si">{</span><span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span><span class="si">}</span><span class="s"> byte"</span><span class="p">)</span>
+<span class="c1"># print(f"Result: {arr1}")
+</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span>  <span class="c1"># init of generator
+</span><span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Memory Size: </span><span class="si">{</span><span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span><span class="si">}</span><span class="s"> byte"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">arr2</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.023138046264648438</span>
+<span class="n">Memory</span> <span class="n">Size</span><span class="p">:</span> <span class="mi">800984</span> <span class="n">byte</span>
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.2928924560546875e-05</span>
+<span class="n">Memory</span> <span class="n">Size</span><span class="p">:</span> <span class="mi">112</span> <span class="n">byte</span>
+<span class="n">Result</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x1058c3f20</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>속도, 필요한 메모리 크기 모두 제너레이터가 압도적으로 효율적인 모습이다. 제너레이터의 경우, 실제로는 모든 연산값을 갖고 있는게 아니기 때문이다. 그래서 인덱싱, 슬라이싱등 파이썬 배열의 여러 연산을 활용할 수 없다. 따라서 상황에 따라서 컴프리헨션과 제너레이터를 사용하면 된다. 만약 인덱싱, 슬라이싱 연산처럼 일부에 접근하는 연산을 이용해야 한다면 컴프리헨션을, sum()처럼 전체 배열 단위 연산 혹은 단순히 순차적으로 원소 하나 하나에 접근해 무엇인가 해야 하는 상황(range() 등)이라면 제너레이터를 활용하자.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/tags/#cs" class="page__taxonomy-item p-category" rel="tag">CS</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a><span class="sep">, </span>
+    
+      <a href="/tags/#time-complexity" class="page__taxonomy-item p-category" rel="tag">Time Complexity</a>
+    
+    </span>
+  </p>
+
+
+
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-03-26">March 26, 2024</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A8%E2%8F%B0%F0%9F%90%8D%C2%A0%5BPython%5D+%EC%8B%9C%EA%B0%84%EB%B3%B5%EC%9E%A1%EB%8F%84+2%20http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity2" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity2" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity2" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/python/time_complexity1" class="pagination--pager" title="👨⏰🐍 [Python] 시간복잡도 1
+">Previous</a>
+    
+    
+      <a href="#" class="pagination--pager disabled">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/python/time_complexity1" rel="permalink">👨⏰🐍 [Python] 시간복잡도 1
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          1 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 26 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">시간 복잡도에 대한 이해
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/linear_attention" rel="permalink">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 14 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Linear Attention Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/spanbert" rel="permalink">🗂️[SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">SpanBERT Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/roformer" rel="permalink">🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          13 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">Roformer Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+      </div>
+    </div>
+  
+  
+</div>
+
+    </div>
+
+    
+
+    <div id="footer" class="page__footer">
+      <footer>
+        <!-- start custom footer snippets -->
+
+<!-- end custom footer snippets -->
+        <div class="page__footer-follow">
+  <ul class="social-icons">
+    
+      <li><strong>Follow:</strong></li>
+    
+
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+
+    
+      <li><a href="/feed.xml"><i class="fas fa-fw fa-rss-square" aria-hidden="true"></i> Feed</a></li>
+    
+  </ul>
+</div>
+
+<div class="page__footer-copyright">&copy; 2024 qcqced. Powered by <a href="https://jekyllrb.com" rel="nofollow">Jekyll</a> &amp; <a href="https://mademistakes.com/work/minimal-mistakes-jekyll-theme/" rel="nofollow">Minimal Mistakes</a>.</div>
+
+      </footer>
+    </div>
+
+    
+  <script src="/assets/js/main.min.js"></script>
+
+
+
+
+
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
+
+
+
+
+<script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+    processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+});
+</script>
+
+  </body>
+</html>

@@ -9,30 +9,36 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>AI/Business Study Log - Page 4</title>
-<meta name="description" content="NLP, Marketing">
+<!-- begin _includes/seo.html --><title>👨⏰🐍 [Python] 시간복잡도 1 - AI/Business Study Log</title>
+<meta name="description" content="시간 복잡도에 대한 이해">
 
 
   <meta name="author" content="qcqced">
   
+  <meta property="article:author" content="qcqced">
+  
 
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="AI/Business Study Log">
-<meta property="og:url" content="http://localhost:4000/page4/">
+<meta property="og:title" content="👨⏰🐍 [Python] 시간복잡도 1">
+<meta property="og:url" content="http://localhost:4000/python/time_complexity1">
 
 
-  <meta property="og:description" content="NLP, Marketing">
-
-
-
+  <meta property="og:description" content="시간 복잡도에 대한 이해">
 
 
 
 
 
+
+
+  <meta property="article:published_time" content="2024-03-26T00:00:00+09:00">
+
+
+
+  <meta property="article:modified_time" content="2023-10-15T02:00:00+09:00">
 
 
 
@@ -41,13 +47,9 @@
   
 
 
-<link rel="canonical" href="http://localhost:4000/page4/">
+<link rel="canonical" href="http://localhost:4000/python/time_complexity1">
 
 
-  <link rel="prev" href="http://localhost:4000/page3/">
-
-
-  <link rel="next" href="http://localhost:4000/page5/">
 
 
 <script type="application/ld+json">
@@ -127,7 +129,7 @@
   </script>
   </head>
 
-  <body class="layout--home">
+  <body class="layout--single">
     <nav class="skip-links">
   <ul>
     <li><a href="#site-nav" class="screen-reader-shortcut">Skip to primary navigation</a></li>
@@ -248,6 +250,8 @@
 
     <div class="initial-content">
       
+
+
 
 
 
@@ -375,29 +379,215 @@
 
 
 
-  <div class="archive">
-    
-      <h1 id="page-title" class="page__title"></h1>
-    
-    
+  <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
+    <meta itemprop="headline" content="👨⏰🐍 [Python] 시간복잡도 1">
+    <meta itemprop="description" content="시간 복잡도에 대한 이해">
+    <meta itemprop="datePublished" content="2024-03-26T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2023-10-15T02:00:00+09:00">
 
-<h3 class="archive__subtitle">Recent posts</h3>
+    <div class="page__inner-wrap">
+      
+        <header>
+          <h1 id="page-title" class="page__title p-name" itemprop="headline">
+            <a href="http://localhost:4000/python/time_complexity1" class="u-url" itemprop="url">👨⏰🐍 [Python] 시간복잡도 1
+</a>
+          </h1>
+          <p class="page__date">
+            <a href="https://hits.seeyoufarm.com/localhost:4000/python/time_complexity1"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/python/time_complexity1&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            </a>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2024-03-26T00:00:00+09:00">March 26, 2024</time>
+            <!-- <div style="text-align: left;"> -->
+            <!-- </div> -->
+          </p>
+          
+          
+        </header>
+      
 
+      <section class="page__content e-content" itemprop="text">
+        
+          <aside class="sidebar__right sticky">
+            <nav class="toc">
+              <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
+              <ul class="toc__menu"><li><a href="#memeory">Memeory</a></li><li><a href="#time">Time</a></li></ul>
 
+            </nav>
+          </aside>
+        
+        <h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
 
+<ul>
+  <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
+  <li><strong>2) 2</strong>16 ⇒ 64MB**</li>
+</ul>
 
-<div class="entries-list">
+<h3 id="time"><code class="language-plaintext highlighter-rouge">Time</code></h3>
+
+<p>구체적인 성능은 플랫폼의 하드웨어에 따라서 달라지겠지만, 일반적으로 1초에 1억번 정도 계산할 수 있다고 가정하고 알고리즘의 시간 복잡도를 계산하면 된다. 즉, 어떤 문제의 시간 제한이 2초라면, 2억번 이하의 계산을 하는 알고리즘의 경우는 통과로 처리된다는 것이다.</p>
+
+<p>시간 복잡도는 원래 데이터 개수에 따라서 달라지는 연산 횟수의 추이를 말한다. 하지만 많은 사람들은 편의상 데이터 개수와 연산 횟수를 동치로 간주하고 시간 복잡도를 계산하고 있다. 이러한 접근이 틀렸다고 보기 힘든 이유는 실전에서 정확하게 시간 복잡도를 계산하는 것이 불가능하기 때문이다. 애초에 시간 복잡도의 목적은 내가 세운 알고리즘의 대략적인 성능을 알아보기 위함이자, 문제 조건에 맞지 않는 경우의 수를 미리 처내기 위함이다. 이러한 관점에 따라서 어떤 문제의 시간 제한이 2초, 내가 세운 알고리즘이 O(N)의 시간복잡도를 갖는 상황을 가정해보자. 만약 문제에서 주어지는 데이터의 양이 2억개 이하라면 시간 초과에 걸리지 않고 통과할 것이다. 한편, 문제에서 주어지는 데이터의 양이 10억개라면, 선형 시간 복잡도 알고리즘으로는 다시 태어나도 절대 통과할 수 없다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(log N)</td>
+      <td>1억**2</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>1억</td>
+    </tr>
+    <tr>
+      <td>O(N**2)</td>
+      <td>1만</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>30만</td>
+    </tr>
+    <tr>
+      <td>O(N**3)</td>
+      <td>500</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이제 파이썬 내장 라이브러리의 시간 복잡도에 대해서 정리해보자. 파이썬의 가장 큰 장점은 타 언어 대비 내장 라이브러리가 많다는 점이다. 그래서 다른 언어로 구현할 때보다 내장 메서드를 사용하는 경우가 빈번하기 때문에 미리 해당 함수들의 시간 복잡도에 대해서 숙지하고 있어야 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(1)</td>
+      <td>모든 인덱싱 활용 연산(자료구조 길이 등)</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>전체 자료 구조 할당, 비교, 복사, 탐색</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>정렬(sort(), sorted())</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>자료구조에 따른 내장 메서드가 너무 많아서, 최대한 일반화된 표현으로 작성했다. 여기서 한 가지 주목할 점은 자료구조 길이를 구하는 <code class="language-plaintext highlighter-rouge">len()</code>의 시간 복잡도가 상수 시간이라는 점이다. 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체들은 모두 내부값이 변경될 것을 감안해 <code class="language-plaintext highlighter-rouge">resize()</code> 연산을 객체 내부 메서드에 가지고 있고, 자료구조 내부에 길이 정보값을 항상 내장하고 있다. 그래서 <code class="language-plaintext highlighter-rouge">len()</code>, <code class="language-plaintext highlighter-rouge">__len__()</code> 을 호출하면 자료구조를 순회하면서 길이를 세는게 아니라, 길이 정보값을 저장하고 있는 위치의 배열값을 반환한다. 따라서 상수 시간에 해결이 가능하다. 따라서 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체의 크기는 우리 생각보다 좀 더 크다는 것을 명심하자.</p>
+
+        
+      </section>
+
+      <footer class="page__meta">
+        
+        
   
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
+    <span itemprop="keywords">
     
+      <a href="/tags/#argument" class="page__taxonomy-item p-category" rel="tag">Argument</a><span class="sep">, </span>
+    
+      <a href="/tags/#cs" class="page__taxonomy-item p-category" rel="tag">CS</a><span class="sep">, </span>
+    
+      <a href="/tags/#function" class="page__taxonomy-item p-category" rel="tag">Function</a><span class="sep">, </span>
+    
+      <a href="/tags/#mutable" class="page__taxonomy-item p-category" rel="tag">mutable</a><span class="sep">, </span>
+    
+      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
 
 
 
-<div class="list__item">
+
+  
+
+
+  
+
+  <p class="page__taxonomy">
+    <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
+    <span itemprop="keywords">
+    
+      <a href="/categories/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+    
+    </span>
+  </p>
+
+
+        
+
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-10-14">October 14, 2023</time></p>
+
+      </footer>
+
+      <section class="page__share">
+  
+    <h4 class="page__share-title">Share on</h4>
+  
+
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%91%A8%E2%8F%B0%F0%9F%90%8D%C2%A0%5BPython%5D+%EC%8B%9C%EA%B0%84%EB%B3%B5%EC%9E%A1%EB%8F%84+1%20http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity1" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity1" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fpython%2Ftime_complexity1" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+</section>
+
+
+      
+  <nav class="pagination">
+    
+      <a href="/nlp/linear_attention" class="pagination--pager" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention
+">Previous</a>
+    
+    
+      <a href="/python/time_complexity2" class="pagination--pager" title="👨⏰🐍 [Python] 시간복잡도 2
+">Next</a>
+    
+  </nav>
+
+    </div>
+
+    
+  </article>
+
+  
+  
+    <div class="page__related">
+      <h2 class="page__related-title">You may also enjoy</h2>
+      <div class="grid__wrapper">
+        
+          
+
+
+
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/optimization-theory/newton-raphson" rel="permalink">🍎 Newton-Raphson Method for Optimization
+        <a href="/python/time_complexity2" rel="permalink">👨⏰🐍 [Python] 시간복잡도 2
 </a>
       
     </h2>
@@ -423,24 +613,28 @@
 
  -->
     
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 15 2023</p>
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 26 2024</p>
     
-    <p class="archive__item-excerpt" itemprop="description">최적화 문제를 위한 뉴턴-랩슨 메서드 설명
+    <p class="archive__item-excerpt" itemprop="description">시간 복잡도 줄이기
 </p>
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/optimization-theory/convex" rel="permalink">🗂️ Convex Optimization Problem
+        <a href="/nlp/linear_attention" rel="permalink">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention
 </a>
       
     </h2>
@@ -458,7 +652,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          3 minute read
+          8 minute read
         
       </span>
     
@@ -466,24 +660,28 @@
 
  -->
     
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 13 2023</p>
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 14 2024</p>
     
-    <p class="archive__item-excerpt" itemprop="description">컨백스 최적화 문제 증명
+    <p class="archive__item-excerpt" itemprop="description">Linear Attention Official Paper Review with Pytorch Implementation
 </p>
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/algorithm/union-find" rel="permalink">🗂️ Graph Theory 4: Union-Find (Disjoint Set)
+        <a href="/nlp/spanbert" rel="permalink">🗂️[SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans
 </a>
       
     </h2>
@@ -501,7 +699,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          2 minute read
+          8 minute read
         
       </span>
     
@@ -509,24 +707,28 @@
 
  -->
     
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
     
-    <p class="archive__item-excerpt" itemprop="description">Union-Find Algorithm with Disjoint Set
+    <p class="archive__item-excerpt" itemprop="description">SpanBERT Official Paper Review with Pytorch Implementation
 </p>
   </article>
 </div>
 
-  
-    
+        
+          
 
 
 
-<div class="list__item">
+<div class="grid__item">
   <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
     
     <h2 class="archive__item-title no_toc" itemprop="headline">
       
-        <a href="/algorithm/useful_library" rel="permalink">✏️  Summary of Useful Library for Coding Test
+        <a href="/nlp/roformer" rel="permalink">🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding
 </a>
       
     </h2>
@@ -544,7 +746,7 @@
       <span class="page__meta-readtime">
         <i class="far fa-clock" aria-hidden="true"></i>
         
-          4 minute read
+          13 minute read
         
       </span>
     
@@ -552,136 +754,20 @@
 
  -->
     
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
     
-    <p class="archive__item-excerpt" itemprop="description">코딩 테스트 풀이에 자주 사용되는 파이썬 내장 라이브러리 사용법 정리
+    <p class="archive__item-excerpt" itemprop="description">Roformer Official Paper Review with Pytorch Implementation
 </p>
   </article>
 </div>
 
+        
+      </div>
+    </div>
   
-    
-
-
-
-<div class="list__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/algorithm/mst" rel="permalink">🗂️ Graph Theory 5: MST with Kruskal &amp; Prim
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          4 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> November 11 2023</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">MST with Kruskal &amp; Prim Algorithm
-</p>
-  </article>
-</div>
-
   
 </div>
 
-
-<nav class="pagination">
-  
-  <ul>
-    
-    
-      
-        <li><a href="/page3/">Previous</a></li>
-      
-    
-
-    
-    
-      <li><a href="/">1</a></li>
-    
-
-    
-    
-
-    
-    
-    
-
-    
-      
-        
-        
-        
-        <li><a href="/page2/">2</a></li>
-      
-    
-      
-        
-        
-        
-        <li><a href="/page3/">3</a></li>
-      
-    
-      
-        <li><a href="/page4/" class="disabled current">4</a></li>
-      
-    
-      
-        
-        
-        
-        <li><a href="/page5/">5</a></li>
-      
-    
-      
-        
-        
-        
-        <li><a href="/page6/">6</a></li>
-      
-    
-
-    
-    
-      <li><a href="#" class="disabled">&hellip;</a></li>
-    
-
-    
-      <li><a href="/page11/">11</a></li>
-    
-
-    
-    
-      <li><a href="/page5/">Next</a></li>
-    
-  </ul>
-</nav>
-
-
-
-  </div>
-</div>
     </div>
 
     
@@ -731,6 +817,31 @@
 
 
 
+
+
+    <script>
+  'use strict';
+
+  (function() {
+    var commentContainer = document.querySelector('#utterances-comments');
+
+    if (!commentContainer) {
+      return;
+    }
+
+    var script = document.createElement('script');
+    script.setAttribute('src', 'https://utteranc.es/client.js');
+    script.setAttribute('repo', 'qcqced123/qcqced123.github.io');
+    script.setAttribute('issue-term', 'pathname');
+    
+    script.setAttribute('theme', 'github-light');
+    script.setAttribute('crossorigin', 'anonymous');
+
+    commentContainer.appendChild(script);
+  })();
+</script>
+
+  
 
 
 

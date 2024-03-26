@@ -1,4 +1,159 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-21T11:05:01+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-26T15:23:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 2</title><link href="http://localhost:4000/python/time_complexity2" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 2" /><published>2024-03-26T00:00:00+09:00</published><updated>2024-03-27T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity2</id><content type="html" xml:base="http://localhost:4000/python/time_complexity2"><![CDATA[<h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Compare to Input module """</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">inputs</span><span class="p">())</span>
+<span class="n">K</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
+</code></pre></div></div>
+
+<p>파이썬에서 사용자로부터 입력을 받는 모듈은 보통 <code class="language-plaintext highlighter-rouge">inputs()</code>, <code class="language-plaintext highlighter-rouge">sys.stdin.readline()</code> 을 사용한다. <code class="language-plaintext highlighter-rouge">inputs()</code> 는 입력 받는 데이터의 길이가 길고, 많아질수록 입력 효율이 떨어지는 단점이 있다. 그래서 이를 보완하기 위해 대부분의 코딩테스트 환경에서 입력을 받을 때는 <code class="language-plaintext highlighter-rouge">sys.stdin.readline()</code> 를 사용하는 것이 좋다. 어차피 테스트 케이스가 매우 길고 많기 때문에 일반적으로는 후자가 훨씬 효율적이다.</p>
+
+<p>하지만 만약, 문제 조건에서 주어지는 입력 데이터의 개수와 그 형태가 적고 단순한 편이라면 전자의 사용도 고려해야 한다. 후자는 기본적으로 <code class="language-plaintext highlighter-rouge">sys</code> 모듈 내부에 내장된 메서드라서 <code class="language-plaintext highlighter-rouge">sys</code> 모듈을 불러와야 한다. 모듈을 <code class="language-plaintext highlighter-rouge">import</code> 하는 시간도 꽤나 걸리기 때문에, 데이터가 단순하다면 전자 사용도 고려해보자.</p>
+
+<h3 id="theme-2-선언할당재구성-횟수-줄이기"><code class="language-plaintext highlighter-rouge">Theme 2. 선언/할당/재구성 횟수 줄이기</code></h3>
+
+<p>파이썬은 자료구조 사용을 위해 명시적으로 메모리를 할당하고 해제하는 과정이 생략되어 있어서, 이 부분에 대한 인지를 하지 못하는 경우가 많다. 하지만 C/C++/JAVA 혹은 운영체제 공부를 해봤다면 알 것이다. 메모리 할당을 요구하는 일이 얼마나 시간을 많이 잡아 먹는 일인지 말이다. 프로그래머가 작성한 코드에서 메모리 할당을 요구한다면, 컴파일러/인터프리터는 운영체제 커널에 메모리 할당을 요구해야 한다. 그 다음 커널은 다시 가장 깊숙한 곳까지 내려가 메모리 할당을 하드웨어에 요청한 뒤, 작업 결과를 컴파일러에 전달해야 한다. 따라서 최대한 <code class="language-plaintext highlighter-rouge">할당</code>과 <code class="language-plaintext highlighter-rouge">재구성</code>하는 시간을 줄여야 효율적으로 코드를 작성할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 1. 리스트 곱셈 """</span>
+
+<span class="n">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)]</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="mi">100</span>
+</code></pre></div></div>
+
+<p>arr1, arr2는 모두 길이가 100이고 모든 원소값이 0인 같은 배열(리스트)을 가지게 된다. 하지만, 실행 시간은 어느쪽이 더 빠를까?? 후자가 당연히 더 빠르다. 후자는 <code class="language-plaintext highlighter-rouge">재구성(resize)</code>연산 없이 한 번에 할당이 마무리 되기 때문이다. 반면 전자는 <code class="language-plaintext highlighter-rouge">선언</code>과 <code class="language-plaintext highlighter-rouge">할당</code> 및 <code class="language-plaintext highlighter-rouge">재구성</code> 시점이 서로 다르다. 그래서 일정 횟수마다 <code class="language-plaintext highlighter-rouge">재구성</code> 연산이 필요해진다. 앞서도 언급했듯, 커널에 메모리를 요구하는 횟수가 작아지는게 실행 시간에 유리하다. 따라서 명백히 후자의 실행 시간이 더 빠르다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 2. 튜플 사용 """</span>
+
+<span class="n">tdy</span><span class="p">,</span> <span class="n">tdx</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># tuple
+</span><span class="n">ldy</span><span class="p">,</span> <span class="n">ldx</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>  <span class="c1"># list
+</span></code></pre></div></div>
+
+<p>지금까지 설명한 내용과 같은 맥락에서, 배열 내부의 구성요소에 변경이 없는게 확실시 되는 경우, 배열을 튜플로 선언하는 것이 좋다. 위에 선언된 배열은 그래프 탐색 문제에서 상하좌우 방향 탐색을 구현할 때 자주 사용하는 방법이다. 상하좌우 방향을 표현하는게 목적이라서, 해당 배열은 미래에 변경될 일이 없다고 보장할 수 있다. 이런 경우에는 습관적으로 리스트를 사용하지말고, 튜플을 쓰자.</p>
+
+<p>튜플이 리스트보다 나은 이유는 <code class="language-plaintext highlighter-rouge">immutable</code> 객체라는 점이다. <code class="language-plaintext highlighter-rouge">immutable</code> 객체는 변경되지 않는다는 것을 전제로 하기 때문에 <code class="language-plaintext highlighter-rouge">resize</code> 메서드가 객체에 없다. 이에 따라서 관련된 메타 정보도 저장하고 있을 필요가 사라진다. 그래서 리스트 보다 가볍고 빠른 계산이 가능하다. 또한 튜플은 20이하의 크기를 갖는 객체는 <code class="language-plaintext highlighter-rouge">래퍼런스 카운트</code>가 0이라도 <code class="language-plaintext highlighter-rouge">Python GC</code>가 메모리를 회수하지 않는다. 대신 메모리 상에 저장하고 있다가, 같은 크기의 튜플이 다시 한 번 선언될 때, 이것을 재활용한다.</p>
+
+<p>리스트와 튜플의 전체 생애주기를 비교해보면, 튜플의 커널&amp;하드웨어 호출횟수가 리스트보다 훨씬 적어진다. 그래서 재구성이 필요없는 경우는 반드시 튜플로 선언하는게 이득이라고 볼 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 문자열 합치기 """</span>
+
+<span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span> <span class="o">=</span> <span class="s">'I am a boy, '</span><span class="p">,</span> <span class="s">'you are a girl'</span>
+
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">arr1</span> <span class="o">+</span> <span class="n">arr2</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">result</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">result2</span> <span class="o">=</span> <span class="s">''</span><span class="p">.</span><span class="n">join</span><span class="p">([</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">])</span>
+<span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">result2</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.600120544433594e-05</span>
+<span class="n">Result</span><span class="p">:</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">boy</span><span class="p">,</span> <span class="n">you</span> <span class="n">are</span> <span class="n">a</span> <span class="n">girl</span>
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">3.504753112792969e-05</span>
+<span class="n">Result</span><span class="p">:</span> <span class="n">I</span> <span class="n">am</span> <span class="n">a</span> <span class="n">boy</span><span class="p">,</span> <span class="n">you</span> <span class="n">are</span> <span class="n">a</span> <span class="n">girl</span>
+</code></pre></div></div>
+
+<p>문자열은 파이썬에서 <code class="language-plaintext highlighter-rouge">immutable</code> 객체로 간주한다. 따라서 일반 연산자(+, *)를 사용해 문자열을 수정할 경우, 여타 <code class="language-plaintext highlighter-rouge">immutable</code> 객체처럼 새로운 메모리 할당이 발생한다. 이를 방지하기 위해 파이썬 내부적으로 최적화 되어 있는 <code class="language-plaintext highlighter-rouge">str.join()</code> 을 사용해 문자열을 조작하도록 하자.</p>
+
+<h3 id="theme-3-컴프리헨션제너레이터"><code class="language-plaintext highlighter-rouge">Theme 3. 컴프리헨션/제너레이터</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">arr1</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">)]</span>  <span class="c1"># list comprehension
+</span><span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Memory Size: </span><span class="si">{</span><span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">arr1</span><span class="p">)</span><span class="si">}</span><span class="s"> byte"</span><span class="p">)</span>
+<span class="c1"># print(f"Result: {arr1}")
+</span>
+<span class="n">src</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="p">(</span><span class="n">i</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100000</span><span class="p">))</span>  <span class="c1"># init of generator
+</span><span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Execution Time: </span><span class="si">{</span><span class="n">src</span><span class="o">-</span><span class="n">end</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Memory Size: </span><span class="si">{</span><span class="n">sys</span><span class="p">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="n">arr2</span><span class="p">)</span><span class="si">}</span><span class="s"> byte"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Result: </span><span class="si">{</span><span class="n">arr2</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">0.023138046264648438</span>
+<span class="n">Memory</span> <span class="n">Size</span><span class="p">:</span> <span class="mi">800984</span> <span class="n">byte</span>
+<span class="n">Execution</span> <span class="n">Time</span><span class="p">:</span> <span class="o">-</span><span class="mf">5.2928924560546875e-05</span>
+<span class="n">Memory</span> <span class="n">Size</span><span class="p">:</span> <span class="mi">112</span> <span class="n">byte</span>
+<span class="n">Result</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x1058c3f20</span><span class="o">&gt;</span>
+</code></pre></div></div>
+
+<p>속도, 필요한 메모리 크기 모두 제너레이터가 압도적으로 효율적인 모습이다. 제너레이터의 경우, 실제로는 모든 연산값을 갖고 있는게 아니기 때문이다. 그래서 인덱싱, 슬라이싱등 파이썬 배열의 여러 연산을 활용할 수 없다. 따라서 상황에 따라서 컴프리헨션과 제너레이터를 사용하면 된다. 만약 인덱싱, 슬라이싱 연산처럼 일부에 접근하는 연산을 이용해야 한다면 컴프리헨션을, sum()처럼 전체 배열 단위 연산 혹은 단순히 순차적으로 원소 하나 하나에 접근해 무엇인가 해야 하는 상황(range() 등)이라면 제너레이터를 활용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Time Complexity" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도 줄이기]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
+
+<ul>
+  <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
+  <li><strong>2) 2</strong>16 ⇒ 64MB**</li>
+</ul>
+
+<h3 id="time"><code class="language-plaintext highlighter-rouge">Time</code></h3>
+
+<p>구체적인 성능은 플랫폼의 하드웨어에 따라서 달라지겠지만, 일반적으로 1초에 1억번 정도 계산할 수 있다고 가정하고 알고리즘의 시간 복잡도를 계산하면 된다. 즉, 어떤 문제의 시간 제한이 2초라면, 2억번 이하의 계산을 하는 알고리즘의 경우는 통과로 처리된다는 것이다.</p>
+
+<p>시간 복잡도는 원래 데이터 개수에 따라서 달라지는 연산 횟수의 추이를 말한다. 하지만 많은 사람들은 편의상 데이터 개수와 연산 횟수를 동치로 간주하고 시간 복잡도를 계산하고 있다. 이러한 접근이 틀렸다고 보기 힘든 이유는 실전에서 정확하게 시간 복잡도를 계산하는 것이 불가능하기 때문이다. 애초에 시간 복잡도의 목적은 내가 세운 알고리즘의 대략적인 성능을 알아보기 위함이자, 문제 조건에 맞지 않는 경우의 수를 미리 처내기 위함이다. 이러한 관점에 따라서 어떤 문제의 시간 제한이 2초, 내가 세운 알고리즘이 O(N)의 시간복잡도를 갖는 상황을 가정해보자. 만약 문제에서 주어지는 데이터의 양이 2억개 이하라면 시간 초과에 걸리지 않고 통과할 것이다. 한편, 문제에서 주어지는 데이터의 양이 10억개라면, 선형 시간 복잡도 알고리즘으로는 다시 태어나도 절대 통과할 수 없다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(log N)</td>
+      <td>1억**2</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>1억</td>
+    </tr>
+    <tr>
+      <td>O(N**2)</td>
+      <td>1만</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>30만</td>
+    </tr>
+    <tr>
+      <td>O(N**3)</td>
+      <td>500</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이제 파이썬 내장 라이브러리의 시간 복잡도에 대해서 정리해보자. 파이썬의 가장 큰 장점은 타 언어 대비 내장 라이브러리가 많다는 점이다. 그래서 다른 언어로 구현할 때보다 내장 메서드를 사용하는 경우가 빈번하기 때문에 미리 해당 함수들의 시간 복잡도에 대해서 숙지하고 있어야 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(1)</td>
+      <td>모든 인덱싱 활용 연산(자료구조 길이 등)</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>전체 자료 구조 할당, 비교, 복사, 탐색</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>정렬(sort(), sorted())</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>자료구조에 따른 내장 메서드가 너무 많아서, 최대한 일반화된 표현으로 작성했다. 여기서 한 가지 주목할 점은 자료구조 길이를 구하는 <code class="language-plaintext highlighter-rouge">len()</code>의 시간 복잡도가 상수 시간이라는 점이다. 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체들은 모두 내부값이 변경될 것을 감안해 <code class="language-plaintext highlighter-rouge">resize()</code> 연산을 객체 내부 메서드에 가지고 있고, 자료구조 내부에 길이 정보값을 항상 내장하고 있다. 그래서 <code class="language-plaintext highlighter-rouge">len()</code>, <code class="language-plaintext highlighter-rouge">__len__()</code> 을 호출하면 자료구조를 순회하면서 길이를 세는게 아니라, 길이 정보값을 저장하고 있는 위치의 배열값을 반환한다. 따라서 상수 시간에 해결이 가능하다. 따라서 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체의 크기는 우리 생각보다 좀 더 크다는 것을 명심하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도에 대한 이해]]></summary></entry><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 <code class="language-plaintext highlighter-rouge">BERT-base-uncased</code> 만 해도 파라미터가 1억 1천만개 수준에 달한다.</p>
 
@@ -268,7 +423,381 @@
         <span class="p">)</span>
         <span class="n">s_logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">s_mlm_head</span><span class="p">(</span><span class="n">last_hidden_state</span><span class="p">)</span>  <span class="c1"># hard logit =&gt; to make soft logit
 </span>        <span class="k">return</span> <span class="n">last_hidden_state</span><span class="p">,</span> <span class="n">s_logit</span>
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="Linear-Attention" /><category term="Transformer" /><category term="BERT" /><category term="Kernel Trick" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[Linear Attention Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators</title><link href="http://localhost:4000/nlp/electra" rel="alternate" type="text/html" title="👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/electra</id><content type="html" xml:base="http://localhost:4000/nlp/electra"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="Linear-Attention" /><category term="Transformer" /><category term="BERT" /><category term="Kernel Trick" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[Linear Attention Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding</title><link href="http://localhost:4000/nlp/roformer" rel="alternate" type="text/html" title="🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/roformer</id><content type="html" xml:base="http://localhost:4000/nlp/roformer"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p><code class="language-plaintext highlighter-rouge">Roformer</code>는 2021년에 발표된 트랜스포머 모델의 변형으로, <code class="language-plaintext highlighter-rouge">RoPE(Rotary Position Embedding)</code>이라는 새로운 위치 정보 포착 방식을 제안했다. 근래 유명한 오픈소스 LLM 모델들(GPT-Neo, LLaMA)의 위치 정보 포착 방식으로 채택 되어 주목을 받고 있다. <code class="language-plaintext highlighter-rouge">RoPE</code> 기법에 대해 살펴보기 전에 일단, 관련 분야의 연구 동향 및 위치 정보의 개념에 대해 간단하게 살펴보고 넘어가려 한다.</p>
+
+<h3 id="-absolute-position-vs-relative-position"><code class="language-plaintext highlighter-rouge">🤔 Absolute Position vs Relative Position</code></h3>
+
+<p>트랜스포머가 성공을 거둘 수 있었던 이유는 전체 시퀀스를 병렬적으로 한 번에 처리하되, 시퀀스 발생 순서 정보를 행렬합 방식으로 인코딩해줬기 때문이다. 이 분야에 대한 연구 동향은 크게 <code class="language-plaintext highlighter-rouge">Absolute Position</code>, <code class="language-plaintext highlighter-rouge">Relative Position</code> 방식으로 분화된다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Absolute Position</code>은 주어진 시퀀스의 길이를 측정한 뒤, 나열된 순서 그대로 <code class="language-plaintext highlighter-rouge">forward</code>하게 <code class="language-plaintext highlighter-rouge">0</code>부터 <code class="language-plaintext highlighter-rouge">길이-1</code>의 번호를 개별 토큰에 할당한다. 다시 말해, 단어가 시퀀스에서 발생한 순서를 수학적으로 표현해 모델에 주입한다는 의미가 된다.</p>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">Relative Position</code>은 시퀀스 내부 토큰 사이의 위치 관계 표현을 통해 토큰 사이의 <code class="language-plaintext highlighter-rouge">relation</code>을 <code class="language-plaintext highlighter-rouge">pairwise</code>하게 학습하는 위치 임베딩 기법을 말한다. 일반적으로 상대 위치 관계는 서로 다른 두 토큰의 시퀀스 인덱스 값의 차를 이용해 나타낸다. 포착하는 문맥 정보는 예시와 함깨 설명하겠다. 예시는 예전 DeBERTa 논문에서 나왔던 것을 활용했다. 딥러닝이라는 단어는 영어로 <code class="language-plaintext highlighter-rouge">Deep Learning</code> 이다. 두 단어를 합쳐놓고 보면 <code class="language-plaintext highlighter-rouge">신경망을 사용하는 머신러닝 기법의 한 종류</code>라는 의미를 갖겠지만, 따로 따로 보면 <code class="language-plaintext highlighter-rouge">깊은</code>, <code class="language-plaintext highlighter-rouge">배움</code>이라는 개별적인 의미로 나뉜다.</p>
+
+<ul>
+  <li><strong><code class="language-plaintext highlighter-rouge">1) The Deep Learning is the Best Technique in Computer Science</code></strong></li>
+  <li><strong><code class="language-plaintext highlighter-rouge">2) I’m learning how to swim in the deep ocean</code></strong></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">Deep</code>과 <code class="language-plaintext highlighter-rouge">Learning</code>의 상대적인 거리에 주목하면서 두 문장을 해석해보자. 첫 번째 문장에서 두 단어는 이웃하게 위치해 <code class="language-plaintext highlighter-rouge">신경망을 사용하는 머신러닝 기법의 한 종류</code> 라는 의미를 만들어내고 있다. 한편 두 번째 문장에서 두 단어는 띄어쓰기 기준 5개의 토큰만큼 떨어져 위치해 각각 <code class="language-plaintext highlighter-rouge">배움</code>, <code class="language-plaintext highlighter-rouge">깊은</code> 이라는 의미를 만들어 내고 있다. 이처럼 개별 토큰 사이의 위치 관계에 따라서 파생되는 문맥적 정보를 포착하려는 의도로 설계된 기법이 바로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 이다.</p>
+
+<h3 id="-word-context-vs-relative-position-vs-absolute-position"><strong><code class="language-plaintext highlighter-rouge">🤔 Word Context vs Relative Position vs Absolute Position</code></strong></h3>
+
+<p align="center">
+<img src="/assets/images/deberta/line_people.png" alt="줄 서있는 사람들" class="align-center image-caption" width="40%&quot;, height=&quot;50%" />
+<strong><em><a href="https://kr.freepik.com/premium-photo/people-standing-in-line-during-airport-check-in_8754408.htm">줄 서있는 사람들</a></em></strong>
+</p>
+
+<p>지금까지 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>이 무엇이고, 도대체 어떤 문맥 정보를 포착한다는 것인지 알아봤다. 필자의 설명이 매끄럽지 못하기도 하고 예시를 텍스트로 들고 있어서 직관적으로 <code class="language-plaintext highlighter-rouge">word context</code>는 무엇인지, <code class="language-plaintext highlighter-rouge">Position</code> 정보와는 뭐가 다른지, 두 가지 <code class="language-plaintext highlighter-rouge">Position</code> 정보는 뭐가 어떻게 다른지 와닿지 않는 분들이 많으실 것 같다. 그래서 최대한 직관적인 예시를 통해 세가지 정보의 차이점을 설명해보려 한다.</p>
+
+<p>사람 5명이 공항 체크인을 위해 서 있다. 모두 왼쪽을 보고 있는 것을 보아 왼쪽에 키가 제일 작은 여자가 가장 앞줄이라고 볼 수 있겠다. 우리는 줄 서있는 순서대로 5명의 사람에게 번호를 부여할 것이다. 편의상 0번부터 시작해 4번까지 번호를 주겠다. 1번에 해당하는 사람은 누구인가??  바로 줄의 2번째에 서있는 여자다. 그럼 2번에 해당하는 사람은 누구인가?? 사진 속 줄의 가장 중간에 있는 남자가 2번이다. 이렇게 그룹 단위(전체 줄)에서 개개인에 일련의 번호를 부여해 위치를 표현하는 방법이 바로 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code>이다.</p>
+
+<p>한편, 다시 2번 사람에게 주목해보자. 우리는 2번 남자를 전체 줄에서 가운데 위치한 사람이 아니라, 검정색 양복과 구두를 신고 손에 쥔 무언가를 응시하고 있는 사람이라고 표현할 수도 있다. 이것이 바로 토큰의 의미 정보를 담은 <code class="language-plaintext highlighter-rouge">word context</code>에 해당한다.</p>
+
+<p>마지막으로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 방식으로 2번 남자를 표현해보자. 오른손으로는 커피를 들고 다른 손으로는 캐리어를 잡고 있으며 검정색 하이힐과 베이지색 바지를 입은 <strong>1번 여자의 뒤에 있는 사람</strong>, 회색 양복과 검은 뿔테 안경을 쓰고 한 손에는 캐리어를 잡고 있는 <strong>4번 여자의 앞에 있는 사람</strong>, 검정색 자켓과 청바지를 입고 한 손에는 회색 코트를 들고 있는 줄의 <strong>맨 앞 여자로부터 2번째 뒤에 서있는 사람</strong>, 턱수염이 길고 머리가 긴 편이며 파란색 가디건을 입고 초록색과 검정색이 혼합된 가방을 왼쪽으로 메고 있는 <strong>남자로부터 2번째 앞에 있는 사람.</strong></p>
+
+<p>이처럼 표현하는게 바로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>에 대응된다고 볼 수 있다. 이제 위치 임베딩에 대해서 살펴봤으니, 논문에서 제시하는 내용에 대해서 알아보자.</p>
+
+<h3 id="️-previous-work-relative-position-embedding"><strong><code class="language-plaintext highlighter-rouge">🗂️ Previous Work: Relative Position Embedding</code></strong></h3>
+
+<p>미리 말하자면, <code class="language-plaintext highlighter-rouge">RoPE</code>는 위치 정보 중에서 상대 위치를 포착한다. 그래서 저자는 그들의 방법론을 소개하기 전에 먼저, 이전 연구들의 상대 위치 포착 방식에 대해서 소개하고 있다. 간단히 살펴보자.</p>
+
+\[q^T_mk_n = x^T_mW^T_qW_kx_n + x^T_mW^T_qW_kp_n + p^T_mW^T_qW_kx_n + p^T_mW^T_qW_kp_n\ \ \ (1) \\\]
+
+\[q^T_m k_n = x^T_m W^T_q W_k x_n + x^T_m W^T_q {W_k} \tilde{x}_{m-n} + \widetilde{p}_{m-n} W^T_q W_k x_n \ \ \ (2)\]
+
+<p>(1)번 수식은 <code class="language-plaintext highlighter-rouge">Transformer-XL</code> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">Cross Attention</code> 수식이다. 위치 정보를 담아내는 항을 따로 만들고 쿼리, 키에 대응되는 항과 곱하고 있다. (2)번 수식은 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 모델에서 제시된 <code class="language-plaintext highlighter-rouge">Disentangled Attention</code> 이다. (1)과 구성의 차이는 있지만 역시, 위치 정보를 담아내는 항을 억지로 만들고 그것들을 쿼리 혹은 키와 곱하여 위치 정보를 담아낸 뒤, 모두 합하여 어텐션 행렬을 만들어 내고 있다.</p>
+
+<p>정리하면, 기존 연구들은 상대 위치를 포착하기 위해 별도의 포지션 행렬을 만들고, 이리저리 곱하고, 다시 그것들을 모두 합하여 어텐션 행렬을 만들고 있는 것이다. 기존 연구들이 제시하는 방법론들의 공통된 문제는 학습해야 할 파라미터 수가 늘어나 모델 사이즈도 커지고, 학습시간도 늘어난다는 것이다.</p>
+
+<h3 id="rope"><code class="language-plaintext highlighter-rouge">🎡 RoPE</code></h3>
+
+\[f_{q,k}(x_m, m)= \left( \begin{array}{cc}\cos(m\theta) &amp; \sin(m\theta) \\-\sin(m\theta) &amp; \cos(m\theta)\end{array} \right)
+
+\left( \begin{array}{cc}W^{(11)}_{q,k} &amp; W^{(12)}_{q,k} \\W^{(21)}_{q,k} &amp; W^{(22)}_{q,k} \end{array} \right) 
+
+\left( \begin{array}{cc}x_m^{(1)} \\x_m^{(2)} \end{array} \right)\]
+
+<p>등식의 좌변은 <code class="language-plaintext highlighter-rouge">word embedding</code>을 선형 투영 시켜 얻은 <code class="language-plaintext highlighter-rouge">query</code>, <code class="language-plaintext highlighter-rouge">key</code> 벡터에 <code class="language-plaintext highlighter-rouge">Rotary Position Embedding</code> 값을 추가한 결과 값을 뜻한다. 우변의 수식이 상당히 복잡해 보이나, 실상은 매우 간단하다. 선형 투영으로 얻은 <code class="language-plaintext highlighter-rouge">query</code>, <code class="language-plaintext highlighter-rouge">key</code> 벡터에 좌측의 괴랄하게 생긴 행렬을 곱해주겠다는 것이다. 좌측의 행렬은 대학교 선형대수 시간에 스치듯 지나갔던 <code class="language-plaintext highlighter-rouge">Transformation Matrix(회전 행렬)</code>이다. $m$은 $m$-th 토큰을 의미하는데, 세타가 뭔지는 모르겠지만 일단 토큰의 인덱스 값에 따라서, 주어진 워드 임베딩 벡터를 회전시키겠다는 것이다. 지금 살펴본 예시는 은닉층 크기가 2차원인 단순한 벡터였다. 실제 모델에 사용하는 차원(384, 512, 768, …)으로 확장하기 전에 세타의 정체에 대해 알아보자.</p>
+
+\[\Theta = \left\{ \theta_i = 10000^{ -{2(i-1)}/{d}}, \quad i \in \left[1, 2, \ldots, \frac{d}{2}\right] \right\}\]
+
+<p>$\theta$의 정체는 바로 주기함수 였다. 퓨어한 트랜스포머에서 <code class="language-plaintext highlighter-rouge">Absolute Position Encoding</code>을 위해 <code class="language-plaintext highlighter-rouge">Sinusoidal</code> 함수를 사용한 것과 같은 이치라고 생각하면 된다. 즉 $\theta$는 <code class="language-plaintext highlighter-rouge">word embedding</code> 벡터가 가진 은닉층 차원 방향 인덱스에 따라서 달라진다. 여기에 시퀀스 길이 차원 방향의 인덱스 값을 따로 곱해주기 때문에 그 유일성을 보장할 수 있다.</p>
+
+<p>이제 전체 RoPE를 이해하는데 필요한 재료 준비는 모두 끝났다. 이제 실제 차원으로 확장해보자.</p>
+
+\[fq,k(x_m,m)=R^d_{Θ,m}W_{q,k}x_m \\\]
+
+<p>행렬 $R^d_{Θ,m}$은 아래와 같은 행렬을 말하는데,</p>
+
+\[R^d_{Θ,m} = \begin{bmatrix}
+\cos(m\theta_1) &amp; -\sin(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+\sin(m\theta_1) &amp; \cos(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \cos(m\theta_2) &amp; -\sin(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
+0 &amp; 0 &amp; \sin(m\theta_2) &amp; \cos(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
+\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \cos(m\theta_{d/2}) &amp; -\sin(m\theta_{d/2}) \\
+0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \sin(m\theta_{d/2}) &amp; \cos(m\theta_{d/2})
+\end{bmatrix}\]
+
+<p>토큰의 인덱스와 모델의 은닉차원 인덱스에 따라서 행렬의 원소값이 결정됨을 알 수 있다. 이제 다시 (3)번 수식의 의미를 생각해보자. 단어 임베딩을 쿼리, 키 행렬로 선형 투영한 뒤 (4)번 수식을 곱한다. 순수한 회전행렬을 쿼리, 키 벡터에 곱하기 때문에 벡터의 크기를 유지한채, 방향만 바꿔줄 수 있다는 장점이 있다.</p>
+
+<p>이전의 연구들은 포지션 정보를 가지고 있는 행렬을 단어 벡터에 더하기 때문에 벡터의 방향은 물론 크기 역시 왜곡된다. 물론 단어 벡터와 포지션 벡터가 서로 성격이 다른 정보라는 점을 고려하면 모델의 은닉층처럼 고차원 공간에서 서로 직교할 확률이 매우 높기 때문에, 서로 학습에 영향을 미칠 가능성은 낮다. 하지만 확률적인 접근일 뿐더러, 단어 벡터의 크기가 왜곡된다는 점이 층을 거듭할수록 영향을 미칠지 알 수 없다.</p>
+
+<p>RoPE 방식의 또다른 장점은 곱하는 것만으로도, 상대 위치 정보를 인코딩 해줄 수 있다는 점이다. 이전 연구들은 대부분 절대 위치 혹은 상대 위치 하나만을 선택해 단어 임베딩에 정보를 추가해주는 경우가 대다수 였다. DeBERTa의 경우에만, Task 레이어 근처(레이어 후반부)에 가서 절대 위치를 더해 상대 위치가 갖는 단점을 보완하려는 시도를 했다. DeBERTa가 여러 방면에서 상당히 좋은 성능을 거둬서 그렇지, 마지막 레이어 근처에 가서 절대 위치를 더해주는게 사실 자연스럽다고 생각되지는 않는다. 그런데 RoPE는 회전 행렬을 곱하는 것만으로도 절대 위치와 상대 위치 모두 인코딩이 가능하다. 어떻게 그럴까??</p>
+
+<p>일단 RoPE 선형 투영된 쿼리, 키 행렬에 각각 회전행렬을 곱한다. 곱하는 과정에서 이미 토큰의 인덱스 값에 따라서 서로 다른 포지션 값이 단어 임베딩에 곱해지게 된다. 이것으로 일단 절대 위치 정보를 추가해줄 수 있다. 그리고 잘 알다시피, 쿼리와 키의 내적을 수행한다. 쿼리와 키의 내적을 각각 단어 임베딩, 선형 투영, 회전행렬 항으로 나눠서 식을 풀어 쓰면 아래와 같다.</p>
+
+\[q^T_mk_n=(R^d_{Θ,m}W_{q}x_m)^T(R^d_{Θ,n}W_{k}x_n) \ \ \ (5)\]
+
+<p>수식을 전개하면 자연스레,</p>
+
+\[x^TW_qR^d_{Θ,n-m}W_kx_n \ \ \ (6)\]
+
+<p>(6)번 수식처럼 된다. 행렬 $R^d_{Θ,n-m}$의 원소는 아래처럼,</p>
+
+\[\cos(m\theta_1)*\cos(n\theta_1) - \sin(m\theta_1)*\sin(n\theta_1) \\\]
+
+<p>토큰 인덱스를 의미하는 $m,n$에 대한 수식으로 표현된다. 따라서 자연스럽게 상대 위치를 포착할 수 있게 된다. 상당히 자연스럽게 서로 다른 두 위치 정보를 인코딩하는게 가능하며, 추가적으로 다른 항을 만들어 어텐션 행렬을 계산하지 않기 때문에 메모리를 좀 더 효율적으로 사용 가능하다.</p>
+
+<p>한편, 토큰의 상대 위치를 포착하는 방식은 자신과 상대적 거리가 멀어질수록 의미적 연관성이나 관계성이 떨어진다는 점을 전제로 한다. 즉, 서로 거리가 먼 토큰일수록 쿼리와 키벡터의 내적값이 0에 가까워져야 한다는 것이다. 저자 역시 이점을 언급하며 <code class="language-plaintext highlighter-rouge">RoPE</code> 방식이 <code class="language-plaintext highlighter-rouge">Long-Term Decay</code> 속성을 갖고 있다고 주장한다.</p>
+
+<p align="center">
+<img src="/assets/images/roformer/roformer_long_term.png" alt="Long-Term Decay" class="align-center image-caption" width="70%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2104.09864">Long-Term Decay</a></em></strong>
+</p>
+
+<p><code class="language-plaintext highlighter-rouge">Appendix</code>에서 수학적으로 증명까지 제시하고 있으나, 필자의 수학 실력이 얕아서 제시된 과정이 이해가 가질 않는다. 추후에 관련 내용은 추가하도록 하겠다. 일단 Relative Upper Bound가 정확히 무엇을 말하는지 모르겠지만(논문에 제대로 언급 x, 추측하건데, 의미적 연관성을 나타내는 지표 같음, 아마 내적값으로 추정), 제시된 그래프를 보면 서로 상대적 거리가 멀어질수록 해당 지표가 확연히 감소하는 추세를 보인다.</p>
+
+<p>마지막으로 논문에서 밝히길 (4), (5)번 수식의 형태로 RoPE를 만드는 것은 연산 효율이 떨어진다고 한다. 그래서 <code class="language-plaintext highlighter-rouge">Appendix</code>에서 효율적으로 연산하는 수식을 다시 제시하고 있다.</p>
+
+\[R^d_{Θ,m}x = \begin{bmatrix}
+x_1 \\
+x_2 \\
+x_3 \\
+x_4 \\
+... \\
+x_{d-1} \\
+x_{d} \\
+\end{bmatrix} \otimes \begin{bmatrix} 
+cos (m\theta_1) \\
+cos (m\theta_1) \\
+cos (m\theta_2) \\
+cos (m\theta_2) \\
+... \\
+cos (m\theta_{d/2}) \\
+cos (m\theta_{d/2}) \\
+\end{bmatrix} + 
+\begin{bmatrix}
+-x_2 \\
+x_1 \\
+-x_4 \\
+x_3 \\
+... \\
+-x_{d-1} \\
+x_d \\
+\end{bmatrix} \otimes  \begin{bmatrix}
+\sin(m\theta_1) \\
+\sin(m\theta_1) \\
+\sin(m\theta_2) \\
+\sin(m\theta_2) \\
+\vdots \\
+\sin(m\theta_{d/2}) \\
+\sin(m\theta_{d/2})
+
+\end{bmatrix}\]
+
+<p>수식 (4), (5)번 형태 그대로 구현하려면, 크기가 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head, dim_head]</code>인 텐서를 계속 가지고 있어야 한다. 이는 상당히 메모리를 낭비하게 된다. 아래 그림은 필자가 (4), (5)번 형태 그대로 구현한 뒤, MLM 학습을 돌리던 모습이다.</p>
+
+<p align="center">
+<img src="/assets/images/roformer/body_ver.png" alt="body ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
+<strong><em>[body ver result]</em></strong>
+</p>
+
+<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론, 이러한 결과가 나온 이유는 \(R^d_{Θ,m}x\)이 차지하는 메모리 크기가 커지면서, GPU 상에 한 번에 올릴 수가 없어져 배치마다 루프를 돌려서 RoPE를 개별 쿼리, 키에 곱해주는 방식을 선택했기 때문이다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
+
+<p align="center">
+<img src="/assets/images/roformer/appendix_ver.png" alt="appendix ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
+<strong><em>[appendix ver result]</em></strong>
+</p>
+
+<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에, 이전 방식보다 훨씬 메모리도 덜 차지한다. 이 방식은 배치 차원으로 루프를 돌릴 필요가 없어져 훈련시간도 대폭 단축되는 것이다.</p>
+
+<h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
+
+<p>저자는 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code> 대신 <strong><a href="https://arxiv.org/abs/2006.16236">&lt;Transformers are RNNs: Fast Autoregressive Transformers with linear attention&gt;</a></strong> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 사용했다고 밝히고 있다.</p>
+
+<p>하지만, <code class="language-plaintext highlighter-rouge">linear attention</code> 의 경우 디코더의 <code class="language-plaintext highlighter-rouge">CLM</code> 수행에 어울리는 방식으로, <code class="language-plaintext highlighter-rouge">NLU</code>를 위한 인코더에는 적합하지 않다. 해당 논문에서도 모델의 벤치마크 결과를 모두 <code class="language-plaintext highlighter-rouge">NLG</code>에 대해서만 제시한다. 그리고 필자가 직접 구현해 <code class="language-plaintext highlighter-rouge">MLM</code>을 수행해본 결과<strong>(<a href="https://wandb.ai/qcqced/MaskedLanguageModel/runs/63ogmndi?nw=nwuserqcqced">실험 결과 링크</a>)</strong> 정확도가 상당히 낮게 나오는 것을 알 수 있다. 물론 애초에 해당 방식은 트랜스포머를 <code class="language-plaintext highlighter-rouge">RNN</code>처럼 시간 차원에 대해서 학습하는 경우를 상정하고 만들었기 떄문에 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 BERT 같은 인코더 모델에 그대로 사용하는게 애초에 안 맞을 수 있다. 하지만 허깅 페이스의 <code class="language-plaintext highlighter-rouge">roformer</code> 코드를 보면 역시, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>에 <code class="language-plaintext highlighter-rouge">RoPE</code>를 통합하는 방식으로 구현했다. 따라서 필자 역시 <code class="language-plaintext highlighter-rouge">full attention</code>을 기준으로 모델을 구현했음을 밝힌다.</p>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+
+<p>논문의 내용과 오피셜로 공개된 코드를 종합하여 파이토치로 <code class="language-plaintext highlighter-rouge">Roformer</code>를 구현해봤다. 다만, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>을 사용했고 오직 인코더 부분만 구현했음을 밝힌다.</p>
+
+<p>한편, 필자가 직접 구현한 RoPE를 코드도 있으나, GPU 연산 최적화까지는 실패해 대신 허깅페이스의 구현체를 참고했음을 밝힌다. 시간이 될 때, 직접 구현했던 RoPE 코드도 함꼐 첨부하겠다. 그리고 이번 포스팅에서는 RoPE를 구현하는 방법에 대해서만 다루고, 나머지 구현에 대한 설명은 생략하려 한다. 전체 모델 구조 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고바란다.</p>
+
+<h4 id="-rotary-position-embedding"><code class="language-plaintext highlighter-rouge">🎡 Rotary Position Embedding</code></h4>
+
+<p><code class="language-plaintext highlighter-rouge">_init_weight()</code>의 <code class="language-plaintext highlighter-rouge">position_enc</code>를 주목해보자. <code class="language-plaintext highlighter-rouge">position_enc</code>는 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>을 인자로 받아 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>에 따라서 <code class="language-plaintext highlighter-rouge">position_enc</code>를 만들어내는데, 이것이 바로 <code class="language-plaintext highlighter-rouge">RoPE</code>의 핵심이다. 해당 코드 라인이 정확하게 $m\theta_d$을 계산하게 된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RoFormerSinusoidalPositionalEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">):</span>
+    <span class="s">""" This module produces sinusoidal positional embeddings of any length
+    Original Source code from Huggingface's RoFormer model, which is the most optimized way to create positional embedding
+
+    Args:
+        max_seq: max sequence length of model
+        dim_head: dimension of each attention head's hidden states
+
+    Returns:
+        Tensor -&gt; torch.Size([seq_len, dim_head])
+
+    References:
+        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
+        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py#L323
+    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_seq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">max_seq</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_init_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">weight</span><span class="p">)</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">_init_weight</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">:</span>
+        <span class="s">"""
+        Identical to the XLM create_sinusoidal_embeddings except features are not interleaved. The cos features are in
+        the 2nd half of the vector. [dim // 2:]
+        """</span>
+        <span class="n">n_pos</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span>
+        <span class="n">position_enc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
+            <span class="p">[[</span><span class="n">pos</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pos</span><span class="p">)]</span>
+        <span class="p">)</span>  <span class="c1"># m * theta
+</span>        <span class="n">out</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># set early to avoid an error in pytorch-1.8+
+</span>        <span class="n">sentinel</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">out</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">sentinel</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">out</span><span class="p">[:,</span> <span class="n">sentinel</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
+        <span class="n">out</span><span class="p">.</span><span class="n">detach_</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">out</span>
+
+    <span class="o">@</span><span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">past_key_values_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="n">positions</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span>
+            <span class="n">past_key_values_length</span><span class="p">,</span> <span class="n">past_key_values_length</span> <span class="o">+</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">device</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">forward</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">Embedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">""" Class module for Roformer Embedding, word embedding &amp; rotary positional encoding
+    This module has option =&gt; whether or not to use ALBERT Style Factorized Embedding
+
+    Args:
+        cfg: configuration.py
+
+    References:
+        https://arxiv.org/abs/1706.03762
+        https://arxiv.org/pdf/1810.04805.pdf
+        https://arxiv.org/abs/2006.16236
+        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
+        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py
+        https://github.com/idiap/fast-transformers/blob/master/fast_transformers/attention/linear_attention.py
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Embedding</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">batch_size</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">max_seq</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">),</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">cfg</span><span class="p">.</span><span class="n">layer_norm_eps</span><span class="p">)</span>  <span class="c1"># for word embedding
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">cfg</span><span class="p">.</span><span class="n">hidden_dropout_prob</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">rotary_pos_encoding</span> <span class="o">=</span> <span class="n">RoFormerSinusoidalPositionalEmbedding</span><span class="p">(</span>
+            <span class="n">cfg</span><span class="p">.</span><span class="n">max_seq</span><span class="p">,</span>
+            <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">//</span> <span class="n">cfg</span><span class="p">.</span><span class="n">num_attention_heads</span>
+        <span class="p">)</span>
+
+        <span class="c1"># ALBERT Style Factorized Embedding
+</span>        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_mf_embedding</span><span class="p">:</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">/</span><span class="mi">6</span><span class="p">))</span>
+            <span class="bp">self</span><span class="p">.</span><span class="n">projector</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">/</span><span class="mi">6</span><span class="p">),</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># project to original hidden dim
+</span>
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_mf_embedding</span><span class="p">:</span>
+            <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">projector</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="n">rotary_pos_enc</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rotary_pos_encoding</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">rotary_pos_enc</span>
+
+</code></pre></div></div>
+
+<h4 id="-integrated-rope-into-full-attentionscaled-dot-product-attention"><code class="language-plaintext highlighter-rouge">🔨 Integrated RoPE into Full Attention(scaled dot-product attention)</code></h4>
+
+<p><code class="language-plaintext highlighter-rouge">RoPE</code>를 적용하는 <code class="language-plaintext highlighter-rouge">Full Attention</code>의 구현 순서는 다음과 같다. 먼저, 단어 임베딩을 쿼리, 키, 벨류 행렬로 선형 투영한다. 이 때 RoPE를 곱해주기 위헤 <code class="language-plaintext highlighter-rouge">apply_rotary_position_embeddings()</code>에 인자로 쿼리, 키 행렬을 전달한다. 이 때 반드시 벨류 행렬은 단어 임베딩으로부터 선형 투영된 상태를 유지해야함을 기억하자. <code class="language-plaintext highlighter-rouge">apply_rotary_position_embeddings()</code>는 <code class="language-plaintext highlighter-rouge">RoPE</code>가 곱해진 쿼리, 키 행렬을 반환한다. 이후 과정은 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code>과 동일하다.</p>
+
+<p>인자로 들어가는 텐서들의 모양은 주석을 참고 바란다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">apply_rotary_position_embeddings</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">query_layer</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">key_layer</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">value_layer</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="s">""" Apply rotary position encoding to query, key layer
+    Original Source code from Huggingface's RoFormer model, which is the most optimized way to create positional embedding
+
+    You can find mathematical proof in official paper's Appendix
+
+    Args:
+        sinusoidal_pos: sinusoidal positional encoding, shape [batch(None), num_dim(None), seq_len, dim_head]
+        query_layer: query matrix, shape (batch_size, num_head, seq_len, dim_head)
+        key_layer: key matrix, shape (batch_size, num_head, seq_len, dim_head)
+        value_layer: value matrix, shape (batch_size, num_head, seq_len, dim_head)
+
+    References:
+        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
+        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py#L323
+    """</span>
+    <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span> <span class="o">=</span> <span class="n">sinusoidal_pos</span><span class="p">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># select two element of index values
+</span>    <span class="n">sin_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="n">sin</span><span class="p">,</span> <span class="n">sin</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">)</span>
+
+    <span class="n">cos_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="n">cos</span><span class="p">,</span> <span class="n">cos</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">)</span>
+    <span class="n">rotate_half_query_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">query_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">query_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span>
+        <span class="n">query_layer</span>
+    <span class="p">)</span>
+
+    <span class="c1"># mathematical expression from Appendix in official repo
+</span>    <span class="n">query_layer</span> <span class="o">=</span> <span class="n">query_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_query_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
+    <span class="n">rotate_half_key_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">key_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">key_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">key_layer</span><span class="p">)</span>
+    <span class="n">key_layer</span> <span class="o">=</span> <span class="n">key_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_key_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
+
+    <span class="k">if</span> <span class="n">value_layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>  <span class="c1"># In official, they don't use value_layer
+</span>        <span class="n">rotate_half_value_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">value_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">value_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span>
+            <span class="n">value_layer</span>
+        <span class="p">)</span>
+        <span class="n">value_layer</span> <span class="o">=</span> <span class="n">value_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_value_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
+        <span class="k">return</span> <span class="n">query_layer</span><span class="p">,</span> <span class="n">key_layer</span><span class="p">,</span> <span class="n">value_layer</span>
+    <span class="k">return</span> <span class="n">query_layer</span><span class="p">,</span> <span class="n">key_layer</span>
+
+<span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
+        <span class="n">num_attention_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
+        <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="n">kernel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">'softmax'</span><span class="p">,</span>
+        <span class="n">attention_dropout_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MultiHeadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span> <span class="o">=</span> <span class="n">num_attention_heads</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">apply_rope</span> <span class="o">=</span> <span class="n">apply_rotary_position_embeddings</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">scaled_dot_product_attention</span> <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s">'softmax'</span> <span class="k">else</span> <span class="n">linear_attention</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">attention_dropout_prob</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">dot_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float32</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
+    
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rotary_pos_enc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="s">""" x is already passed nn.Layernorm, already multiplied with rotary position encoding """</span>
+        <span class="k">assert</span> <span class="n">x</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, seq, hidden) got </span><span class="si">{</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
+
+        <span class="c1"># size: bs, seq, nums head, dim head, linear projection
+</span>        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="c1"># multiple word embedding, rotary position encoding
+</span>        <span class="n">rotary_q</span><span class="p">,</span> <span class="n">rotary_k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">apply_rope</span><span class="p">(</span><span class="n">rotary_pos_enc</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+
+        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s">'elu'</span><span class="p">:</span>
+            <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span>
+                <span class="n">rotary_q</span><span class="p">,</span>
+                <span class="n">rotary_k</span><span class="p">,</span>
+                <span class="n">v</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">eps</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span><span class="p">,</span>
+                <span class="n">padding_mask</span><span class="p">,</span>
+                <span class="n">attention_mask</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s">'softmax'</span><span class="p">:</span>  <span class="c1"># pure self-attention
+</span>            <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span>
+                <span class="n">rotary_q</span><span class="p">,</span>
+                <span class="n">rotary_k</span><span class="p">,</span>
+                <span class="n">v</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">dot_scale</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span><span class="p">,</span>
+                <span class="n">padding_mask</span><span class="p">,</span>
+                <span class="n">attention_mask</span>
+            <span class="p">)</span>
+
+        <span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attention_output</span>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="Roformer" /><category term="Transformation Matrix" /><category term="Complex Space" /><category term="Self-Attention" /><category term="Linear-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[Roformer Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators</title><link href="http://localhost:4000/nlp/electra" rel="alternate" type="text/html" title="👮 [ELECTRA] Pre-training Text Encoders as Discriminators Rather Than Generators" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/electra</id><content type="html" xml:base="http://localhost:4000/nlp/electra"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">ELECTRA</code>는 2020년 Google에서 처음 발표한 모델로, GAN(Generative Adversarial Networks) Style 아키텍처를 NLP에 적용한 것이 특징이다. 새로운 구조 차용에 맞춰서 <code class="language-plaintext highlighter-rouge">RTD(Replace Token Dection)</code> Task를 고안에 사전 학습으로 사용했다. 모든 아이디어는 기존 MLM(Masked Language Model)을 사전학습 방법론으로 사용하는 인코더 언어 모델(BERT 계열)의 단점으로부터 출발한다.</p>
 
@@ -1331,381 +1860,7 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
         <span class="n">logit</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">classifier</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">logit</span>
 
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="SpanBERT" /><category term="BERT" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[SpanBERT Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding</title><link href="http://localhost:4000/nlp/roformer" rel="alternate" type="text/html" title="🎡 [Roformer] RoFormer: Enhanced Transformer with Rotary Position Embedding" /><published>2024-03-11T00:00:00+09:00</published><updated>2024-03-12T02:00:00+09:00</updated><id>http://localhost:4000/nlp/roformer</id><content type="html" xml:base="http://localhost:4000/nlp/roformer"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
-
-<p><code class="language-plaintext highlighter-rouge">Roformer</code>는 2021년에 발표된 트랜스포머 모델의 변형으로, <code class="language-plaintext highlighter-rouge">RoPE(Rotary Position Embedding)</code>이라는 새로운 위치 정보 포착 방식을 제안했다. 근래 유명한 오픈소스 LLM 모델들(GPT-Neo, LLaMA)의 위치 정보 포착 방식으로 채택 되어 주목을 받고 있다. <code class="language-plaintext highlighter-rouge">RoPE</code> 기법에 대해 살펴보기 전에 일단, 관련 분야의 연구 동향 및 위치 정보의 개념에 대해 간단하게 살펴보고 넘어가려 한다.</p>
-
-<h3 id="-absolute-position-vs-relative-position"><code class="language-plaintext highlighter-rouge">🤔 Absolute Position vs Relative Position</code></h3>
-
-<p>트랜스포머가 성공을 거둘 수 있었던 이유는 전체 시퀀스를 병렬적으로 한 번에 처리하되, 시퀀스 발생 순서 정보를 행렬합 방식으로 인코딩해줬기 때문이다. 이 분야에 대한 연구 동향은 크게 <code class="language-plaintext highlighter-rouge">Absolute Position</code>, <code class="language-plaintext highlighter-rouge">Relative Position</code> 방식으로 분화된다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">Absolute Position</code>은 주어진 시퀀스의 길이를 측정한 뒤, 나열된 순서 그대로 <code class="language-plaintext highlighter-rouge">forward</code>하게 <code class="language-plaintext highlighter-rouge">0</code>부터 <code class="language-plaintext highlighter-rouge">길이-1</code>의 번호를 개별 토큰에 할당한다. 다시 말해, 단어가 시퀀스에서 발생한 순서를 수학적으로 표현해 모델에 주입한다는 의미가 된다.</p>
-
-<p>한편, <code class="language-plaintext highlighter-rouge">Relative Position</code>은 시퀀스 내부 토큰 사이의 위치 관계 표현을 통해 토큰 사이의 <code class="language-plaintext highlighter-rouge">relation</code>을 <code class="language-plaintext highlighter-rouge">pairwise</code>하게 학습하는 위치 임베딩 기법을 말한다. 일반적으로 상대 위치 관계는 서로 다른 두 토큰의 시퀀스 인덱스 값의 차를 이용해 나타낸다. 포착하는 문맥 정보는 예시와 함깨 설명하겠다. 예시는 예전 DeBERTa 논문에서 나왔던 것을 활용했다. 딥러닝이라는 단어는 영어로 <code class="language-plaintext highlighter-rouge">Deep Learning</code> 이다. 두 단어를 합쳐놓고 보면 <code class="language-plaintext highlighter-rouge">신경망을 사용하는 머신러닝 기법의 한 종류</code>라는 의미를 갖겠지만, 따로 따로 보면 <code class="language-plaintext highlighter-rouge">깊은</code>, <code class="language-plaintext highlighter-rouge">배움</code>이라는 개별적인 의미로 나뉜다.</p>
-
-<ul>
-  <li><strong><code class="language-plaintext highlighter-rouge">1) The Deep Learning is the Best Technique in Computer Science</code></strong></li>
-  <li><strong><code class="language-plaintext highlighter-rouge">2) I’m learning how to swim in the deep ocean</code></strong></li>
-</ul>
-
-<p><code class="language-plaintext highlighter-rouge">Deep</code>과 <code class="language-plaintext highlighter-rouge">Learning</code>의 상대적인 거리에 주목하면서 두 문장을 해석해보자. 첫 번째 문장에서 두 단어는 이웃하게 위치해 <code class="language-plaintext highlighter-rouge">신경망을 사용하는 머신러닝 기법의 한 종류</code> 라는 의미를 만들어내고 있다. 한편 두 번째 문장에서 두 단어는 띄어쓰기 기준 5개의 토큰만큼 떨어져 위치해 각각 <code class="language-plaintext highlighter-rouge">배움</code>, <code class="language-plaintext highlighter-rouge">깊은</code> 이라는 의미를 만들어 내고 있다. 이처럼 개별 토큰 사이의 위치 관계에 따라서 파생되는 문맥적 정보를 포착하려는 의도로 설계된 기법이 바로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 이다.</p>
-
-<h3 id="-word-context-vs-relative-position-vs-absolute-position"><strong><code class="language-plaintext highlighter-rouge">🤔 Word Context vs Relative Position vs Absolute Position</code></strong></h3>
-
-<p align="center">
-<img src="/assets/images/deberta/line_people.png" alt="줄 서있는 사람들" class="align-center image-caption" width="40%&quot;, height=&quot;50%" />
-<strong><em><a href="https://kr.freepik.com/premium-photo/people-standing-in-line-during-airport-check-in_8754408.htm">줄 서있는 사람들</a></em></strong>
-</p>
-
-<p>지금까지 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>이 무엇이고, 도대체 어떤 문맥 정보를 포착한다는 것인지 알아봤다. 필자의 설명이 매끄럽지 못하기도 하고 예시를 텍스트로 들고 있어서 직관적으로 <code class="language-plaintext highlighter-rouge">word context</code>는 무엇인지, <code class="language-plaintext highlighter-rouge">Position</code> 정보와는 뭐가 다른지, 두 가지 <code class="language-plaintext highlighter-rouge">Position</code> 정보는 뭐가 어떻게 다른지 와닿지 않는 분들이 많으실 것 같다. 그래서 최대한 직관적인 예시를 통해 세가지 정보의 차이점을 설명해보려 한다.</p>
-
-<p>사람 5명이 공항 체크인을 위해 서 있다. 모두 왼쪽을 보고 있는 것을 보아 왼쪽에 키가 제일 작은 여자가 가장 앞줄이라고 볼 수 있겠다. 우리는 줄 서있는 순서대로 5명의 사람에게 번호를 부여할 것이다. 편의상 0번부터 시작해 4번까지 번호를 주겠다. 1번에 해당하는 사람은 누구인가??  바로 줄의 2번째에 서있는 여자다. 그럼 2번에 해당하는 사람은 누구인가?? 사진 속 줄의 가장 중간에 있는 남자가 2번이다. 이렇게 그룹 단위(전체 줄)에서 개개인에 일련의 번호를 부여해 위치를 표현하는 방법이 바로 <code class="language-plaintext highlighter-rouge">Absolute Position Embedding</code>이다.</p>
-
-<p>한편, 다시 2번 사람에게 주목해보자. 우리는 2번 남자를 전체 줄에서 가운데 위치한 사람이 아니라, 검정색 양복과 구두를 신고 손에 쥔 무언가를 응시하고 있는 사람이라고 표현할 수도 있다. 이것이 바로 토큰의 의미 정보를 담은 <code class="language-plaintext highlighter-rouge">word context</code>에 해당한다.</p>
-
-<p>마지막으로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code> 방식으로 2번 남자를 표현해보자. 오른손으로는 커피를 들고 다른 손으로는 캐리어를 잡고 있으며 검정색 하이힐과 베이지색 바지를 입은 <strong>1번 여자의 뒤에 있는 사람</strong>, 회색 양복과 검은 뿔테 안경을 쓰고 한 손에는 캐리어를 잡고 있는 <strong>4번 여자의 앞에 있는 사람</strong>, 검정색 자켓과 청바지를 입고 한 손에는 회색 코트를 들고 있는 줄의 <strong>맨 앞 여자로부터 2번째 뒤에 서있는 사람</strong>, 턱수염이 길고 머리가 긴 편이며 파란색 가디건을 입고 초록색과 검정색이 혼합된 가방을 왼쪽으로 메고 있는 <strong>남자로부터 2번째 앞에 있는 사람.</strong></p>
-
-<p>이처럼 표현하는게 바로 <code class="language-plaintext highlighter-rouge">Relative Position Embedding</code>에 대응된다고 볼 수 있다. 이제 위치 임베딩에 대해서 살펴봤으니, 논문에서 제시하는 내용에 대해서 알아보자.</p>
-
-<h3 id="️-previous-work-relative-position-embedding"><strong><code class="language-plaintext highlighter-rouge">🗂️ Previous Work: Relative Position Embedding</code></strong></h3>
-
-<p>미리 말하자면, <code class="language-plaintext highlighter-rouge">RoPE</code>는 위치 정보 중에서 상대 위치를 포착한다. 그래서 저자는 그들의 방법론을 소개하기 전에 먼저, 이전 연구들의 상대 위치 포착 방식에 대해서 소개하고 있다. 간단히 살펴보자.</p>
-
-\[q^T_mk_n = x^T_mW^T_qW_kx_n + x^T_mW^T_qW_kp_n + p^T_mW^T_qW_kx_n + p^T_mW^T_qW_kp_n\ \ \ (1) \\\]
-
-\[q^T_m k_n = x^T_m W^T_q W_k x_n + x^T_m W^T_q {W_k} \tilde{x}_{m-n} + \widetilde{p}_{m-n} W^T_q W_k x_n \ \ \ (2)\]
-
-<p>(1)번 수식은 <code class="language-plaintext highlighter-rouge">Transformer-XL</code> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">Cross Attention</code> 수식이다. 위치 정보를 담아내는 항을 따로 만들고 쿼리, 키에 대응되는 항과 곱하고 있다. (2)번 수식은 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 모델에서 제시된 <code class="language-plaintext highlighter-rouge">Disentangled Attention</code> 이다. (1)과 구성의 차이는 있지만 역시, 위치 정보를 담아내는 항을 억지로 만들고 그것들을 쿼리 혹은 키와 곱하여 위치 정보를 담아낸 뒤, 모두 합하여 어텐션 행렬을 만들어 내고 있다.</p>
-
-<p>정리하면, 기존 연구들은 상대 위치를 포착하기 위해 별도의 포지션 행렬을 만들고, 이리저리 곱하고, 다시 그것들을 모두 합하여 어텐션 행렬을 만들고 있는 것이다. 기존 연구들이 제시하는 방법론들의 공통된 문제는 학습해야 할 파라미터 수가 늘어나 모델 사이즈도 커지고, 학습시간도 늘어난다는 것이다.</p>
-
-<h3 id="rope"><code class="language-plaintext highlighter-rouge">🎡 RoPE</code></h3>
-
-\[f_{q,k}(x_m, m)= \left( \begin{array}{cc}\cos(m\theta) &amp; \sin(m\theta) \\-\sin(m\theta) &amp; \cos(m\theta)\end{array} \right)
-
-\left( \begin{array}{cc}W^{(11)}_{q,k} &amp; W^{(12)}_{q,k} \\W^{(21)}_{q,k} &amp; W^{(22)}_{q,k} \end{array} \right) 
-
-\left( \begin{array}{cc}x_m^{(1)} \\x_m^{(2)} \end{array} \right)\]
-
-<p>등식의 좌변은 <code class="language-plaintext highlighter-rouge">word embedding</code>을 선형 투영 시켜 얻은 <code class="language-plaintext highlighter-rouge">query</code>, <code class="language-plaintext highlighter-rouge">key</code> 벡터에 <code class="language-plaintext highlighter-rouge">Rotary Position Embedding</code> 값을 추가한 결과 값을 뜻한다. 우변의 수식이 상당히 복잡해 보이나, 실상은 매우 간단하다. 선형 투영으로 얻은 <code class="language-plaintext highlighter-rouge">query</code>, <code class="language-plaintext highlighter-rouge">key</code> 벡터에 좌측의 괴랄하게 생긴 행렬을 곱해주겠다는 것이다. 좌측의 행렬은 대학교 선형대수 시간에 스치듯 지나갔던 <code class="language-plaintext highlighter-rouge">Transformation Matrix(회전 행렬)</code>이다. $m$은 $m$-th 토큰을 의미하는데, 세타가 뭔지는 모르겠지만 일단 토큰의 인덱스 값에 따라서, 주어진 워드 임베딩 벡터를 회전시키겠다는 것이다. 지금 살펴본 예시는 은닉층 크기가 2차원인 단순한 벡터였다. 실제 모델에 사용하는 차원(384, 512, 768, …)으로 확장하기 전에 세타의 정체에 대해 알아보자.</p>
-
-\[\Theta = \left\{ \theta_i = 10000^{ -{2(i-1)}/{d}}, \quad i \in \left[1, 2, \ldots, \frac{d}{2}\right] \right\}\]
-
-<p>$\theta$의 정체는 바로 주기함수 였다. 퓨어한 트랜스포머에서 <code class="language-plaintext highlighter-rouge">Absolute Position Encoding</code>을 위해 <code class="language-plaintext highlighter-rouge">Sinusoidal</code> 함수를 사용한 것과 같은 이치라고 생각하면 된다. 즉 $\theta$는 <code class="language-plaintext highlighter-rouge">word embedding</code> 벡터가 가진 은닉층 차원 방향 인덱스에 따라서 달라진다. 여기에 시퀀스 길이 차원 방향의 인덱스 값을 따로 곱해주기 때문에 그 유일성을 보장할 수 있다.</p>
-
-<p>이제 전체 RoPE를 이해하는데 필요한 재료 준비는 모두 끝났다. 이제 실제 차원으로 확장해보자.</p>
-
-\[fq,k(x_m,m)=R^d_{Θ,m}W_{q,k}x_m \\\]
-
-<p>행렬 $R^d_{Θ,m}$은 아래와 같은 행렬을 말하는데,</p>
-
-\[R^d_{Θ,m} = \begin{bmatrix}
-\cos(m\theta_1) &amp; -\sin(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
-\sin(m\theta_1) &amp; \cos(m\theta_1) &amp; 0 &amp; 0 &amp; \cdots &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; \cos(m\theta_2) &amp; -\sin(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
-0 &amp; 0 &amp; \sin(m\theta_2) &amp; \cos(m\theta_2) &amp; \cdots &amp; 0 &amp; 0 \\
-\vdots &amp; \vdots &amp; \vdots &amp; \vdots &amp; \ddots &amp; \vdots &amp; \vdots \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \cos(m\theta_{d/2}) &amp; -\sin(m\theta_{d/2}) \\
-0 &amp; 0 &amp; 0 &amp; 0 &amp; \cdots &amp; \sin(m\theta_{d/2}) &amp; \cos(m\theta_{d/2})
-\end{bmatrix}\]
-
-<p>토큰의 인덱스와 모델의 은닉차원 인덱스에 따라서 행렬의 원소값이 결정됨을 알 수 있다. 이제 다시 (3)번 수식의 의미를 생각해보자. 단어 임베딩을 쿼리, 키 행렬로 선형 투영한 뒤 (4)번 수식을 곱한다. 순수한 회전행렬을 쿼리, 키 벡터에 곱하기 때문에 벡터의 크기를 유지한채, 방향만 바꿔줄 수 있다는 장점이 있다.</p>
-
-<p>이전의 연구들은 포지션 정보를 가지고 있는 행렬을 단어 벡터에 더하기 때문에 벡터의 방향은 물론 크기 역시 왜곡된다. 물론 단어 벡터와 포지션 벡터가 서로 성격이 다른 정보라는 점을 고려하면 모델의 은닉층처럼 고차원 공간에서 서로 직교할 확률이 매우 높기 때문에, 서로 학습에 영향을 미칠 가능성은 낮다. 하지만 확률적인 접근일 뿐더러, 단어 벡터의 크기가 왜곡된다는 점이 층을 거듭할수록 영향을 미칠지 알 수 없다.</p>
-
-<p>RoPE 방식의 또다른 장점은 곱하는 것만으로도, 상대 위치 정보를 인코딩 해줄 수 있다는 점이다. 이전 연구들은 대부분 절대 위치 혹은 상대 위치 하나만을 선택해 단어 임베딩에 정보를 추가해주는 경우가 대다수 였다. DeBERTa의 경우에만, Task 레이어 근처(레이어 후반부)에 가서 절대 위치를 더해 상대 위치가 갖는 단점을 보완하려는 시도를 했다. DeBERTa가 여러 방면에서 상당히 좋은 성능을 거둬서 그렇지, 마지막 레이어 근처에 가서 절대 위치를 더해주는게 사실 자연스럽다고 생각되지는 않는다. 그런데 RoPE는 회전 행렬을 곱하는 것만으로도 절대 위치와 상대 위치 모두 인코딩이 가능하다. 어떻게 그럴까??</p>
-
-<p>일단 RoPE 선형 투영된 쿼리, 키 행렬에 각각 회전행렬을 곱한다. 곱하는 과정에서 이미 토큰의 인덱스 값에 따라서 서로 다른 포지션 값이 단어 임베딩에 곱해지게 된다. 이것으로 일단 절대 위치 정보를 추가해줄 수 있다. 그리고 잘 알다시피, 쿼리와 키의 내적을 수행한다. 쿼리와 키의 내적을 각각 단어 임베딩, 선형 투영, 회전행렬 항으로 나눠서 식을 풀어 쓰면 아래와 같다.</p>
-
-\[q^T_mk_n=(R^d_{Θ,m}W_{q}x_m)^T(R^d_{Θ,n}W_{k}x_n) \ \ \ (5)\]
-
-<p>수식을 전개하면 자연스레,</p>
-
-\[x^TW_qR^d_{Θ,n-m}W_kx_n \ \ \ (6)\]
-
-<p>(6)번 수식처럼 된다. 행렬 $R^d_{Θ,n-m}$의 원소는 아래처럼,</p>
-
-\[\cos(m\theta_1)*\cos(n\theta_1) - \sin(m\theta_1)*\sin(n\theta_1) \\\]
-
-<p>토큰 인덱스를 의미하는 $m,n$에 대한 수식으로 표현된다. 따라서 자연스럽게 상대 위치를 포착할 수 있게 된다. 상당히 자연스럽게 서로 다른 두 위치 정보를 인코딩하는게 가능하며, 추가적으로 다른 항을 만들어 어텐션 행렬을 계산하지 않기 때문에 메모리를 좀 더 효율적으로 사용 가능하다.</p>
-
-<p>한편, 토큰의 상대 위치를 포착하는 방식은 자신과 상대적 거리가 멀어질수록 의미적 연관성이나 관계성이 떨어진다는 점을 전제로 한다. 즉, 서로 거리가 먼 토큰일수록 쿼리와 키벡터의 내적값이 0에 가까워져야 한다는 것이다. 저자 역시 이점을 언급하며 <code class="language-plaintext highlighter-rouge">RoPE</code> 방식이 <code class="language-plaintext highlighter-rouge">Long-Term Decay</code> 속성을 갖고 있다고 주장한다.</p>
-
-<p align="center">
-<img src="/assets/images/roformer/roformer_long_term.png" alt="Long-Term Decay" class="align-center image-caption" width="70%&quot;, height=&quot;50%" />
-<strong><em><a href="https://arxiv.org/abs/2104.09864">Long-Term Decay</a></em></strong>
-</p>
-
-<p><code class="language-plaintext highlighter-rouge">Appendix</code>에서 수학적으로 증명까지 제시하고 있으나, 필자의 수학 실력이 얕아서 제시된 과정이 이해가 가질 않는다. 추후에 관련 내용은 추가하도록 하겠다. 일단 Relative Upper Bound가 정확히 무엇을 말하는지 모르겠지만(논문에 제대로 언급 x, 추측하건데, 의미적 연관성을 나타내는 지표 같음, 아마 내적값으로 추정), 제시된 그래프를 보면 서로 상대적 거리가 멀어질수록 해당 지표가 확연히 감소하는 추세를 보인다.</p>
-
-<p>마지막으로 논문에서 밝히길 (4), (5)번 수식의 형태로 RoPE를 만드는 것은 연산 효율이 떨어진다고 한다. 그래서 <code class="language-plaintext highlighter-rouge">Appendix</code>에서 효율적으로 연산하는 수식을 다시 제시하고 있다.</p>
-
-\[R^d_{Θ,m}x = \begin{bmatrix}
-x_1 \\
-x_2 \\
-x_3 \\
-x_4 \\
-... \\
-x_{d-1} \\
-x_{d} \\
-\end{bmatrix} \otimes \begin{bmatrix} 
-cos (m\theta_1) \\
-cos (m\theta_1) \\
-cos (m\theta_2) \\
-cos (m\theta_2) \\
-... \\
-cos (m\theta_{d/2}) \\
-cos (m\theta_{d/2}) \\
-\end{bmatrix} + 
-\begin{bmatrix}
--x_2 \\
-x_1 \\
--x_4 \\
-x_3 \\
-... \\
--x_{d-1} \\
-x_d \\
-\end{bmatrix} \otimes  \begin{bmatrix}
-\sin(m\theta_1) \\
-\sin(m\theta_1) \\
-\sin(m\theta_2) \\
-\sin(m\theta_2) \\
-\vdots \\
-\sin(m\theta_{d/2}) \\
-\sin(m\theta_{d/2})
-
-\end{bmatrix}\]
-
-<p>수식 (4), (5)번 형태 그대로 구현하려면, 크기가 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head, dim_head]</code>인 텐서를 계속 가지고 있어야 한다. 이는 상당히 메모리를 낭비하게 된다. 아래 그림은 필자가 (4), (5)번 형태 그대로 구현한 뒤, MLM 학습을 돌리던 모습이다.</p>
-
-<p align="center">
-<img src="/assets/images/roformer/body_ver.png" alt="body ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
-<strong><em>[body ver result]</em></strong>
-</p>
-
-<p>11시간 40분으로 훈련 시간이 예측되는걸 볼 수 있다. 물론, 이러한 결과가 나온 이유는 \(R^d_{Θ,m}x\)이 차지하는 메모리 크기가 커지면서, GPU 상에 한 번에 올릴 수가 없어져 배치마다 루프를 돌려서 RoPE를 개별 쿼리, 키에 곱해주는 방식을 선택했기 때문이다. 이제 Appendix에서 제시한 방법대로 RoPE를 구현하면,</p>
-
-<p align="center">
-<img src="/assets/images/roformer/appendix_ver.png" alt="appendix ver result" class="align-center image-caption" width="100%&quot;, height=&quot;70%" />
-<strong><em>[appendix ver result]</em></strong>
-</p>
-
-<p>이렇게 4시간으로 시간이 드라마틱하게 줄어들었다. 이 방법은 또한 $R^d_{Θ,m}$를 <code class="language-plaintext highlighter-rouge">[seq_len, dim_head]</code> 크기를 갖는 텐서를 사용하면 되기 때문에, 이전 방식보다 훨씬 메모리도 덜 차지한다. 이 방식은 배치 차원으로 루프를 돌릴 필요가 없어져 훈련시간도 대폭 단축되는 것이다.</p>
-
-<h3 id="-rope-with-linear-attention"><code class="language-plaintext highlighter-rouge">📏 RoPE with linear attention</code></h3>
-
-<p>저자는 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code> 대신 <strong><a href="https://arxiv.org/abs/2006.16236">&lt;Transformers are RNNs: Fast Autoregressive Transformers with linear attention&gt;</a></strong> 논문에서 제시된 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 사용했다고 밝히고 있다.</p>
-
-<p>하지만, <code class="language-plaintext highlighter-rouge">linear attention</code> 의 경우 디코더의 <code class="language-plaintext highlighter-rouge">CLM</code> 수행에 어울리는 방식으로, <code class="language-plaintext highlighter-rouge">NLU</code>를 위한 인코더에는 적합하지 않다. 해당 논문에서도 모델의 벤치마크 결과를 모두 <code class="language-plaintext highlighter-rouge">NLG</code>에 대해서만 제시한다. 그리고 필자가 직접 구현해 <code class="language-plaintext highlighter-rouge">MLM</code>을 수행해본 결과<strong>(<a href="https://wandb.ai/qcqced/MaskedLanguageModel/runs/63ogmndi?nw=nwuserqcqced">실험 결과 링크</a>)</strong> 정확도가 상당히 낮게 나오는 것을 알 수 있다. 물론 애초에 해당 방식은 트랜스포머를 <code class="language-plaintext highlighter-rouge">RNN</code>처럼 시간 차원에 대해서 학습하는 경우를 상정하고 만들었기 떄문에 <code class="language-plaintext highlighter-rouge">linear attention</code> 을 BERT 같은 인코더 모델에 그대로 사용하는게 애초에 안 맞을 수 있다. 하지만 허깅 페이스의 <code class="language-plaintext highlighter-rouge">roformer</code> 코드를 보면 역시, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>에 <code class="language-plaintext highlighter-rouge">RoPE</code>를 통합하는 방식으로 구현했다. 따라서 필자 역시 <code class="language-plaintext highlighter-rouge">full attention</code>을 기준으로 모델을 구현했음을 밝힌다.</p>
-
-<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
-
-<p>논문의 내용과 오피셜로 공개된 코드를 종합하여 파이토치로 <code class="language-plaintext highlighter-rouge">Roformer</code>를 구현해봤다. 다만, <code class="language-plaintext highlighter-rouge">linear attention</code> 대신 <code class="language-plaintext highlighter-rouge">full attention</code>을 사용했고 오직 인코더 부분만 구현했음을 밝힌다.</p>
-
-<p>한편, 필자가 직접 구현한 RoPE를 코드도 있으나, GPU 연산 최적화까지는 실패해 대신 허깅페이스의 구현체를 참고했음을 밝힌다. 시간이 될 때, 직접 구현했던 RoPE 코드도 함꼐 첨부하겠다. 그리고 이번 포스팅에서는 RoPE를 구현하는 방법에 대해서만 다루고, 나머지 구현에 대한 설명은 생략하려 한다. 전체 모델 구조 대한 코드는 <strong><a href="https://github.com/qcqced123/model_study">여기 링크</a></strong>를 통해 참고바란다.</p>
-
-<h4 id="-rotary-position-embedding"><code class="language-plaintext highlighter-rouge">🎡 Rotary Position Embedding</code></h4>
-
-<p><code class="language-plaintext highlighter-rouge">_init_weight()</code>의 <code class="language-plaintext highlighter-rouge">position_enc</code>를 주목해보자. <code class="language-plaintext highlighter-rouge">position_enc</code>는 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>을 인자로 받아 <code class="language-plaintext highlighter-rouge">position</code>과 <code class="language-plaintext highlighter-rouge">dim</code>에 따라서 <code class="language-plaintext highlighter-rouge">position_enc</code>를 만들어내는데, 이것이 바로 <code class="language-plaintext highlighter-rouge">RoPE</code>의 핵심이다. 해당 코드 라인이 정확하게 $m\theta_d$을 계산하게 된다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">RoFormerSinusoidalPositionalEmbedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">):</span>
-    <span class="s">""" This module produces sinusoidal positional embeddings of any length
-    Original Source code from Huggingface's RoFormer model, which is the most optimized way to create positional embedding
-
-    Args:
-        max_seq: max sequence length of model
-        dim_head: dimension of each attention head's hidden states
-
-    Returns:
-        Tensor -&gt; torch.Size([seq_len, dim_head])
-
-    References:
-        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
-        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py#L323
-    """</span>
-
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_seq</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">(</span><span class="n">max_seq</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">weight</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">_init_weight</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">weight</span><span class="p">)</span>
-
-    <span class="o">@</span><span class="nb">staticmethod</span>
-    <span class="k">def</span> <span class="nf">_init_weight</span><span class="p">(</span><span class="n">out</span><span class="p">:</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">:</span>
-        <span class="s">"""
-        Identical to the XLM create_sinusoidal_embeddings except features are not interleaved. The cos features are in
-        the 2nd half of the vector. [dim // 2:]
-        """</span>
-        <span class="n">n_pos</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="n">out</span><span class="p">.</span><span class="n">shape</span>
-        <span class="n">position_enc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span>
-            <span class="p">[[</span><span class="n">pos</span> <span class="o">/</span> <span class="n">np</span><span class="p">.</span><span class="n">power</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">j</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="n">dim</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">)]</span> <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_pos</span><span class="p">)]</span>
-        <span class="p">)</span>  <span class="c1"># m * theta
-</span>        <span class="n">out</span><span class="p">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">False</span>  <span class="c1"># set early to avoid an error in pytorch-1.8+
-</span>        <span class="n">sentinel</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="p">(</span><span class="n">dim</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="n">out</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">sentinel</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sin</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="n">out</span><span class="p">[:,</span> <span class="n">sentinel</span><span class="p">:]</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">FloatTensor</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">cos</span><span class="p">(</span><span class="n">position_enc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]))</span>
-        <span class="n">out</span><span class="p">.</span><span class="n">detach_</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">out</span>
-
-    <span class="o">@</span><span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seq_len</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">past_key_values_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="n">positions</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span>
-            <span class="n">past_key_values_length</span><span class="p">,</span> <span class="n">past_key_values_length</span> <span class="o">+</span> <span class="n">seq_len</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">long</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">device</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="nb">super</span><span class="p">().</span><span class="n">forward</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span>
-
-
-<span class="k">class</span> <span class="nc">Embedding</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">""" Class module for Roformer Embedding, word embedding &amp; rotary positional encoding
-    This module has option =&gt; whether or not to use ALBERT Style Factorized Embedding
-
-    Args:
-        cfg: configuration.py
-
-    References:
-        https://arxiv.org/abs/1706.03762
-        https://arxiv.org/pdf/1810.04805.pdf
-        https://arxiv.org/abs/2006.16236
-        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
-        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py
-        https://github.com/idiap/fast-transformers/blob/master/fast_transformers/attention/linear_attention.py
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cfg</span><span class="p">:</span> <span class="n">CFG</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Embedding</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span> <span class="o">=</span> <span class="n">cfg</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">batch_size</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">max_seq</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">max_seq</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">),</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">LayerNorm</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="n">cfg</span><span class="p">.</span><span class="n">layer_norm_eps</span><span class="p">)</span>  <span class="c1"># for word embedding
-</span>        <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">cfg</span><span class="p">.</span><span class="n">hidden_dropout_prob</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">rotary_pos_encoding</span> <span class="o">=</span> <span class="n">RoFormerSinusoidalPositionalEmbedding</span><span class="p">(</span>
-            <span class="n">cfg</span><span class="p">.</span><span class="n">max_seq</span><span class="p">,</span>
-            <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">//</span> <span class="n">cfg</span><span class="p">.</span><span class="n">num_attention_heads</span>
-        <span class="p">)</span>
-
-        <span class="c1"># ALBERT Style Factorized Embedding
-</span>        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_mf_embedding</span><span class="p">:</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">tokenizer</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">/</span><span class="mi">6</span><span class="p">))</span>
-            <span class="bp">self</span><span class="p">.</span><span class="n">projector</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="o">/</span><span class="mi">6</span><span class="p">),</span> <span class="n">cfg</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>  <span class="c1"># project to original hidden dim
-</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">nn</span><span class="p">.</span><span class="n">Embedding</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">cfg</span><span class="p">.</span><span class="n">is_mf_embedding</span><span class="p">:</span>
-            <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">projector</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">)))</span>
-            <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">word_embeddings</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">hidden_dropout</span><span class="p">(</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">layer_norm1</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">word_embedding</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
-            <span class="p">)</span>
-        <span class="n">rotary_pos_enc</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">rotary_pos_encoding</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-        <span class="k">return</span> <span class="n">word_embeddings</span><span class="p">,</span> <span class="n">rotary_pos_enc</span>
-
-</code></pre></div></div>
-
-<h4 id="-integrated-rope-into-full-attentionscaled-dot-product-attention"><code class="language-plaintext highlighter-rouge">🔨 Integrated RoPE into Full Attention(scaled dot-product attention)</code></h4>
-
-<p><code class="language-plaintext highlighter-rouge">RoPE</code>를 적용하는 <code class="language-plaintext highlighter-rouge">Full Attention</code>의 구현 순서는 다음과 같다. 먼저, 단어 임베딩을 쿼리, 키, 벨류 행렬로 선형 투영한다. 이 때 RoPE를 곱해주기 위헤 <code class="language-plaintext highlighter-rouge">apply_rotary_position_embeddings()</code>에 인자로 쿼리, 키 행렬을 전달한다. 이 때 반드시 벨류 행렬은 단어 임베딩으로부터 선형 투영된 상태를 유지해야함을 기억하자. <code class="language-plaintext highlighter-rouge">apply_rotary_position_embeddings()</code>는 <code class="language-plaintext highlighter-rouge">RoPE</code>가 곱해진 쿼리, 키 행렬을 반환한다. 이후 과정은 퓨어한 <code class="language-plaintext highlighter-rouge">full attention</code>과 동일하다.</p>
-
-<p>인자로 들어가는 텐서들의 모양은 주석을 참고 바란다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">apply_rotary_position_embeddings</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">query_layer</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">key_layer</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">value_layer</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
-    <span class="s">""" Apply rotary position encoding to query, key layer
-    Original Source code from Huggingface's RoFormer model, which is the most optimized way to create positional embedding
-
-    You can find mathematical proof in official paper's Appendix
-
-    Args:
-        sinusoidal_pos: sinusoidal positional encoding, shape [batch(None), num_dim(None), seq_len, dim_head]
-        query_layer: query matrix, shape (batch_size, num_head, seq_len, dim_head)
-        key_layer: key matrix, shape (batch_size, num_head, seq_len, dim_head)
-        value_layer: value matrix, shape (batch_size, num_head, seq_len, dim_head)
-
-    References:
-        https://arxiv.org/abs/2104.09864  # RoFormer: Enhanced Transformer with Rotary Position Embedding
-        https://github.com/huggingface/transformers/blob/main/src/transformers/models/roformer/modeling_roformer.py#L323
-    """</span>
-    <span class="n">sin</span><span class="p">,</span> <span class="n">cos</span> <span class="o">=</span> <span class="n">sinusoidal_pos</span><span class="p">.</span><span class="n">chunk</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># select two element of index values
-</span>    <span class="n">sin_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="n">sin</span><span class="p">,</span> <span class="n">sin</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">)</span>
-
-    <span class="n">cos_pos</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="n">cos</span><span class="p">,</span> <span class="n">cos</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">sinusoidal_pos</span><span class="p">)</span>
-    <span class="n">rotate_half_query_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">query_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">query_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span>
-        <span class="n">query_layer</span>
-    <span class="p">)</span>
-
-    <span class="c1"># mathematical expression from Appendix in official repo
-</span>    <span class="n">query_layer</span> <span class="o">=</span> <span class="n">query_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_query_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
-    <span class="n">rotate_half_key_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">key_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">key_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span><span class="n">key_layer</span><span class="p">)</span>
-    <span class="n">key_layer</span> <span class="o">=</span> <span class="n">key_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_key_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
-
-    <span class="k">if</span> <span class="n">value_layer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>  <span class="c1"># In official, they don't use value_layer
-</span>        <span class="n">rotate_half_value_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">([</span><span class="o">-</span><span class="n">value_layer</span><span class="p">[...,</span> <span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">],</span> <span class="n">value_layer</span><span class="p">[...,</span> <span class="p">::</span><span class="mi">2</span><span class="p">]],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">).</span><span class="n">reshape_as</span><span class="p">(</span>
-            <span class="n">value_layer</span>
-        <span class="p">)</span>
-        <span class="n">value_layer</span> <span class="o">=</span> <span class="n">value_layer</span> <span class="o">*</span> <span class="n">cos_pos</span> <span class="o">+</span> <span class="n">rotate_half_value_layer</span> <span class="o">*</span> <span class="n">sin_pos</span>
-        <span class="k">return</span> <span class="n">query_layer</span><span class="p">,</span> <span class="n">key_layer</span><span class="p">,</span> <span class="n">value_layer</span>
-    <span class="k">return</span> <span class="n">query_layer</span><span class="p">,</span> <span class="n">key_layer</span>
-
-<span class="k">class</span> <span class="nc">MultiHeadAttention</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">dim_model</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span>
-        <span class="n">num_attention_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">,</span>
-        <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span>
-        <span class="n">kernel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s">'softmax'</span><span class="p">,</span>
-        <span class="n">attention_dropout_prob</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.1</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">MultiHeadAttention</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">dim_model</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span> <span class="o">=</span> <span class="n">num_attention_heads</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">apply_rope</span> <span class="o">=</span> <span class="n">apply_rotary_position_embeddings</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">attention</span> <span class="o">=</span> <span class="n">scaled_dot_product_attention</span> <span class="k">if</span> <span class="n">kernel</span> <span class="o">==</span> <span class="s">'softmax'</span> <span class="k">else</span> <span class="n">linear_attention</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="n">attention_dropout_prob</span><span class="p">)</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dot_scale</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float32</span><span class="p">))</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="n">kernel</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-6</span>
-    
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">rotary_pos_enc</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">padding_mask</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">Tensor</span> <span class="o">=</span> <span class="bp">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-        <span class="s">""" x is already passed nn.Layernorm, already multiplied with rotary position encoding """</span>
-        <span class="k">assert</span> <span class="n">x</span><span class="p">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'Expected (batch, seq, hidden) got </span><span class="si">{</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">'</span>
-
-        <span class="c1"># size: bs, seq, nums head, dim head, linear projection
-</span>        <span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
-        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
-        <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
-
-        <span class="c1"># multiple word embedding, rotary position encoding
-</span>        <span class="n">rotary_q</span><span class="p">,</span> <span class="n">rotary_k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">apply_rope</span><span class="p">(</span><span class="n">rotary_pos_enc</span><span class="p">,</span> <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
-
-        <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s">'elu'</span><span class="p">:</span>
-            <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span>
-                <span class="n">rotary_q</span><span class="p">,</span>
-                <span class="n">rotary_k</span><span class="p">,</span>
-                <span class="n">v</span><span class="p">,</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span><span class="p">,</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">eps</span><span class="p">,</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span><span class="p">,</span>
-                <span class="n">padding_mask</span><span class="p">,</span>
-                <span class="n">attention_mask</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="bp">self</span><span class="p">.</span><span class="n">kernel</span> <span class="o">==</span> <span class="s">'softmax'</span><span class="p">:</span>  <span class="c1"># pure self-attention
-</span>            <span class="n">attention_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">attention</span><span class="p">(</span>
-                <span class="n">rotary_q</span><span class="p">,</span>
-                <span class="n">rotary_k</span><span class="p">,</span>
-                <span class="n">v</span><span class="p">,</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">dot_scale</span><span class="p">,</span>
-                <span class="bp">self</span><span class="p">.</span><span class="n">attention_dropout</span><span class="p">,</span>
-                <span class="n">padding_mask</span><span class="p">,</span>
-                <span class="n">attention_mask</span>
-            <span class="p">)</span>
-
-        <span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">attention_output</span>
-</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="Roformer" /><category term="Transformation Matrix" /><category term="Complex Space" /><category term="Self-Attention" /><category term="Linear-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[Roformer Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👩‍💻🎄 [baekjoon] 1987번: 알파벳</title><link href="http://localhost:4000/ps/baekjoon-1987" rel="alternate" type="text/html" title="👩‍💻🎄 [baekjoon] 1987번: 알파벳" /><published>2024-01-30T00:00:00+09:00</published><updated>2024-01-31T02:00:00+09:00</updated><id>http://localhost:4000/ps/baekjoon_1987</id><content type="html" xml:base="http://localhost:4000/ps/baekjoon-1987"><![CDATA[<h3 id="️solution"><strong><code class="language-plaintext highlighter-rouge">🖍️ solution</code></strong></h3>
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="SpanBERT" /><category term="BERT" /><category term="Self-Attention" /><category term="Pytorch" /><summary type="html"><![CDATA[SpanBERT Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👩‍💻🎄 [baekjoon] 1987번: 알파벳</title><link href="http://localhost:4000/ps/baekjoon-1987" rel="alternate" type="text/html" title="👩‍💻🎄 [baekjoon] 1987번: 알파벳" /><published>2024-01-30T00:00:00+09:00</published><updated>2024-01-31T02:00:00+09:00</updated><id>http://localhost:4000/ps/baekjoon_1987</id><content type="html" xml:base="http://localhost:4000/ps/baekjoon-1987"><![CDATA[<h3 id="️solution"><strong><code class="language-plaintext highlighter-rouge">🖍️ solution</code></strong></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
@@ -2137,91 +2292,4 @@ Args:
 
 <p>에러 로그를 자세히 읽어보면 텐서 버전의 변경으로 인해 그라디언트 계산이 불가하다는 내용이 담겨있다. 구글링해봐도 잘 안나와서 포기하려던 찰라에 우연히 <code class="language-plaintext highlighter-rouge">torch.clone()</code> 메서드의 정확한 사용법이 궁금해 공식 Docs를 읽게 되었고, 거기서 엄청난 사실을 발견했다. <code class="language-plaintext highlighter-rouge">clone()</code> 메서드가 입력된 텐서의 현재 디바이스 위치에 똑같이 복사될 것이란 예상은 했지만, 입력 텐서의 계산그래프까지 복사될 것이란 생각은 전혀 하지 못했기 때문이다. 그래서 위와 같은 에러를 마주하지 않으려면, <code class="language-plaintext highlighter-rouge">clone()</code>을 호출할 때 뒤에 반드시 <code class="language-plaintext highlighter-rouge">detach()</code>를 함께 호출해줘야 한다.</p>
 
-<p><code class="language-plaintext highlighter-rouge">clone()</code> 메서드는 입력된 텐서의 모든 것을 복사한다는 점을 반드시 기억하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Tensor" /><category term="Linear Algebra" /><summary type="html"><![CDATA[파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음]]></summary></entry><entry><title type="html">🔢 Product &amp;amp; Quotient Rule: 곱의 미분, 몫의 미분</title><link href="http://localhost:4000/optimization-theory/product_quotient_rule" rel="alternate" type="text/html" title="🔢 Product &amp;amp; Quotient Rule: 곱의 미분, 몫의 미분" /><published>2024-01-08T00:00:00+09:00</published><updated>2024-01-08T23:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/product_quotient_rule</id><content type="html" xml:base="http://localhost:4000/optimization-theory/product_quotient_rule"><![CDATA[<p>곱의 미분, 몫의 미분은 함수가 곱의 꼴 형태 $f(x)g(x)$ 혹은 분수 꼴 형태 $\frac{f(x)}{g(x)}$를 가지고 있을 때 도함수를 구하는 방법이다. 고등학교 미적분 시간(17~18학번 기준)에 배운적이 있지만, 합성함수 미분법과 더불어 단순 암기의 폐해로 까먹기 좋은 미분법들이다. 크로스 엔트로피, 소프트맥스 미분에 쓰이므로 합성함수 미분법과 마찬가지로 딥러닝, 머신러닝에서 매우 중요하다.</p>
-
-<h3 id="️product-rule"><code class="language-plaintext highlighter-rouge">✖️ Product Rule</code></h3>
-
-<p>몫의 미분은 곱의 미분의 원리를 이해하면 자동으로 알 수 있기 때문에 곱의 미분부터 살펴보겠다. 먼저 아래와 같이 곱의 형태를 가지는 함수 $p(x)$가 있다고 가정해보자.</p>
-
-\[p(x) = f(x)g(x)\ \ \ (0)\]
-
-<p>우변의 두 항을 분리하기 전에 도함수의 정의를 이용해 도함수 $p’(x)$를 구하면 다음과 같다.</p>
-
-\[p'(x) = \lim_{h -&gt; 0} \frac{p(x+h) - p(x)}{h}\ \ \ (1)\]
-
-<p>이제 다시 $p(x+h),\  p(x)$에 $f(x)g(x)$를 대입해보자.</p>
-
-\[p'(x) = \lim_{h -&gt; 0} \frac{p(x+h) - p(x)}{h} = \lim_{h-&gt;0} \frac{f(x+h)g(x+h) - f(x)(g(x)}{h}\ \ \ (2)\]
-
-<p>이 지점에서 우리가 뭘하려고 지금 이렇게 수식을 전개하고 있는지 상기할 필요가 있다. 우리는 곱의 형태를 갖는 함수의 <code class="language-plaintext highlighter-rouge">도함수</code>를 구하고 싶은 것이다. (1)번처럼 함수에 대입하는 입력값을 뺀 결과가 $h$가 되도록 말이다. (1)과 같은 꼴을 만들어주기 위해 약간의 트릭을 쓸 필요가 있다. 사용할 트릭은 대수학에서 정말 빈번하게 사용되므로 잘 기억하고 있는게 좋다. 바로 $A-A = 0$이라는 것을 이용하는 것이다. 이게 무슨 말인가는 아래 수식을 보면 알 수 있다.</p>
-
-\[p'(x) = \lim_{h-&gt;0} \frac{f(x+h)g(x+h) - f(x)g(x+h) + f(x)g(x+h) - f(x)g(x)}{h}\ \ \ (3)\]
-
-<p>(3)번 수식은 (2)번 수식의 분자에 $- f(x)g(x+h) + f(x)g(x+h)$만 추가된 형태다. 두항을 더하면 0이 되기 때문에 사실 (2)번과 (3)번은 같은 수식이라고 볼 수 있는 것이다. 그래서 두항을 추가해도 전혀 문제가 없다. 이제 우리가 익숙한 도함수 정의를 만족하는 항들이 직관적으로 보인다.</p>
-
-\[p'(x) = f'(x)g(x) + f(x)g'(x)\ \ \ (4)\]
-
-<p>따라서 수식을 정리하면 결국 곱의 형태를 갖는 함수의 도함수는 (4)번과 같은 공식을 갖게 되는 것이다. 한편, 곱의 미분법은 (0)번 수식을 직사각형의 넓이라고 간주하면 좀 더 직관적으로 이해할 수 있다. 따라서 직사각형 넓이 $p(x)$에 대한 도함수 $p’(x)$는 넓이의 순간 변화율로 해석할 수 있다.</p>
-
-<p align="center">
-<img src="/assets/images/optimization/product_rule_rectangle.jpeg" alt="곱의 미분의 직관적 해석" class="align-center image-caption" width="50%&quot;, height=&quot;30%" />
-<strong><em><a href="https://blog.naver.com/sodong212/220924875183">곱의 미분의 직관적 해석</a></em></strong>
-</p>
-
-<p>우변의 왼쪽항이 직사각형의 아래 부분의 증가하는 영역이 되고, 우측항이 회색이 칠해진 영역이 되는 것이다. 그렇다면 그림의 우측 하단에 위치한 작은 사각형의 넓이는 어떻게 처리해줘야 할까?? 곱의 미분 공식에는 해당 영역을 반영하는 항이 전혀 없다. 그 이유는 영역의 넓이가 너무나 작아서 근사치로 간주하고 무시해도 될 정도라서 그렇다. 해당 사각형의 가로 길이는 $g’(h)$, 세로 길이는 $f’(h)$가 된다. 도함수의 정의를 다시 떠올려보면 $h$는 0의 극한으로 근사하기 때문에 두 항의 곱인 영역의 넓이 역시 0에 매우 근접하게 된다. 따라서 고려할 필요 없이 무시해도 된다.</p>
-
-<h3 id="quotient-rule"><code class="language-plaintext highlighter-rouge">➗ Quotient Rule</code></h3>
-
-<p>몫의 미분은 곱의 미분 공식을 이용하고 나서 남은 지저분한 수식만 잘 정리하면 된다. 다음과 같이 분수 꼴 형태의 함수 $q(x)$가 있다고 가정해보자.</p>
-
-\[q(x) = \frac{f(x)}{g(x)} \ \ \ (0)\]
-
-<p>곱의 미분 공식을 이용하기 위해 분수 꼴의 함수를 다시 곱의 형태로 바꿔보자.</p>
-
-\[f(x) = q(x)g(x) \ \ \ (1)\]
-
-<p>이제 공식을 이용해 좌변에 대한 도함수를 구해보자.</p>
-
-\[f'(x) = q'(x)g(x) + q(x)g'(x)\ \ \  (2)\]
-
-<p>우리가 구하고 싶은 것은 분수 꼴을 갖는 함수 $q(x)$의 도함수 $q’(x)$이다. 따라서 (2)번 수식을 $q’(x)$에 대해서 정리해야 한다.</p>
-
-\[q'(x) = \frac{f'(x) - q(x)g'(x)}{g(x)}\ \ \ (3)\]
-
-<p>(3)번 수식을 예쁘게 정리하기 위해 공통 분모 $\frac{1}{g(x)}$를 앞으로 빼주고, $q(x)$에 (0)번 수식을 대입해 정리하면 몫의 미분법 공식, (5)번이 도출된다.</p>
-
-\[q'(x) = \frac{1}{g(x)}(\frac{f'(x)g(x)-f(x)g'(x)}{g(x)})\ \ \ (4) \\
-q'(x) = \frac{f'(x)g(x)-f(x)g'(x)}{g(x)^2}\ \ \ (5)\]
-
-<p>이렇게 곱의 미분법, 몫의 미분법의 공식이 유도되는 과정을 모두 살펴보았다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Calculus" /><category term="Product Rule" /><category term="Quotient Rule" /><summary type="html"><![CDATA[곱의 미분, 몫의 미분 공식 유도]]></summary></entry><entry><title type="html">📈 Chain Rule: 합성함수 미분법</title><link href="http://localhost:4000/optimization-theory/chain-rule" rel="alternate" type="text/html" title="📈 Chain Rule: 합성함수 미분법" /><published>2024-01-08T00:00:00+09:00</published><updated>2024-01-08T23:00:00+09:00</updated><id>http://localhost:4000/optimization-theory/chain_rule</id><content type="html" xml:base="http://localhost:4000/optimization-theory/chain-rule"><![CDATA[<p><code class="language-plaintext highlighter-rouge">Chain Rule</code> 이라고 불리기도 하는 합성함수 미분법은 미적분학에서 특히나 중요한 개념 중 하나다. 근래에는 신경망을 활용한 딥러닝이 주목받으면서 그 중요성이 더욱 부각되고 있다. 신경망 모델은 쉽게 생각하면 정말 많은 1차함수와 여러 활성함수를 합성한 것과 같기 때문이다. 따라서 오차 역전을 통해 가중치를 최적화 하는 과정을 정확히 이해하려면 합성함수 미분법에 대한 이해는 필수적이다.</p>
-
-<h3 id="concept"><code class="language-plaintext highlighter-rouge">💡 Concept</code></h3>
-
-<p>합성함수 미분을 이해하기 전에 먼저 도함수 표기법에 대해서 익숙해질 필요가 있다. 도함수 표기법은 크게 뉴턴 표기법과 라이프니츠 표기법으로 나뉜다. 아래 표기된 수식을 보자. (1)번 수식이 뉴턴 표기법, (2)번이 라이프니츠의 표기법이다.</p>
-
-\[y'= 2x\ \ \ \ (1) \\
-f'(x) = 2x\ \ \ (2)\]
-
-<p>이제 아래와 같은 합성함수가 있다고 가정해보자. 도함수의 정의에 따라서 해당 함수에 대한 도함수는 다음과 같이 표현할 수 있을 것이다.</p>
-
-\[y = g(f(x))\ \ \ (3) \\
-y' = {g(f(x))}' = \frac{dy}{dx}\ \ \ (4)\]
-
-<p>위에 작성한 수식들은 잠시 잊고 이제 $f’(x)$ 를 먼저 생각해보자. $f(x)$에 대한 도함수 $f’(x)$는 다음과 같이 나타낼 수 있다.</p>
-
-\[u = f(x) \\
-u' = f'(x) = \frac{du}{dx} \\\]
-
-<p>그렇다면 함수 $g$에 대한 도함수는 어떻게 나타낼 수 있을까?? 답은 바로 치환을 이용하는 것이다. 위에서 우리는 $f(x)$가 $u$와 같다고 정의했다. 이것을 이용해 도함수 $g’$는 다음과 같이 나타낼 수 있겠다.</p>
-
-\[y' = g'(u) = \frac{dy}{du} \\\]
-
-<p>눈치가 빠르다면 벌써 왜 합성함수 미분법을 <code class="language-plaintext highlighter-rouge">Chain Rule</code>이라고 부르는지 깨닫게 되었을 것이다. (4)번 수식의 우변은 사실 분자와 분모에 위치한 $du$가 약분된 꼴이라고 볼 수 있다. 이것을 뉴턴 표기법으로 나타내면 아래와 같다.</p>
-
-\[y' = \frac{dy}{du}•\frac{du}{dx}\]
-
-<p>뉴턴 표기법은 직관적이지 않기 때문에 라이프니츠 표기법으로 다시 정리하면 다음과 같다.</p>
-
-\[y' = g'(f(x))•f'(x)\]
-
-<p>아마 고등학교 때는 합성함수 미분 공식을 겉미분•속미분이라는 명칭으로 처음 접했을 것이다. 안에 감싸져 있는 함수를 미분해서 밖으로 빼낸다 해서 속미분이라 부르고, 다시 속은 냅두고 밖의 둘러져 있는 함수만 미분한다해서 겉미분이라 칭하는데, 이렇게 단순하게 외우기보다는 공식이 도출되는 흐름을 이해하는 것이 훨씬 오래 기억에 남는다. 부끄럽지만 필자가 바로 그러했다. 대학교에 입학하고 수도 없이 합성함수 미분을 해야 했지만 사용할 때마다 까먹어서 인터넷을 찾아보거나 교과서를 뒤적뒤적 했던 기억이 있다. 이글을 읽는 독자들은 나와 같은 실수를 반복하지 않기를 바라며 포스팅을 마친다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Optimization Theory" /><category term="Calculus" /><summary type="html"><![CDATA[합성함수 미분법 공식 유도]]></summary></entry></feed>
+<p><code class="language-plaintext highlighter-rouge">clone()</code> 메서드는 입력된 텐서의 모든 것을 복사한다는 점을 반드시 기억하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Tensor" /><category term="Linear Algebra" /><summary type="html"><![CDATA[파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음]]></summary></entry></feed>
