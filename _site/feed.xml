@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-26T15:23:29+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 2</title><link href="http://localhost:4000/python/time_complexity2" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 2" /><published>2024-03-26T00:00:00+09:00</published><updated>2024-03-27T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity2</id><content type="html" xml:base="http://localhost:4000/python/time_complexity2"><![CDATA[<h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-27T14:15:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 2</title><link href="http://localhost:4000/python/time_complexity2" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 2" /><published>2024-03-26T00:00:00+09:00</published><updated>2024-03-27T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity2</id><content type="html" xml:base="http://localhost:4000/python/time_complexity2"><![CDATA[<h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Compare to Input module """</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -23,6 +23,61 @@
 
 <p>arr1, arr2는 모두 길이가 100이고 모든 원소값이 0인 같은 배열(리스트)을 가지게 된다. 하지만, 실행 시간은 어느쪽이 더 빠를까?? 후자가 당연히 더 빠르다. 후자는 <code class="language-plaintext highlighter-rouge">재구성(resize)</code>연산 없이 한 번에 할당이 마무리 되기 때문이다. 반면 전자는 <code class="language-plaintext highlighter-rouge">선언</code>과 <code class="language-plaintext highlighter-rouge">할당</code> 및 <code class="language-plaintext highlighter-rouge">재구성</code> 시점이 서로 다르다. 그래서 일정 횟수마다 <code class="language-plaintext highlighter-rouge">재구성</code> 연산이 필요해진다. 앞서도 언급했듯, 커널에 메모리를 요구하는 횟수가 작아지는게 실행 시간에 유리하다. 따라서 명백히 후자의 실행 시간이 더 빠르다.</p>
 
+<p>히지만, 리스트 곱셈을 사용할 때 반드시 주의해야할 점이 있다. 방금 살펴본 예시는 1차원 배열에 리스트 곱셈을 하기 때문에, 이후 해당 배열을 조작해도 문제가 발생하지 않는다. 하지만, 2차원 배열을 리스트 곱셈하여 선언하면 어떻게 될까??</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">arr1</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]]</span><span class="o">*</span><span class="mi">5</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)]</span>
+
+<span class="c1"># Question 1.
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+	<span class="n">arr1</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="c1"># Question 2.
+</span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+	<span class="n">arr2</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>1번과 2번의 케이스에 대한 출력을 예측해보자. 어떻게 나올까??</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Question 1.
+</span><span class="o">&gt;&gt;&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]</span>
+
+<span class="c1"># Question 2.
+</span><span class="o">&gt;&gt;&gt;</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]</span>
+</code></pre></div></div>
+
+<p>얼핏 보기에는 똑같은 결과가 나와야 한다고 생각하기 쉽다. 하지만 1차원 배열의 경우와 명백히 다른점이 있다. 바로, 리스트의 원소가 리스트라는 것이다. 리스트는 <code class="language-plaintext highlighter-rouge">mutable</code> 객체로서, <code class="language-plaintext highlighter-rouge">resize</code> 연산을 가지고 있어서 별도의 조작을 해도 객체의 주소값이 변경되지 않는다. 다시 말해 메모리 복사가 발생하지 않는다.</p>
+
+<p>하지만 1차원 배열의 경우는 원소가 <code class="language-plaintext highlighter-rouge">immutable</code> 객체인 정수다. 따라서 초기에 모든 원소가 같은 주소를 공유하고 있어도, 순차적으로 조작이 발생하면서 메모리에 새로운 값이 복사되고 서로 다른 주소를 갖게 되기 때문에 문제가 없는 것이다. 이러한 차이 때문에 이차원 배열의 경우 리스트 복사를 사용하게 되면, 모든 원소가 같은 주소를 계속해서 공유하기 때문에 모두 같은 값을 갖게 된다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Question 1. memory id
+</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858532160</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="mi">140226858532160</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="mi">140226858532160</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="mi">140226858532160</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="mi">140226858532160</span>
+
+<span class="c1"># Question 2. memory id
+</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858828416</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858785472</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858828160</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858828480</span>
+<span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+<span class="mi">140226858830016</span>
+</code></pre></div></div>
+
+<p>개별 원소에 순차적으로 접근할 때, 원소의 주소를 출력한 결과다. <code class="language-plaintext highlighter-rouge">Question 1</code> 은 서로 다른 인덱스의 원소에 접근해도 계속해서 동일한 주소 위치를 참조하고 있음을 알 수 있다.</p>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">Question 2</code> 의 경우, 처음부터 서로 다른 주소값을 갖는 리스트를 원소로 할당했기 때문에 서로 다른 주소값을 갖게 된다.</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" 2. 튜플 사용 """</span>
 
 <span class="n">tdy</span><span class="p">,</span> <span class="n">tdx</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># tuple
