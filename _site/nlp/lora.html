@@ -9,8 +9,8 @@
   <head>
     <meta charset="utf-8">
 
-<!-- begin _includes/seo.html --><title>🗂️ Graph Theory 2: Dijkstra - AI/Business Study Log</title>
-<meta name="description" content="Dijkstra Algorithm with Priority Queue">
+<!-- begin _includes/seo.html --><title>🔪 [LoRA] Low-Rank Adaptation of Large Language Models - AI/Business Study Log</title>
+<meta name="description" content="LoRA Official Paper Review with Pytorch Implementation">
 
 
   <meta name="author" content="qcqced">
@@ -22,32 +22,32 @@
 <meta property="og:type" content="article">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="AI/Business Study Log">
-<meta property="og:title" content="🗂️ Graph Theory 2: Dijkstra">
-<meta property="og:url" content="http://localhost:4000/algorithm/dijkstra">
+<meta property="og:title" content="🔪 [LoRA] Low-Rank Adaptation of Large Language Models">
+<meta property="og:url" content="http://localhost:4000/nlp/lora">
 
 
-  <meta property="og:description" content="Dijkstra Algorithm with Priority Queue">
-
-
-
+  <meta property="og:description" content="LoRA Official Paper Review with Pytorch Implementation">
 
 
 
 
-  <meta property="article:published_time" content="2023-11-11T00:00:00+09:00">
 
 
 
-  <meta property="article:modified_time" content="2023-11-12T02:00:00+09:00">
+  <meta property="article:published_time" content="2024-03-28T00:00:00+09:00">
 
 
 
-  
+  <meta property="article:modified_time" content="2024-03-29T02:00:00+09:00">
+
+
 
   
 
+  
 
-<link rel="canonical" href="http://localhost:4000/algorithm/dijkstra">
+
+<link rel="canonical" href="http://localhost:4000/nlp/lora">
 
 
 
@@ -380,23 +380,23 @@
 
 
   <article class="page h-entry" itemscope itemtype="https://schema.org/CreativeWork">
-    <meta itemprop="headline" content="🗂️ Graph Theory 2: Dijkstra">
-    <meta itemprop="description" content="Dijkstra Algorithm with Priority Queue">
-    <meta itemprop="datePublished" content="2023-11-11T00:00:00+09:00">
-    <meta itemprop="dateModified" content="2023-11-12T02:00:00+09:00">
+    <meta itemprop="headline" content="🔪 [LoRA] Low-Rank Adaptation of Large Language Models">
+    <meta itemprop="description" content="LoRA Official Paper Review with Pytorch Implementation">
+    <meta itemprop="datePublished" content="2024-03-28T00:00:00+09:00">
+    <meta itemprop="dateModified" content="2024-03-29T02:00:00+09:00">
 
     <div class="page__inner-wrap">
       
         <header>
           <h1 id="page-title" class="page__title p-name" itemprop="headline">
-            <a href="http://localhost:4000/algorithm/dijkstra" class="u-url" itemprop="url">🗂️ Graph Theory 2: Dijkstra
+            <a href="http://localhost:4000/nlp/lora" class="u-url" itemprop="url">🔪 [LoRA] Low-Rank Adaptation of Large Language Models
 </a>
           </h1>
           <p class="page__date">
-            <a href="https://hits.seeyoufarm.com/localhost:4000/algorithm/dijkstra"target="_blank">
-              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/algorithm/dijkstra&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
+            <a href="https://hits.seeyoufarm.com/localhost:4000/nlp/lora"target="_blank">
+              <img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://localhost:4000/nlp/lora&count_bg=%23399DE2&title_bg=%236D6D6D&icon=pytorch.svg&icon_color=%23E7E7E7&title=Views&edge_flat=false"/>
             </a>
-            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2023-11-11T00:00:00+09:00">November 11, 2023</time>
+            <i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated: <time datetime="2024-03-28T00:00:00+09:00">March 28, 2024</time>
             <!-- <div style="text-align: left;"> -->
             <!-- </div> -->
           </p>
@@ -410,59 +410,75 @@
           <aside class="sidebar__right sticky">
             <nav class="toc">
               <header><h4 class="nav__title"><i class="fas fa-file-alt"></i> On this page</h4></header>
-              <ul class="toc__menu"><li><a href="#-dijkstra">📚 Dijkstra</a></li></ul>
+              <ul class="toc__menu"><li><a href="#overview">🔭 Overview</a></li><li><a href="#concept-low-rank-adaptation">🤔 Concept: Low-Rank Adaptation</a></li></ul>
 
             </nav>
           </aside>
         
-        <h3 id="-dijkstra"><code class="language-plaintext highlighter-rouge">📚 Dijkstra</code></h3>
+        <h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
-<p>다익스트라 최단 경로 문제는 그래프 자료 구조에서 여러 개의 노드가 주어졌을 때, 특정한 노드(시작점)에서 특정한 노드(도착점)까지의 최단 경로를 구해주는 알고리즘을 설계해야 한다. 특히 다익스트라는 <code class="language-plaintext highlighter-rouge">음의 간선</code>이 없을 때 정상적으로 동작하며, 유향 &amp; 무향을 가리지 않고 적용할 수 있다. 다익스트라 알고리즘의 동작을 기술하면 아래와 같다.</p>
+<p align="center">
+<img src="/assets/images/lora/lora.png" alt="LoRA" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2106.09685">LoRA</a></em></strong>
+</p>
 
-<ul>
-  <li><strong>1) 출발 노드 설정</strong></li>
-  <li><strong>2) 최단 거리 테이블 초기화(출발 노드 값은 0)</strong></li>
-  <li><strong>3) 방문하지 않은 노드 중에서 현재 가장 가까운 노드를 선택(최단 거리 노드)</strong></li>
-  <li><strong>4) 선택된 노드로부터 파생되는 다른 경로값 업데이트</strong></li>
-  <li><strong>5) 모든 노드에 대한 계산 끝날 때까지 3~4번 반복</strong></li>
-</ul>
+<p>LoRA는 2021년 MS 연구진이 발표한 논문으로 원본(Full 파인튜닝)과 거의 유사한 성능(심지어 일부 벤치마크는 더 높음)으로 LLM 파인튜닝에 필요한 GPU 메모리를 획기적으로 줄이는데 성공해 주목을 받았다. 커뮤니티에서 <code class="language-plaintext highlighter-rouge">LoRA is All You Need</code> 라는 별명까지 얻으며 그 인기를 구가하고 있다.</p>
 
-<p>다익스트라 알고리즘을 설계하는 방법은 크게 두가지가 있다. 먼저 3번을 수행하기 위해 1) 최단 거리 테이블을 매번 선형 탐색하는 알고리즘,  2) 선형 탐색 대신에 힙 정렬을 이용해 가장 가까운 노드를 선택하는 방식이 있다. 1번의 경우 <code class="language-plaintext highlighter-rouge">O(V^2)</code> 가 되어 입력 노드가 1000개만 넘어가도 시간 초과를 당하기 때문에, 2번의 경우로 소스 코드를 작성하는 게 바람직하다. 코드 예시는 아래와 같다.</p>
+<p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 리뷰에서도 살펴보았듯, BERT와 GPT의 등장 이후, 모든 NLP 도메인에서 비약적인 성능 향상이 이뤄줬음에도 불구하고, NLP용 딥러닝 모델을 실생활에 활용하기에는 너무 큰 리소스 요구량과 레이턴시가 발목을 잡았다. 하지만 <code class="language-plaintext highlighter-rouge">LoRA</code> 발표 이후, 파인튜닝 시점에 훈련해야 하는 파라미터 수가 현저히 줄어들면서 모델의 체크포인트 용량이 기하급수적으로 감소했다. 덕분에 요구 GPU VRAM이 현저히 낮아져, 리소스 제한 때문에 서빙하지 못하는 경우가 많이 사라졌다. 그래서 오늘날 <code class="language-plaintext highlighter-rouge">Mixed Precision</code>, <code class="language-plaintext highlighter-rouge">Quantization</code>과 함께 모델 경량•최적화 분야에서 가장 중요한 주제로 떠오르고 있다.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Dijkstra implementation """</span>
+<p>내용을 살펴보기전, <code class="language-plaintext highlighter-rouge">LoRA</code> 는 이미 사전학습을 완료한 모델을 파인튜닝할 때 사용해야함을 다시 한 번 명심하자. 이번 포스팅에서는 두가지를 집중적으로 다룰 것이다.</p>
 
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">heapq</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+<p><strong>1) 모델 크기 줄인 방법, 2) 크기를 줄이면서도 비슷한 성능을 낼 수 있었던 이유</strong></p>
 
-<span class="k">def</span> <span class="nf">dijkstra</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="n">distance</span><span class="p">[</span><span class="n">x</span><span class="p">],</span> <span class="n">x</span><span class="p">))</span>
-    <span class="k">while</span> <span class="n">h</span><span class="p">:</span>
-        <span class="n">min_cost</span><span class="p">,</span> <span class="n">node</span> <span class="o">=</span> <span class="n">heapq</span><span class="p">.</span><span class="n">heappop</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-        <span class="c1"># 방문한 노드 처리: cost를 기준으로 다음 노드를 선정, 따라서 cost가 distance[node]보다 크다면 이미 방문 했던 노드로 볼 수 있음
-</span>        <span class="k">if</span> <span class="n">min_cost</span> <span class="o">&gt;</span> <span class="n">distance</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
-            <span class="k">continue</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">graph</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
-            <span class="n">cost</span> <span class="o">=</span> <span class="n">min_cost</span> <span class="o">+</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">cost</span> <span class="o">&lt;</span> <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]:</span>
-                <span class="n">distance</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">cost</span>
-                <span class="n">heapq</span><span class="p">.</span><span class="n">heappush</span><span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+<h3 id="concept-low-rank-adaptation"><code class="language-plaintext highlighter-rouge">🤔 Concept: Low-Rank Adaptation</code></h3>
 
-<span class="n">V</span><span class="p">,</span> <span class="n">E</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-<span class="n">src</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">())</span>
+\[h = W_0x + \Delta Wx =  W_0x + BAx\]
 
-<span class="c1"># 1) init graph
-</span><span class="n">graph</span><span class="p">,</span> <span class="n">costs</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)]</span> <span class="o">*</span> <span class="p">(</span><span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">costs</span><span class="p">[</span><span class="n">src</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">E</span><span class="p">):</span>
-    <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">weight</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">sys</span><span class="p">.</span><span class="n">stdin</span><span class="p">.</span><span class="n">readline</span><span class="p">().</span><span class="n">split</span><span class="p">())</span>
-    <span class="n">graph</span><span class="p">[</span><span class="n">u</span><span class="p">].</span><span class="n">append</span><span class="p">((</span><span class="n">weight</span><span class="p">,</span> <span class="n">v</span><span class="p">))</span>
+<p>아이디어는 상당히 간단하다. 사전학습을 마치고 수렴된 상태의 가중치 행렬을 의미하는 $W_0$과 새로운 가중치 행렬 $\Delta W$에 모두 입력을 통과시킨다. 그리고 나온 결과를 더해 다음층의 입력으로 사용한다. 오히려 새로운 가중치 행렬을 추가해 파인튜닝을 하는데 어떻게 훈련해야 하는 파라미터 수를 줄일 수 있었을까??</p>
 
-<span class="n">dijkstra</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">costs</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">V</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">costs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="nb">float</span><span class="p">(</span><span class="s">'inf'</span><span class="p">)</span> <span class="k">else</span> <span class="s">'INF'</span><span class="p">)</span>
-</code></pre></div></div>
+<p>그 비밀은 <code class="language-plaintext highlighter-rouge">Freeze(Stop Gradient, require_grad=False)</code>와 <code class="language-plaintext highlighter-rouge">Matrix Factorization</code>에 숨어 있다. 먼저 사전 훈련된 가중치 행렬에 <code class="language-plaintext highlighter-rouge">Freeze(Stop Gradient, require_grad=False)</code> 를 적용해 그라디언트가 흐르지 않도록 한다. 이렇게 하면 파인튜닝 과정에서 가중치가 업데이트 되지 않아 사전 학습에서 습득한 지식을 유지할 수 있을 뿐만 아니라, 학습을 위해 그라디언트를 저장할 필요가 없어져 파인튜닝 때 필요한 GPU VRAM을 획기적으로 줄일 수 있다.</p>
+
+<p>처음에 사전학습 가중치를 통과한 값과 새로운 가중치 행렬 $\Delta W$를 통과한 값을 서로 더한다고 언급했다. 그렇다면, 두 결과 행렬의 행렬 크기가 동일해야 한다는 것이다. 어떻게 기존보다 사이즈는 줄이면서 결과 행렬의 크기는 동일하게 만들어줄 수 있을까?? 바로 Low Rank value $r$을 도입해 Matrix Factorization 을 한다.</p>
+
+\[W_{d \times d} = \begin{bmatrix}
+w_{1,1} &amp; w_{1,2} &amp; \cdots &amp; w_{1,d} \\
+w_{2,1} &amp; w_{2,2} &amp; \cdots &amp; w_{2,d} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+w_{d,1} &amp; w_{d,2} &amp; \cdots &amp; w_{d,d}
+\end{bmatrix}\]
+
+<p>행렬 곱셈(matrix multiplication)을 다시 한 번 상기해보자. <code class="language-plaintext highlighter-rouge">MxN</code> 의 크기를 갖는 행렬에 <code class="language-plaintext highlighter-rouge">NxK</code>의 크기를 갖는 행렬을 곱해주면 <code class="language-plaintext highlighter-rouge">MxK</code> 의 크기를 갖는 행렬을 만들어줄 수 있다. 마찬가지다. <code class="language-plaintext highlighter-rouge">dxd</code> 크기인 사전학습의 가중치 행렬 $W_{d \times d}$과 크기를 맞추기 위해, <code class="language-plaintext highlighter-rouge">dxd</code> 짜리 행렬을 각각 <code class="language-plaintext highlighter-rouge">dxr</code>, <code class="language-plaintext highlighter-rouge">rxd</code> 의 크기를 갖는 두 행렬 $A, B$로 분해한다. 이 때, 행렬 $A$의 열차원과 행렬 $B$차원의 행차원 크기를 표현하는 $r$에 바로 Low Rank value $r$을 대입하면 된다.</p>
+
+\[\Delta W_{d \times d} = A_{d \times r}\ B_{r \times d} = \begin{bmatrix}
+w_{1,1} &amp; w_{1,2} &amp; w_{1,r} \\
+w_{2,1} &amp; w_{2,2} &amp; w_{2,r} \\
+\vdots &amp; \vdots &amp; \vdots \\
+w_{d,1} &amp; w_{d,2} &amp; w_{d,r}
+\end{bmatrix}\begin{bmatrix}
+w_{1,1} &amp; w_{2,1} &amp; w_{d,1} \\
+w_{1,2} &amp; w_{2,2} &amp; w_{d,2} \\
+\vdots &amp; \vdots &amp; \vdots \\
+w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
+\end{bmatrix}\]
+
+<p>$r=3$이라고 가정하고 <code class="language-plaintext highlighter-rouge">768x768</code> 짜리 기존 가중치 행렬 $W$과 <code class="language-plaintext highlighter-rouge">768x3</code>, <code class="language-plaintext highlighter-rouge">3x768</code>의 크기를 갖는 $\Delta W = BA$의 파라미터 개수를 비교해보자. 계산해보면 전자는 <code class="language-plaintext highlighter-rouge">589,824</code>개, 후자는 <code class="language-plaintext highlighter-rouge">4608</code>개가 된다. 정확하게 <code class="language-plaintext highlighter-rouge">128</code>배 차이가 난다. 트랜스포머 모델 속에는 행렬 $W$과 같은 크기를 갖는 가중치 행렬이 단일 인코더 내부, 하나의 어텐션 레이어만 해도 4개($W_q, W_k, W_v, W_o$)가 있다. <code class="language-plaintext highlighter-rouge">BERT-base</code> 모델을 기준으로 보면, 해당 모델이 <code class="language-plaintext highlighter-rouge">12</code>개의 인코더로 구성되어 있으니까 총 <code class="language-plaintext highlighter-rouge">48</code>개의 가중치 행렬이 있고, 어림잡아도 <code class="language-plaintext highlighter-rouge">48*128</code>배의 학습 파라미터 감소 효과를 낼 수 있다. 모델의 레이어가 많으면 많을수록 더 좋은 효율을 보인다.</p>
+
+<p align="center">
+<img src="/assets/images/lora/cuda_memory.png" alt="Resnet50 Memeory Type in GPU" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em><a href="https://pytorch.org/blog/understanding-gpu-memory-1/">Resnet50 Memeory Type in GPU</a></em></strong>
+</p>
+
+<p>위 그림은 파이토치 공식 블로그에서 퍼온 자료로, 학습 때 ResNet50의 GPU VRAM 점유율 추이는 물론 모델의 개별 구성요소의 메모리 비율까지 자세히 보여준다. 먼저 <code class="language-plaintext highlighter-rouge">Parameter</code>와 <code class="language-plaintext highlighter-rouge">Optimizer State</code>를 보자. <code class="language-plaintext highlighter-rouge">Parameter</code> 는 모델에서 훈련을 통해 업데이트가 필요한 모든 구성 요소를 말한다. <code class="language-plaintext highlighter-rouge">Freeze</code>, <code class="language-plaintext highlighter-rouge">require_grad=False</code> <code class="language-plaintext highlighter-rouge">@torch.no_grad()</code> , <code class="language-plaintext highlighter-rouge">torch.register_buffer()</code> 의 영향을 받지 않은 모델 내부의 모든 텐서라고 보면 된다.</p>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">Optimizer State</code> 는 옵티마이저의 최적화 수행에 필요한 모든 정보들을 의미하는데, 예를 들어 업데이트 될 텐서의 메타 정보, 여러 하이퍼파라미터 값 같은 것들이 담겨 있다.</p>
+
+<p>이 두 요소가 모델의 GPU VRAM을 차지하는 비율이 상당히 크다. 하지만 두 요소 모두 파라미터 개수에 비례하므로 <code class="language-plaintext highlighter-rouge">LoRA</code> 적용으로 파라미터 개수를 줄이면, GPU VRAM을 획기적으로 줄일 수 있다.</p>
+
+<p>또한 파이토치는 역전파 수행을 위해 그라디언트를 파라미터와 동일한 모양(shape)을 갖는 텐서로 저장된다는 점을 감안하면, 기존의 Full-Rank 텐서 대신 Low-Rank 텐서를 학습에 이용함으로서 그라디언트 텐서의 크기 역시 획기적으로 줄일 수 있겠다.</p>
+
+<p>트랜스포머 계열의 모델들이 ResNet 대비 압도적으로 파라미터 개수가 많기 때문에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용한다면 훨씬 큰 효과를 볼 수 있을 것이다.</p>
+
+<p>지금까지 <code class="language-plaintext highlighter-rouge">LoRA</code> 가 제시하는 방법론이 어떻게 획기적으로 학습 파라미터를 줄이고 나아가 모델이 차지하는 GPU VRAM 크기를 감소시켰는지 알아 보았다. 이제 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용해도 일반적인 파인튜닝 방법과 비슷한 성능을 유지할 수 있었는지 알아보자.</p>
 
         
       </section>
@@ -479,13 +495,17 @@
     <strong><i class="fas fa-fw fa-tags" aria-hidden="true"></i> Tags: </strong>
     <span itemprop="keywords">
     
-      <a href="/tags/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a><span class="sep">, </span>
+      <a href="/tags/#fine-tune" class="page__taxonomy-item p-category" rel="tag">Fine-Tune</a><span class="sep">, </span>
     
-      <a href="/tags/#codeing-test" class="page__taxonomy-item p-category" rel="tag">Codeing Test</a><span class="sep">, </span>
+      <a href="/tags/#lora" class="page__taxonomy-item p-category" rel="tag">LoRA</a><span class="sep">, </span>
     
-      <a href="/tags/#dijkstra" class="page__taxonomy-item p-category" rel="tag">Dijkstra</a><span class="sep">, </span>
+      <a href="/tags/#low-rank-adaptation" class="page__taxonomy-item p-category" rel="tag">Low-Rank Adaptation</a><span class="sep">, </span>
     
-      <a href="/tags/#python" class="page__taxonomy-item p-category" rel="tag">Python</a>
+      <a href="/tags/#natural-language-process" class="page__taxonomy-item p-category" rel="tag">Natural Language Process</a><span class="sep">, </span>
+    
+      <a href="/tags/#optimization" class="page__taxonomy-item p-category" rel="tag">Optimization</a><span class="sep">, </span>
+    
+      <a href="/tags/#pytorch" class="page__taxonomy-item p-category" rel="tag">Pytorch</a>
     
     </span>
   </p>
@@ -502,7 +522,7 @@
     <strong><i class="fas fa-fw fa-folder-open" aria-hidden="true"></i> Categories: </strong>
     <span itemprop="keywords">
     
-      <a href="/categories/#algorithm" class="page__taxonomy-item p-category" rel="tag">Algorithm</a>
+      <a href="/categories/#nlp" class="page__taxonomy-item p-category" rel="tag">NLP</a>
     
     </span>
   </p>
@@ -510,7 +530,7 @@
 
         
 
-  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2023-11-11">November 11, 2023</time></p>
+  <p class="page__date"><strong><i class="fas fa-fw fa-calendar-alt" aria-hidden="true"></i> Updated:</strong> <time class="dt-published" datetime="2024-03-28">March 28, 2024</time></p>
 
       </footer>
 
@@ -519,23 +539,22 @@
     <h4 class="page__share-title">Share on</h4>
   
 
-  <a href="https://twitter.com/intent/tweet?text=%F0%9F%97%82%EF%B8%8F+Graph+Theory+2%3A+Dijkstra%20http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fdijkstra" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
+  <a href="https://twitter.com/intent/tweet?text=%F0%9F%94%AA+%5BLoRA%5D+Low-Rank+Adaptation+of+Large+Language+Models%20http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Flora" class="btn btn--twitter" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Twitter"><i class="fab fa-fw fa-twitter" aria-hidden="true"></i><span> Twitter</span></a>
 
-  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fdijkstra" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
+  <a href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Flora" class="btn btn--facebook" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on Facebook"><i class="fab fa-fw fa-facebook" aria-hidden="true"></i><span> Facebook</span></a>
 
-  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Falgorithm%2Fdijkstra" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
+  <a href="https://www.linkedin.com/shareArticle?mini=true&url=http%3A%2F%2Flocalhost%3A4000%2Fnlp%2Flora" class="btn btn--linkedin" onclick="window.open(this.href, 'window', 'left=20,top=20,width=500,height=500,toolbar=1,resizable=0'); return false;" title="Share on LinkedIn"><i class="fab fa-fw fa-linkedin" aria-hidden="true"></i><span> LinkedIn</span></a>
 </section>
 
 
       
   <nav class="pagination">
     
-      <a href="/ps/baekjoon-16920" class="pagination--pager" title="👩‍💻🎄 [baekjoon] 16920번: 확장게임
+      <a href="/python/time_complexity2" class="pagination--pager" title="👨⏰🐍 [Python] 시간복잡도 2
 ">Previous</a>
     
     
-      <a href="/algorithm/floyd-warshell" class="pagination--pager" title="🗂️ Graph Theory 3: Floyd-Warshall
-">Next</a>
+      <a href="#" class="pagination--pager disabled">Next</a>
     
   </nav>
 
@@ -549,53 +568,6 @@
     <div class="page__related">
       <h2 class="page__related-title">You may also enjoy</h2>
       <div class="grid__wrapper">
-        
-          
-
-
-
-<div class="grid__item">
-  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
-    
-      <div class="archive__item-teaser">
-        <img src="/assets/images/huggingface_emoji.png" alt="">
-      </div>
-    
-    <h2 class="archive__item-title no_toc" itemprop="headline">
-      
-        <a href="/nlp/lora" rel="permalink">🔪 [LoRA] Low-Rank Adaptation of Large Language Models
-</a>
-      
-    </h2>
-    <!-- 
-
-  <p class="page__meta">
-    
-
-    
-
-    
-      
-      
-
-      <span class="page__meta-readtime">
-        <i class="far fa-clock" aria-hidden="true"></i>
-        
-          3 minute read
-        
-      </span>
-    
-  </p>
-
- -->
-    
-      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 28 2024</p>
-    
-    <p class="archive__item-excerpt" itemprop="description">LoRA Official Paper Review with Pytorch Implementation
-</p>
-  </article>
-</div>
-
         
           
 
@@ -733,6 +705,53 @@
       <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 14 2024</p>
     
     <p class="archive__item-excerpt" itemprop="description">Linear Attention Official Paper Review with Pytorch Implementation
+</p>
+  </article>
+</div>
+
+        
+          
+
+
+
+<div class="grid__item">
+  <article class="archive__item" itemscope itemtype="https://schema.org/CreativeWork">
+    
+      <div class="archive__item-teaser">
+        <img src="/assets/images/huggingface_emoji.png" alt="">
+      </div>
+    
+    <h2 class="archive__item-title no_toc" itemprop="headline">
+      
+        <a href="/nlp/spanbert" rel="permalink">🗂️[SpanBERT] SpanBERT: Improving Pre-training by Representing and Predicting Spans
+</a>
+      
+    </h2>
+    <!-- 
+
+  <p class="page__meta">
+    
+
+    
+
+    
+      
+      
+
+      <span class="page__meta-readtime">
+        <i class="far fa-clock" aria-hidden="true"></i>
+        
+          8 minute read
+        
+      </span>
+    
+  </p>
+
+ -->
+    
+      <p class="page__meta"><i class="far fa-fw fa-calendar-alt" aria-hidden="true"></i> March 11 2024</p>
+    
+    <p class="archive__item-excerpt" itemprop="description">SpanBERT Official Paper Review with Pytorch Implementation
 </p>
   </article>
 </div>

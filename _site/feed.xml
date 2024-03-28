@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-27T14:15:38+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 2</title><link href="http://localhost:4000/python/time_complexity2" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 2" /><published>2024-03-26T00:00:00+09:00</published><updated>2024-03-27T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity2</id><content type="html" xml:base="http://localhost:4000/python/time_complexity2"><![CDATA[<h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-29T01:42:03+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔪 [LoRA] Low-Rank Adaptation of Large Language Models</title><link href="http://localhost:4000/nlp/lora" rel="alternate" type="text/html" title="🔪 [LoRA] Low-Rank Adaptation of Large Language Models" /><published>2024-03-28T00:00:00+09:00</published><updated>2024-03-29T02:00:00+09:00</updated><id>http://localhost:4000/nlp/LoRA</id><content type="html" xml:base="http://localhost:4000/nlp/lora"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+
+<p align="center">
+<img src="/assets/images/lora/lora.png" alt="LoRA" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2106.09685">LoRA</a></em></strong>
+</p>
+
+<p>LoRA는 2021년 MS 연구진이 발표한 논문으로 원본(Full 파인튜닝)과 거의 유사한 성능(심지어 일부 벤치마크는 더 높음)으로 LLM 파인튜닝에 필요한 GPU 메모리를 획기적으로 줄이는데 성공해 주목을 받았다. 커뮤니티에서 <code class="language-plaintext highlighter-rouge">LoRA is All You Need</code> 라는 별명까지 얻으며 그 인기를 구가하고 있다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 리뷰에서도 살펴보았듯, BERT와 GPT의 등장 이후, 모든 NLP 도메인에서 비약적인 성능 향상이 이뤄줬음에도 불구하고, NLP용 딥러닝 모델을 실생활에 활용하기에는 너무 큰 리소스 요구량과 레이턴시가 발목을 잡았다. 하지만 <code class="language-plaintext highlighter-rouge">LoRA</code> 발표 이후, 파인튜닝 시점에 훈련해야 하는 파라미터 수가 현저히 줄어들면서 모델의 체크포인트 용량이 기하급수적으로 감소했다. 덕분에 요구 GPU VRAM이 현저히 낮아져, 리소스 제한 때문에 서빙하지 못하는 경우가 많이 사라졌다. 그래서 오늘날 <code class="language-plaintext highlighter-rouge">Mixed Precision</code>, <code class="language-plaintext highlighter-rouge">Quantization</code>과 함께 모델 경량•최적화 분야에서 가장 중요한 주제로 떠오르고 있다.</p>
+
+<p>내용을 살펴보기전, <code class="language-plaintext highlighter-rouge">LoRA</code> 는 이미 사전학습을 완료한 모델을 파인튜닝할 때 사용해야함을 다시 한 번 명심하자. 이번 포스팅에서는 두가지를 집중적으로 다룰 것이다.</p>
+
+<p><strong>1) 모델 크기 줄인 방법, 2) 크기를 줄이면서도 비슷한 성능을 낼 수 있었던 이유</strong></p>
+
+<h3 id="concept-low-rank-adaptation"><code class="language-plaintext highlighter-rouge">🤔 Concept: Low-Rank Adaptation</code></h3>
+
+\[h = W_0x + \Delta Wx =  W_0x + BAx\]
+
+<p>아이디어는 상당히 간단하다. 사전학습을 마치고 수렴된 상태의 가중치 행렬을 의미하는 $W_0$과 새로운 가중치 행렬 $\Delta W$에 모두 입력을 통과시킨다. 그리고 나온 결과를 더해 다음층의 입력으로 사용한다. 오히려 새로운 가중치 행렬을 추가해 파인튜닝을 하는데 어떻게 훈련해야 하는 파라미터 수를 줄일 수 있었을까??</p>
+
+<p>그 비밀은 <code class="language-plaintext highlighter-rouge">Freeze(Stop Gradient, require_grad=False)</code>와 <code class="language-plaintext highlighter-rouge">Matrix Factorization</code>에 숨어 있다. 먼저 사전 훈련된 가중치 행렬에 <code class="language-plaintext highlighter-rouge">Freeze(Stop Gradient, require_grad=False)</code> 를 적용해 그라디언트가 흐르지 않도록 한다. 이렇게 하면 파인튜닝 과정에서 가중치가 업데이트 되지 않아 사전 학습에서 습득한 지식을 유지할 수 있을 뿐만 아니라, 학습을 위해 그라디언트를 저장할 필요가 없어져 파인튜닝 때 필요한 GPU VRAM을 획기적으로 줄일 수 있다.</p>
+
+<p>처음에 사전학습 가중치를 통과한 값과 새로운 가중치 행렬 $\Delta W$를 통과한 값을 서로 더한다고 언급했다. 그렇다면, 두 결과 행렬의 행렬 크기가 동일해야 한다는 것이다. 어떻게 기존보다 사이즈는 줄이면서 결과 행렬의 크기는 동일하게 만들어줄 수 있을까?? 바로 Low Rank value $r$을 도입해 Matrix Factorization 을 한다.</p>
+
+\[W_{d \times d} = \begin{bmatrix}
+w_{1,1} &amp; w_{1,2} &amp; \cdots &amp; w_{1,d} \\
+w_{2,1} &amp; w_{2,2} &amp; \cdots &amp; w_{2,d} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+w_{d,1} &amp; w_{d,2} &amp; \cdots &amp; w_{d,d}
+\end{bmatrix}\]
+
+<p>행렬 곱셈(matrix multiplication)을 다시 한 번 상기해보자. <code class="language-plaintext highlighter-rouge">MxN</code> 의 크기를 갖는 행렬에 <code class="language-plaintext highlighter-rouge">NxK</code>의 크기를 갖는 행렬을 곱해주면 <code class="language-plaintext highlighter-rouge">MxK</code> 의 크기를 갖는 행렬을 만들어줄 수 있다. 마찬가지다. <code class="language-plaintext highlighter-rouge">dxd</code> 크기인 사전학습의 가중치 행렬 $W_{d \times d}$과 크기를 맞추기 위해, <code class="language-plaintext highlighter-rouge">dxd</code> 짜리 행렬을 각각 <code class="language-plaintext highlighter-rouge">dxr</code>, <code class="language-plaintext highlighter-rouge">rxd</code> 의 크기를 갖는 두 행렬 $A, B$로 분해한다. 이 때, 행렬 $A$의 열차원과 행렬 $B$차원의 행차원 크기를 표현하는 $r$에 바로 Low Rank value $r$을 대입하면 된다.</p>
+
+\[\Delta W_{d \times d} = A_{d \times r}\ B_{r \times d} = \begin{bmatrix}
+w_{1,1} &amp; w_{1,2} &amp; w_{1,r} \\
+w_{2,1} &amp; w_{2,2} &amp; w_{2,r} \\
+\vdots &amp; \vdots &amp; \vdots \\
+w_{d,1} &amp; w_{d,2} &amp; w_{d,r}
+\end{bmatrix}\begin{bmatrix}
+w_{1,1} &amp; w_{2,1} &amp; w_{d,1} \\
+w_{1,2} &amp; w_{2,2} &amp; w_{d,2} \\
+\vdots &amp; \vdots &amp; \vdots \\
+w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
+\end{bmatrix}\]
+
+<p>$r=3$이라고 가정하고 <code class="language-plaintext highlighter-rouge">768x768</code> 짜리 기존 가중치 행렬 $W$과 <code class="language-plaintext highlighter-rouge">768x3</code>, <code class="language-plaintext highlighter-rouge">3x768</code>의 크기를 갖는 $\Delta W = BA$의 파라미터 개수를 비교해보자. 계산해보면 전자는 <code class="language-plaintext highlighter-rouge">589,824</code>개, 후자는 <code class="language-plaintext highlighter-rouge">4608</code>개가 된다. 정확하게 <code class="language-plaintext highlighter-rouge">128</code>배 차이가 난다. 트랜스포머 모델 속에는 행렬 $W$과 같은 크기를 갖는 가중치 행렬이 단일 인코더 내부, 하나의 어텐션 레이어만 해도 4개($W_q, W_k, W_v, W_o$)가 있다. <code class="language-plaintext highlighter-rouge">BERT-base</code> 모델을 기준으로 보면, 해당 모델이 <code class="language-plaintext highlighter-rouge">12</code>개의 인코더로 구성되어 있으니까 총 <code class="language-plaintext highlighter-rouge">48</code>개의 가중치 행렬이 있고, 어림잡아도 <code class="language-plaintext highlighter-rouge">48*128</code>배의 학습 파라미터 감소 효과를 낼 수 있다. 모델의 레이어가 많으면 많을수록 더 좋은 효율을 보인다.</p>
+
+<p align="center">
+<img src="/assets/images/lora/cuda_memory.png" alt="Resnet50 Memeory Type in GPU" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em><a href="https://pytorch.org/blog/understanding-gpu-memory-1/">Resnet50 Memeory Type in GPU</a></em></strong>
+</p>
+
+<p>위 그림은 파이토치 공식 블로그에서 퍼온 자료로, 학습 때 ResNet50의 GPU VRAM 점유율 추이는 물론 모델의 개별 구성요소의 메모리 비율까지 자세히 보여준다. 먼저 <code class="language-plaintext highlighter-rouge">Parameter</code>와 <code class="language-plaintext highlighter-rouge">Optimizer State</code>를 보자. <code class="language-plaintext highlighter-rouge">Parameter</code> 는 모델에서 훈련을 통해 업데이트가 필요한 모든 구성 요소를 말한다. <code class="language-plaintext highlighter-rouge">Freeze</code>, <code class="language-plaintext highlighter-rouge">require_grad=False</code> <code class="language-plaintext highlighter-rouge">@torch.no_grad()</code> , <code class="language-plaintext highlighter-rouge">torch.register_buffer()</code> 의 영향을 받지 않은 모델 내부의 모든 텐서라고 보면 된다.</p>
+
+<p>한편, <code class="language-plaintext highlighter-rouge">Optimizer State</code> 는 옵티마이저의 최적화 수행에 필요한 모든 정보들을 의미하는데, 예를 들어 업데이트 될 텐서의 메타 정보, 여러 하이퍼파라미터 값 같은 것들이 담겨 있다.</p>
+
+<p>이 두 요소가 모델의 GPU VRAM을 차지하는 비율이 상당히 크다. 하지만 두 요소 모두 파라미터 개수에 비례하므로 <code class="language-plaintext highlighter-rouge">LoRA</code> 적용으로 파라미터 개수를 줄이면, GPU VRAM을 획기적으로 줄일 수 있다.</p>
+
+<p>또한 파이토치는 역전파 수행을 위해 그라디언트를 파라미터와 동일한 모양(shape)을 갖는 텐서로 저장된다는 점을 감안하면, 기존의 Full-Rank 텐서 대신 Low-Rank 텐서를 학습에 이용함으로서 그라디언트 텐서의 크기 역시 획기적으로 줄일 수 있겠다.</p>
+
+<p>트랜스포머 계열의 모델들이 ResNet 대비 압도적으로 파라미터 개수가 많기 때문에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용한다면 훨씬 큰 효과를 볼 수 있을 것이다.</p>
+
+<p>지금까지 <code class="language-plaintext highlighter-rouge">LoRA</code> 가 제시하는 방법론이 어떻게 획기적으로 학습 파라미터를 줄이고 나아가 모델이 차지하는 GPU VRAM 크기를 감소시켰는지 알아 보았다. 이제 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용해도 일반적인 파인튜닝 방법과 비슷한 성능을 유지할 수 있었는지 알아보자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="LoRA" /><category term="Low-Rank Adaptation" /><category term="Fine-Tune" /><category term="Optimization" /><category term="Pytorch" /><summary type="html"><![CDATA[LoRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
+
+<ul>
+  <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
+  <li><strong>2) 2</strong>16 ⇒ 64MB**</li>
+</ul>
+
+<h3 id="time"><code class="language-plaintext highlighter-rouge">Time</code></h3>
+
+<p>구체적인 성능은 플랫폼의 하드웨어에 따라서 달라지겠지만, 일반적으로 1초에 1억번 정도 계산할 수 있다고 가정하고 알고리즘의 시간 복잡도를 계산하면 된다. 즉, 어떤 문제의 시간 제한이 2초라면, 2억번 이하의 계산을 하는 알고리즘의 경우는 통과로 처리된다는 것이다.</p>
+
+<p>시간 복잡도는 원래 데이터 개수에 따라서 달라지는 연산 횟수의 추이를 말한다. 하지만 많은 사람들은 편의상 데이터 개수와 연산 횟수를 동치로 간주하고 시간 복잡도를 계산하고 있다. 이러한 접근이 틀렸다고 보기 힘든 이유는 실전에서 정확하게 시간 복잡도를 계산하는 것이 불가능하기 때문이다. 애초에 시간 복잡도의 목적은 내가 세운 알고리즘의 대략적인 성능을 알아보기 위함이자, 문제 조건에 맞지 않는 경우의 수를 미리 처내기 위함이다. 이러한 관점에 따라서 어떤 문제의 시간 제한이 2초, 내가 세운 알고리즘이 O(N)의 시간복잡도를 갖는 상황을 가정해보자. 만약 문제에서 주어지는 데이터의 양이 2억개 이하라면 시간 초과에 걸리지 않고 통과할 것이다. 한편, 문제에서 주어지는 데이터의 양이 10억개라면, 선형 시간 복잡도 알고리즘으로는 다시 태어나도 절대 통과할 수 없다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(log N)</td>
+      <td>1억**2</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>1억</td>
+    </tr>
+    <tr>
+      <td>O(N**2)</td>
+      <td>1만</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>30만</td>
+    </tr>
+    <tr>
+      <td>O(N**3)</td>
+      <td>500</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>이제 파이썬 내장 라이브러리의 시간 복잡도에 대해서 정리해보자. 파이썬의 가장 큰 장점은 타 언어 대비 내장 라이브러리가 많다는 점이다. 그래서 다른 언어로 구현할 때보다 내장 메서드를 사용하는 경우가 빈번하기 때문에 미리 해당 함수들의 시간 복잡도에 대해서 숙지하고 있어야 한다.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>시간 복잡도</th>
+      <th>최대 데이터 길이 (1초)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>O(1)</td>
+      <td>모든 인덱싱 활용 연산(자료구조 길이 등)</td>
+    </tr>
+    <tr>
+      <td>O(N)</td>
+      <td>전체 자료 구조 할당, 비교, 복사, 탐색</td>
+    </tr>
+    <tr>
+      <td>O(N log N)</td>
+      <td>정렬(sort(), sorted())</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>자료구조에 따른 내장 메서드가 너무 많아서, 최대한 일반화된 표현으로 작성했다. 여기서 한 가지 주목할 점은 자료구조 길이를 구하는 <code class="language-plaintext highlighter-rouge">len()</code>의 시간 복잡도가 상수 시간이라는 점이다. 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체들은 모두 내부값이 변경될 것을 감안해 <code class="language-plaintext highlighter-rouge">resize()</code> 연산을 객체 내부 메서드에 가지고 있고, 자료구조 내부에 길이 정보값을 항상 내장하고 있다. 그래서 <code class="language-plaintext highlighter-rouge">len()</code>, <code class="language-plaintext highlighter-rouge">__len__()</code> 을 호출하면 자료구조를 순회하면서 길이를 세는게 아니라, 길이 정보값을 저장하고 있는 위치의 배열값을 반환한다. 따라서 상수 시간에 해결이 가능하다. 따라서 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체의 크기는 우리 생각보다 좀 더 크다는 것을 명심하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도에 대한 이해]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 2</title><link href="http://localhost:4000/python/time_complexity2" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 2" /><published>2024-03-26T00:00:00+09:00</published><updated>2024-03-27T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity2</id><content type="html" xml:base="http://localhost:4000/python/time_complexity2"><![CDATA[<h3 id="theme-1-입력-모듈"><code class="language-plaintext highlighter-rouge">Theme 1. 입력 모듈</code></h3>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Compare to Input module """</span>
 <span class="kn">import</span> <span class="nn">sys</span>
@@ -139,76 +271,7 @@
 <span class="n">Result</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">generator</span> <span class="nb">object</span> <span class="o">&lt;</span><span class="n">genexpr</span><span class="o">&gt;</span> <span class="n">at</span> <span class="mh">0x1058c3f20</span><span class="o">&gt;</span>
 </code></pre></div></div>
 
-<p>속도, 필요한 메모리 크기 모두 제너레이터가 압도적으로 효율적인 모습이다. 제너레이터의 경우, 실제로는 모든 연산값을 갖고 있는게 아니기 때문이다. 그래서 인덱싱, 슬라이싱등 파이썬 배열의 여러 연산을 활용할 수 없다. 따라서 상황에 따라서 컴프리헨션과 제너레이터를 사용하면 된다. 만약 인덱싱, 슬라이싱 연산처럼 일부에 접근하는 연산을 이용해야 한다면 컴프리헨션을, sum()처럼 전체 배열 단위 연산 혹은 단순히 순차적으로 원소 하나 하나에 접근해 무엇인가 해야 하는 상황(range() 등)이라면 제너레이터를 활용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Time Complexity" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도 줄이기]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
-
-<ul>
-  <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
-  <li><strong>2) 2</strong>16 ⇒ 64MB**</li>
-</ul>
-
-<h3 id="time"><code class="language-plaintext highlighter-rouge">Time</code></h3>
-
-<p>구체적인 성능은 플랫폼의 하드웨어에 따라서 달라지겠지만, 일반적으로 1초에 1억번 정도 계산할 수 있다고 가정하고 알고리즘의 시간 복잡도를 계산하면 된다. 즉, 어떤 문제의 시간 제한이 2초라면, 2억번 이하의 계산을 하는 알고리즘의 경우는 통과로 처리된다는 것이다.</p>
-
-<p>시간 복잡도는 원래 데이터 개수에 따라서 달라지는 연산 횟수의 추이를 말한다. 하지만 많은 사람들은 편의상 데이터 개수와 연산 횟수를 동치로 간주하고 시간 복잡도를 계산하고 있다. 이러한 접근이 틀렸다고 보기 힘든 이유는 실전에서 정확하게 시간 복잡도를 계산하는 것이 불가능하기 때문이다. 애초에 시간 복잡도의 목적은 내가 세운 알고리즘의 대략적인 성능을 알아보기 위함이자, 문제 조건에 맞지 않는 경우의 수를 미리 처내기 위함이다. 이러한 관점에 따라서 어떤 문제의 시간 제한이 2초, 내가 세운 알고리즘이 O(N)의 시간복잡도를 갖는 상황을 가정해보자. 만약 문제에서 주어지는 데이터의 양이 2억개 이하라면 시간 초과에 걸리지 않고 통과할 것이다. 한편, 문제에서 주어지는 데이터의 양이 10억개라면, 선형 시간 복잡도 알고리즘으로는 다시 태어나도 절대 통과할 수 없다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>시간 복잡도</th>
-      <th>최대 데이터 길이 (1초)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>O(log N)</td>
-      <td>1억**2</td>
-    </tr>
-    <tr>
-      <td>O(N)</td>
-      <td>1억</td>
-    </tr>
-    <tr>
-      <td>O(N**2)</td>
-      <td>1만</td>
-    </tr>
-    <tr>
-      <td>O(N log N)</td>
-      <td>30만</td>
-    </tr>
-    <tr>
-      <td>O(N**3)</td>
-      <td>500</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>이제 파이썬 내장 라이브러리의 시간 복잡도에 대해서 정리해보자. 파이썬의 가장 큰 장점은 타 언어 대비 내장 라이브러리가 많다는 점이다. 그래서 다른 언어로 구현할 때보다 내장 메서드를 사용하는 경우가 빈번하기 때문에 미리 해당 함수들의 시간 복잡도에 대해서 숙지하고 있어야 한다.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>시간 복잡도</th>
-      <th>최대 데이터 길이 (1초)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>O(1)</td>
-      <td>모든 인덱싱 활용 연산(자료구조 길이 등)</td>
-    </tr>
-    <tr>
-      <td>O(N)</td>
-      <td>전체 자료 구조 할당, 비교, 복사, 탐색</td>
-    </tr>
-    <tr>
-      <td>O(N log N)</td>
-      <td>정렬(sort(), sorted())</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>자료구조에 따른 내장 메서드가 너무 많아서, 최대한 일반화된 표현으로 작성했다. 여기서 한 가지 주목할 점은 자료구조 길이를 구하는 <code class="language-plaintext highlighter-rouge">len()</code>의 시간 복잡도가 상수 시간이라는 점이다. 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체들은 모두 내부값이 변경될 것을 감안해 <code class="language-plaintext highlighter-rouge">resize()</code> 연산을 객체 내부 메서드에 가지고 있고, 자료구조 내부에 길이 정보값을 항상 내장하고 있다. 그래서 <code class="language-plaintext highlighter-rouge">len()</code>, <code class="language-plaintext highlighter-rouge">__len__()</code> 을 호출하면 자료구조를 순회하면서 길이를 세는게 아니라, 길이 정보값을 저장하고 있는 위치의 배열값을 반환한다. 따라서 상수 시간에 해결이 가능하다. 따라서 파이썬 <code class="language-plaintext highlighter-rouge">mutable</code> 객체의 크기는 우리 생각보다 좀 더 크다는 것을 명심하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Function" /><category term="Argument" /><category term="mutable" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도에 대한 이해]]></summary></entry><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<p>속도, 필요한 메모리 크기 모두 제너레이터가 압도적으로 효율적인 모습이다. 제너레이터의 경우, 실제로는 모든 연산값을 갖고 있는게 아니기 때문이다. 그래서 인덱싱, 슬라이싱등 파이썬 배열의 여러 연산을 활용할 수 없다. 따라서 상황에 따라서 컴프리헨션과 제너레이터를 사용하면 된다. 만약 인덱싱, 슬라이싱 연산처럼 일부에 접근하는 연산을 이용해야 한다면 컴프리헨션을, sum()처럼 전체 배열 단위 연산 혹은 단순히 순차적으로 원소 하나 하나에 접근해 무엇인가 해야 하는 상황(range() 등)이라면 제너레이터를 활용하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Python" /><category term="Python" /><category term="Time Complexity" /><category term="CS" /><summary type="html"><![CDATA[시간 복잡도 줄이기]]></summary></entry><entry><title type="html">🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention</title><link href="http://localhost:4000/nlp/linear_attention" rel="alternate" type="text/html" title="🌆 [Linear Attention] Transformers are RNNs: Fast Autoregressive Transformers with Linear Attention" /><published>2024-03-14T00:00:00+09:00</published><updated>2024-03-15T02:00:00+09:00</updated><id>http://localhost:4000/nlp/linear_attention</id><content type="html" xml:base="http://localhost:4000/nlp/linear_attention"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p><code class="language-plaintext highlighter-rouge">DistilBERT</code> 는 허깅 페이스 연구진이 2019년 발표한 BERT의 변형으로서, On-Device Ai 개발을 목표로 경량화에 초점을 맞춘 모델이다. GPT, BERT의 등장 이후, NLP 분야에서 비약적인 성능 향상이 이뤄졌음에도 불구하고, 터무니 없는 모델 사이즈와 컴퓨팅 리소스 요구로 인해 실생활 적용 같은 활용성은 여전히 해결해야할 문제로 남아 있었다. Google에서 발표한 초기 <code class="language-plaintext highlighter-rouge">BERT-base-uncased</code> 만 해도 파라미터가 1억 1천만개 수준에 달한다.</p>
 
@@ -2002,349 +2065,4 @@ y_i &amp;= \text{LayerNorm}(\text{GeLU}(W_2 h_1))
 <strong><em>DP Tabulation BackTracking</em></strong>
 </p>
 
-<p>위에는 개선이전 결과고 아래는 개선 이후 결과다. 비약적인 속도 상승하는 동시에 메모리 역시 3배나 덜 사용하는 모습이다. 세트에 있는 유니크한 경로들을 하나씩 꺼내는 방식을 선택했기 때문에 알고리즘 성능이 시드에 영향(<code class="language-plaintext highlighter-rouge">set.pop()</code>은 랜덤으로 원소 선택)을 받는다는 점만 감안한다면 매우 좋은 풀이라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Problem Solving" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="Graph" /><category term="DFS" /><category term="BackTracking" /><summary type="html"><![CDATA[백준 1987번: 알파벳]]></summary></entry><entry><title type="html">🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집</title><link href="http://localhost:4000/framework-library/torch-indexing-function" rel="alternate" type="text/html" title="🔥 Pytorch Tensor Indexing 자주 사용하는 메서드 모음집" /><published>2024-01-09T00:00:00+09:00</published><updated>2024-01-10T02:00:00+09:00</updated><id>http://localhost:4000/framework-library/Pytorch-Tensor-Indexing-Function</id><content type="html" xml:base="http://localhost:4000/framework-library/torch-indexing-function"><![CDATA[<p>파이토치에서 필자가 자주 사용하는 텐서 인덱싱 관련 메서드의 사용법 및 사용 예시를 한방에 정리한 포스트다. 메서드 하나당 하나의 포스트로 만들기에는 너무 길이가 짧다 생각해 한 페이지에 모두 넣게 되었다. 지속적으로 업데이트 될 예정이다. 또한 텐서 인덱싱 말고도 다른 주제로도 관련 메서드를 정리해 올릴 예정이니 많은 관심 부탁드린다.</p>
-
-<h3 id="torchargmax"><code class="language-plaintext highlighter-rouge">🔎 torch.argmax</code></h3>
-
-<p>입력 텐서에서 가장 큰 값을 갖고 있는 원소의 인덱스를 반환한다. 최대값을 찾을 차원을 지정해줄 수 있다. 아래 예시 코드를 확인해보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.argmax params
-</span><span class="n">torch</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-
-<span class="c1"># torch.argmax example 1
-</span><span class="n">test</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">29</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test2</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-
-<span class="o">&lt;</span><span class="n">Result</span><span class="o">&gt;</span>
-<span class="n">tensor</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
-
-<span class="c1"># torch.argmax example 2
-</span><span class="n">test</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-                     <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
-
-<span class="n">torch</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="o">&lt;</span><span class="n">Result</span><span class="o">&gt;</span>
-<span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
-
-<span class="c1"># torch.argmax example 3
-</span><span class="n">test</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-                     <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
-
-<span class="n">torch</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdim</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">2</span><span class="p">]])</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">dim</code> 매개변수에 원하는 차원을 입력하면 해당 차원 뷰에서 가장 큰 원소를 찾아 인덱스 값을 반환해줄 것이다. 이 때 <code class="language-plaintext highlighter-rouge">keepdim=True</code> 로 설정한다면 입력 차원에서 가장 큰 원소의 인덱스를 반환하되 원본 텐서의 차원과 동일한 형태로 출력해준다. <code class="language-plaintext highlighter-rouge">example 2</code> 의 경우 <code class="language-plaintext highlighter-rouge">dim=0</code> 라서 행이 누적된 방향으로 텐서를 바라봐야 한다. 행이 누적된 방향으로 텐서를 보게 되면 <code class="language-plaintext highlighter-rouge">tensor([[0, 1, 1]])</code>이 된다.</p>
-
-<h3 id="torchstack"><code class="language-plaintext highlighter-rouge">📚 torch.stack</code></h3>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">"""
-torch.stack
-Args:
-	tensors(sequence of Tensors): 텐서가 담긴 파이썬 시퀀스 객체
-	dim(int): 추가할 차원 방향을 세팅, 기본값은 0
-"""</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">tensors</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>매개변수로 주어진 파이썬 시퀀스 객체(리스트, 튜플)를 사용자가 지정한 새로운 차원에 쌓는 기능을 한다. 매개변수 <code class="language-plaintext highlighter-rouge">tensors</code> 는 텐서가 담긴 파이썬의 시퀀스 객체를 입력으로 받는다. <code class="language-plaintext highlighter-rouge">dim</code> 은 사용자가 텐서 적재를 하고 싶은 새로운 차원을 지정해주면 된다. 기본값은 0차원으로 지정 되어있으며, 텐서의 맨 앞차원이 새롭게 생기게 된다. <code class="language-plaintext highlighter-rouge">torch.stack</code> 은 기계학습, 특히 딥러닝에서 정말 자주 사용되기 때문에 사용법 및 사용상황을 익혀두면 도움이 된다. 예시를 통해 해당 메서드를 어떤 상황에서 어떻게 사용하는지 알아보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" torch.stack example """</span>
-
-<span class="k">class</span> <span class="nc">Projector</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="s">"""
-    Making projection matrix(Q, K, V) for each attention head
-    When you call this class, it returns projection matrix of each attention head
-    For example, if you call this class with 8 heads, it returns 8 set of projection matrices (Q, K, V)
-    Args:
-        num_heads: number of heads in MHA, default 8
-        dim_head: dimension of each attention head, default 64
-    """</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_heads</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Projector</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span> <span class="o">=</span> <span class="n">num_heads</span> <span class="o">*</span> <span class="n">dim_head</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">num_heads</span> <span class="o">=</span> <span class="n">num_heads</span>
-        <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span> <span class="o">=</span> <span class="n">dim_head</span>
-
-    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">fc_q</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="n">fc_k</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="n">fc_v</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">dim_model</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">fc_q</span><span class="p">,</span> <span class="n">fc_k</span><span class="p">,</span> <span class="n">fc_v</span>
-
-<span class="n">num_heads</span> <span class="o">=</span> <span class="mi">8</span>
-<span class="n">dim_head</span> <span class="o">=</span> <span class="mi">64</span>
-<span class="n">projector</span> <span class="o">=</span> <span class="n">Projector</span><span class="p">(</span><span class="n">num_heads</span><span class="p">,</span> <span class="n">dim_head</span><span class="p">)</span>  <span class="c1"># init instance
-</span><span class="n">projector_list</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">projector</span><span class="p">())</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_heads</span><span class="p">)]</span>  <span class="c1"># call instance
-</span><span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span> <span class="c1"># x.shape: [Batch_Size, Sequence_Length, Dim_model]
-</span><span class="n">Q</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[],</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_heads</span><span class="p">):</span>
-    <span class="n">Q</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">projector_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="n">x</span><span class="p">))</span> <span class="c1"># [10, 512, 64]
-</span>    <span class="n">K</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">projector_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="n">x</span><span class="p">))</span> <span class="c1"># [10, 512, 64]
-</span>	  <span class="n">V</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">projector_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">](</span><span class="n">x</span><span class="p">))</span> <span class="c1"># [10, 512, 64]
-</span> 
-<span class="n">Q</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">Q</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># Q.shape: [10, 8, 512, 64]
-</span><span class="n">K</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">K</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># K.shape: [10, 8, 512, 64]
-</span><span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">stack</span><span class="p">(</span><span class="n">V</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># V.shape: [10, 8, 512, 64]
-</span></code></pre></div></div>
-
-<p>위 코드는 <code class="language-plaintext highlighter-rouge">Transformer</code> 의 <code class="language-plaintext highlighter-rouge">Multi-Head Attention</code> 구현체 일부를 발췌해온 것이다. <code class="language-plaintext highlighter-rouge">Multi-Head Attention</code> 은 개별 어텐션 해드별로 행렬 $Q, K, V$를 가져야 한다. 따라서 입력 임베딩을 개별 어텐션 헤드에 <code class="language-plaintext highlighter-rouge">Linear Combination</code> 해줘야 하는데 헤드 개수가 8개나 되기 때문에 개별적으로 <code class="language-plaintext highlighter-rouge">Projection Matrix</code> 를 선언해주는 것은 매우 비효율적이다. 따라서 객체  <code class="language-plaintext highlighter-rouge">Projector</code> 에 행렬 $Q, K, V$에 대한 <code class="language-plaintext highlighter-rouge">Projection Matrix</code> 를 정의해줬다. 이후 헤드 개수만큼 객체  <code class="language-plaintext highlighter-rouge">Projector</code> 를 호출해 리스트에 해드별 <code class="language-plaintext highlighter-rouge">Projection Matrix</code> 를 담아준다. 그 다음 <code class="language-plaintext highlighter-rouge">torch.stack</code>을 사용해 <code class="language-plaintext highlighter-rouge">Attention Head</code> 방향의 차원으로 리스트 내부 텐서들을 쌓아주면 된다.</p>
-
-<h3 id="torcharange"><code class="language-plaintext highlighter-rouge">🔢 torch.arange</code></h3>
-
-<p>사용자가 지정한 시작점부터 끝점까지 일정한 간격으로 텐서를 나열한다. Python의 내장 메서드 <code class="language-plaintext highlighter-rouge">range</code>와 동일한 역할을 하는데, 대신 텐서 그 결과를 텐서 구조체로 반환한다고 생각하면 되겠다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.arange usage
-</span><span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([</span> <span class="mi">0</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">4</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([</span> <span class="mf">1.0000</span><span class="p">,</span>  <span class="mf">1.5000</span><span class="p">,</span>  <span class="mf">2.0000</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">step</code> 매개변수로 원소간 간격 조정을 할 수 있는데, 기본은 1로 지정 되어 있으니 참고하자. 필자의 경우에는 <code class="language-plaintext highlighter-rouge">nn.Embedding</code>의 입력 텐서를 만들 때 가장 많이 사용했다. <code class="language-plaintext highlighter-rouge">nn.Embedding</code> 의 경우 Input으로 <code class="language-plaintext highlighter-rouge">IntTensor</code>, <code class="language-plaintext highlighter-rouge">LongTensor</code>를 받게 되어 있으니 알아두자.</p>
-
-<h3 id="torchrepeat"><code class="language-plaintext highlighter-rouge">🔁 torch.repeat</code></h3>
-
-<p>입력값으로 주어진 텐서를 사용자가 지정한 반복 횟수만큼 특정 차원 방향으로 늘린다. 예를 들면 <code class="language-plaintext highlighter-rouge">[1,2,3] * 3</code>의 결과는 <code class="language-plaintext highlighter-rouge">[1, 2, 3, 1, 2, 3, 1, 2, 3]</code> 인데, 이것을 사용자가 지정한 반복 횟수만큼 특정 차원으로 수행하겠다는 것이다. 아래 사용 예제를 확인해보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.repeat example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span>  <span class="mi">2</span><span class="p">,</span>  <span class="mi">3</span><span class="p">]])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">).</span><span class="n">size</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">x</span><span class="p">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span>
-
-        <span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
-         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]])</span>
-</code></pre></div></div>
-
-<p>$t$를 어떤 텐서 구조체 $x$의 최대 차원이라고 했을 , $x_t$를 가장 왼쪽에 넣고 가장 낮은 차원인 0차원에 대한 반복 횟수를 오른쪽 끝에 대입해서 사용하면 된다. (<code class="language-plaintext highlighter-rouge">torch.repeat(</code>$x_t, x_{t-1}, … x_2, x_1, x_0$<code class="language-plaintext highlighter-rouge">))</code>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.arange &amp; torch.repeate usage example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pos_x</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">num_patches</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="n">inputs</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">to</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">pos_x</span><span class="p">.</span><span class="n">shape</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">([</span><span class="mi">16</span><span class="p">,</span> <span class="mi">1025</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>필자의 경우, <code class="language-plaintext highlighter-rouge">position embedding</code>의 입력을 만들고 싶을 때 <code class="language-plaintext highlighter-rouge">torch.arange</code> 와 연계해 자주 사용 했던 것 같다. 위 코드를 참고하자.</p>
-
-<h3 id="torchclamp"><code class="language-plaintext highlighter-rouge">🔬 torch.clamp</code></h3>
-
-<p>입력 텐서의 원소값을 사용자가 지정한 최대•최소값 범위 이내로 제한하는 메서드다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.clamp params
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span> <span class="err">→</span> <span class="n">Tensor</span>
-
-<span class="c1"># torch.clamp usage example
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span>
-<span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">1.7120</span><span class="p">,</span>  <span class="mf">0.1734</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0478</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0922</span><span class="p">])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">0.5</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([</span><span class="o">-</span><span class="mf">0.5000</span><span class="p">,</span>  <span class="mf">0.1734</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0478</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0922</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>입력된 텐서의 원소를 지정 최대•최소 설정값과 하나 하나 대조해서 텐서 내부의 모든 원소가 지정 범위 안에 들도록 만들어준다. <code class="language-plaintext highlighter-rouge">torch.clamp</code> 역시 다양한 상황에서 사용되는데, 필자의 경우 모델 레이어 중간에 제곱근이나 지수, 분수 혹은 각도 관련 연산이 들어가 <code class="language-plaintext highlighter-rouge">Backward Pass</code>에서 <code class="language-plaintext highlighter-rouge">NaN</code>이 발생할 수 있는 경우에 안전장치로 많이 사용하고 있다. (<a href="https://qcqced123.github.io/framework-library/backward-nan/">자세히 알고 싶다면 클릭</a>)</p>
-
-<h3 id="torchgather"><code class="language-plaintext highlighter-rouge">👩‍👩‍👧‍👦 torch.gather</code></h3>
-
-<p>텐서 객체 내부에서 원하는 인덱스에 위치한 원소만 추출하고 싶을 때 사용하면 매우 유용한 메서드다. 텐서 역시 <code class="language-plaintext highlighter-rouge">iterable</code> 객체라서 <code class="language-plaintext highlighter-rouge">loop</code> 를 사용해 접근하는 것이 직관적으로 보일 수 있으나, 통상적으로 텐서를 사용하는 상황이라면 객체의 차원이 어마무시 하기 때문에 루프로 접근해 관리하는 것은 매우 비효율적이다. 루프를 통해 접근하면 파이썬의 내장 리스트를 사용하는 것과 별반 다를게 없어지기 때문에, 텐서를 사용하는 메리트가 사라진다. 비교적 크지 않은 2~3차원의 텐서 정도라면 사용해도 크게 문제는 없을거라 생각하지만 그래도 코드의 일관성을 위해 <code class="language-plaintext highlighter-rouge">torch.gather</code> 사용을 권장한다. 이제 <code class="language-plaintext highlighter-rouge">torch.gather</code>의 사용법에 대해 알아보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.gather params
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">sparse_grad</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">dim</code>과 <code class="language-plaintext highlighter-rouge">index</code>에 주목해보자. 먼저 <code class="language-plaintext highlighter-rouge">dim</code>은 사용자가 인덱싱을 적용하고 싶은 차원을 지정해주는 역할을 한다. <code class="language-plaintext highlighter-rouge">index</code> 매개변수로 전달하는 텐서 안에는 원소의 <code class="language-plaintext highlighter-rouge">‘인덱스’</code>를 의미하는 숫자들이 마구잡이로 담겨있는데, 해당 인덱스가 대상 텐서의 어느 차원을 가리킬 것인지를 컴퓨터에게 알려준다고 생각하면 된다. <code class="language-plaintext highlighter-rouge">index</code> 는 앞에서 설명했듯이 원소의 <code class="language-plaintext highlighter-rouge">‘인덱스’</code>를 의미하는 숫자들이 담긴 텐서를 입력으로 하는 매개변수다. 이 때 주의할 점은 대상 텐서(<code class="language-plaintext highlighter-rouge">input</code>)와 인덱스 텐서의 차원 형태가 반드시 동일해야 한다는 것이다. 역시 말로만 들으면 이해하기 힘드니 사용 예시를 함꼐 살펴보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.gather usage example
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">q</span><span class="p">,</span> <span class="n">kr</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="c1"># [batch, sequence, dim_head], [batch, 2*sequence, dim_head]
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">tmp_c2p</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">kr</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">tmp_c2p</span><span class="p">,</span> <span class="n">tmp_c2p</span><span class="p">.</span><span class="n">shape</span>
-<span class="p">(</span><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">2.6477</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.7478</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.3250</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">1.6062</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.9717</span><span class="p">,</span>  <span class="mf">3.8004</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">0.0662</span><span class="p">,</span>  <span class="mf">1.5240</span><span class="p">,</span>  <span class="mf">0.1182</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">0.1653</span><span class="p">,</span>  <span class="mf">2.8476</span><span class="p">,</span>  <span class="mf">1.6337</span><span class="p">],</span>
-         <span class="p">[</span><span class="o">-</span><span class="mf">0.5010</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.2267</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.1179</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">1.1447</span><span class="p">,</span>  <span class="mf">1.7845</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1493</span><span class="p">],</span>
-         <span class="p">...,</span>
-         <span class="p">[</span><span class="o">-</span><span class="mf">2.1073</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2149</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.8630</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">0.8238</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5833</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2066</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.1747</span><span class="p">,</span>  <span class="mf">3.2924</span><span class="p">,</span>  <span class="mf">6.5808</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mf">0.2926</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2511</span><span class="p">,</span>  <span class="mf">2.6996</span><span class="p">],</span>
-         <span class="p">[</span><span class="o">-</span><span class="mf">2.8362</span><span class="p">,</span>  <span class="mf">2.8700</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.9729</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mf">4.9913</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.3616</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1708</span><span class="p">]],</span>
-        <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">MmBackward0</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">]))</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">max_seq</span><span class="p">,</span> <span class="n">max_relative_position</span> <span class="o">=</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">q_index</span><span class="p">,</span> <span class="n">k_index</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="n">max_seq</span><span class="p">),</span> <span class="n">torch</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">max_relative_position</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">q_index</span><span class="p">,</span> <span class="n">k_index</span>
-<span class="p">(</span><span class="n">tensor</span><span class="p">([</span>   <span class="mi">0</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>  <span class="p">...,</span> <span class="mi">1021</span><span class="p">,</span> <span class="mi">1022</span><span class="p">,</span> <span class="mi">1023</span><span class="p">]),</span>
- <span class="n">tensor</span><span class="p">([</span>   <span class="mi">0</span><span class="p">,</span>    <span class="mi">1</span><span class="p">,</span>    <span class="mi">2</span><span class="p">,</span>  <span class="p">...,</span> <span class="mi">1021</span><span class="p">,</span> <span class="mi">1022</span><span class="p">,</span> <span class="mi">1023</span><span class="p">]))</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">tmp_pos</span> <span class="o">=</span> <span class="n">q_index</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">k_index</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">rel_pos_matrix</span> <span class="o">=</span> <span class="n">tmp_pos</span> <span class="o">+</span> <span class="n">max_relative_position</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">rel_pos_matrix</span>
-<span class="n">tensor</span><span class="p">([[</span> <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mi">509</span><span class="p">,</span> <span class="o">-</span><span class="mi">510</span><span class="p">,</span> <span class="o">-</span><span class="mi">511</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mi">508</span><span class="p">,</span> <span class="o">-</span><span class="mi">509</span><span class="p">,</span> <span class="o">-</span><span class="mi">510</span><span class="p">],</span>
-        <span class="p">[</span> <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mi">507</span><span class="p">,</span> <span class="o">-</span><span class="mi">508</span><span class="p">,</span> <span class="o">-</span><span class="mi">509</span><span class="p">],</span>
-        <span class="p">...,</span>
-        <span class="p">[</span><span class="mi">1533</span><span class="p">,</span> <span class="mi">1532</span><span class="p">,</span> <span class="mi">1531</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">1534</span><span class="p">,</span> <span class="mi">1533</span><span class="p">,</span> <span class="mi">1532</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">],</span>
-        <span class="p">[</span><span class="mi">1535</span><span class="p">,</span> <span class="mi">1534</span><span class="p">,</span> <span class="mi">1533</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">]])</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">rel_pos_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">rel_pos_matrix</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">max_relative_position</span> <span class="o">-</span> <span class="mi">1</span><span class="p">).</span><span class="n">repeat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">tmp_c2p</span> <span class="o">=</span> <span class="n">tmp_c2p</span><span class="p">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">rel_pos_matrix</span><span class="p">,</span> <span class="n">rel_pos_matrix</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">tmp_c2p</span><span class="p">.</span><span class="n">shape</span> 
-<span class="p">(</span><span class="n">tensor</span><span class="p">([[[</span> <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">[</span> <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">[</span> <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">...,</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">],</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">],</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">]],</span>
- 
-         <span class="p">[[</span> <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">[</span> <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">[</span> <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="p">...,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">,</span>    <span class="mi">0</span><span class="p">],</span>
-          <span class="p">...,</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">,</span>  <span class="mi">510</span><span class="p">],</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">,</span>  <span class="mi">511</span><span class="p">],</span>
-          <span class="p">[</span><span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span> <span class="mi">1023</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mi">514</span><span class="p">,</span>  <span class="mi">513</span><span class="p">,</span>  <span class="mi">512</span><span class="p">]],</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">]),</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">1024</span><span class="p">]))</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">gather</span><span class="p">(</span><span class="n">tmp_c2p</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">rel_pos_matrix</span><span class="p">)</span>
-<span class="n">tensor</span><span class="p">([[[</span><span class="o">-</span><span class="mf">0.8579</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2178</span><span class="p">,</span>  <span class="mf">1.6323</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mf">2.6477</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.6477</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.6477</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">1.1601</span><span class="p">,</span>  <span class="mf">2.1752</span><span class="p">,</span>  <span class="mf">0.7187</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">0.0662</span><span class="p">,</span>  <span class="mf">0.0662</span><span class="p">,</span>  <span class="mf">0.0662</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">3.4379</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2573</span><span class="p">,</span>  <span class="mf">0.1375</span><span class="p">,</span>  <span class="p">...,</span> <span class="o">-</span><span class="mf">0.5010</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5010</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5010</span><span class="p">],</span>
-         <span class="p">...,</span>
-         <span class="p">[</span><span class="o">-</span><span class="mf">1.2066</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2066</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2066</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">0.5943</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5169</span><span class="p">,</span> <span class="o">-</span><span class="mf">3.0820</span><span class="p">],</span>
-         <span class="p">[</span> <span class="mf">2.6996</span><span class="p">,</span>  <span class="mf">2.6996</span><span class="p">,</span>  <span class="mf">2.6996</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">0.2014</span><span class="p">,</span>  <span class="mf">1.1458</span><span class="p">,</span>  <span class="mf">3.2626</span><span class="p">],</span>
-         <span class="p">[</span><span class="o">-</span><span class="mf">0.1708</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1708</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1708</span><span class="p">,</span>  <span class="p">...,</span>  <span class="mf">1.9955</span><span class="p">,</span>  <span class="mf">4.1549</span><span class="p">,</span>  <span class="mf">2.6356</span><span class="p">]],</span>
-</code></pre></div></div>
-
-<p>위 코드는 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 의 <code class="language-plaintext highlighter-rouge">Disentangled Self-Attention</code>을 구현한 코드의 일부분이다. 자세한 원리는 <code class="language-plaintext highlighter-rouge">DeBERTa</code> 논문 리뷰 포스팅에서 확인하면 되고, 우리가 지금 주목할 부분은 바로 <code class="language-plaintext highlighter-rouge">tmp_c2p</code>, <code class="language-plaintext highlighter-rouge">rel_pos_matrix</code> 그리고 마지막 줄에 위치한 <code class="language-plaintext highlighter-rouge">torch.gather</code> 다. <code class="language-plaintext highlighter-rouge">[10, 1024, 1024]</code> 모양을 가진 대상 텐서 <code class="language-plaintext highlighter-rouge">tmp_c2p</code> 에서 내가 원하는 원소만 추출하려는 상황인데, 추출해야할 원소의 인덱스 값이 담긴 텐서를 <code class="language-plaintext highlighter-rouge">rel_pos_matrix</code> 로 정의했다. <code class="language-plaintext highlighter-rouge">rel_pos_matrix</code> 의 차원은 <code class="language-plaintext highlighter-rouge">[10, 1024, 1024]</code>로 <code class="language-plaintext highlighter-rouge">tmp_c2p</code>와 동일하다. 참고로 추출해야 하는 차원 방향은 가로 방향(두 번째 1024)이다.</p>
-
-<p>이제 <code class="language-plaintext highlighter-rouge">torch.gather</code>의 동작을 살펴보자. 우리가 현재 추출하고 싶은 대상은 3차원 텐서의 가로 방향(두 번째 1024, 텐서의 행 벡터), 즉 <code class="language-plaintext highlighter-rouge">2 * max_sequence_length</code> 를 의미하는 차원 방향의 원소다. 따라서 <code class="language-plaintext highlighter-rouge">dim=-1</code>으로 설정해준다. 이제 메서드가 의도대로 적용되었는지 확인해보자. <code class="language-plaintext highlighter-rouge">rel_pos_matrix</code> 의 0번 배치, 0번째 시퀀스의 가장 마지막 차원의 값은 <code class="language-plaintext highlighter-rouge">0</code>으로 초기화 되어 있다. 다시 말해, 대상 텐서의 대상 차원에서 0번째 인덱스에 해당하는 값을 가져오라는 의미를 담고 있다. 그렇다면 <code class="language-plaintext highlighter-rouge">torch.gather</code> 실행 결과가 <code class="language-plaintext highlighter-rouge">tmp_c2p</code>의 0번 배치, 0번째 시퀀스의 0번째 차원 값과 일치하는지 확인해보자. 둘 다 <code class="language-plaintext highlighter-rouge">-2.6477</code>, <code class="language-plaintext highlighter-rouge">-2.6477</code> 으로 같은 값을 나타내고 있다. 따라서 우리 의도대로 잘 실행되었다는 사실을 알 수 있다.</p>
-
-<h3 id="torchtriu-torchtril"><code class="language-plaintext highlighter-rouge">👩‍👩‍👧‍👦 torch.triu, torch.tril</code></h3>
-
-<p>각각 입력 텐서를 <code class="language-plaintext highlighter-rouge">상삼각행렬</code>, <code class="language-plaintext highlighter-rouge">하삼각행렬</code>로 만든다. <code class="language-plaintext highlighter-rouge">triu</code>나 <code class="language-plaintext highlighter-rouge">tril</code>은 사실 뒤집으면 같은 결과를 반환하기 때문에 <code class="language-plaintext highlighter-rouge">tril</code>을 기준으로 설명을 하겠다. 메서드의 매개변수는 다음과 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.triu, tril params
-</span><span class="n">upper_tri_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">triu</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">,</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-<span class="n">lower_tri_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">input_tensors</span><span class="p">,</span> <span class="n">diagonal</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">diagonal</code> 에 주목해보자. 양수를 전달하면 주대각성분에서 해당하는 값만큼 떨어진 곳의 대각성분까지 그 값을 살려둔다. 한편 음수를 전달하면 주대각성분을 포함해 주어진 값만큼 떨어진 곳까지의 대각성분을 모두 0으로 만들어버린다. 기본은 0으로 설정되어 있으며, 이는 주대각성분부터 왼쪽 하단의 원소를 모두 살려두겠다는 의미가 된다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.tril usage example
-</span><span class="o">&gt;&gt;&gt;</span> <span class="n">lm_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">lm_mask</span>
-<span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span>
-</code></pre></div></div>
-
-<p>두 메서드는 선형대수학이 필요한 다양한 분야에서 사용되는데, 필자의 경우, <code class="language-plaintext highlighter-rouge">GPT</code>처럼 <code class="language-plaintext highlighter-rouge">Transformer</code>의 <code class="language-plaintext highlighter-rouge">Decoder</code> 를 사용하는 모델을 빌드할 때 가장 많이 사용했던 것 같다. <code class="language-plaintext highlighter-rouge">Decoder</code>를 사용하는 모델은 대부분 구조상 <code class="language-plaintext highlighter-rouge">Language Modeling</code>을 위해서 <code class="language-plaintext highlighter-rouge">Masked Multi-Head Self-Attention Block</code>을 사용하는데 이 때 미래 시점의 토큰 임베딩 값에 마스킹을 해주기 위해 <code class="language-plaintext highlighter-rouge">torch.tril</code> 을 사용하게 되니 참고하자.</p>
-
-<h3 id="torchtensormasked_fill"><code class="language-plaintext highlighter-rouge">👩‍👩‍👧‍👦 torch.Tensor.masked_fill</code></h3>
-
-<p>사용자가 지정한 값에 해당되는 원소를 모두 마스킹 처리해주는 메서드다. 먼저 매개변수를 확인해보자.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.Tensor.masked_fill params
-</span><span class="n">input_tensors</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">]])</span>
-<span class="n">input_tensors</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">mask</span><span class="p">:</span> <span class="n">BoolTensor</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><code class="language-plaintext highlighter-rouge">masked_fill</code> 은 텐서 객체의 내부 <code class="language-plaintext highlighter-rouge">attribute</code> 로 정의되기 때문에 해당 메서드를 사용하고 싶다면 먼저 마스킹 대상 텐서를 만들어야 한다. 텐서를 정의했다면 텐서 객체의 <code class="language-plaintext highlighter-rouge">attributes</code> 접근을 통해 <code class="language-plaintext highlighter-rouge">masked_fill()</code> 을 호출한 뒤, 필요한 매개변수를 전달해주는 방식으로 사용하면 된다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">mask</code> 매개변수에는 마스킹 텐서를 전달해야 하는데, 이 때 내부 원소는 모두 <code class="language-plaintext highlighter-rouge">boolean</code>이어야 하고 텐서의 형태는 대상 텐서와 동일해야 한다(완전히 같을 필요는 없고, 브로드 캐스팅만 가능하면 상관 없음).</p>
-
-<p><code class="language-plaintext highlighter-rouge">value</code> 매개변수에는 마스킹 대상 원소들에 일괄적으로 적용해주고 싶은 값을 전달한다. 이게 말로만 들으면 이해하기 쉽지 않다. 아래 사용 예시를 함께 첨부했으니 참고 바란다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># torch.masked_fill usage
-</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">lm_mask</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tril</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">lm_mask</span>
-<span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span>
-<span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">0</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">))</span> <span class="o">/</span> <span class="n">dot_scale</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">attention_matrix</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="mf">1.2</span> <span class="mf">1.1</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="mf">9.9</span> <span class="mf">9.9</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="mf">9.9</span> <span class="mf">9.9</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="mf">9.9</span> <span class="mf">9.9</span>
-
-<span class="o">&gt;&gt;&gt;</span> <span class="n">attention_matrix</span> <span class="o">=</span> <span class="n">attention_matrix</span><span class="p">.</span><span class="n">masked_fill</span><span class="p">(</span><span class="n">lm_mask</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="s">'-inf'</span><span class="p">))</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">attention_matrix</span>
-<span class="mf">1.22</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="o">-</span><span class="n">inf</span> <span class="o">-</span><span class="n">inf</span>
-<span class="mf">1.22</span> <span class="mf">2.1</span> <span class="mf">3.4</span> <span class="mf">9.9</span> <span class="o">-</span><span class="n">inf</span>
-</code></pre></div></div>
-
-<h3 id="️torchclone"><code class="language-plaintext highlighter-rouge">🗂️ torch.clone</code></h3>
-
-<p><code class="language-plaintext highlighter-rouge">inputs</code> 인자로 전달한 텐서를 복사하는 파이토치 내장 메서드다.  사용법은 아래와 같다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" torch.clone """</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">clone</span><span class="p">(</span>
-    <span class="nb">input</span><span class="p">,</span><span class="err"> </span>
-    <span class="o">*</span><span class="p">,</span>
-   <span class="err"> </span><span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">preserve_format</span>
-<span class="p">)</span><span class="err"> → </span><span class="p">[</span><span class="n">Tensor</span><span class="p">]</span>
-</code></pre></div></div>
-
-<p>딥러닝 파이프라인을 만들다 보면 많이 사용하게 되는 기본적인 메서드인데, 이렇게 따로 정리하게 된 이유가 있다. 입력된 텐서를 그대로 복사한다는 특성 때문에 사용시 주의해야 할 점이 있기 때문이다. 해당 메서드를 사용하기 전에 반드시 입력할 텐서가 현재 어느 디바이스(CPU, GPU) 위에 있는지, 그리고 해당 텐서가 계산 그래프를 가지고 있는지를 <strong>반드시</strong> 파악해야 한다.</p>
-
-<p>필자는 ELECTRA 모델을 직접 구현하는 과정에서 <code class="language-plaintext highlighter-rouge">clone()</code> 메서드를 사용했는데, Generator 모델의 결과 로짓을 Discriminator의 입력으로 변환해주기 위함이었다. 그 과정에서 Generator가 반환한 로짓을 그대로 <code class="language-plaintext highlighter-rouge">clone</code>한 뒤, 입력을 만들어 주었고 그 결과 아래와 같은 에러를 마주했다.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">RuntimeError</span><span class="p">:</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">variables</span> <span class="n">needed</span> <span class="k">for</span> <span class="n">gradient</span> <span class="n">computation</span> <span class="n">has</span> <span class="n">been</span> <span class="n">modified</span> <span class="n">by</span> <span class="n">an</span> <span class="n">inplace</span> <span class="n">operation</span><span class="p">:</span> <span class="p">[</span>
-<span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">LongTensor</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">511</span><span class="p">]]</span> <span class="ow">is</span> <span class="n">at</span> <span class="n">version</span> <span class="mi">1</span><span class="p">;</span> <span class="n">expected</span> <span class="n">version</span> <span class="mi">0</span> 
-<span class="n">instead</span><span class="p">.</span> <span class="n">Hint</span><span class="p">:</span> <span class="n">the</span> <span class="n">backtrace</span> <span class="n">further</span> <span class="n">above</span> <span class="n">shows</span> <span class="n">the</span> <span class="n">operation</span> <span class="n">that</span> <span class="n">failed</span> <span class="n">to</span> <span class="n">compute</span> <span class="n">its</span> <span class="n">gradient</span><span class="p">.</span> 
-<span class="n">The</span> <span class="n">variable</span> <span class="ow">in</span> <span class="n">question</span> <span class="n">was</span> <span class="n">changed</span> <span class="ow">in</span> <span class="n">there</span> <span class="ow">or</span> <span class="n">anywhere</span> <span class="n">later</span><span class="p">.</span> <span class="n">Good</span> <span class="n">luck</span><span class="err">!</span>
-</code></pre></div></div>
-
-<p>에러 로그를 자세히 읽어보면 텐서 버전의 변경으로 인해 그라디언트 계산이 불가하다는 내용이 담겨있다. 구글링해봐도 잘 안나와서 포기하려던 찰라에 우연히 <code class="language-plaintext highlighter-rouge">torch.clone()</code> 메서드의 정확한 사용법이 궁금해 공식 Docs를 읽게 되었고, 거기서 엄청난 사실을 발견했다. <code class="language-plaintext highlighter-rouge">clone()</code> 메서드가 입력된 텐서의 현재 디바이스 위치에 똑같이 복사될 것이란 예상은 했지만, 입력 텐서의 계산그래프까지 복사될 것이란 생각은 전혀 하지 못했기 때문이다. 그래서 위와 같은 에러를 마주하지 않으려면, <code class="language-plaintext highlighter-rouge">clone()</code>을 호출할 때 뒤에 반드시 <code class="language-plaintext highlighter-rouge">detach()</code>를 함께 호출해줘야 한다.</p>
-
-<p><code class="language-plaintext highlighter-rouge">clone()</code> 메서드는 입력된 텐서의 모든 것을 복사한다는 점을 반드시 기억하자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Framework &amp; Library" /><category term="Pytorch" /><category term="Tensor" /><category term="Linear Algebra" /><summary type="html"><![CDATA[파이토치에서 자주 사용하는 텐서 인덱싱 관련 메서드 모음]]></summary></entry></feed>
+<p>위에는 개선이전 결과고 아래는 개선 이후 결과다. 비약적인 속도 상승하는 동시에 메모리 역시 3배나 덜 사용하는 모습이다. 세트에 있는 유니크한 경로들을 하나씩 꺼내는 방식을 선택했기 때문에 알고리즘 성능이 시드에 영향(<code class="language-plaintext highlighter-rouge">set.pop()</code>은 랜덤으로 원소 선택)을 받는다는 점만 감안한다면 매우 좋은 풀이라고 생각한다.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="Problem Solving" /><category term="Python" /><category term="Codeing Test" /><category term="Algorithm" /><category term="Baekjoon" /><category term="Graph" /><category term="DFS" /><category term="BackTracking" /><summary type="html"><![CDATA[백준 1987번: 알파벳]]></summary></entry></feed>

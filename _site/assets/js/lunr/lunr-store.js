@@ -322,4 +322,10 @@ var store = [{
         "tags": ["Python","Time Complexity","CS"],
         "url": "/python/time_complexity2",
         "teaser": "/assets/images/huggingface_emoji.png"
+      },{
+        "title": "🔪 [LoRA] Low-Rank Adaptation of Large Language Models",
+        "excerpt":"🔭 Overview LoRA LoRA는 2021년 MS 연구진이 발표한 논문으로 원본(Full 파인튜닝)과 거의 유사한 성능(심지어 일부 벤치마크는 더 높음)으로 LLM 파인튜닝에 필요한 GPU 메모리를 획기적으로 줄이는데 성공해 주목을 받았다. 커뮤니티에서 LoRA is All You Need 라는 별명까지 얻으며 그 인기를 구가하고 있다. DistilBERT 리뷰에서도 살펴보았듯, BERT와 GPT의 등장 이후, 모든 NLP 도메인에서...","categories": ["NLP"],
+        "tags": ["Natural Language Process","LoRA","Low-Rank Adaptation","Fine-Tune","Optimization","Pytorch"],
+        "url": "/nlp/lora",
+        "teaser": "/assets/images/huggingface_emoji.png"
       }]
