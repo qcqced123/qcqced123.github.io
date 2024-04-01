@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-04-01T16:03:39+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔪 [LoRA] Low-Rank Adaptation of Large Language Models</title><link href="http://localhost:4000/nlp/lora" rel="alternate" type="text/html" title="🔪 [LoRA] Low-Rank Adaptation of Large Language Models" /><published>2024-03-28T00:00:00+09:00</published><updated>2024-03-29T02:00:00+09:00</updated><id>http://localhost:4000/nlp/LoRA</id><content type="html" xml:base="http://localhost:4000/nlp/lora"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-04-01T18:18:26+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔪 [LoRA] Low-Rank Adaptation of Large Language Models</title><link href="http://localhost:4000/nlp/lora" rel="alternate" type="text/html" title="🔪 [LoRA] Low-Rank Adaptation of Large Language Models" /><published>2024-03-28T00:00:00+09:00</published><updated>2024-03-29T02:00:00+09:00</updated><id>http://localhost:4000/nlp/LoRA</id><content type="html" xml:base="http://localhost:4000/nlp/lora"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p align="center">
 <img src="/assets/images/lora/lora.png" alt="LoRA" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
@@ -103,6 +103,7 @@ w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
 <p>마침 주석에 <code class="language-plaintext highlighter-rouge">However, we do not expect a small r to work for every task or dataset. Consider the following thought experiment: if the downstream task were in a different language than the one used for pre-training, retraining the entire model</code> 이라는 언급이 있는 것으로 보아, 랭크 값은 되도록 낮은 값을 선정하되, 사전학습과 파인 튜닝의 괴리가 심하다고 판단되는 경우, 높은 랭크값과 실험 결과 비교를 통해 적절한 값을 선정해야겠다.</p>
 
 <h4 id="inisght-2-낮은-랭크로도-충분"><code class="language-plaintext highlighter-rouge">💡 Inisght 2. 낮은 랭크로도 충분</code></h4>
+
 <p align="center">
 <img src="/assets/images/lora/insight2.png" alt="Insight 2" class="align-center image-caption" width="70%&quot;, height=&quot;50%" />
 <strong><em><a href="https://arxiv.org/abs/2106.09685">Insight 2</a></em></strong>
@@ -120,7 +121,221 @@ w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
 
 <p><code class="language-plaintext highlighter-rouge">Grassmann Distance</code> 는 선형 부분공간(linear subspace) 간의 거리를 측정하는 데 사용되는 개념이라고 하는데, 여기서 이것까지 다루면 포스팅 길이가 너무 길어질 것 같아서, 나중에 다른 포스트에서 다루도록 하겠다.</p>
 
-<h4 id="inisght-3-task-별로-강조하는-은닉층이-상이"><code class="language-plaintext highlighter-rouge">💡 Inisght 3. Task 별로 강조하는 은닉층이 상이</code></h4>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="LoRA" /><category term="Low-Rank Adaptation" /><category term="Fine-Tune" /><category term="Optimization" /><category term="Pytorch" /><summary type="html"><![CDATA[LoRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
+<h4 id="inisght-3-w--delta-w"><code class="language-plaintext highlighter-rouge">💡 Inisght 3. w ≠ delta w</code></h4>
+
+<p align="center">
+<img src="/assets/images/lora/insight3.png" alt="Insight 3" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2106.09685">Insight 3</a></em></strong>
+</p>
+
+<p>사전 학습한 가중치 행렬 $W$과 <code class="language-plaintext highlighter-rouge">LoRA</code> 의 $\Delta W$가 서로 얼마나 유사한지, 실험적으로 증명하고 있다. 논문에서 제공한 실험 방식을 정리하면 다음과 같다.</p>
+
+<ul>
+  <li>1) 사전 학습으로 수렴된 쿼리 행렬, $W_q$를 <code class="language-plaintext highlighter-rouge">task-specific</code>한 공간($U^T, V^T$: $\Delta W$의 <code class="language-plaintext highlighter-rouge">Top-r</code>개의 <code class="language-plaintext highlighter-rouge">Left, Right-Singular Vector</code>)으로 투영</li>
+  <li>2) LoRA에 의해 수렴된 델타 쿼리행렬, $\Delta W_q$은 이미 행렬 전반에 <code class="language-plaintext highlighter-rouge">task-specific</code>한 정보를 담고 있음.
+    <ul>
+      <li>그래서 <code class="language-plaintext highlighter-rouge">top-r</code> 추출하지 않고 전체에 대해서 <code class="language-plaintext highlighter-rouge">프로베니우스 놈</code> 구하기</li>
+    </ul>
+  </li>
+  <li>3) 1번 스탭에서 구한 투영 행렬, $U^TW_qV^T$에 대해 <code class="language-plaintext highlighter-rouge">프로베니우스 놈</code> 계산</li>
+  <li>4) 2번/3번 수행: <code class="language-plaintext highlighter-rouge">task-specific</code>한 공간을 <code class="language-plaintext highlighter-rouge">LoRA</code>가 사전 학습 가중치에 비해 얼마나 많이 강조했는지 나타내는 지표
+    <ul>
+      <li>논문에서는 <code class="language-plaintext highlighter-rouge">Feature Amplication Factor</code> 라고 정의</li>
+    </ul>
+  </li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">프로베니우스 놈</code>은 기하학적으로 행렬의 크기, 즉 <code class="language-plaintext highlighter-rouge">선형변환</code>의 크기를 의미한다. 그래서 곧 <code class="language-plaintext highlighter-rouge">Feature Amplication Factor</code>가 행렬의 크기/행렬의 크기를 나타내는 지표가 되고, 분자와 분모의 행렬은 모두 <code class="language-plaintext highlighter-rouge">task-specific</code>한 공간으로의 변환 크기를 의미하기 때문에, 같은 특징을 분자($\Delta W$)가 분모($W$)에 비해서 얼마나 더 강조하는지를 뜻하게 된다. 띠리서 <code class="language-plaintext highlighter-rouge">factor</code> 값이 클수록 <code class="language-plaintext highlighter-rouge">LoRA</code>가 사전 학습에서 강조하지 않았던 특징을 더욱 강조한다고 해석할 수 있게 된다. 이제 다시 표를 분석해보자.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Low Rank value</code> $r=4$일 때, <code class="language-plaintext highlighter-rouge">Feature Amplication Factor</code>의 분모는 <code class="language-plaintext highlighter-rouge">0.32</code>, 분자는 <code class="language-plaintext highlighter-rouge">6.91</code>이 된다. 따라서 <code class="language-plaintext highlighter-rouge">factor</code> 값은 대략 <code class="language-plaintext highlighter-rouge">21.5</code>가 된다. 다시 말해 <code class="language-plaintext highlighter-rouge">GPT3</code>의 48번째 레이어의 경우, <code class="language-plaintext highlighter-rouge">FT</code> 적응에 필요한 <code class="language-plaintext highlighter-rouge">task-specific</code>한 공간을 <code class="language-plaintext highlighter-rouge">LoRA</code>가 <code class="language-plaintext highlighter-rouge">사전학습 쿼리 행렬</code>보다 <code class="language-plaintext highlighter-rouge">21.5</code>배 강조하고 있다는 것이다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Low Rank value</code> $r=64$일 때는 <code class="language-plaintext highlighter-rouge">factor</code>가 대략 <code class="language-plaintext highlighter-rouge">1.9</code>가 된다. $r=4$일 때보다 <code class="language-plaintext highlighter-rouge">factor</code> 값이 현저히 낮은 이유는 <code class="language-plaintext highlighter-rouge">Insight 2</code>의 결과(낮은 랭크로도 충분히 <code class="language-plaintext highlighter-rouge">FT</code>의 <code class="language-plaintext highlighter-rouge">task-specific</code> 정보 표현 가능)와 일맥상통한다고 볼 수 있다.</p>
+
+<p>처음 읽었을 때 이 부분에 대한 해석이 너무 난해해, 저자들이 깃허브에 공개한, <code class="language-plaintext highlighter-rouge">RoBERTa</code>를 LoRA와 함께 <code class="language-plaintext highlighter-rouge">MRPC</code> 벤치마크에 파인튜닝한 가중치를 불러와 똑같은 방식으로 실험을 진행해봤다. 먼저 전체 실험 방식을 요약하면 다음과 같다.</p>
+
+<ul>
+  <li>1) <code class="language-plaintext highlighter-rouge">Huggingface Hub</code>에서 <code class="language-plaintext highlighter-rouge">RoBERTa-base</code>의 사전학습 가중치 불러오기</li>
+  <li>2) <code class="language-plaintext highlighter-rouge">LoRA official github</code>에서 <code class="language-plaintext highlighter-rouge">roberta_base_lora_mrpc.bin</code> 불러오기</li>
+  <li>3) <code class="language-plaintext highlighter-rouge">1,2</code>번에서 모두 <code class="language-plaintext highlighter-rouge">6</code>번째 <code class="language-plaintext highlighter-rouge">인코더 레이어</code>의 <code class="language-plaintext highlighter-rouge">쿼리 행렬</code>에 대한 가중치 추출</li>
+  <li>4) 이하 나머지 과정은 위에 논문의 실험 방식을 따름</li>
+</ul>
+
+<p>전체 과정을 코드로 정리하면 다음과 같다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" Insight 3 Experiment Code Exanple """</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModel</span><span class="p">,</span> <span class="n">AutoConfig</span>
+
+<span class="s">""" LoRA 결과 해석 재현 """</span>
+<span class="n">pt_config</span> <span class="o">=</span> <span class="n">AutoConfig</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s">'FacebookAI/roberta-base'</span><span class="p">)</span>  
+<span class="n">pt_model</span> <span class="o">=</span> <span class="n">AutoModel</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span> <span class="c1"># pretrained model
+</span>    <span class="s">'roberta-base'</span><span class="p">,</span>
+    <span class="n">config</span><span class="o">=</span><span class="n">pt_config</span>
+<span class="p">)</span>
+
+<span class="n">lora_checkpoint</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">'model/roberta_base_lora_mrpc.bin'</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s">'cpu'</span><span class="p">)</span>
+<span class="n">lora_checkpoint</span>
+
+<span class="s">""" Select Wq in 6-th encoder layer """</span>
+<span class="n">pt_wq</span><span class="p">,</span> <span class="n">lora_a</span><span class="p">,</span> <span class="n">lora_b</span> <span class="o">=</span> <span class="n">pt_model</span><span class="p">.</span><span class="n">encoder</span><span class="p">.</span><span class="n">layer</span><span class="p">[</span><span class="mi">6</span><span class="p">].</span><span class="n">attention</span><span class="p">.</span><span class="bp">self</span><span class="p">.</span><span class="n">query</span><span class="p">.</span><span class="n">weight</span><span class="p">,</span> <span class="n">lora_checkpoint</span><span class="p">[</span><span class="s">'roberta.encoder.layer.6.attention.self.query.lora_A'</span><span class="p">],</span> <span class="n">lora_checkpoint</span><span class="p">[</span><span class="s">'roberta.encoder.layer.6.attention.self.query.lora_B'</span><span class="p">]</span>
+<span class="n">delta_wq</span> <span class="o">=</span> <span class="n">lora_b</span> <span class="o">@</span> <span class="n">lora_a</span>
+<span class="n">pt_wq</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">lora_a</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">lora_b</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">delta_wq</span><span class="p">.</span><span class="n">shape</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">,</span> <span class="mi">768</span><span class="p">]),</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span> <span class="mi">768</span><span class="p">]),</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">,</span> <span class="mi">8</span><span class="p">]),</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">,</span> <span class="mi">768</span><span class="p">]))</span>
+
+<span class="s">""" Let's SVD, select top-r singular vector, 분자  """</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">svd</span><span class="p">(</span><span class="n">delta_wq</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Delta W U: </span><span class="si">{</span><span class="n">U</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Delta W S: </span><span class="si">{</span><span class="n">S</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Delta W V: </span><span class="si">{</span><span class="n">V</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Delta</span> <span class="n">W</span> <span class="n">U</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">,</span> <span class="mi">768</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Delta</span> <span class="n">W</span> <span class="n">S</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">])</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Delta</span> <span class="n">W</span> <span class="n">V</span><span class="p">:</span> <span class="n">torch</span><span class="p">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">768</span><span class="p">,</span> <span class="mi">768</span><span class="p">])</span>
+
+<span class="n">r</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">r_U</span><span class="p">,</span> <span class="n">r_V</span> <span class="o">=</span> <span class="n">U</span><span class="p">[:,</span> <span class="p">:</span><span class="n">r</span><span class="p">],</span> <span class="n">V</span><span class="p">[:</span><span class="n">r</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">result1</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">r_U</span><span class="p">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">pt_wq</span><span class="p">,</span> <span class="n">r_V</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+<span class="n">fwq_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">result1</span><span class="p">)</span>  <span class="c1"># 분자값
+</span><span class="n">result1</span><span class="p">,</span> <span class="n">fwq_norm</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="p">(</span><span class="n">tensor</span><span class="p">([[</span><span class="o">-</span><span class="mf">0.0441</span><span class="p">,</span>  <span class="mf">0.0447</span><span class="p">,</span>  <span class="mf">0.0323</span><span class="p">,</span>  <span class="mf">0.0963</span><span class="p">],</span>
+         <span class="p">[</span><span class="o">-</span><span class="mf">0.0038</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0412</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0903</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0949</span><span class="p">],</span>
+         <span class="p">[</span><span class="o">-</span><span class="mf">0.0314</span><span class="p">,</span>  <span class="mf">0.1003</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.0599</span><span class="p">,</span>  <span class="mf">0.0023</span><span class="p">],</span>
+         <span class="p">[</span><span class="o">-</span><span class="mf">0.0222</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.1090</span><span class="p">,</span>  <span class="mf">0.0315</span><span class="p">,</span>  <span class="mf">0.0575</span><span class="p">]],</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">MmBackward0</span><span class="o">&gt;</span><span class="p">),</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">(</span><span class="mf">0.2539</span><span class="p">,</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">LinalgVectorNormBackward0</span><span class="o">&gt;</span><span class="p">))</span>
+
+<span class="s">""" 분모 """</span>
+<span class="n">fdwq_norm</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">norm</span><span class="p">(</span><span class="n">delta_wq</span><span class="p">)</span>  <span class="c1"># 분모값
+</span><span class="n">fdwq_norm</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">(</span><span class="mf">5.0820</span><span class="p">)</span>
+
+<span class="s">"""결과: Feature Amplication Factor """</span>
+<span class="n">fdwq_norm</span> <span class="o">/</span> <span class="n">fwq_norm</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tensor</span><span class="p">(</span><span class="mf">20.0170</span><span class="p">,</span> <span class="n">grad_fn</span><span class="o">=&lt;</span><span class="n">DivBackward0</span><span class="o">&gt;</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="implementation-by-pytorch"><code class="language-plaintext highlighter-rouge">👩‍💻 Implementation by Pytorch</code></h3>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="k">class</span> <span class="nc">LoRA</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="s">""" class module for Low-Rank adaptation of LLM SFT
+    This module return result of "BAx*(a/r)" in mathematical expression in official paper
+
+    Args:
+        dim: dimension of input tensor
+        rank: rank of tensor, which is hyperparameter for LoRA
+        alpha: hyperparameter for LoRA, trainable parameter, which is initialized by rank value
+
+    Math:
+        h = W0x + ∆Wx = W0x + BAx*(a/r)
+
+    References:
+        https://arxiv.org/abs/2106.09685
+        https://pytorch.org/blog/understanding-gpu-memory-1/
+    """</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">rank</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">a</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="n">rank</span><span class="p">,</span> <span class="n">dim</span><span class="p">))</span>  <span class="c1"># init by random Gaussian distribution (normal distribution)
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">b</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">rank</span><span class="p">))</span>  <span class="c1"># init by zero
+</span>        <span class="bp">self</span><span class="p">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Parameter</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">rank</span><span class="p">))</span> <span class="o">/</span> <span class="n">rank</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">torch</span><span class="p">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">b</span> <span class="o">@</span> <span class="bp">self</span><span class="p">.</span><span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="p">.</span><span class="n">alpha</span>
+
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">LoRA</code> 객체 구현 자체는 매우 간단하다. 중요한 점은 사전 학습 모델에 <code class="language-plaintext highlighter-rouge">LoRA</code> 객체를 모델 전체 코드에 적용하는게 어렵다는 것이다. 아래 코드처럼,</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" before MHA """</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+<span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+<span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">).</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+<span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span>
+
+<span class="s">""" after MHA """</span>
+<span class="bp">self</span><span class="p">.</span><span class="n">lora_q</span> <span class="o">=</span> <span class="n">lora</span><span class="p">()</span>
+<span class="bp">self</span><span class="p">.</span><span class="n">lora_k</span> <span class="o">=</span> <span class="n">lora</span><span class="p">()</span>
+<span class="bp">self</span><span class="p">.</span><span class="n">lora_v</span> <span class="o">=</span> <span class="n">lora</span><span class="p">()</span>
+<span class="bp">self</span><span class="p">.</span><span class="n">lora_o</span> <span class="o">=</span> <span class="n">lora</span><span class="p">()</span>
+
+<span class="n">q</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_q</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">lora_q</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># freeze + trainable
+</span><span class="n">q</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+<span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_k</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">lora_k</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># freeze + trainable
+</span><span class="n">k</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_v</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">lora_v</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c1"># freeze + trainable
+</span><span class="n">v</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="bp">self</span><span class="p">.</span><span class="n">num_attention_heads</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">dim_head</span><span class="p">).</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="n">contiguous</span><span class="p">()</span>
+
+<span class="n">attention_output</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc_concat</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="p">.</span><span class="n">lora_o</span><span class="p">(</span><span class="n">attention_matrix</span><span class="p">)</span> <span class="c1"># freeze + trainable
+</span>
+</code></pre></div></div>
+
+<p>선형 투영된 쿼리, 키, 벨류 행렬과 각각의 <code class="language-plaintext highlighter-rouge">LoRA</code> 객체를 더해줄 수만 있다면 매우 간단하게 해결될 문제지만, 사전학습 모델의 <code class="language-plaintext highlighter-rouge">Multi-Head Attention</code>객체를 처음부터 저런식으로 정의해야만 가능한 일이다. 필자가 작성한 모델 코드를 비롯해 대부분의 오픈소스로 풀려있는 트랜스포머 모델들은 저런식으로 작성되어 있지 않다. 따라서 다른 방법을 떠올려하는데, 당장은 너무 복잡한 작업이 될 것 같아(실험 어플리케이션 구조를 뒤엎어야 가능할 것으로 예측) 일단은 여기서 마무리하려고 한다. 만약 <code class="language-plaintext highlighter-rouge">LoRA</code>를 사전 학습 모델에 적용해 파인튜닝을 해보고 싶다면, <code class="language-plaintext highlighter-rouge">Huggingface</code>의 <code class="language-plaintext highlighter-rouge">PEFT</code> 라이브러리를 이용해보자. <code class="language-plaintext highlighter-rouge">Hugginface</code>의 <code class="language-plaintext highlighter-rouge">Automodel</code>, <code class="language-plaintext highlighter-rouge">Trainer</code> 객체와 유연하게 연동이 가능하다. 아래에 <code class="language-plaintext highlighter-rouge">PEFT</code> 공식 문서에서 참고한 <code class="language-plaintext highlighter-rouge">Usage Example</code> 코드를 첨부했으니 참고 부탁바란다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s">""" PEFT LoRA Usage Example
+
+Reference:
+		https://github.com/huggingface/peft/blob/main/src/peft/tuners/lora/model.py
+"""</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">AutoModelForSeq2SeqLM</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">LoraModel</span><span class="p">,</span> <span class="n">LoraConfig</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="n">LoraConfig</span><span class="p">(</span>
+<span class="p">...</span>     <span class="n">task_type</span><span class="o">=</span><span class="s">"SEQ_2_SEQ_LM"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">r</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>  <span class="c1"># rank value in official paper
+</span><span class="p">...</span>     <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>  <span class="c1"># alpha value in official paper
+</span><span class="p">...</span>     <span class="n">target_modules</span><span class="o">=</span><span class="p">[</span><span class="s">"q"</span><span class="p">,</span> <span class="s">"v"</span><span class="p">],</span>
+<span class="p">...</span>     <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>
+<span class="p">...</span> <span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">AutoModelForSeq2SeqLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s">"t5-base"</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">lora_model</span> <span class="o">=</span> <span class="n">LoraModel</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="s">"default"</span><span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">torch</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">transformers</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">peft</span> <span class="kn">import</span> <span class="n">LoraConfig</span><span class="p">,</span> <span class="n">PeftModel</span><span class="p">,</span> <span class="n">get_peft_model</span><span class="p">,</span> <span class="n">prepare_model_for_kbit_training</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">rank</span> <span class="o">=</span> <span class="p">...</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">target_modules</span> <span class="o">=</span> <span class="p">[</span><span class="s">"q_proj"</span><span class="p">,</span> <span class="s">"k_proj"</span><span class="p">,</span> <span class="s">"v_proj"</span><span class="p">,</span> <span class="s">"out_proj"</span><span class="p">,</span> <span class="s">"fc_in"</span><span class="p">,</span> <span class="s">"fc_out"</span><span class="p">,</span> <span class="s">"wte"</span><span class="p">]</span>  <span class="c1"># target for projection matrix, MLP
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">config</span> <span class="o">=</span> <span class="n">LoraConfig</span><span class="p">(</span>
+<span class="p">...</span>     <span class="n">r</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">lora_alpha</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">target_modules</span><span class="o">=</span><span class="n">target_modules</span><span class="p">,</span> <span class="n">lora_dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="s">"none"</span><span class="p">,</span> <span class="n">task_type</span><span class="o">=</span><span class="s">"CAUSAL_LM"</span>
+<span class="p">...</span> <span class="p">)</span>
+
+<span class="o">&gt;&gt;&gt;</span> <span class="n">quantization_config</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="n">BitsAndBytesConfig</span><span class="p">(</span><span class="n">load_in_8bit</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">tokenizer</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="n">AutoTokenizer</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+<span class="p">...</span>     <span class="s">"kakaobrain/kogpt"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">revision</span><span class="o">=</span><span class="s">"KoGPT6B-ryan1.5b-float16"</span><span class="p">,</span>  <span class="c1"># or float32 version: revision=KoGPT6B-ryan1.5b
+</span><span class="p">...</span>     <span class="n">bos_token</span><span class="o">=</span><span class="s">"[BOS]"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">eos_token</span><span class="o">=</span><span class="s">"[EOS]"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">unk_token</span><span class="o">=</span><span class="s">"[UNK]"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">pad_token</span><span class="o">=</span><span class="s">"[PAD]"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">mask_token</span><span class="o">=</span><span class="s">"[MASK]"</span><span class="p">,</span>
+<span class="p">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">transformers</span><span class="p">.</span><span class="n">GPTJForCausalLM</span><span class="p">.</span><span class="n">from_pretrained</span><span class="p">(</span>
+<span class="p">...</span>     <span class="s">"kakaobrain/kogpt"</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">revision</span><span class="o">=</span><span class="s">"KoGPT6B-ryan1.5b-float16"</span><span class="p">,</span>  <span class="c1"># or float32 version: revision=KoGPT6B-ryan1.5b
+</span><span class="p">...</span>     <span class="n">pad_token_id</span><span class="o">=</span><span class="n">tokenizer</span><span class="p">.</span><span class="n">eos_token_id</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">use_cache</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">device_map</span><span class="o">=</span><span class="p">{</span><span class="s">""</span><span class="p">:</span> <span class="n">rank</span><span class="p">},</span>
+<span class="p">...</span>     <span class="n">torch_dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="n">float16</span><span class="p">,</span>
+<span class="p">...</span>     <span class="n">quantization_config</span><span class="o">=</span><span class="n">quantization_config</span><span class="p">,</span>
+<span class="p">...</span> <span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">model</span> <span class="o">=</span> <span class="n">prepare_model_for_kbit_training</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">lora_model</span> <span class="o">=</span> <span class="n">get_peft_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">config</span><span class="p">)</span> 
+</code></pre></div></div>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="LoRA" /><category term="Low-Rank Adaptation" /><category term="Fine-Tune" /><category term="Optimization" /><category term="Pytorch" /><category term="Huggingface" /><category term="PEFT" /><summary type="html"><![CDATA[LoRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
 
 <ul>
   <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
