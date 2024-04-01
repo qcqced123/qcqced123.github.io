@@ -520,6 +520,22 @@ w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
 <p>마침 주석에 <code class="language-plaintext highlighter-rouge">However, we do not expect a small r to work for every task or dataset. Consider the following thought experiment: if the downstream task were in a different language than the one used for pre-training, retraining the entire model</code> 이라는 언급이 있는 것으로 보아, 랭크 값은 되도록 낮은 값을 선정하되, 사전학습과 파인 튜닝의 괴리가 심하다고 판단되는 경우, 높은 랭크값과 실험 결과 비교를 통해 적절한 값을 선정해야겠다.</p>
 
 <h4 id="inisght-2-낮은-랭크로도-충분"><code class="language-plaintext highlighter-rouge">💡 Inisght 2. 낮은 랭크로도 충분</code></h4>
+<p align="center">
+<img src="/assets/images/lora/insight2.png" alt="Insight 2" class="align-center image-caption" width="70%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2106.09685">Insight 2</a></em></strong>
+</p>
+
+<p>낮은 랭크로도 충분히, <code class="language-plaintext highlighter-rouge">FT</code>에 필요한 임베딩 추출 가능하다는 것을 좀 더 구체적인 실험으로 증명하고 있다. 그래프 $y$축과 $x$축은 각각 $A_r = 8$, $A_r = 64$인 (텐서 모양 <code class="language-plaintext highlighter-rouge">[r, dim_model]</code>) 가중치 행렬을 <code class="language-plaintext highlighter-rouge">SVD</code>하여 얻은 <code class="language-plaintext highlighter-rouge">right-singular matrix</code> 에서 <code class="language-plaintext highlighter-rouge">top-i(1 ≤ i ≤ 8)</code>, <code class="language-plaintext highlighter-rouge">top-j (1 ≤ j ≤ 64)</code>개의 특이값을 추출한 뒤, <code class="language-plaintext highlighter-rouge">Grassmann Distance</code>를 거리 매트릭으로 이용해 부분 공간 사이의 유사도를 측정한 결과다.</p>
+
+<p>한편, 왜 <code class="language-plaintext highlighter-rouge">right-singular matrix</code> 일까 다시 한 번 생각해봤다. 전체 벡터 공간에서 <code class="language-plaintext highlighter-rouge">top-i(1 ≤ i ≤ 8)</code>, <code class="language-plaintext highlighter-rouge">top-j (1 ≤ j ≤ 64)</code>개의 특이값을 뽑아내 서로 비교하려면, 두 행렬 $A_{r = 8}$, $A_{r = 64}$이 같은 부분 공간에서 정의 되어야 한다. <code class="language-plaintext highlighter-rouge">SVD</code> 정의상, 왼쪽 특이벡터는 각각 <code class="language-plaintext highlighter-rouge">8x8</code>, <code class="language-plaintext highlighter-rouge">64x64</code>차원이 되어 비교하기 어렵다. 한편, 오른쪽 벡터는 두 행렬 모두 <code class="language-plaintext highlighter-rouge">dxd</code>로 정의된다. 만약 행렬 $A$ 대신 $B$를 사용하고 싶다면 왼쪽 특이 벡터를 사용하면 된다.</p>
+
+<p>오랜지 색에 가까울수록 서로 겹치는 정보가 많다는 의미를 갖는데, 사용한 인코더 위치와 상관없이 $A_{r = 8}$의 <code class="language-plaintext highlighter-rouge">top</code> 열벡터일수록, $A_{r = 64}$의 나머지 열벡터들과 높은 유사도(오랜지색에 가까움)을 기록하고 있다.(헷갈리니까 왼쪽 두 개 그래프만 보는게 낫다). 그리고 $A_{r = 8}$의 <code class="language-plaintext highlighter-rouge">bottom</code> 열벡터일수록, 거무죽죽한 색깔을 가지며 $A_{r = 64}$의 나머지 열벡터들과 낮은 유사도를 보인다.</p>
+
+<p><strong>결국 알고봤더니 사전학습을 충분히 수행한 모델의 경우, 파인튜닝 <code class="language-plaintext highlighter-rouge">Task</code>에 대해 적응시키는데 필요한 공간은 소수, 굳이 전체 공간을 학습 파라미터로 두고 파인튜닝해봐야 대부분의 열벡터는 쓰잘데기 없는 표현을 인코딩하는데 쓰이고 있었다고 볼 수 있겠다.</strong></p>
+
+<p>물론 여기서도 주의할 점은, <code class="language-plaintext highlighter-rouge">GPT3</code>의 사전학습과 궤가 비슷한 <code class="language-plaintext highlighter-rouge">WikiSQL</code>, <code class="language-plaintext highlighter-rouge">MNLU</code>에 대해 파인튜닝한 결과라는 점이다. 다국어로 구성된 데이터 세트를 활용하게 되면, 이 결과가 어떻게 바뀔지 모른다.</p>
+
+<p><code class="language-plaintext highlighter-rouge">Grassmann Distance</code> 는 선형 부분공간(linear subspace) 간의 거리를 측정하는 데 사용되는 개념이라고 하는데, 여기서 이것까지 다루면 포스팅 길이가 너무 길어질 것 같아서, 나중에 다른 포스트에서 다루도록 하겠다.</p>
 
 <h4 id="inisght-3-task-별로-강조하는-은닉층이-상이"><code class="language-plaintext highlighter-rouge">💡 Inisght 3. Task 별로 강조하는 은닉층이 상이</code></h4>
 
