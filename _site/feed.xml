@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-03-29T01:42:03+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔪 [LoRA] Low-Rank Adaptation of Large Language Models</title><link href="http://localhost:4000/nlp/lora" rel="alternate" type="text/html" title="🔪 [LoRA] Low-Rank Adaptation of Large Language Models" /><published>2024-03-28T00:00:00+09:00</published><updated>2024-03-29T02:00:00+09:00</updated><id>http://localhost:4000/nlp/LoRA</id><content type="html" xml:base="http://localhost:4000/nlp/lora"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-04-01T15:03:23+09:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">AI/Business Study Log</title><subtitle>NLP, Marketing</subtitle><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><entry><title type="html">🔪 [LoRA] Low-Rank Adaptation of Large Language Models</title><link href="http://localhost:4000/nlp/lora" rel="alternate" type="text/html" title="🔪 [LoRA] Low-Rank Adaptation of Large Language Models" /><published>2024-03-28T00:00:00+09:00</published><updated>2024-03-29T02:00:00+09:00</updated><id>http://localhost:4000/nlp/LoRA</id><content type="html" xml:base="http://localhost:4000/nlp/lora"><![CDATA[<h3 id="overview"><code class="language-plaintext highlighter-rouge">🔭 Overview</code></h3>
 
 <p align="center">
 <img src="/assets/images/lora/lora.png" alt="LoRA" class="align-center image-caption" width="50%&quot;, height=&quot;50%" />
@@ -30,9 +30,9 @@ w_{2,1} &amp; w_{2,2} &amp; \cdots &amp; w_{2,d} \\
 w_{d,1} &amp; w_{d,2} &amp; \cdots &amp; w_{d,d}
 \end{bmatrix}\]
 
-<p>행렬 곱셈(matrix multiplication)을 다시 한 번 상기해보자. <code class="language-plaintext highlighter-rouge">MxN</code> 의 크기를 갖는 행렬에 <code class="language-plaintext highlighter-rouge">NxK</code>의 크기를 갖는 행렬을 곱해주면 <code class="language-plaintext highlighter-rouge">MxK</code> 의 크기를 갖는 행렬을 만들어줄 수 있다. 마찬가지다. <code class="language-plaintext highlighter-rouge">dxd</code> 크기인 사전학습의 가중치 행렬 $W_{d \times d}$과 크기를 맞추기 위해, <code class="language-plaintext highlighter-rouge">dxd</code> 짜리 행렬을 각각 <code class="language-plaintext highlighter-rouge">dxr</code>, <code class="language-plaintext highlighter-rouge">rxd</code> 의 크기를 갖는 두 행렬 $A, B$로 분해한다. 이 때, 행렬 $A$의 열차원과 행렬 $B$차원의 행차원 크기를 표현하는 $r$에 바로 Low Rank value $r$을 대입하면 된다.</p>
+<p>행렬 곱셈(matrix multiplication)을 다시 한 번 상기해보자. <code class="language-plaintext highlighter-rouge">MxN</code> 의 크기를 갖는 행렬에 <code class="language-plaintext highlighter-rouge">NxK</code>의 크기를 갖는 행렬을 곱해주면 <code class="language-plaintext highlighter-rouge">MxK</code> 의 크기를 갖는 행렬을 만들어줄 수 있다. 마찬가지다. <code class="language-plaintext highlighter-rouge">dxd</code> 크기인 사전학습의 가중치 행렬 $W_{d \times d}$과 크기를 맞추기 위해, <code class="language-plaintext highlighter-rouge">dxd</code> 짜리 행렬을 각각 <code class="language-plaintext highlighter-rouge">dxr</code>, <code class="language-plaintext highlighter-rouge">rxd</code> 의 크기를 갖는 두 행렬 $B, A$로 분해한다. 이 때, 행렬 $B$의 열차원과 행렬 $A$차원의 행차원 크기를 표현하는 $r$에 바로 Low Rank value $r$을 대입하면 된다.</p>
 
-\[\Delta W_{d \times d} = A_{d \times r}\ B_{r \times d} = \begin{bmatrix}
+\[\Delta W_{d \times d} = B_{d \times r}\ A_{r \times d} = \begin{bmatrix}
 w_{1,1} &amp; w_{1,2} &amp; w_{1,r} \\
 w_{2,1} &amp; w_{2,2} &amp; w_{2,r} \\
 \vdots &amp; \vdots &amp; \vdots \\
@@ -61,7 +61,50 @@ w_{1,r} &amp; w_{2,r} &amp; w_{d,r}
 
 <p>트랜스포머 계열의 모델들이 ResNet 대비 압도적으로 파라미터 개수가 많기 때문에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용한다면 훨씬 큰 효과를 볼 수 있을 것이다.</p>
 
-<p>지금까지 <code class="language-plaintext highlighter-rouge">LoRA</code> 가 제시하는 방법론이 어떻게 획기적으로 학습 파라미터를 줄이고 나아가 모델이 차지하는 GPU VRAM 크기를 감소시켰는지 알아 보았다. 이제 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용해도 일반적인 파인튜닝 방법과 비슷한 성능을 유지할 수 있었는지 알아보자.</p>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="LoRA" /><category term="Low-Rank Adaptation" /><category term="Fine-Tune" /><category term="Optimization" /><category term="Pytorch" /><summary type="html"><![CDATA[LoRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
+<figure class="half">
+  <a href="https://arxiv.org/abs/2106.09685"><img src="/assets/images/lora/Encoder_LoRA.png" title="Encoder LoRA Result" /></a>
+  <a href="https://arxiv.org/abs/2106.09685"><img src="/assets/images/lora/Decoder_LoRA.png" title="Decoder LoRA Result" /></a>
+</figure>
+
+<p>왼쪽 그림은 논문에서 제시한, <code class="language-plaintext highlighter-rouge">BERT</code> 계열의 <code class="language-plaintext highlighter-rouge">LM</code>에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용한 파인튜닝 결과다. 표의 <code class="language-plaintext highlighter-rouge">FT</code> 가 일반적인 파인튜닝 방법에 의해 나온 결과다. 엎치락뒤치락하면서 거의 비슷한 양상을 보인다. 벤치마크 평균 성능은 <code class="language-plaintext highlighter-rouge">LoRA</code>가 더 높다. 아마, 적당히 성능 차이를 보여주기 위해 취사선택된 벤치마크일 가능성이 높지만, 그래도 상당히 유의미한 결과라고 생각한다. 우측은 <code class="language-plaintext highlighter-rouge">GPT2</code>에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용한 결과다. 마찬가지로, 엇비슷한 성능 추이를 보여준다.</p>
+
+<p>지금까지 <code class="language-plaintext highlighter-rouge">LoRA</code> 가 제시하는 방법론이 어떻게 획기적으로 학습 파라미터를 줄이고 나아가 모델이 차지하는 <code class="language-plaintext highlighter-rouge">GPU VRAM</code> 크기를 감소시켰는지 알아 보았다. 이제 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용해도 일반적인 파인튜닝 방법과 비슷한 성능을 유지할 수 있었는지 그 결과에 대해 해석해보자. 논문의 <code class="language-plaintext highlighter-rouge">Chapter 7. UNDERSTANDIGN THE LOW-RANK UPDATES</code> 내용에 해당된다. 해당 파트는 3가지 인사이트를 제시한다.</p>
+
+<h4 id="inisght-1-apply-to-lora-wq-wv-or-wq-wk-wv-wo"><code class="language-plaintext highlighter-rouge">💡 Inisght 1. Apply to LoRA (Wq, Wv) or (Wq, Wk, Wv, Wo)</code></h4>
+
+<p align="center">
+<img src="/assets/images/lora/applying.png" alt="Which Matrix is the BEST" class="align-center image-caption" width="100%&quot;, height=&quot;50%" />
+<strong><em><a href="https://arxiv.org/abs/2106.09685">Which Matrix is the BEST</a></em></strong>
+</p>
+
+<p>필자는 논문을 읽는 내내, <code class="language-plaintext highlighter-rouge">‘그래서 어떤 가중치 행렬에 적용해야 할까?? 모든 가중치 행렬에 적용해도 되는걸까??’</code>하는 의문을 갖고 있었다. 근데 마침 저자들이 이러한 의문들을 에상한 듯, 위와 같이 적용 가중치 행렬에 따른 벤치마크 성능 결과를 표로 정리해주었다. 모델은 <code class="language-plaintext highlighter-rouge">GPT3</code>을 사용했다고 논문에서 밝히고 있다.</p>
+
+<p>보이는 것과 같이, ($W_q, W_v$) 혹은 ($W_q, W_k, W_v, W_o$)에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용하는게 가장 좋은 벤치마크 성능을 보여준다. 주목할 점은 랭크가 가장 낮으면서, 가장 많은 가중치 행렬에 <code class="language-plaintext highlighter-rouge">LoRA</code>를 적용하는게 가장 성능이 좋다는 것이다. 실험결과 제시 이외에 다른 증명이나 인사이트 제시가 없는게 아쉽지만, 이를 통해 다음과 같은 사실들을 떠올려 보았다.</p>
+
+<ul>
+  <li><strong>1) <code class="language-plaintext highlighter-rouge">FT</code> 문제 해결에 필요한 문맥 정보들이 <code class="language-plaintext highlighter-rouge">쿼리</code>, <code class="language-plaintext highlighter-rouge">키</code>, <code class="language-plaintext highlighter-rouge">벨류</code> 행렬에 적절히 분산</strong>
+    <ul>
+      <li><strong>세가지 가중치 행렬이 모두 유의미한 문맥 표현을 학습</strong></li>
+    </ul>
+  </li>
+  <li><strong>2) 낮은 랭크로도 충분히, <code class="language-plaintext highlighter-rouge">FT</code>에 필요한 임베딩 추출 가능</strong>
+    <ul>
+      <li><strong>그만큼, 사전 학습에서 포착할 수 있는 임베딩이 풍부하며 일반화 능력이 좋다고 판단할 수 있음</strong>
+        <ul>
+          <li><strong>사전 학습 단계에서 최대한 깊게 많이 학습시킬수록 FT 단계가 간소화 될 수 있지 않을까??</strong></li>
+          <li><strong>다만, 사전학습과 파인튜닝 사이의 괴리가 큰 경우라면??</strong></li>
+          <li><strong>사전 학습은 영어로, 파인튜닝은 한국어 데이터 세트로 하는 경우라면??</strong></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p>마침 주석에 <code class="language-plaintext highlighter-rouge">However, we do not expect a small r to work for every task or dataset. Consider the following thought experiment: if the downstream task were in a different language than the one used for pre-training, retraining the entire model</code> 이라는 언급이 있는 것으로 보아, 랭크 값은 되도록 낮은 값을 선정하되, 사전학습과 파인 튜닝의 괴리가 심하다고 판단되는 경우, 높은 랭크값과 실험 결과 비교를 통해 적절한 값을 선정해야겠다.</p>
+
+<h4 id="inisght-2-낮은-랭크로도-충분"><code class="language-plaintext highlighter-rouge">💡 Inisght 2. 낮은 랭크로도 충분</code></h4>
+
+<h4 id="inisght-3-task-별로-강조하는-은닉층이-상이"><code class="language-plaintext highlighter-rouge">💡 Inisght 3. Task 별로 강조하는 은닉층이 상이</code></h4>]]></content><author><name>qcqced</name><email>qcqced123@gmail.com</email></author><category term="NLP" /><category term="Natural Language Process" /><category term="LoRA" /><category term="Low-Rank Adaptation" /><category term="Fine-Tune" /><category term="Optimization" /><category term="Pytorch" /><summary type="html"><![CDATA[LoRA Official Paper Review with Pytorch Implementation]]></summary></entry><entry><title type="html">👨⏰🐍 [Python] 시간복잡도 1</title><link href="http://localhost:4000/python/time_complexity1" rel="alternate" type="text/html" title="👨⏰🐍 [Python] 시간복잡도 1" /><published>2024-03-26T00:00:00+09:00</published><updated>2023-10-15T02:00:00+09:00</updated><id>http://localhost:4000/python/python-time_complexity</id><content type="html" xml:base="http://localhost:4000/python/time_complexity1"><![CDATA[<h3 id="memeory"><code class="language-plaintext highlighter-rouge">Memeory</code></h3>
 
 <ul>
   <li><strong>1) 2</strong>32 ⇒ 4GB**</li>
